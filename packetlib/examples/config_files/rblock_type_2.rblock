@@ -1,0 +1,26 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no)
+no
+[Fixed Part]
+-- field 0
+Spare
+3
+0
+-- field 1
+Bar ID
+5
+none
+-- field 2
+Energy Side B
+8
+none
+-- field 3
+Energy Side B
+4
+none
+-- field 4
+Energy Side A
+12
+none

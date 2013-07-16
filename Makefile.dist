@@ -1,0 +1,160 @@
+#############################################################################
+# Makefile for install: PacketLib
+# Project:  PacketLib
+# Use make variable_name=' options ' to override the variables or make -e to
+# override the file variables with the environment variables
+# 		make CFLAGS='-g' or make prefix='/usr'
+#############################################################################
+
+SHELL = /bin/sh
+
+####### 1) Project names and system
+
+#SYSTEM: linux or QNX
+SYSTEM = linux
+PROJECT=PacketLib
+
+####### 2) Directories for the installation
+
+# Prefix for each installed program. Only ABSOLUTE PATH
+prefix=/usr/local
+exec_prefix=$(prefix)
+# The directory to install the binary files in.
+bindir=$(exec_prefix)/bin
+# The directory to install the local configuration file.
+datadir=$(exec_prefix)/share
+# The directory to install the libraries in.
+libdir=$(exec_prefix)/lib
+# The directory to install the info files in.
+infodir=$(exec_prefix)/info
+# The directory to install the include files in.
+includedir=$(exec_prefix)/include
+
+####### 3) Directories for the compiler
+
+OBJECTS_DIR = obj
+SOURCE_DIR = examples
+LIB_DESTDIR = lib
+INCLUDE_DIR = include
+LIB_NAME = libpacket
+VER_FILE_NAME = PlVersion.h
+
+####### 4) Compiler, tools and options
+
+CC       = gcc
+CXX      = g++
+#Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
+#- g3
+CFLAGS   = -O2 -O0 
+#-O2 -O0 -g3
+#Set INCPATH to add the inclusion paths
+INCPATH = -I $(includedir)
+#Insert the implicit parameter to the compiler:
+ALL_CFLAGS = -fexceptions -Wall $(INCPATH) $(CFLAGS)
+ifeq ($(SYSTEM), QNX)
+	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
+endif
+#Use CPPFLAGS for the preprocessor
+CPPFLAGS = 
+#Set LIBS for addition library
+LIBS = -lstdc++ -lpacket
+ifeq ($(SYSTEM), QNX)
+	LIBS += -lsocket
+endif
+LINK     = g++
+#for link
+LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
+AR       = ar cqs
+TAR      = tar -cf
+GZIP     = gzip -9f
+COPY     = cp -f
+COPY_FILE= $(COPY) -p
+COPY_DIR = $(COPY) -pR
+DEL_FILE = rm -f
+SYMLINK  = ln -sf
+DEL_DIR  = rm -rf
+MOVE     = mv -f
+CHK_DIR_EXISTS= test -d
+MKDIR    = mkdir -p
+
+####### 5) VPATH
+
+VPATH=$(SOURCE_DIR):$(INCLUDE_DIR):
+vpath %.o $(OBJECTS_DIR)
+
+####### 6) Files of the project
+	
+INCLUDE=$(foreach dir,$(INCLUDE_DIR), $(wildcard $(dir)/*.h))
+OBJECTS = in.o msgqclient.o msgqserver.o out.o
+
+####### 7) Only for library generation
+
+TARGET   = $(LIB_NAME).so.$(shell cat version)
+TARGETA	= $(LIB_NAME).a
+TARGETD	= $(LIB_NAME).so.$(shell cat version)
+TARGET0	= $(LIB_NAME).so
+TARGET1	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.')
+TARGET2	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.').$(shell cut version -f 2 -d '.')
+
+####### 8) Preliminar operations
+
+$(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
+#WARNING: use -d ' ' if in the version.h the separator is a space
+
+####### 9) Pattern rules
+
+%.o : %.cpp
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	
+####### 10) Build rules
+
+all: makeobjdir  $(OBJECTS)	
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/in $(OBJECTS_DIR)/in.o $(LIBS)
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/out $(OBJECTS_DIR)/out.o $(LIBS)
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqclient $(OBJECTS_DIR)/msgqclient.o $(LIBS)
+		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqserver $(OBJECTS_DIR)/msgqserver.o $(LIBS)
+				
+makeobjdir:
+	test -d $(OBJECTS_DIR) || mkdir -p $(OBJECTS_DIR)
+	
+#clean: delete all files from the current directory that are normally created by building the program. 
+clean:
+	$(DEL_FILE) $(OBJECTS_DIR)/*.o
+	$(DEL_FILE) *~ core *.core
+	$(DEL_FILE) version
+	$(DEL_FILE) prefix	
+	$(DEL_FILE) $(SOURCE_DIR)/msgqserver
+	$(DEL_FILE) $(SOURCE_DIR)/msgqclient
+	$(DEL_FILE) $(SOURCE_DIR)/in
+	$(DEL_FILE) $(SOURCE_DIR)/out
+	test $(OBJECTS_DIR) = . || $(DEL_DIR) $(OBJECTS_DIR)
+
+	
+#Delete all files from the current directory that are created by configuring or building the program. 
+distclean: clean
+
+#install: compile the program and copy the executables, libraries, 
+#and so on to the file names where they should reside for actual use. 
+install: 
+	$(shell echo $(prefix) > prefix)
+
+	# For library installation
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETA) $(libdir)
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET0) $(libdir)
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET1) $(libdir)
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET2) $(libdir)
+	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETD) $(libdir)
+	test -d $(includedir) || mkdir -p $(includedir)	
+	$(COPY_FILE) $(LIB_DESTDIR)/* $(libdir)
+	$(COPY_FILE) $(INCLUDE) $(includedir)
+
+#uninstall: delete all the installed files--the copies that the `install' target creates.
+uninstall:
+	#For library uninstall
+	$(DEL_FILE) $(libdir)/$(TARGETA)
+	$(DEL_FILE) $(libdir)/$(TARGETD)
+	$(DEL_FILE) $(libdir)/$(TARGET0)
+	$(DEL_FILE) $(libdir)/$(TARGET1)
+	$(DEL_FILE) $(libdir)/$(TARGET2)
+	$(DEL_FILE) $(addprefix $(includedir)/, $(notdir $(INCLUDE)))
+

@@ -1,0 +1,19 @@
+0. metti la versione in PrlVersion.h, Doxyfile e PacketStream.h e nel ChangeLog
+0.bis. TAGGA
+1. nel makefile togli -g e metti l'opzione per fare le librarie dinamiche e togli quella per l'exe
+2. modifica il PacketLibDemo.h
+3. sposta il main.cpp
+3. make
+4. copia la lib in dist
+5. sposta PacketLibDemo.h
+6. copia gli include
+7. make pdf 
+8. da ref copia ref/html e ref/def in dist/ref
+9. da ref copia il refman.ps e refman.pdf in dist/doc
+10. copia examples in dist
+11. copia model in dist
+12. copia Makefile.dist in dist e rinominalo
+13. copia README.dist in dist e rinominalo
+14. rimetti a posto il Makefile e PacketLibDemo.h e il main.cpp (in particolare ricorda di mettere #define DEMOMODE 0)
+15. modifica il ChangeLog
+

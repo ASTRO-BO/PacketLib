@@ -1,0 +1,163 @@
+-- name of packet
+GRID events data CALCSIBarTE
+[PacketHeader]
+-- file in cui e' presente la descrizione dell'header
+headerESA.header
+[DataFieldHeader]
+-- field 0
+Time Tag second (MSB)
+16
+none
+-- field 1
+Time Tag second (LSB)
+16
+none
+-- field 2
+Time Tag millisecond
+16
+none
+-- field 3
+TT
+1
+none
+-- field 4
+Blsize
+7
+none
+-- field 5
+Nblock
+8
+none
+[SourceDataField]
+block
+fixed
+--type of number of block: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--supposed number (or max number) of block
+16
+--index of field in the [DataFieldHeader] section wich rappresent the number of event (the number of block) of the packet
+5
+-- valore da sottrarre per ottenere il numero di eventi reale
+0
+[SourceDataFieldBlock]
+-- PD 00
+0
+4
+none
+PD0 Pulse Height
+12
+none
+-- PD 01
+1
+4
+none
+PD1 Pulse Height
+12
+none
+-- PD 02
+2
+4
+none
+PD2 Pulse Height
+12
+none
+-- PD 03
+3
+4
+none
+PD3 Pulse Height
+12
+none
+-- PD 04
+4
+4
+none
+PD4 Pulse Height
+12
+none
+-- PD 05
+5
+4
+none
+PD5 Pulse Height
+12
+none
+-- PD 06
+6
+4
+none
+PD6 Pulse Height
+12
+none
+-- PD 07
+7
+4
+none
+PD7 Pulse Height
+12
+none
+-- PD 08
+8
+4
+none
+PD8 Pulse Height
+12
+none
+-- PD 09
+9
+4
+none
+PD9 Pulse Height
+12
+none
+-- PD 10
+10
+4
+none
+PD10 Pulse Height
+12
+none
+-- PD 11
+11
+4
+none
+PD11 Pulse Height
+12
+none
+-- PD 12
+12
+4
+none
+PD12 Pulse Height
+12
+none
+-- PD 13
+13
+4
+none
+PD13 Pulse Height
+12
+none
+-- PD 14
+14
+4
+none
+PD14 Pulse Height
+12
+none
+-- PD 15
+15
+4
+none
+PD15 Pulse Height
+12
+none
+[Identifiers]
+-- id0 APID
+-- field number
+3
+-- type (0 header, 1 data field header, 2 source data field)
+0
+-- value
+1293
+

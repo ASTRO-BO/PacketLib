@@ -1,0 +1,89 @@
+Basic Installation
+==================
+
+These are generic installation instructions.
+
+For the installation of the system it is only necessary to invocke the command:
+   
+make install
+
+This command build the system and install it into the predefined path (/usr/local).
+It is possible to change the basic installation path with the command:
+
+export prefix=/new_path
+make -e install
+
+or
+
+make prefix='/new_path'
+
+In any case the two command overrides the make variables.
+
+Basic Installation for Qt users
+===============================
+For building Qwt for Qt 2.x you need tmake. On SuSE it is hidden
+in a package called qt-freebies. It can be downloaded from
+http://www.trolltech.com/developer/download/tmake.html.
+
+You have to set TMAKEPATH to point to your development environment and run tmake:
+
+export TMAKEPATH=/usr/lib/tmake/linux-g++ # path depends on your system
+tmake project_name.pro -o Makefile
+make
+
+Builds for Qt 3.x need qmake, that is official part of Qt 3.x.
+
+qmake project_name.pro -o Makefile
+make
+
+Additional path specifications for standard project
+===================================================
+In addition the the prefix variable, it is possible to specify the following path:
+
+`prefix'
+A prefix used in constructing the default values of the variables listed below. The default value of prefix should be `/usr/local'.
+
+`exec_prefix'
+A prefix used in constructing the default values of some of the variables listed below. The default value of exec_prefix should be $(prefix).
+
+`bindir'
+The directory for installing executable programs that users can run. This should normally be `/usr/local/bin', but write it as `$(exec_prefix)/bin'.
+
+`datadir'
+The directory for installing read-only architecture independent data files. This should normally be `/usr/local/share', but write it as `$(prefix)/share'. 
+
+`libdir'
+The directory for object files and libraries of object code. Do not install executables here, they probably ought to go in `$(libexecdir)' instead. The value of libdir should normally be `/usr/local/lib', but write it as `$(exec_prefix)/lib'.
+
+`infodir'
+The directory for installing the Info files for this package. By default, it should be `/usr/local/info', but it should be written as `$(prefix)/info'.
+
+`includedir'
+The directory for installing header files to be included by user programs with the C `#include' preprocessor directive. This should normally be `/usr/local/include', but write it as `$(prefix)/include'.
+
+
+Additional make targets for standard project
+============================================
+`all'
+Compile the entire program. This should be the default target. This target need not rebuild any documentation files; Info files should normally be included in the distribution, and DVI files should be made only when explicitly asked for. 
+
+`install'
+Compile the program and copy the executables, libraries, and so on to the file names where they should reside for actual use. If possible, write the install target rule so that it does not modify anything in the directory where the program was built, provided `make all' has just been done. This is convenient for building the program under one user name and installing it under another. The commands should create all the directories in which files are to be installed, if they don't already exist. This includes the directories specified as the values of the variables prefix and exec_prefix, as well as all subdirectories that are needed.
+
+`uninstall'
+Delete all the installed files--the copies that the `install' target creates. This rule should not modify the directories where compilation is done, only the directories where files are installed.
+
+`clean'
+Delete all files from the current directory that are normally created by building the program. Don't delete the files that record the configuration. Also preserve files that could be made by building, but normally aren't because the distribution comes with them. 
+
+`distclean'
+Delete all files from the current directory that are created by configuring or building the program. If you have unpacked the source and built the program without creating any other files, `make distclean' should leave only the files that were in the distribution.
+
+`info'
+Generate any Info files needed. 
+
+`dist'
+Create a distribution tar file for this program. The tar file should be set up so that the file names in the tar file start with a subdirectory name which is the name of the package it is a distribution for. 
+
+`distclean'
+Delete all files from the current directory that are created by configuring or building the program. If you have unpacked the source and built the program without creating any other files, `make distclean' should leave only the files that were in the distribution.

@@ -1,0 +1,38 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no)
+yes
+--type of number of block of variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part
+79
+-- for variable block, number of level of headers in which is present the field with the number of blocks of the variable part
+0
+-- for variable block, index of field which rappresent the number of event (the number of block) of the packet
+2
+-- for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali
+1
+[Fixed Part]
+-- field 0
+1
+1
+none
+-- field 1
+spare
+10
+none
+-- field 2
+Number of bars - 1
+5
+none
+-- field 3
+TE Internal Counter (MSB)
+16
+none
+-- field 4
+TE Internal Counter (LSB)
+16
+none
+[Variable Part]
+EnergyBar.rblock

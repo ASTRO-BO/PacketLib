@@ -1,0 +1,125 @@
+-- name of packet
+BURST events (LAYOUT 3)
+[PacketHeader]
+-- file in cui e' presente la descrizione dell'header
+headerESATM.header
+[DataFieldHeader]
+-- field 0
+Spare
+6
+none
+-- field 1
+Checksum flag
+2
+none
+-- field 2
+Packet Type
+4
+none
+-- field 3
+Packet subtype
+4
+none
+-- field 4
+Time Tag second (MSB)
+16
+none
+-- field 5
+Time Tag second (LSB)
+16
+none
+-- field 6
+Time Tag millisecond
+16
+none
+-- field 7
+Spare
+12
+none
+-- field 8
+Nevents
+4
+none
+[SourceDataField]
+block
+variable
+--type of number of block: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--supposed number (or max number) of block
+79
+--index of field in the [DataFieldHeader] section wich rappresent the number of event (the number of block) of the packet
+8
+-- offset to be added to the value given by the field m of the Data Field Header in order to obtain the correct value of the number of blocks 
+0
+[SourceDataFieldBlockFixed]
+-- number (or max number) of element
+32
+-- index of field in the [SourceDataFieldBlockFixed] section wich rappresent the number of element (the number of bar) of the block
+2
+-- valore da sommare per ottenere il numero di element reali
+1
+-- field 0
+1
+1
+none
+-- field 1
+spare
+10
+none
+-- field 2
+Number of bars - 1
+5
+none
+-- field 3
+TE Internal Counter (MSB)
+16
+none
+-- field 4
+TE Internal Counter (LSB)
+16
+none
+[SourceDataFieldBlockVariable]
+-- field 0
+0
+1
+0
+-- field 1
+0
+1
+0
+-- field 2
+Bar ID (2 MSB)
+2
+none
+-- field 3
+PDA PHA (12 bits)
+12
+none
+-- field 4
+0
+1
+0
+-- field 5
+Bar ID (3 LSB)
+3
+none
+-- field 6
+PDB PHA (12 bits)
+12
+none
+[Identifiers]
+-- id0 APID
+-- field number
+3
+-- type (0 header, 1 data field)
+0
+-- value
+1294
+--id1 type
+2
+1
+15
+--id2 subtype
+3
+1
+3

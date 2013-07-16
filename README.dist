@@ -1,0 +1,42 @@
+DISTRIBUTION
+The directory of this distribution of PacketLib are:
+- doc: containing the documentation of the PacketLib (Reference Manual, Interface Control Document and Programmer's Guide)
+- examples: some examples and some PacketLib configuration files, used in the Interface Control Document and in the Programmer's Guide.
+- include: the include files of the library.
+- lib: static and dynamic binary library
+- model: a Rational Rose file with the UML model of the library
+- ref/html the doxygen documentation of the library (same content of the Reference Manual)
+
+HOW TO INSTALL PACKETLIB
+To install PacketLib:
+
+make install
+
+and the include and lib files will be copied in the /usr/local/include and /usr/local/lib (need root permission).
+If you want to change the installation path use 
+
+make prefix='newpath' install
+
+but it is necessary to add newpath in the LD_LIBRARY_PATH environment variable anche change the include path of the Makefile (-I option of the compiler).
+
+UNINSTALL THE PACKETLIB
+To uninstall the PacketLib
+
+make uninstall
+
+or 
+
+make prefix='installation_path' uninstall
+
+EXAMPLES
+Use 
+
+make 
+
+to build the examples in the examples directory.
+
+make clean 
+
+if you want to clean the file built.
+
+The description of the examples are present in the Programmer's Guide, in the section of the examples.

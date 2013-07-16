@@ -1,0 +1,11 @@
+[Configuration]
+--prefix
+true
+--stream format bigendian
+true
+--dimension of prefix
+2
+[Header Format]
+headerESATM.header
+[Packet Format]
+ST_GRID.packet

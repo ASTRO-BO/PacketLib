@@ -1,0 +1,227 @@
+README
+======
+Questo file contiene tutte le istruzioni per poter gestire i progetti C, C++, 
+Qt, Root, etc. utilizzando il presente template di base. L'idea di questo 
+template e' quella di fornire una organizzazione comune a tutti i singoli 
+progetti software. In particolare:
+1) sono presenti alcuni Makefile di partenza che devono essere modificati in 
+alcune parti (come spiegato nelle instazioni stesse dei Makefile)
+2) alcune directory di lavoro:
+	2.1) include: contiene tutti i file include
+	2.2) src: contiene tutti i .c, .cpp
+	2.3) doc: contiene tutta la documentazione del progetto gestita dall'utente, le 
+specifiche del progetto, etc.
+	2.4) model: contiene i modelli del software (creati ad esempio con Rational 
+Rose o altri tools)
+	2.5) ui: contiene i file dell'interfaccio utente
+	2.6) template: contiene file di supporto per la gestione del progetto stesso, 
+come:
+		2.6.1) header_template: template per tutti gli header del progetto. L'header 
+e' strutturato in modo da contenere una prima intestazione relativa ai dati del 
+file, poi seguono informazioni di licenza, le macro per evitare l'inclusione 
+multipla, uno standard di documentazione di ogni classe (compatibile con Doxygen 
+e contenente tag CVS).
+		2.6.2) cpp_template: come sopra, ma per i file .c e .cpp
+		2.6.3) doxygen_template: contiene un templete di documentazione del codice da 
+applicare ad ogni funzione/metodo/variabile/attributo del progetto compatibile 
+con le convenzioni di doxygen.
+		2.6.4) il presente README
+3) i file standard di un progetto GNU Linux, presenti nella directory root del 
+progetto:
+	3.1) AUTHORS: contiene l'elenco ed e-mail degli autori del progetto
+	3.2) ChangeLog: contiene l'elenco delle modifiche apportate al progetto da una 
+versione all'altra
+	3.3) COPYNG: contiene informazioni di licenza d'uso
+	3.4) Doxyfile: file di configurazione per il tool doxygen (www.doxygen.org)
+	3.5) INSTALL: generiche istruzioni di installazione
+	3.6) Makefile.*: serie di Makefile (vedi sezione START DI UN NUOVO PROGETTO)
+	3.7) README: il README del progetto, contente informazioni sul progetto, 
+istruzioni d'uso, etc.
+	3.8) rpmmake.spec: per il build dell'rpm del progetto
+	3.9) TODO: sviluppi futuri del progetto
+
+START DI UN NUOVO PROGETTO
+==========================
+1) Creare una directory Project nella home dell'utente
+2) Effettuare il checkout del base_project
+	2.1) verificare il settaggio della variabile d'ambiente CVSROOT
+	2.2) dare il comando
+		cvs checkout base_project
+3) Eliminare tutte le directory CVS (nella directory principale del progetto ed 
+in tutte le sottodirectory)
+4) Rinominare la directory base_project con il nome del progetto (es: 
+new_project)
+5) Entrare nella root del progetto e modificare i seguenti file:
+	5.1) AUTHORS: contiene la lista degli autori del progetto
+	5.2) README: descrizione del progetto
+	5.3) COPYNG: licenza d'uso
+	5.4) Doxyfile: file per la generazione della reference documentation. 
+Modificare almeno il nome del progetto e la versione.
+	5.5) Selezionare il Makefile.* corretto, rinominarlo in Makefile e leggere le
+istruzioni nell'intestazione dello stesso:
+		5.5.1) Makefile.base_prj: per progetti console exe o library
+		5.5.2) Makefile.qt_prj: per progetti Qt
+		5.5.3) Makefile.root_prj: per progetti root.cern.ch
+	5.6) lanciare l'IDE (anjuta o gideon (Kdevelop 3) ) e importare il progetto. 
+Ricordarsi di impostare come Project target il nome dell'eseguibile messo nel 
+Makefile.
+6) Salvare i propri file nelle seguenti directory:
+	*.c *.cpp	-	src
+	*.h		-	include
+	*.ui		-	ui
+	modelli		-	model
+	documenti	-	doc
+
+7) Uscire da IDE e importare il progetto dentro cvs
+	7.1) andare nella directory root del progetto
+	7.2) dare il comando cvs di importazione:
+		cvs import project_name VENDOR_TAG START_TAG
+	7.3) eliminare il progetto iniziale
+	7.4) effettuare il checkout del progetto iniziale
+		cvs checkout new_project
+A questo punto la creazione di un nuovo progetto e' finita.
+
+GESTIONE DELLA DOCUMENTAZIONE
+=============================
+Lo sviluppatore si dovra' preoccupare di gestire almeno il file ChangeLog, come 
+descritto nel paragrafo "RILASCIO DI UNA NUOVA VERSIONE DEL SOFTWARE", in modo 
+da tenere traccia dei cambiamenti apportati al progetto.
+
+RILASCIO DI UNA NUOVA VERSIONE DEL SOFTWARE
+===========================================
+Ecco le operazioni da effettuare per rilasciare una nuova versione.
+1) Incrementare la versione nei seguenti file:
+	1.1) src/version.h
+	1.2) nel metodo della classe che stampa la versione (se presente)
+	1.3) nel Doxyfile
+2) Aggiornare il ChangeLog, con i cambiamenti apportati, la data della release e 
+il tag cvs che si vuole applicare
+2) Effettuare il commit del progetto
+3) Aggiungere il tag al progetto cvs
+
+CONFIGURAZIONE VARIABILI D'AMBIENTE
+===================================
+Occorre configurare le seguenti variabili di ambiente nel /etc/profile oppure nel 
+.bash_profile dello user. I valori delle variabili sono solamente un esempio.
+
+#paths for the running system
+GTB_ROOT=$HOME/local
+GTB_INCLUDE=$GTB_ROOT/lib
+GTB_LIB=$GTB_ROOT/include
+GTB_BIN=$GTB_ROOT/bin
+
+#working directories: directory in cui sono presenti i progetti per lo sviluppo
+GTB_PROJECTS=$HOME/Projects
+
+#library linking and include: da utilizzare in fase di compilazione e installazione del sistema.
+GTB_COMMON_INCLUDE=$GTB_PROJECTS/common_include
+GTB_DISCOS_LIB=
+GTB_PACKETLIB_ROOT=$GTB_PROJECTS/PacketLib
+GTB_PACKETLIB_INCLUDE=$GTB_PACKETLIB_ROOT/include
+GTB_PACKETLIB_LIB=$GTB_PACKETLIB_ROOT/lib
+GTB_PROCESSORLIB_ROOT=$GTB_PROJECTS/ProcessorLib
+GTB_PROCESSORLIB_INCLUDE=$GTB_PROCESSORLIB_ROOT/include
+GTB_PROCESSORLIB_LIB=$GTB_PROCESSORLIB_ROOT/lib
+GTB_CFITSIO_INCLUDE=/usr/local/cfitsio
+GTB_CFITSIO_LIB=/usr/local/cfitsio
+
+
+POLITICA DI GESTIONE DEL VERSIONING
+===================================
+La numerazione delle versioni di un progetto (non quella adottata da CVS) è
+composta da tre cifre separate dal punto e segue le seguenti regole:
+
+- versione principale: indica la versione primaria del software. Il passaggio ad
+un successivo numero principale viene effettuato solamente in corrispondenza di 
+rilevanti modifiche dell'interfaccia utente e/o delle funzionalità (intese come
+percezione dell'utente di disporre di un nuovo prodotto). Quando la versione
+principale viene modificata vengono azzerati sia la versione secondaria che la
+revisione;
+- versione secondaria: rappresenta la versione secondaria del software. Il
+passaggio ad un numero successivo viene effettuato solamente in corrispondenza
+di modifiche secondarie all'interfaccia utente e/o alle funzionalità (intese come
+evoluzione di funzionalità esistenti o aggiunta di nuove funzionalità). Quando
+la versione secondaria viene modificata viene azzerata la revisione;
+
+- revisione: rappresenta la revisione del software, mantenendo fissa la versione
+primaria e secondaria. Il passaggio alla numerazione successiva viene effettuato
+in corrispondenza di correzioni di bug mantenendo invariata la funzionalità e
+l'interfaccia utente.
+
+La definizione di una nuova versione non può essere effettuata fino al momento
+del rilascio della versione corrente.
+
+CVS HOWTO
+=========
+Di seguito sono descritte le operazioni principali che e' possibile effettuare
+con CVS:
+1) Specificare il server:
+
+ 	-d :pserver:username@machine_name:2401/home/repository/cvs/gtb
+come parametro del comando cvs se si vuole accedere via rete con password. 
+Oppure
+	-d /home/repository/cvs/gtb
+se si vuole accedere localmente senza password.
+
+Oppure settare la variabile d'ambiente CVSROOT.
+
+2) Import
+
+	cvs import -m "comment" nome_progetto VENDOR_TAG RELEASE_TAG
+
+Solitamente settare VENDOR_TAG a IASFBO e RELEASE_TAG a START.
+
+3) Checkout di un progetto: per effettuare il checkout di un progetto:
+
+	cvs checkout nome_progetto
+
+scarica l'ultima versione del progetto. Per ottenere una versione con un tag 
+specifico:
+
+	cvs checkout -r NOME_TAG nome_progetto
+
+4) Commit: nella directory del progetto:
+
+cvs commit
+
+	cvs commit -m "Commenti alle modifiche"
+
+Per assegnare un indice di revisione particolare ai file modificati:
+
+	cvs commit -r 2.0 -m "Commenti alle modifiche"
+
+5) Update: per effettuare l'update di un file si puo' utilizzare il comando 
+update.
+	cvs update -r 1.2 README
+
+richiama dal repository la revision 1.2 del file README.
+Se non si utilizza -r, viene effettuato l'update con l'ultima revision
+disponibile nel repository, effettuando anche il merge localmente se sono
+presenti modifiche tra il file locale e quello del repository.
+
+5) Status: per visualizzare lo status di un progetto, nella directory del 
+progetto:
+
+	cvs status 
+
+Per il singolo file:
+
+	cvs status filename
+
+6) Add: aggiungere nuovi file o directory:
+
+	cvs add nome_file_o_directory
+
+Solo dopo il commit il file viene effettivamente aggiunto.
+
+7) Remove: rimuovere un file dalle nuove versioni del progetto ma mantenerlo nel 
+repository
+
+	cvs remove filename
+
+Meglio applicare un tag prima di rimuovere
+
+8) Tag:
+
+	cvs tag NOME_TAG
+

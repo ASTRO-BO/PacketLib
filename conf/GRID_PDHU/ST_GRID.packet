@@ -1,0 +1,87 @@
+-- name of packet
+ST GRID
+[PacketHeader]
+-- file in cui e' presente la descrizione dell'header
+headerESATM.header
+[DataFieldHeader]
+-- field 0
+Spare
+6
+none
+-- field 1
+Checksum flag
+2
+none
+-- field 2
+Packet Type
+4
+none
+-- field 3
+Packet subtype
+4
+none
+-- field 4
+Time Tag second (MSB)
+16
+none
+-- field 5
+Time Tag second (LSB)
+16
+none
+-- field 6
+Time Tag millisecond
+16
+none
+-- field 7
+Spare
+11
+none
+-- field 8
+Nelements for [RBlock1] - 1
+5
+none
+-- field 9
+NRBLOCK2
+16
+none
+[SourceDataField]
+-- type of packet: noblock, block, rblock (with recoursive block)
+rblock
+--number of rblock
+2
+[RBlock1]
+--type of number of block of variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+fixed
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part
+1
+-- for variable block, index of field of the Data Field Header which rappresent the number of event (the number of block) of the packet
+NA
+-- for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali
+NA
+EnergyBarHeader.rblock
+[RBlock2]
+--type of number of block of variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part
+3
+-- for variable block, index of field of the Data Field Header which rappresent the number of the number of blocks of the packet
+9
+-- for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali
+0
+EnergyBarHeader2.rblock
+[Identifiers]
+-- id0 APID
+-- field number
+3
+-- type (0 header, 1 data field)
+0
+-- value
+1294
+--id1 type
+2
+1
+15
+--id2 subtype
+3
+1
+4

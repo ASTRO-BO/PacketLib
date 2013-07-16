@@ -1,0 +1,208 @@
+15 July 2013
+TAG CVS: PACKETLIB_1_4_0
++ 32 and 64 bit compatibility
+
+2 July 2012
+TAG CVS: PACKETLIB_1_3_10
++ resolved other problems with gcc4
+
+09 Mag 2012
+TAG CVS: PACKETLIB_1_3_9
++ resolved gcc4 problems
++ send to NASA/JPL the current version
+
+7 December 2005
+TAG CVS: PACKETLIB_1_3_8
++ added the management of number of blocks *2 per rblocks in the SDFRBBlock (symbol * in the line of sub from nblocks)
+
+21 October 2005
+TAG CVS: PACKETLIB_1_3_7
++ added the management of number of blocks /2 per rblocks in the SDFRBBlock (symbol / in the line of sub from nblocks)
++ added include <unistd.h>
+
+24 August 2005
+Started PacketLib 1.3.7
+
+18 August 2005
+TAG CVS: PACKETLIB_1_3_6
++ corrections after valngrind verification
+
+23 July 2005
++ end first verification with valgrind
+
+12 July 2005
+TAG CVS: PACKETLIB_1_3_6_BETA1
++ used valgrind to verify the memory allocation problems
+
+08 May 2005
+TAG CVS: PACKETLIB_1_3_5
++ added set/getFieldValue_PTC_PFC to the SourceDataField class
++ added some cout error message during the decoding of the telemtry
++ added the mask pattern the the setFieldValue() methods
+
+5 April 2005
+TAG CVS: PACKETLIB_1_3_4
++ added the possibility to have an even number of byte in the definition of a block
++ addedd the Packet::printPacketOutputStream()
++ correction of the [SourceDataFieldBlock] not found keyword into the SDFBlockFixed
++ correction of the calculation of the dimension with tail
+
+22 March 2005
+TAG CVS: PACKETLIB_1_3_4_BETA2
+PacketLib 1.3.4 beta 2
++ correct the bug for the setFieldValue4_13 and 3_13 
++ added the exception generation when for the 24 bit field value there are an out of range:
+#define U24BITINTGEGERUNSIGNED_MAX 16777215
+#define U24BITINTGEGERSIGNED_MIN -8388607
+#define U24BITINTGEGERSIGNED_MAX 8388607
+
+
+9 March 2005
+TAG CVS: PACKETLIB_1_3_4_BETA1
+PacketLib 1.3.4 beta
++ modified the management of the fields (class PartOfPacket). Now a field should be divided between two words
++ addedd getBlock() and getElement() methods for the Layout 2 and Layout 3
++ correction of the bug for the fixed number of blocks in the Layout 2 and 3. Now it is not necessary to set the number of the blocks.
+
+2 March 2005
++ bug of the InputFile::isEOF()
++ added PTC/PFC 4/13 3/14 3/13
+
+
+24 Fev 2005
+CVS TAG: PACKETLIB_1_3_2
++ getFieldValue() and setFieldValue() with PTC, PFC (5, 1) and (4,14)
++ demo mode
+
+=============================================
+
+15 Feb 2005
+CVS TAG: PACKETLIB_1_3_1
++ aggiunta la gestione del PTC=5 PFC=1 con il metodo double PartOfPacket::getFieldValue_5_1(word index)
+ed il metodo double SourceDataField::getFieldValue_5_1(word block, word index)
+
+=============================================
+
+4 Nov 2004
+CVS TAG: PACKETLIB_1_3_0
++ aggiunto il tipo generico di packet con blocchi definiti in modo ricorsivo (rblock).
+
+=============================================
+15 Aprile 2004
+Inizio test della PacketLib 1.3.0 beta.
++ Tolta la SDFNoBlockVariable
++ Aggiunto il tipo generico SDFRBlock + SDFRBBlock
++ Corretto il bug sul prefix = 0
++ Aggiunto il tail
+
+=============================================
+14 Aprile 2004
+CVS TAG: PACKETLIB_1_2_4
+Versione con i 4 tipi di packet: block fixed, block variable, noblock fixed, noblock variable
+
+Note: utilizzare la 1.2.3 per le acquisizioni per MCAL SEM DFE TE prima delle modifiche per adattare la PacketLib al PDHU TE.
+
+=============================================
+22 Agosto 2003
+Nuova versione con il nuovo sistema di gestione dei progetti basato su makefile.
+Aggiunta anche la classe Serial per la gestione della comunicazione su seriale
+con codice per QNX.
+
+=============================================
+2 Maggio 2003
+CVS TAG: PACKETLIB_1_2_3
+Versione in cui �stata tolta la classe DISCoSSHM per inserirla direttamente nella ProcessorLib
+
+=============================================
+21 Febbraio 2003
+CVS TAG: PACKETLIB_1_2_2
+Versione rilasciata a:
+1) Laben per Science Console MCAL DFE SEM BOARD_X (Febbraio 2003)
+2) Versione utilizzata per MMC utilizzata in Laben (Febbraio 2003)
+
+- Tolta la definizione NULL da PacketLibDefinition
+- Modifiche minime a MSGQ.h e MSGQ.cpp
+
+=============================================
+8 Gennaio 2003
+CVS TAG: PACKETLIB_1_2_1
+Versione rilasciata a:
+1) INFN (Federico)
+2) ENEA
+3) Laben per Science Console MCAL DFE SEM BOARD_X (Novembre 2002)
+
+=============================================
+20 Dicembre 2002
+Aggiunta la classe MSGQ
+Aggiunti alcuni metodi della classe Utility per la gestione dei processi
+
+=============================================
+4 Novembre 2002
+Dal punto di vista concettuale, il parametro endianity nei file .stream cambia significato.
+Prima infatti stava ad indicare l'architettura. In realt��pi giusto se indica il formato
+dello stream di byte scambiato, indipendente dall'architettura. Questo perch��ad esempio
+possibile memorizzare un file in formato big endian (scritto byte per byte) su una architettura
+little endian.
+
++ Alcune classi hanno cambiato nome:
+	- OutputSocket -> OutputSocketClient
+	- Input -> Input2
+	- InputPacketStream -> InputPacketStreamFile
+
++ Sono state aggiunte nuove classi:
+	- Input
+	- InputSocketServer
+	- InputFile
+	- InputPacketStream
+
++ Modifica ByteStream:
+	- interfaccia: aggiunti nuovi metodi
+	- gestione memoria: cambiate le responsabilit� Vedere Programmer's manual
+	- spostata la gestione dell'endianity interamente all'interno del ByteStream. Le altre
+		classi mantengono l'informazione sull'endianity solamente per creare i ByteStream
+
++ Eliminate le seguenti classi
+	- InputByteFileSeq
+	- InputByteSHMSeq
+	- InputByteSeq
+	- InputSeq
+	- Input2
+	- InputRandom
+
++ La classe InputText �diventata la root di una gerarchia di classi che rappresentano i file
+	di configurazione
+
++ file.h e file.cpp sono stati rinominati in File.h e File.cpp
+
++ Definition.h �stato rinominato in PacketLibDefinition.h
+
++ Creato il namespace PacketLib
+
+----------------------------------------------
+
++ aggiunto il metodo PacketStream::packetLibVersion()
+
+=============================================
+31 Maggio 2002
+Rilasciata la versione 1.1
+Tag CVS: PACKETLIB_1_1
+
+----------------------------------------------
+
+=============================================
+31 Maggio 2002
+Rilasciata la versione 1.0.5.
+
+Tag CVS: PACKETLIB_1_0_5
+
+Aggiunte:
++ aggiunte le classi Socket (gerarchia Device), SocketClient e SocketServer per la gestione di connessioni
+socket
++ aggiunta la classe OutputSocket (gerachia Output)
++ aggiunto un costruttore alla classe ByteStream che permette di unire piu' ByteStream
++ aggiunta la possibilita' di generare TM/TC packet con prefix
+
+=============================================
+9 Maggio 2002
+Prima versione 1.0.4.
+Tag CVS: START

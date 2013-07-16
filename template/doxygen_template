@@ -1,0 +1,7 @@
+//##Documentation
+//## Returns a pointer of a field in the list of fields of this part of packet.
+//## \pre The file must be opened.
+//## \param index Represent the index in the list.
+//## \return true if file is closed, false if file is opened.
+//## \post A side effects of this method is that the value of fields of packet are setted 
+

@@ -1,0 +1,52 @@
+- utilizzare il file version.h per la versione della packetlib
+- make install
+- finire la serial
+- define -DQNX per le classi di IO
+- 
+--------------------------
+Curare la liberazione della memoria dai buffer nei due tipi di packet con block
+
+
+INTERFACCE
+
+2) Mettere in ordine tra le interfacce delle varie classi
+2) Organizzare la nuova IOLib
+
+
+OTTIMIZZAZIONI
+1) Permettere la distruzione di un Packet senza che il programma si pianti
+
+NUOVE FUNZIONI
+2) Fare in modo che si possa assegnare ad un packet solamente una parte del packet con il
+setByteStream
+3) Aggiungere anche il tipo di packet con blocchi di vario tipo in sequenza prestabilità (al
+limite il blocco può essere assente, ma la sequenza va rispettata).
+
+      string
+
+
+
+
+Ottobre 2002
+1) Realizzare invio e ricezione di stringhe per i socket e aggiungere le stesse
+funzionalità nelle classe InputSocketServer e OutputSocketClient
+2) La generazione dei packet deve essere più semplice:
+		a) si settano i valori dei field
+		b) si richiama il metodo Packet::get_packet_output() che restituisce il ByteStream risultante
+Spostare generateStream nei protected. Inoltre deve essere modificato il comportamento
+del Packet. Alla creazione del packet viengono create i ByteStream di ogni PartOfPacket
+Quando un ByteStream viene passato come argomento, questo viene passato per valore
+Quando un ByteStream viene restituito come valore di ritorno, questo viene passato per
+valore.
+In tal modo il Packet ha sempre le sue copie locali di ByteStreams che non interagiscono
+mai con l'esterno.
+Usare i memcopy per maggiori prestazioni.
+
+
+
+
+				virtual Packet* readPacket() throw(PacketExceptionIO*) {};
+				virtual bool writePacket(Packet* p) throw(PacketExceptionIO*) = 0;
+
+Sono arrivato qui:
+Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)

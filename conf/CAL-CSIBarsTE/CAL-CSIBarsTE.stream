@@ -1,0 +1,13 @@
+[Configuration]
+--prefix
+true
+--input format bigendian
+true
+--dimension of prefix
+2
+[Header Format]
+headerESA.header
+[Packet Format]
+GRID.packet
+TC_CAL_stop.packet
+TC_CAL_start.packet

@@ -1,0 +1,35 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no)
+no
+[Fixed Part]
+-- field 0 - dummy
+0
+1
+0
+-- field 1 - dummy
+0
+1
+0
+-- field 2
+Bar ID (2 MSB)
+2
+none
+-- field 3
+PDA PHA (12 bits)
+12
+none
+-- field 4
+0
+1
+0
+-- field 5
+Bar ID (3 LSB)
+3
+none
+-- field 6
+PDB PHA (12 bits)
+12
+none
+
