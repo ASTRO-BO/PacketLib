@@ -54,7 +54,7 @@ word SDFRBlock::getDimension() {
   return block[0].getDimension();
 }
 
-void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)
+void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
 {
     //il block[0] e' l'unico block presente
     block[0].setNumberOfRealDataBlock(number, rblockIndex);

@@ -36,6 +36,8 @@
 
 #define ARCH_BIGENDIAN 0
 
+//#define NOFIELDSNAME
+
 //#define PRINTDEBUG(strprint) if(DEBUGMODE) cout << strprint << endl;
 #define PRINTDEBUG(strprint) if(DEBUGMODE) cout <<  strprint << endl;
 #define PRINTERROR(strprint) if(ERRORMODE) cerr <<  strprint << endl;

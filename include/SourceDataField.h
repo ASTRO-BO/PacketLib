@@ -105,7 +105,7 @@ class SourceDataField : public PartOfPacket
         //##ModelId=3C9AEC0A01AD
         //##Documentation
         //## Sets the number of real data block for the current packet.
-        virtual void setNumberOfRealDataBlock(word value, word rblockIndex = 0);
+        virtual void setNumberOfRealDataBlock(word value, word rblockIndex = 0) throw (PacketException*);
 
         //##ModelId=3C9AEC0B006F
         virtual word getSubFromNBlock(word rblockIndex = 0);

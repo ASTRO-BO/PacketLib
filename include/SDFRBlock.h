@@ -83,7 +83,7 @@ class SDFRBlock : public SourceDataField
     //## determinated type is repeated) for each type of rblock present.
     //## \param number The number of blocks
     //## \param rBlockIndex The number of rblock
-    void setNumberOfRealDataBlock(word number, word rblockIndex = 0);
+    void setNumberOfRealDataBlock(word number, word rblockIndex = 0) throw (PacketException*);
 
     //##Documentation
     //## Get the number of blocks (the number of times that a block of a

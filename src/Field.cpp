@@ -7,10 +7,13 @@
 
 using namespace PacketLib;
 
+
+
 //##ModelId=3C0F6C1A0001
 Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 {
     #ifndef NOFIELDSNAME
+    //cout << "define field name" << endl;
     //name
     dword l = strlen(n);
     l++;
@@ -36,5 +39,7 @@ Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 Field::~Field()
 {
     //	cout << "deleted field: " << name << endl;
+    #ifndef NOFIELDSNAME
     free(name);
+    #endif
 }

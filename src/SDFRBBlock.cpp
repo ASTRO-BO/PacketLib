@@ -60,7 +60,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
         numberOfBlockFixed = new bool[numberOfRBlocks];
         numberOfRealDataBlock = new word[numberOfRBlocks];
         headerLevelOfNBlockIndex = new word[numberOfRBlocks];       
-	operatorType = new byte[numberOfRBlocks]; 
+		operatorType = new byte[numberOfRBlocks]; 
 	
         //si carica la fixed part (se presente)
         line=fp.getLine();
@@ -220,13 +220,17 @@ SDFRBBlock* SDFRBBlock::getBlock(word nblock, word rBlockIndex) {
 }
 
 
-void SDFRBBlock::setNumberOfRealDataBlock(word number, word rblockIndex)
+void SDFRBBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
 { 
   //Nel caso in cui la parte variabile non sia presente oppure rBlockVariable = false,
-  //non �presente un field in cui salvare il valore. La dimensione �fissata
-  if(!variablePresent || !rBlockVariable[rblockIndex])
+  //non e' presente un field in cui salvare il valore. La dimensione e' fissata
+  if(!variablePresent || !rBlockVariable[rblockIndex]) {
+  	throw new PacketException("It is not possible to set setNumberOfRealDataBlock for this rBlock: variable part not present");
     return;
+  }
   PartOfPacket* pop = &fixed;
+  if(number > maxNumberOfBlock[rblockIndex])
+  		throw new PacketException("It is not possible to set setNumberOfRealDataBlock: too much blocks");
   numberOfRealDataBlock[rblockIndex] = number;
   for(int i=0; i< headerLevelOfNBlockIndex[rblockIndex]; i++)
     pop = pop->previous;

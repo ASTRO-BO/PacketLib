@@ -134,7 +134,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     numberOfPacketType++;
                 }
-		delete[] line;
+				delete[] line;
             }
             else
             {
@@ -154,7 +154,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     p->setPacketID(numberOfPacketType);
                     numberOfPacketType++;
-		    delete[] packetFileName;
+		    		delete[] packetFileName;
                     packetFileName = config.getLine();
                 }
             }

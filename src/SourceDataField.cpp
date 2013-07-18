@@ -80,7 +80,7 @@ word SourceDataField::getIndexOfNBlock(word rblockIndex)
 
 
 //##ModelId=3C9AEC0A01AD
-void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex)
+void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
 {
     numberOfRealDataBlock[rblockIndex] = number;
     reset_output_stream = true;
