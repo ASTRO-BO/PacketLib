@@ -11,9 +11,9 @@ using namespace PacketLib;
 
 
 //##ModelId=3DA3E5A90226
-PacketStream::PacketStream(char* fileNameConfig)
+PacketStream::PacketStream(const char* fileNameConfig)
 {
-    this->filenameConfig = fileNameConfig;
+    this->filenameConfig = (char*) fileNameConfig;
     numberOfPacketType = 0;
     headerReference = 0;
                                  //TODO
@@ -229,9 +229,9 @@ bool PacketStream::isBigEndian()
 
 
 //##ModelId=3DA3E5AA00D2
-void PacketStream::setFileNameConfig(char* f)
+void PacketStream::setFileNameConfig(const char* f)
 {
-    this->filenameConfig = f;
+    this->filenameConfig = (char*) f;
     //this->pathFileNameConfig = Utility::extractPath(filenameConfig);
 }
 

@@ -27,7 +27,7 @@ InputPacketStream::InputPacketStream() : PacketStream()
 
 
 //##ModelId=3DA3E57400AA
-InputPacketStream::InputPacketStream(char* fileNameConfig) : PacketStream(fileNameConfig)
+InputPacketStream::InputPacketStream(const char* fileNameConfig) : PacketStream(fileNameConfig)
 {
     in = 0;
 }

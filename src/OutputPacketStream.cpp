@@ -10,7 +10,7 @@ OutputPacketStream::OutputPacketStream() : PacketStream()
 
 
 //##ModelId=3DBFBFC000AA
-OutputPacketStream::OutputPacketStream(char* fileNameConfig) : PacketStream(fileNameConfig)
+OutputPacketStream::OutputPacketStream(const char* fileNameConfig) : PacketStream(fileNameConfig)
 {
     out = 0;
 }

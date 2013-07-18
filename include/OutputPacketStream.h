@@ -38,7 +38,7 @@ class OutputPacketStream : public PacketStream
         OutputPacketStream();
 
         //##ModelId=3EADC12A0290
-        OutputPacketStream(char* fileNameConfig);
+        OutputPacketStream(const char* fileNameConfig);
 
         //##ModelId=3EADC12A02A9
         //## Generate the output ByteStream and send it to the output.

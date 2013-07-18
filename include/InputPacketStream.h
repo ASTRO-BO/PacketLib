@@ -38,7 +38,7 @@ class InputPacketStream : public PacketStream
         InputPacketStream();
 
         //##ModelId=3EADC1290020
-        InputPacketStream(char* fileNameConfig);
+        InputPacketStream(const char* fileNameConfig);
 
         //##ModelId=3EADC1290051
         ~InputPacketStream();

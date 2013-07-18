@@ -12,11 +12,11 @@
 using namespace PacketLib;
 
 //##ModelId=3DBFBFBE02E5
-InputPacketStreamFile::InputPacketStreamFile(char* fileNameConfig, char* fileNameStream, long initialPosition) :
+InputPacketStreamFile::InputPacketStreamFile(const char* fileNameConfig, const char* fileNameStream, long initialPosition) :
 InputPacketStream(fileNameConfig)
 {
     this->initialPosition = initialPosition;
-    this->fileNameStream = fileNameStream;
+    this->fileNameStream = (char*) fileNameStream;
     inputStream = 0;
     numberOfFileStreamPointer = 0;
     listOfFileStreamPointer = (FileStreamPointer**)new FileStreamPointer* [FSP_STEP];

@@ -41,7 +41,7 @@ class InputPacketStreamFile : public InputPacketStream
     public:
 
         //##ModelId=3EADC12901CB
-        InputPacketStreamFile(char* fileNameConfig, char* fileNameStream, long initialPosition) ;
+        InputPacketStreamFile(const char* fileNameConfig, const char* fileNameStream, long initialPosition) ;
 
         //##ModelId=3EADC12901D7
         InputPacketStreamFile();

@@ -36,7 +36,7 @@ class PacketStream
     public:
 
         //##ModelId=3EADC13A0371
-        PacketStream(char* fileNameConfig) ;
+        PacketStream(const char* fileNameConfig) ;
 
         //##ModelId=3EADC13A03D1
         PacketStream();
@@ -45,7 +45,7 @@ class PacketStream
         ~PacketStream();
 
         //##ModelId=3EADC13B0020
-        void setFileNameConfig(char* f);
+        void setFileNameConfig(const char* f);
 
         //##ModelId=3EADC13B0085
         //##Documentation
