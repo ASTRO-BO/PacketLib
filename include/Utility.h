@@ -52,16 +52,16 @@ class Utility
         //##ModelId=405AA86F00C2
         static unsigned getbits2(word x, int p, int n);
 	
-	static unsigned getbits32(dword x, int p, int n);
+		static unsigned getbits32(dword x, int p, int n);
 
         //##ModelId=405AA86F00C7
         static string* wordToBinary(word w, byte dim);
 
 	      //##ModelId=405AA86F00CB
-	static char* wordToBinary2(dword w, unsigned int dim);
+		static char* wordToBinary2(dword w, unsigned int dim);
 
 	      //##ModelId=405AA86F00D0
-	static char* format_output(dword data, bool dec, bool hex, bool bin);		
+		static char* format_output(dword data, bool dec, bool hex, bool bin);		
 
         //##ModelId=405AA86F00D8
         static char* integerToString(int n);
@@ -93,7 +93,7 @@ class Utility
         //##ModelId=405AA86F00F0
         static char* extractFileName(char* path);
 	
-	static char* extractPath(char* filename);
+		static char* extractPath(char* filename);
 
         //##ModelId=405AA86F00F3
         static char* charcat(char*, char);
