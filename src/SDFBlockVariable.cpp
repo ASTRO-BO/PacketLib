@@ -24,12 +24,12 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
             numberOfBlockFixed[0] = true;
         else
             numberOfBlockFixed[0] = false;
-        delete line;
+        //delete line;
 
         //numero massimo di blocchi presenti
         line = fp.getLine();
         maxNumberOfBlock[0] = atoi(line);
-        delete line;
+        //delete line;
 	
 	if(numberOfBlockFixed[0])
     		numberOfRealDataBlock[0] = maxNumberOfBlock[0];
@@ -37,12 +37,12 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
         //indice del fields che contiene il numero di blocchi presenti
         line = fp.getLine();
         indexOfNBlock[0] = atoi(line);
-        delete line;
+        //delete line;
 
         //valore da sottrarre al valore nel field dell'indice precedente per ottenere il numero reale di blocchi
         line = fp.getLine();
         subFromNBlock[0] =  atoi(line);
-        delete line;
+        //delete line;
 
         blocks = (SDFBVBlock*) new SDFBVBlock[maxNumberOfBlock[0]];
 

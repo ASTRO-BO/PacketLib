@@ -21,6 +21,7 @@
 #include "InputText.h"
 #include "File.h"
 #include "PacketExceptionIO.h"
+#include "MemoryBuffer.h"
 
 namespace PacketLib {
 
@@ -70,8 +71,6 @@ class InputTextFile : public InputText
         //##ModelId=3AA64922020E
         virtual int setFirstPos();
 
-        //##ModelId=3AA64922022C
-
         virtual bool setLastBookmarkPos();
 
         //##ModelId=3AA64922025E
@@ -83,6 +82,14 @@ class InputTextFile : public InputText
     protected:
 
         File file;
+    
+    private:
+    
+        //for caching mechanism
+        static MemoryBuffer** listOfBuffers;
+        static int nListOfBuffers;
+        MemoryBuffer* buffer;
+        bool usebuffer;
 
 };
 

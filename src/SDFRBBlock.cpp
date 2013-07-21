@@ -28,7 +28,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
           else
             throw new PacketExceptionFileFormat("Rblock file format error. Fixed part section - expected yes or no keywords.");
         }
-        delete[] line;
+        //delete[] line;
 
         //variable part
         line = fp.getLine();
@@ -40,13 +40,13 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
           else
             throw new PacketExceptionFileFormat("Rblock file format error. Variable part section - expected yes or no keywords.");
         }
-        delete[] line;
+        //delete[] line;
 
         if(variablePresent) {
           //numero di rblocchi presenti
           line = fp.getLine();
           numberOfRBlocks = atoi(line);
-          delete line;
+          //delete line;
         }
         else
           numberOfRBlocks = 0;        
@@ -68,7 +68,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
         if(fixedPresent) {
           if(strcmp(line, "[Fixed Part]") == 0) {
             fixed.loadFields(fp);
-            delete[] line;            
+            //delete[] line;            
           } else
               throw new PacketExceptionFileFormat("[Fixed Part] section not found");
         }
@@ -83,8 +83,12 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
             else
               line = fp.getLine();
             if(strcmp(line, linefind) == 0) {
-              if(i != 0) { delete[] line; line = 0; }
-              delete[] linefind; linefind = 0;
+              if(i != 0) { 
+              	//delete[] line; 
+              	line = 0; 
+              }
+              //delete[] linefind; 
+              linefind = 0;
 
               //type of number of block
               line = fp.getLine();
@@ -96,12 +100,12 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
                 } else
                   throw new PacketExceptionFileFormat("It's impossibile to identify the type of rblock. Expected fixed or variable keywords.");
               }
-              delete line;
+              //delete line;
 
               //number of blocks
               line = fp.getLine();
               maxNumberOfBlock[i] = atoi(line);
-              delete line;
+              //delete line;
 
               if(rBlockVariable[i] == false)
                 numberOfRealDataBlock[i] = maxNumberOfBlock[i];
@@ -109,12 +113,12 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
               //header level for the index of field
               line = fp.getLine();
               headerLevelOfNBlockIndex[i] = atoi(line);
-              delete line;
+              //delete line;
               
               //index of field
               line = fp.getLine();
               indexOfNBlock[i] = atoi(line);
-              delete line;
+              //delete line;
 
               //sum value
               line = fp.getLine();
@@ -131,7 +135,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*) {
 	      		operatorType[i] = 0;
 	      		subFromNBlock[i] = atoi(line);
 	      }
-              delete line;
+              //delete line;
 
               //file name of the rblock
               rblockFilename[i] = fp.getLine();

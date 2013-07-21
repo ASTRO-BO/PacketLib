@@ -30,67 +30,45 @@ namespace PacketLib {
 
 extern word pattern[17];
 
-//##ModelId=3C0F6C190370
-//##Documentation
-//##	This class represent a subset of the packet. This class has been created for grouping
-//##	the common behaviours of PacketHeader, DataFieldHeader and SourceDataField
-//##	$Date: 2012/06/08 15:14:29 $
-//##	$Header: /home/repository/cvs/gtb/PacketLib/include/PartOfPacket.h,v 1.8 2012/06/08 15:14:29 bulgarelli Exp $
-//##	$Id: PartOfPacket.h,v 1.8 2012/06/08 15:14:29 bulgarelli Exp $
-//##	$Revision: 1.8 $
-//##	\brief Single part of packet.
+//This class represent a subset of the packet. This class has been created for grouping
+//the common behaviours of PacketHeader, DataFieldHeader and SourceDataField
+//\brief Single part of packet.
 class PartOfPacket
 {
     public:
 
-        //##ModelId=3C0F6C1A0223
-        //##Documentation
-        //## Constructor
+        //Constructor
         PartOfPacket(const char* popName = 0);
 
-        //##ModelId=3C35860301F9
-        //##Documentation
-        //## Virtual destructor
+        //Virtual destructor
         virtual ~PartOfPacket();
 
-        //##ModelId=3CAEAC8B0280
-        //##Documentation
-        //## Prints the structure of this part of packet.
+        //Prints the structure of this part of packet.
         virtual string* printStructure();
 
-        //##ModelId=3CAEAC8B02FD
-        //##Documentation
-        //## Prints the value of each field of this part of packet.
+        //Prints the value of each field of this part of packet.
         virtual char** printValue(const char* addString = "");
 
-        //##ModelId=3C0F6C1A0228
-        //##Documentation
-        //## This method loads the field present into the InputText (passed with the
-        //## parameter).
-        //## The InputText must be open and the internal pointer of the file must
-        //## be in the first line that describes the fields.
+        //This method loads the field present into the InputText (passed with the
+        //parameter).
+        //The InputText must be open and the internal pointer of the file must
+        //be in the first line that describes the fields.
         virtual bool loadFields(InputText& fp) throw(PacketException*);
 
-        //##ModelId=3EADC13B032C
-        //##Documentation
-        //## This method loads the field present into the MemoryBuffer (passed with the
-        //## parameter).
+        //This method loads the field present into the MemoryBuffer (passed with the
+        //parameter).
         virtual bool loadFields(MemoryBuffer* mb) throw(PacketException*);
 
         //##ModelId=3EADC13C029C
         virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
 
-        //##ModelId=3C358603027B
-        //##Documentation
-        //## Returns the dimension (in byte) of this part of packet.
+        //Returns the dimension (in byte) of this part of packet.
         virtual  inline word getDimension() {
           return fieldsDimension / 8;
         };
 
-        //##ModelId=3C187751015F
-        //##Documentation
-        //## Returns a pointer of a field in the list of fields of this part of packet.
-        //## \param index Represent the index in the list.
+        //Returns a pointer of a field in the list of fields of this part of packet.
+        //\param index Represent the index in the list.
         virtual  inline  Field* getFields(word index) {
           if(index < numberOfFields)
             return fields[index];
@@ -98,10 +76,8 @@ class PartOfPacket
               return 0;            
         };
 
-        //##ModelId=3EADC13D0294
-        //##Documentation
-        //## Returns the value of a field in the list of fields of this part of packet.
-        //## \param index Represent the index in the list.
+        //Returns the value of a field in the list of fields of this part of packet.
+        //\param index Represent the index in the list.
         virtual  inline word getFieldValue(word index) {
           if(index < numberOfFields)
             return fields[index]->value;
@@ -109,21 +85,19 @@ class PartOfPacket
             return 0;
         };
 	
-	//##Documentation
-	//## Returns the value of a field in the list of fields of this part of packet. 
-	//## The value returned is interpreted as a real single precision (IEEE 754).
-	//## The index of the argument is the first 16 bit field of the 2 fields that compound
-	//## the 32 bit real single precision. The layout foreseen is the following:
-	//##	---------------------------------
-	//##	-	float last 16 bits	-	the index passed as argument
-	//##	---------------------------------
-	//##	-	float first 16 bits	-	the index + 1
-	//##	---------------------------------	
-	//## This corresponds with the PTC=5, PFC = 1.
-	//## \param index Represent the index of the field.
+	//Returns the value of a field in the list of fields of this part of packet. 
+	//The value returned is interpreted as a real single precision (IEEE 754).
+	//The index of the argument is the first 16 bit field of the 2 fields that compound
+	//the 32 bit real single precision. The layout foreseen is the following:
+	//---------------------------------
+	//-	float last 16 bits	-	the index passed as argument
+	//---------------------------------
+	//-	float first 16 bits	-	the index + 1
+	//---------------------------------	
+	//This corresponds with the PTC=5, PFC = 1.
+	//\param index Represent the index of the field.
 	virtual float getFieldValue_5_1(word index);
 	
-	//##Documentation
 	//## Set the value of a field. The value is interpreted as a real single
 	//## precision (IEEE 754). 
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -139,7 +113,6 @@ class PartOfPacket
 	//## \param value The real single precision value	
 	virtual void setFieldValue_5_1(word index, float value);
 	
-	//##Documentation
 	//## Returns the value of a field in the list of fields of this part of packet. 
 	//## The value returned is interpreted as a 32 bit signed integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -153,7 +126,6 @@ class PartOfPacket
 	//## \param index Represent the index of the field.
 	virtual signed long getFieldValue_4_14(word index);
 
-	//##Documentation
 	//## Sets the value of a field. The value is interpreted as a 32 bit signed integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
 	//## the 32 bit signed integer. The layout foreseen is the following:
@@ -168,7 +140,6 @@ class PartOfPacket
 	//## \param value The 32 bit signed integer value.		
 	virtual void setFieldValue_4_14(word index, signed long value);
 	
-	//##Documentation
 	//## Returns the value of a field in the list of fields of this part of packet. 
 	//## The value returned is interpreted as a 24 bit signed integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -183,7 +154,6 @@ class PartOfPacket
 	//## \return the 24 bit signed data converted in a long 32 bit
 	virtual signed long getFieldValue_4_13(word index);
 
-	//##Documentation
 	//## Sets the value of a field. The value is interpreted as a 24 bit signed integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
 	//## the 24 bit signed integer. The layout foreseen is the following:
@@ -199,7 +169,6 @@ class PartOfPacket
 	//## 24 bit data format (bit0 with the sign became 24 bit)
 	virtual void setFieldValue_4_13(word index, signed long value) throw(PacketException*);	
 	
-	//##Documentation
 	//## Returns the value of a field in the list of fields of this part of packet. 
 	//## The value returned is interpreted as a 32 bit unsigned integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -213,7 +182,6 @@ class PartOfPacket
 	//## \param index Represent the index of the field.
 	virtual unsigned long getFieldValue_3_14(word index);
 
-	//##Documentation
 	//## Sets the value of a field. The value is interpreted as a 32 bit unsigned integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
 	//## the 32 bit unsigned long. The layout foreseen is the following:
@@ -228,7 +196,6 @@ class PartOfPacket
 	//## \param value The 32 bit unsigned integer value.		
 	virtual void setFieldValue_3_14(word index, unsigned long value);
 	
-	//##Documentation
 	//## Returns the value of a field in the list of fields of this part of packet. 
 	//## The value returned is interpreted as a 24 bit unsigned integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -242,7 +209,6 @@ class PartOfPacket
 	//## \param index Represent the index of the field.
 	virtual unsigned long getFieldValue_3_13(word index);
 
-	//##Documentation
 	//## Sets the value of a field. The value is interpreted as a 24 bit unsigned integer.
 	//## The index of the argument is the first 16 bit field of the 2 fields that compound
 	//## the 24 bit unsigned long. The layout foreseen is the following:
@@ -257,7 +223,6 @@ class PartOfPacket
 	//## \param value The 24 bit unsigned integer value.		
 	virtual void setFieldValue_3_13(word index, unsigned long value) throw(PacketException*);		
 
-        //##ModelId=3EADC13E0246
         //##Documentation
         //## Sets the value of a field in the list of fields of this part of packet. Remember that
 	//## if a predefined value is specified in the .stream, this method has not effect and the 
@@ -266,38 +231,26 @@ class PartOfPacket
         //## \param value The value must be setted.
         virtual void setFieldValue(word index, word value);
 
-        //##ModelId=3C187751018C
-        //##Documentation
         //## Returns the number of fields.
         virtual  inline word getNumberOfFields() {
           return numberOfFields;
         };
 
-        //##ModelId=3C18AB2E037F
-        //##Documentation
         //## Sets the stream of byte. This method assigns the value of stream for each field of part of packet
         virtual bool setByteStream(ByteStream* s);
 
-        //##Documentation
         //## Represent current stream reads from input.
         ByteStream* stream;
 
-	      //##ModelId=3EADC13B024B
-        //##Documentation
         //## Represent current stream writes to output.
         ByteStream* outputstream;
 
-        //##ModelId=3EADC1400007
-        //##Documentation
         //## Generates the stream.
         virtual ByteStream* generateStream(bool bigendian);
 
-        //##ModelId=3EADC14003CC
-        //##Documentation
         //## Creates the outputstream ByteStream for the generation of the output stream
         virtual bool setOutputStream(ByteStream* os, word first);
 
-        //##Documentation
         //## In a recoursive structure, the PartOfPacket that contains this PartOfPacket
         PartOfPacket* previous;
 
@@ -305,22 +258,17 @@ class PartOfPacket
 
     protected:
 
-        //##Documentation
         //## List of field of part of packet.
         Field** fields;
 
-        //##Documentation
         //## Dimension in bit of fields.
         word fieldsDimension;
 
-	//##ModelId=3EADC13B0295
-        //##Documentation
         //## Number of fields.
         word numberOfFields;
 
     private:
 
-        //##ModelId=3EADC14201B1
         void deleteFields();
 };
 

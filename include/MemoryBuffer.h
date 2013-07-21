@@ -18,7 +18,7 @@
 #ifndef MEMORYBUFFER_H
 #define MEMORYBUFFER_H
 #include "PacketLibDefinition.h"
-#include "InputTextFile.h"
+#include "PacketExceptionIO.h"
 
 namespace PacketLib {
 
@@ -50,6 +50,8 @@ class MemoryBuffer
         //##Documentation
         //## Read property of char** buffer.
         char* getbuffer();
+        
+        char* getlastbuffer();
 
         //##ModelId=3EADC12A00CD
         char* getbuffer(dword index);
@@ -69,23 +71,38 @@ class MemoryBuffer
         //##ModelId=3EADC12A00DF
         bool saveBuffer(char* filename) throw(PacketExceptionIO*);
 	
-	void freebuffer();
+		void freebuffer();
+		
+		void setName(char* name);
+		
+		char* getName() { return bufferName; };
+		
+		int getpos();
+		
+		bool memBookmarkPos();
+		
+		bool setLastBookmarkPos();
+		
+		long setpos(int index);
 
     private:
-	//##ModelId=3EADC12A0088
+    
+    	int bookmarkpos;
+    
         dword dim;
 
         //##ModelId=3EADC12A0091
         char** buffer;
 
-	//##ModelId=3EADC12A0099
         dword indexwrite;
 
-	//##ModelId=3EADC12A00A4
         dword indexread;
 
         //##ModelId=3EADC12A00AF
         char* currentpwd;
+        
+        // The name of the buffer
+        char* bufferName;
 };
 
 }

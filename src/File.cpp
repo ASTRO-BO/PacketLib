@@ -59,7 +59,7 @@ File::~File() {
 bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*)
 {
     DEMORET0;
-
+	
     fp = fopen(filename, mode);
 
     if(fp == NULL)
@@ -195,6 +195,7 @@ char* File::getLine() throw(PacketExceptionIO*)
     lastLineRead = new char[ dims + 1];
     for(unsigned i=0; i<=dims; i++)
         lastLineRead[i] = s[i];  
+    
     return sr;
 }
 
@@ -300,7 +301,7 @@ int File::setFirstPos()  throw(PacketExceptionIO*)
 //##ModelId=3C51324A0299
 bool File::fchdir() throw(PacketExceptionIO*)
 {
-
+	
     char* path = Utility::extractPath(filename);
     if(strlen(path) != 0) {
     	if(chdir(path)==0) {

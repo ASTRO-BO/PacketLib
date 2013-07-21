@@ -41,7 +41,7 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
     bool ret;
     currentpwd = getcwd(NULL, 512L);
     ret = InputTextFile::open(parameters);
-    if(ret)
+    if(!closed)
         fchdir();
     return ret;
 }
@@ -65,7 +65,7 @@ char* ConfigurationFile::getLine() throw(PacketExceptionIO*)
         temp = InputTextFile::getLine();
         while(strstr(temp, "--") !=  NULL)
         {
-	    delete[] temp; 
+	    	//delete[] temp; 
             temp = InputTextFile::getLine();
         }
         return temp;

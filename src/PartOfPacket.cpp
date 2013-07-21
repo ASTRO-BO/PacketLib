@@ -122,6 +122,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
 }
 
 
+
 //##ModelId=3DA3E5AF0064
 MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
 {
@@ -148,7 +149,7 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
         //legge fino a quando non incontra [
         if(name[0] == '[')
         {
-	    delete[] name;	
+	    	//delete[] name;	
             break;
         }
     }

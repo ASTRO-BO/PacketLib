@@ -46,7 +46,7 @@ void MemoryBuffer::freebuffer() {
     	return;
     for(dword i = 0; i < dim; i++) {
         delete[] buffer[i];
-	buffer[i] = 0;
+		buffer[i] = 0;
     }
     free(buffer);
     buffer = 0;
@@ -59,10 +59,42 @@ char* MemoryBuffer::getbuffer()
 {
     if(indexread <= dim)
     {
-        return buffer[indexread++];
+    	
+    	char* ret =  getbuffer(indexread);
+    	indexread++;
+        return ret;
     }
     else
         return 0;
+}
+
+char* MemoryBuffer::getlastbuffer()
+{
+    if(indexread <= dim)
+    {
+        return getbuffer(indexread-1);
+    }
+    else
+        return 0;
+}
+
+int MemoryBuffer::getpos() {
+	return indexread;
+}
+
+bool MemoryBuffer::memBookmarkPos() {
+	bookmarkpos = indexread;
+	return true;
+}
+
+bool MemoryBuffer::setLastBookmarkPos() {
+	indexread = bookmarkpos;
+	return true;
+}
+
+long MemoryBuffer::setpos(int index) {
+	indexread = index;
+	return index;
 }
 
 
@@ -73,7 +105,11 @@ char* MemoryBuffer::getbuffer(dword index)
 
     if(index <= dim)
     {
-        return buffer[index];
+        //int dimline = strlen(buffer[index]);
+    	//char* ret = (char*) new char[dimline+1];
+    	//strcpy(ret, buffer[index]);
+    	char* ret = buffer[index];
+        return ret;
     }
     else
         return 0;
@@ -82,9 +118,12 @@ char* MemoryBuffer::getbuffer(dword index)
 
 /** Write property of char** buffer. */
 //##ModelId=3DA3E57B01D6
-void MemoryBuffer::setbuffer(char* _newVal)
+void MemoryBuffer::setbuffer(char* line)
 {
-    buffer[indexwrite] = _newVal;
+	//copy string
+	int dimline = strlen(line);
+    buffer[indexwrite] = (char*) new char[dimline+1];
+    strcpy(buffer[indexwrite], line);
     indexwrite++;
     if(indexwrite > dim)
         ;                        //TODO
@@ -94,7 +133,7 @@ void MemoryBuffer::setbuffer(char* _newVal)
 
 /** Write property of char** buffer. */
 //##ModelId=3DA3E57B0212
-void MemoryBuffer::setbuffer(char* _newVal, dword index)
+void MemoryBuffer::setbuffer(char* line, dword index)
 {
     if(index > indexwrite)
     {
@@ -112,7 +151,10 @@ void MemoryBuffer::setbuffer(char* _newVal, dword index)
     if(buffer[index] != 0)
         delete buffer[index];
 
-    buffer[index] = _newVal;
+	int dimline = strlen(line);
+    buffer[index] = (char*) new char[dimline+1];
+    strcpy(buffer[index], line);
+    
 
     if(indexwrite > dim)
         ;                        //TODO
@@ -195,4 +237,10 @@ bool MemoryBuffer::saveBuffer(char* filename)  throw(PacketExceptionIO*)
     delete fo;
     return ret;
 
+}
+
+void MemoryBuffer::setName(char* name) { 
+
+	bufferName = name; 
+	
 }

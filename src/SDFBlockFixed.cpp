@@ -19,22 +19,22 @@ bool SDFBlockFixed::loadFields(InputText& fp) throw(PacketException*)
         numberOfBlockFixed[0] = true;
     else
         numberOfBlockFixed[0] = false;
-    delete[] line;
+    //delete[] line;
 
     line = fp.getLine();
     maxNumberOfBlock[0] = atoi(line);
-    delete[] line;
+    //delete[] line;
     
     if(numberOfBlockFixed[0])
     	numberOfRealDataBlock[0] = maxNumberOfBlock[0];
 
     line = fp.getLine();
     indexOfNBlock[0] = atoi(line);
-    delete[] line;
+    //delete[] line;
 
     line = fp.getLine();
     subFromNBlock[0] =  atoi(line);
-    delete[] line;
+    //delete[] line;
 
     block = (SDFBFBlock*) new SDFBFBlock[maxNumberOfBlock[0]];
 

@@ -70,17 +70,17 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
             line=file.getLine("[PacketHeader]");
             if(strlen(line) != 0)
             {
-                delete[] line;
+                //delete[] line;
                 PRINTDEBUG("Found [PacketHeader]");
                 line = file.getLine();
                 if(header->loadHeader(line))
                 {
-                    delete[] line;
+                    //delete[] line;
                     //find the DataFieldHeader section
                     line=file.getLine("[DataFieldHeader]");
                     if(strlen(line) != 0)
                     {
-                        delete[] line;
+                        //delete[] line;
                         //section found
                         if(dataField->dataFieldHeader->loadFields(file))
                         {
@@ -235,7 +235,7 @@ bool Packet::loadIdentifiers(ConfigurationFile& fp) {
         buffer->setbuffer(line);
         line = fp.getLine();
     }
-    delete[] line; //AB
+    //delete[] line; //AB
     number_of_identifier = buffer->getBufferDimension()/3;
     if(number_of_identifier != 0)
     {

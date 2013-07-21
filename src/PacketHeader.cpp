@@ -32,11 +32,11 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 
         line = header.getLine();
         numberOfFieldWithPacketDimension = atoi(line);
-        delete[] line; 
+        //delete[] line; 
 
                                  //find the start position of the fields
         line = header.getLine("[Field]");
-        delete[] line; 
+        //delete[] line; 
 
         if(loadFields(header))
         {
