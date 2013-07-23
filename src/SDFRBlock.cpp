@@ -46,11 +46,11 @@ SDFRBBlock* SDFRBlock::getBlock(word nblock,word rBlockIndex) {
   return block[0].getBlock(nblock, rBlockIndex);  
 }
 
-word SDFRBlock::getMaxDimension() {
+dword SDFRBlock::getMaxDimension() {
   return block[0].getMaxDimension();
 }
 
-word SDFRBlock::getDimension() {
+dword SDFRBlock::getDimension() {
   return block[0].getDimension();
 }
 
@@ -69,7 +69,7 @@ word SDFRBlock::getNumberOfRealDataBlock(word rblockIndex)
 }
 
 
-bool SDFRBlock::setOutputStream(ByteStream* os, word first)
+bool SDFRBlock::setOutputStream(ByteStream* os, dword first)
 {
     return block[0].setOutputStream(os, first);
 }
@@ -102,6 +102,10 @@ word SDFRBlock::getNumberOfFields() {
 
 char** SDFRBlock::printValue(char* addString) {
     return block[0].printValue(addString);
+}
+
+void SDFRBlock::printValueStdout() {
+    block[0].printValueStdout();
 }
 
 string* SDFRBlock::printStructure() {

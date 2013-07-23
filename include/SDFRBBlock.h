@@ -42,9 +42,9 @@ class SDFRBBlock : public PartOfPacket
     //## \param rBlockIndex the number of the rblock
     virtual SDFRBBlock* getBlock(word nblock, word rBlockIndex);
 
-    virtual word getMaxDimension();
+    virtual dword getMaxDimension();
 
-    virtual word getDimension();
+    virtual dword getDimension();
 
     //##Documentation
     //## Set the number of blocks (the number of times that a block of a
@@ -67,7 +67,7 @@ class SDFRBBlock : public PartOfPacket
 
     virtual inline word getID() { return ID; };
 
-    virtual bool setOutputStream(ByteStream* os, word first);
+    virtual bool setOutputStream(ByteStream* os, dword first);
 
     virtual ByteStream* generateStream(bool bigendian);
 
@@ -112,12 +112,15 @@ class SDFRBBlock : public PartOfPacket
     //##Documentation
     //## Prints the value of each field of this part of packet
     virtual char** printValue(char* addString = "");
+    
+    virtual void printValueStdout();
 
     //##Documentation
     //## Prints the structure of this part of packet
     virtual string* printStructure();    
 
     PartOfPacket fixed;
+    
   protected:
 
     virtual word getCurrentNumberOfBlocks();
@@ -163,7 +166,7 @@ class SDFRBBlock : public PartOfPacket
     //##ModelId=405AA86B01C4
     //##Documentation
     //## for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali.
-    word *subFromNBlock;    
+    word* subFromNBlock;    
     
     //##Documentation
     //## apply an operator during the calculation of the number of blocks

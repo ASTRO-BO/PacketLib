@@ -39,6 +39,10 @@ class InputText
         virtual char* getLastLineRead() = 0;
 
         virtual char* getInputTextName() = 0;
+        
+        virtual long getpos() = 0;
+        
+        virtual long setpos(long offset) throw(PacketExceptionIO*) = 0;
 
         virtual bool isClosed();
 

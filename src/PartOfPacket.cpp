@@ -58,18 +58,18 @@ string* PartOfPacket::printStructure()
         Field* f = fields[i];
         if(first)
         {
-            sprintf(s, "Prog: %d - Name - %s\n", f->progressiv, f->name );
+            sprintf(s, "Prog: %d - Name - %s\n", f->getProgressiv(), f->getName() );
             first = false;
         }
         else
-            sprintf(s, "%sProg: %d - Name - %s\n", s, f->progressiv, f->name );
+            sprintf(s, "%sProg: %d - Name - %s\n", s, f->getProgressiv(), f->getName() );
     }
     string* sr = new string(s);
     return sr;
 }
 
-
-//##ModelId=3C0F6C1A0228
+/*
+// OLD VERSION
 bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 {
     bool ret;
@@ -77,9 +77,56 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     if(buffer==0)
         return false;
     ret = loadFields(buffer);
-    buffer->freebuffer();
-    delete buffer;
+    //buffer->freebuffer(); TODO
+    //delete buffer; TODO
     return ret;
+}
+*/
+
+bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
+{
+    char* name, *dimension, *value;
+    //chiama la funzione che libera la memoria
+    deleteFields();
+    int count = 0;
+    //count the number of fields
+    long pos = fp.getpos();
+    count++;
+    while(strlen(name) !=  0) {
+    	name = fp.getLine();
+    	count++;
+    	if(name[0] == '[')
+        {	
+        	count--;
+            break;
+        }
+    }
+    fp.setpos(pos);
+    fields = new Field* [count/3];
+    
+    name = fp.getLine();
+    if(strlen(name) == 0)
+    {
+        return false;
+    }
+
+    while(strlen(name) != 0)
+    {
+        
+       	dimension = fp.getLine();
+        value = fp.getLine();
+        Field* f = new Field(name, dimension, value, numberOfFields);
+        fieldsDimension += f->getDimension();
+        fields[numberOfFields] = f;
+        numberOfFields++;
+        name = fp.getLine();
+        //legge fino a quando non finisce il buffer
+        if(name[0] == '[')
+        {
+            break;
+        }
+    }
+    return true;
 }
 
 
@@ -108,7 +155,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
         dimension = buffer->getbuffer();
         value = buffer->getbuffer();
         Field* f = new Field(name, dimension, value, numberOfFields);
-        fieldsDimension += f->dimension;
+        fieldsDimension += f->getDimension();
         fields[numberOfFields] = f;
         numberOfFields++;
         name = buffer->getbuffer();
@@ -191,7 +238,7 @@ bool PartOfPacket::setByteStream(ByteStream* s)
     for(word i=0; i<nof;i++)
     {
         ftemp =  fields[i];
-        dimbit = ftemp->dimension;
+        dimbit = ftemp->getDimension();
         //word temporanea da modificare per le elaborazioni
         byte bh = *(stream + posword);
         byte bl = *(stream + posword + 1);
@@ -269,9 +316,9 @@ char** PartOfPacket::printValue(const char* addString)
         sprintf(s, "%d", f->value);
         //s1 = "Name: ";
         s1 = "";
-        s2 = f->name;
+        s2 = f->getName();
 	s2 += " (";
-	s2 += Utility::integerToString(f->dimension);
+	s2 += Utility::integerToString(f->getDimension());
         s2 +=  ") - ";
         s2 += "Value: ";
         s2 += s;
@@ -292,6 +339,34 @@ char** PartOfPacket::printValue(const char* addString)
     }
     c[index] = 0;
     return c;
+}
+
+void PartOfPacket::printValueStdout()
+{
+    //bool first = true;
+    string s1, s2, s3;
+    char *s = new char[1];       //importante, altrimenti non funziona
+    if(!stream) return;
+    for(unsigned i=0; i<numberOfFields; i++)
+    {
+        //Field* f = (Field*) &(*iter);
+        Field* f = fields[i];
+        //sprintf(s, "Name: %s Value: %d\n", f->name.c_str(), f->value);
+        sprintf(s, "%d", f->value);
+        //s1 = "Name: ";
+        s1 = "";
+        s2 = f->getName();
+		s2 += " (";
+		s2 += Utility::integerToString(f->getDimension());
+        s2 +=  ") - ";
+        s2 += "Value: ";
+        s2 += s;
+        s2 += " (0x";
+        s2 += Utility::stringToHexadecimal((byte*) &f->value, 2, false, false);
+        s2 += ")";
+        s3 = s1 + s2;
+        cout << s3 << endl;
+    }
 }
 
 
@@ -317,11 +392,11 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
         outputstream = new ByteStream(getDimension(), bigendian);
     for(unsigned i = 0; i<numberOfFields; i++)
     {
-        if(!fields[i]->thereIsPredefinedValue)
+        if(!fields[i]->thereIsPredefinedValue())
             wtemp = fields[i]->value;
         else
-            wtemp = fields[i]->predefinedValue;
-	dimbit = fields[i]->dimension;
+            wtemp = fields[i]->getPredefinedValue();
+	dimbit = fields[i]->getDimension();
         shift = 16 - dimbit - posbit;
 	if(shift < 0) {
 		byte nbitshigh = abs(shift);
@@ -340,7 +415,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
         	wtemp = (wtemp << shift);
         	w = w | wtemp;
         	//cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
-        	posbit += fields[i]->dimension;
+        	posbit += fields[i]->getDimension();
 	}
         if(posbit == 16)
         {
@@ -364,7 +439,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
 };
 
 //##ModelId=3DA3E5BA00FA
-bool PartOfPacket::setOutputStream(ByteStream* os, word first)
+bool PartOfPacket::setOutputStream(ByteStream* os, dword first)
 {
     delete outputstream;
     outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
@@ -373,7 +448,7 @@ bool PartOfPacket::setOutputStream(ByteStream* os, word first)
 
 void PartOfPacket::setFieldValue(word index, word value) {
 	if(index < numberOfFields)
-        	fields[index]->value = (value & pattern[fields[index]->dimension]);                  
+        	fields[index]->value = (value & pattern[fields[index]->getDimension()]);                  
 }
 
 float PartOfPacket::getFieldValue_5_1(word index) {

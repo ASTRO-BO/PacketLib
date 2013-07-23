@@ -21,34 +21,62 @@
 
 namespace PacketLib {
 
-//A single field of a telemtry packet
+
+class FieldType {
+
+	public:
+	
+		FieldType();
+	
+		//Dimension of field in bit.
+        word dimension;
+
+        //It indicates that there's a predefined value for this field.
+        bool thereIsPredefinedValue;
+
+        //Predefined value of field (for the generation of packet).
+        int predefinedValue;
+	
+        //Name of the field.
+        char* name;	
+};
+
+
+
+//A single field of a telemetry packet
 class Field
 {
     public:
 
-        //## Constructor of class.
+        //Constructor of class.
         Field(char* name, char* dimension, char* predefinedValue, int progressiv);
 
-        //## Destructor of class.
+        //Destructor of class.
         ~Field();
 
-        //## Dimension of field in bit.
-        word dimension;
-
-        //## It indicates that there's a predefined value for this field.
-        bool thereIsPredefinedValue;
-
-        //## Predefined value of field (for the generation of packet).
-        int predefinedValue;
-
-        //## Index of packet in the list of packet.
-        int progressiv;
-
-        //## Name of the field.
-        char* name;
-
-        //## Value reads from stream of byte (from packet).
+        //Value reads from stream of byte (from packet).
         word value;
+        
+        //Dimension of field in bit.
+        inline dword getDimension() { return type->dimension; };
+
+        //It indicates that there's a predefined value for this field.
+        inline bool thereIsPredefinedValue() { return type->thereIsPredefinedValue; };
+
+        //Predefined value of field (for the generation of packet).
+        inline int getPredefinedValue() { return type->predefinedValue; };
+	
+        //Name of the field.
+        inline char* getName() { return type->name; };	
+        
+        inline int getProgressiv() { return progressiv; };
+        
+    protected:
+        
+        //Index of packet in the list of packet.
+        int progressiv;
+        
+        FieldType * type;
 
 };
 

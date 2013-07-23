@@ -68,13 +68,13 @@ class SDFRBlock : public SourceDataField
     //## Returns the number of fields.
     virtual word getNumberOfFields();                
 
-    virtual word getMaxDimension();
+    virtual dword getMaxDimension();
     
-    virtual word getDimension();
+    virtual dword getDimension();
 
     virtual bool setByteStream(ByteStream* s);
 
-    virtual bool setOutputStream(ByteStream* os, word first);
+    virtual bool setOutputStream(ByteStream* os, dword first);
 
     virtual ByteStream* generateStream(bool bigendian);
 
@@ -94,6 +94,8 @@ class SDFRBlock : public SourceDataField
     //##Documentation
     //## Prints the value of each field of this part of packet
     virtual char** printValue(char* addString = "");
+    
+    virtual void printValueStdout();
 
     //##Documentation
     //## Prints the structure of this part of packet

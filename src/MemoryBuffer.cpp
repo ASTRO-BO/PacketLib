@@ -19,13 +19,14 @@ email                : bulgarelli@tesre.bo.cnr.it
 #include <unistd.h>
 #include "File.h"
 #include "OutputFile.h"
+#include "PacketLibDefinition.h"
 
 using namespace PacketLib;
 
 //##ModelId=3DA3E57B01A4
 MemoryBuffer::MemoryBuffer()
 {
-    dim = 5000;
+    dim = CONFIG_MAXNUMBEROFLINES_OFCONFIGILES;
     buffer = (char**) malloc(sizeof(char*)*dim);
     for(dword i=0; i<dim; i++)
         buffer[i] = 0;
@@ -37,8 +38,8 @@ MemoryBuffer::MemoryBuffer()
 //##ModelId=3DA3E57B01A5
 MemoryBuffer::~MemoryBuffer()
 {
-	if(buffer)
-		freebuffer();
+	//if(buffer)
+	//	freebuffer();
 }
 
 void MemoryBuffer::freebuffer() {
@@ -118,7 +119,7 @@ char* MemoryBuffer::getbuffer(dword index)
 
 /** Write property of char** buffer. */
 //##ModelId=3DA3E57B01D6
-void MemoryBuffer::setbuffer(char* line)
+void MemoryBuffer::setbuffer(char* line) throw (PacketException*)
 {
 	//copy string
 	int dimline = strlen(line);
@@ -126,14 +127,14 @@ void MemoryBuffer::setbuffer(char* line)
     strcpy(buffer[indexwrite], line);
     indexwrite++;
     if(indexwrite > dim)
-        ;                        //TODO
+         throw new PacketException("MemoryBuffer::setbuffer. Buffer too big");                      
     //realloc
 }
 
 
 /** Write property of char** buffer. */
 //##ModelId=3DA3E57B0212
-void MemoryBuffer::setbuffer(char* line, dword index)
+void MemoryBuffer::setbuffer(char* line, dword index) throw(PacketException*)
 {
     if(index > indexwrite)
     {
@@ -157,7 +158,7 @@ void MemoryBuffer::setbuffer(char* line, dword index)
     
 
     if(indexwrite > dim)
-        ;                        //TODO
+        throw new PacketException("MemoryBuffer::setbuffer(2). Buffer too big");                        
     //realloc
 }
 

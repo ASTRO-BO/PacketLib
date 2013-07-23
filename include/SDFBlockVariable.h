@@ -58,18 +58,18 @@ class SDFBlockVariable : public SourceDataField
         virtual bool setByteStream(ByteStream* s);
 
         //##ModelId=3EADC14300D9
-        virtual word getDimension();
+        virtual dword getDimension();
 
         //##ModelId=3EADC14300DB
-        virtual word getDimension(word nblock);
+        virtual dword getDimension(word nblock);
 
         //##ModelId=3EADC14300E0
         //##Documentation
         //## Gets the total max dimension in bytes of source data field
-        virtual word getMaxDimension();
+        virtual dword getMaxDimension();
 
         //##ModelId=3EADC14300E2
-        virtual word getMaxDimension(word nblock);
+        virtual dword getMaxDimension(word nblock);
 
         //##ModelId=3EADC14300E7
         //##Documentation
@@ -113,7 +113,7 @@ class SDFBlockVariable : public SourceDataField
         virtual void setFieldValue(word block, word index, word value);
 
         //##ModelId=3EADC143011A
-        virtual bool setOutputStream(ByteStream* os, word first);
+        virtual bool setOutputStream(ByteStream* os, dword first);
 
         //##ModelId=3EADC1430122
         virtual ByteStream* generateStream(bool bigendian);

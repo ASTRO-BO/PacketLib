@@ -60,12 +60,12 @@ class PacketDataField : public PartOfPacket
         //##ModelId=3EADC1380316
         //##Documentation
         //## Total dimension in bytes of data field.
-        word getDimension();
+        dword getDimension();
 
         //##ModelId=3EADC138034F
         //##Documentation
         //## Total max dimension in bytes of data field.
-        word getMaxDimension();
+        dword getMaxDimension();
 
         //##ModelId=3EADC138038B
         //##Documentation

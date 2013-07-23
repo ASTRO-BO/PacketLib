@@ -1,5 +1,5 @@
 /***************************************************************************
-                          ByteStream.h  -  description
+                          Serial.h  -  description
                              -------------------
     begin                : Thu Nov 29 2001
     copyright            : (C) 2001 by Andrea Bulgarelli

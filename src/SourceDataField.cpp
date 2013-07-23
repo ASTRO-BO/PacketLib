@@ -32,9 +32,9 @@ SourceDataField::~SourceDataField() {
 }
 
 char* SourceDataField::printInHexadecimal() {
-word dim = getDimension();
-ByteStream b(stream->stream, dim, true);
-char* c = b.printStreamInHexadecimal();
+	dword dim = getDimension();
+	ByteStream b(stream->stream, dim, true);
+	char* c = b.printStreamInHexadecimal();
 	return c;
 }
 
@@ -107,7 +107,7 @@ word SourceDataField::getNumberOfFields(word block)
 };
 
 //##ModelId=3DA3E60F0226
-word SourceDataField::getDimension()
+dword SourceDataField::getDimension()
 {
     return PartOfPacket::getDimension();
 }
@@ -237,11 +237,11 @@ word w;
 }
 
 //##ModelId=3DA3E6120276
-word SourceDataField::getDimension(word block) {
+dword SourceDataField::getDimension(word block) {
   return 0;
 }
 
-word SourceDataField::getMaxDimension(word nblock) {
+dword SourceDataField::getMaxDimension(word nblock) {
   return 0;
 }
 

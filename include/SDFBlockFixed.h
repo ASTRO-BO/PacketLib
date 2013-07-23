@@ -64,17 +64,17 @@ class SDFBlockFixed : public SourceDataField
         //##ModelId=3EADC1430054
 	//##Documentation
 	//## Get the number of bytes of this part of packet.
-        virtual word getDimension();
+        virtual dword getDimension();
 
         //##ModelId=3EADC1430057
 	//## Get the number of bytes of a block.
-        virtual word getDimension(word block);
+        virtual dword getDimension(word block);
 
         //##ModelId=3EADC143005C
-        virtual word getMaxDimension();
+        virtual dword getMaxDimension();
 
         //##ModelId=3EADC143005E
-        virtual word getMaxDimension(word nblock);
+        virtual dword getMaxDimension(word nblock);
 
         //##ModelId=3EADC1430063
         //##Documentation
@@ -112,7 +112,7 @@ class SDFBlockFixed : public SourceDataField
         virtual void setFieldValue(word block, word index, word value);
 
         //##ModelId=3EADC143008D
-        virtual bool setOutputStream(ByteStream* os, word first);
+        virtual bool setOutputStream(ByteStream* os, dword first);
 
         //##ModelId=3EADC1430094
         virtual ByteStream* generateStream(bool bigendian);

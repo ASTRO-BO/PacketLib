@@ -58,6 +58,8 @@ typedef unsigned int dword;     //4 byte for both 32 and 64 bit system
 #define U24BITINTGEGERSIGNED_MIN -8388607
 #define U24BITINTGEGERSIGNED_MAX 8388607
 
+#define CONFIG_MAXNUMBER_OFCONFIGILES 20000
+#define CONFIG_MAXNUMBEROFLINES_OFCONFIGILES 100000
 
 //typedef bool boolean;
 

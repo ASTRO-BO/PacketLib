@@ -205,18 +205,18 @@ bool SDFBlockVariable::setByteStream(ByteStream* s)
 
 
 //##ModelId=3A54BDE40376
-word SDFBlockVariable::getDimension()
+dword SDFBlockVariable::getDimension()
 {
-    word nb = getNumberOfRealDataBlock();
-    word dim = 0;
-    for(word i=0 ; i<nb; i++)
+    dword nb = getNumberOfRealDataBlock();
+    dword dim = 0;
+    for(dword i=0 ; i<nb; i++)
         dim += blocks[i].getDimension();
     return dim;
 }
 
 
 //##ModelId=3DA3E5DB0104
-word SDFBlockVariable::getMaxDimension(word nblock)
+dword SDFBlockVariable::getMaxDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
         return blocks[nblock].getMaxDimension();
@@ -226,7 +226,7 @@ word SDFBlockVariable::getMaxDimension(word nblock)
 
 
 //##ModelId=3DA3E5D900AA
-word SDFBlockVariable::getDimension(word block)
+dword SDFBlockVariable::getDimension(word block)
 {
     if(block < numberOfRealDataBlock[0])
         return blocks[block].getDimension();
@@ -236,11 +236,11 @@ word SDFBlockVariable::getDimension(word block)
 
 
 //##ModelId=3DA3E5DA01EA
-word SDFBlockVariable::getMaxDimension()
+dword SDFBlockVariable::getMaxDimension()
 {
-    word nb = getMaxNumberOfBlock();
-    word dim = 0;
-    for(word i=0 ; i<nb; i++)
+    dword nb = getMaxNumberOfBlock();
+    dword dim = 0;
+    for(dword i=0 ; i<nb; i++)
         dim += blocks[i].getMaxDimension();
     return dim;
 }
@@ -375,7 +375,7 @@ void SDFBlockVariable::setFieldValue(word index, word value)
 {
     Field* f = getFields(index);
     if(f != 0)
-        f->value = (value & pattern[f->dimension]);
+        f->value = (value & pattern[f->getDimension()]);
 }
 
 
@@ -384,18 +384,18 @@ void SDFBlockVariable::setFieldValue(word block, word index, word value)
 {
     Field* f = getFields(block, index);
     if(f != 0)
-        f->value = (value & pattern[f->dimension]);
+        f->value = (value & pattern[f->getDimension()]);
 }
 
 
 //##ModelId=3DA3E5EB00BE
-bool SDFBlockVariable::setOutputStream(ByteStream* os, word first)
+bool SDFBlockVariable::setOutputStream(ByteStream* os, dword first)
 {
-    word mnb = getNumberOfRealDataBlock();
-    word start = first;
+    dword mnb = getNumberOfRealDataBlock();
+    dword start = first;
     delete outputstream;
     outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
-    for(word i = 0; i<mnb; i++)
+    for(dword i = 0; i<mnb; i++)
     {
         blocks[i].setOutputStream(os, start);
         start += blocks[i].getDimension();

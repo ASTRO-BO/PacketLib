@@ -41,12 +41,12 @@ class ByteStream
         //##ModelId=3EADC12501CA
         //##Documentation
         //## The memory of byte* is allocated
-        ByteStream(long size, bool bigendian);
+        ByteStream(dword size, bool bigendian);
 
         //##ModelId=3EADC125023B
         //##Documentation
         //## The memory of byte* is not allocated
-        ByteStream(byte* stream, long dim, bool bigendian, bool memory_sharing = true);
+        ByteStream(byte* stream, dword dim, bool bigendian, bool memory_sharing = true);
 
         //##ModelId=3EADC125031B
         //##Documentation
@@ -79,56 +79,56 @@ class ByteStream
         //## Returns a subset of the current stream. If there is problemas return NULL
         //## \remarks This method don't allocate a new stream structure in memory,
         //## but create only a new ByteStream object that points in the same memory area.
-        ByteStream* getSubByteStream(word first, word last);
+        ByteStream* getSubByteStream(dword first, dword last);
 
         //##ModelId=3EADC126003A
         //##Documentation
         //## Returns a subset of the current stream. If there is problemas return NULL
         //## \remarks This method allocate a new stream structure in memory.
-        ByteStream* getSubByteStreamCopy(word first, word last);
+        ByteStream* getSubByteStreamCopy(dword first, dword last);
 
         //##ModelId=3C87744001F6
         //##Documentation
         //## Sets the stream from arguments.
-        bool setStream(byte* b, unsigned dim, bool bigendian, bool memory_sharing = true);
+        bool setStream(byte* b, dword dim, bool bigendian, bool memory_sharing = true);
 
         //##ModelId=3EADC1260157
         //##Documentation
         //## Get the stream from another object of the same type. Don't allocate new memory
-        bool setStream(ByteStream* b, word first, word last);
+        bool setStream(ByteStream* b, dword first, dword last);
 
         //##ModelId=3EADC1260244
         //##Documentation
         //## Copy the stream in argument of dimension dim.
         //## \remarks This method delete old stream and creates a new stream in memory
-        void setStreamCopy(byte* b, unsigned dim);
+        void setStreamCopy(byte* b, dword dim);
 
         //##ModelId=3EADC12602F1
         //##Documentation
         //## Sets a word of the stream with the value of parameter.
-        bool setWord(unsigned start, word value);
+        bool setWord(dword start, word value);
 
         //##ModelId=3EADC12603A5
         //##Documentation
         //## Sets a byte of the stream with the value of parameter.
-        void setByte(unsigned start, word value);
+        void setByte(dword start, word value);
 
         //##ModelId=3C0F6BDB0041
         //##Documentation
         //## This method return a byte of the stram in the position byteNumber
-        byte getByte( unsigned byteNumber );
+        byte getByte( dword byteNumber );
 
         //##ModelId=3C18775001BB
         //##Documentation
         //## Get the value in the stream starting from position start and of dim dimension
         //## \param start Start position in the stream of byte
         //## \param dim number of byte (1 oe 2)
-        long getValue(unsigned start, unsigned dim);
+        long getValue(dword start, dword dim);
 
         //##ModelId=3C87744001D8
         //##Documentation
         //## Gets the dimension of the stream
-        unsigned getDimension();
+        dword getDimension();
 
         //##ModelId=3C87744001EC
         char* printStreamInHexadecimal();
@@ -183,7 +183,7 @@ class ByteStream
 	//##ModelId=3EADC1250121
         //##Documentation
         //## This attribute specifes the number of byte in the stream
-        word byteInTheStream;
+        dword byteInTheStream;
 
         //##ModelId=3C877440014B
         //##Documentation

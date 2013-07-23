@@ -7,39 +7,60 @@
 
 using namespace PacketLib;
 
+static FieldType** filedTypeList = 0;
 
+FieldType::FieldType() {
+	//cout << "CREATE FIELDTYPE" << endl; 
+}
 
 //##ModelId=3C0F6C1A0001
 Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 {
-    #ifndef NOFIELDSNAME
-    //cout << "define field name" << endl;
-    //name
-    dword l = strlen(n);
-    l++;
-    name = (char*)malloc(sizeof(char)*l);
-    memcpy(name, n, l);
-    #endif
 
-    dimension = atoi(dim);
-    if(strcmp(prVal, "none") != 0)
-    {
-        thereIsPredefinedValue = true;
-        predefinedValue = Utility::convertToInteger(prVal);
+	//create FieldType list
+    if(filedTypeList == 0) {
+    	//cout << "create list" << endl;
+    	int nb = CONFIG_MAXNUMBEROFLINES_OFCONFIGILES/3;
+    	filedTypeList = (FieldType**) new FieldType* [nb];
+    	for(int i = 0; i<nb; i++)
+    		filedTypeList[i] = 0;
     }
-    else
-    {
-        predefinedValue = 0;
-        thereIsPredefinedValue = false;
-    }
+	//cout << "------" << endl;
+	int i = 0;
+	type = 0;
+	while(filedTypeList[i] != 0) {
+		//cout << filedTypeList[i]->name << " " << n << endl;
+		if(filedTypeList[i]->name == n) {
+			type = filedTypeList[i];
+			break;
+		}
+		else 
+			i++;
+	}
+	//cout << type << endl;
+	if(type == 0) {
+		type = new FieldType;
+		filedTypeList[i] = type;
+		
+		type->name = n;
+
+   		type->dimension = atoi(dim);
+		if(strcmp(prVal, "none") != 0)
+		{
+			type->thereIsPredefinedValue = true;
+			type->predefinedValue = Utility::convertToInteger(prVal);
+		}
+		else
+		{
+			type->predefinedValue = 0;
+			type->thereIsPredefinedValue = false;
+		}
+	}
 }
 
 
 //##ModelId=3ACCD75E036B
 Field::~Field()
 {
-    //	cout << "deleted field: " << name << endl;
-    #ifndef NOFIELDSNAME
-    free(name);
-    #endif
+    
 }

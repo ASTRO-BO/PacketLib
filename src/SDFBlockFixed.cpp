@@ -140,7 +140,7 @@ void SDFBlockFixed::setFieldValue(word index, word value)
 {
     Field* f = getFields(index);
     if(f != 0)
-        f->value = (value & pattern[f->dimension]);
+        f->value = (value & pattern[f->getDimension()]);
 }
 
 
@@ -149,7 +149,7 @@ void SDFBlockFixed::setFieldValue(word block, word index, word value)
 {
     Field* f = getFields(block, index);
     if(f != 0)
-        f->value = (value & pattern[f->dimension]);
+        f->value = (value & pattern[f->getDimension()]);
 }
 
 
@@ -232,9 +232,9 @@ char** SDFBlockFixed::printValue(char* addString)
 
 
 //##ModelId=3A54BDDC01AF
-word SDFBlockFixed::getDimension()
+dword SDFBlockFixed::getDimension()
 {
-    long dimOfEventBlock;        //Dimensione di ogni event
+    dword dimOfEventBlock;        //Dimensione di ogni event
     dimOfEventBlock = block[0].getDimension();
     //numero di eventi letti dallo stream
     return dimOfEventBlock * numberOfRealDataBlock[0];
@@ -242,7 +242,7 @@ word SDFBlockFixed::getDimension()
 
 
 //##ModelId=3DA3E5C30398
-word SDFBlockFixed::getDimension(word nblock)
+dword SDFBlockFixed::getDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
         return block[nblock].getDimension();
@@ -252,9 +252,9 @@ word SDFBlockFixed::getDimension(word nblock)
 
 
 //##ModelId=3DA3E5C4038E
-word SDFBlockFixed::getMaxDimension()
+dword SDFBlockFixed::getMaxDimension()
 {
-    long dimOfEventBlock;        //Dimensione di ogni event
+    dword dimOfEventBlock;        //Dimensione di ogni event
     if(block != NULL)
         dimOfEventBlock = block[0].getDimension();
     else
@@ -266,7 +266,7 @@ word SDFBlockFixed::getMaxDimension()
 
 
 //##ModelId=3DA3E5C5023A
-word SDFBlockFixed::getMaxDimension(word nblock)
+dword SDFBlockFixed::getMaxDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
         return block[nblock].getDimension();
@@ -283,13 +283,13 @@ string* SDFBlockFixed::printStructure()
 
 
 //##ModelId=3DA3E5D10366
-bool SDFBlockFixed::setOutputStream(ByteStream* os, word first)
+bool SDFBlockFixed::setOutputStream(ByteStream* os, dword first)
 {
-    word mnb = getNumberOfRealDataBlock();
-    word start = first;
+    dword mnb = getNumberOfRealDataBlock();
+    dword start = first;
     delete outputstream;
     outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
-    for(word i = 0; i<mnb; i++)
+    for(dword i = 0; i<mnb; i++)
     {
         block[i].setOutputStream(os, start);
         start += block[i].getDimension();

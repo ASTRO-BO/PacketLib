@@ -52,7 +52,7 @@ void SDFNoBlockFixed::setFieldValue(word index, word value)
 
 //##ModelId=3DA3E5F60154
 
-word SDFNoBlockFixed::getMaxDimension()
+dword SDFNoBlockFixed::getMaxDimension()
 {
     return getDimension();
 }

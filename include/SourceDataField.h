@@ -42,13 +42,13 @@ class SourceDataField : public PartOfPacket
         //##ModelId=3EADC1450058
         //##Documentation
         //## Gets the total max dimension in bytes of source data field
-        virtual word getMaxDimension() = 0;
+        virtual dword getMaxDimension() = 0;
 
         //##ModelId=3EADC1450316
         //##Documentation
         //## Gets the total max dimension in bytes of source data field for each block
         //## \param nbloc Number of block
-        virtual word getMaxDimension(word nblock);
+        virtual dword getMaxDimension(word nblock);
 
         //##ModelId=3C9AEC090051
         //##Documentation
@@ -88,13 +88,13 @@ class SourceDataField : public PartOfPacket
         //##ModelId=3EADC1480173
         //##Documentation
         //## Gets the current dimension (in byte) of the source data field.
-        virtual word getDimension();
+        virtual dword getDimension();
 
         //##ModelId=3EADC1490095
         //##Documentation
         //## Gets the current dimension (in byte) for a single block.
         //# \param block Number of block.
-        virtual word getDimension(word block);
+        virtual dword getDimension(word block);
 
         //##ModelId=3C35EF3C01C8
         //##Documentation

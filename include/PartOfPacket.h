@@ -48,6 +48,8 @@ class PartOfPacket
 
         //Prints the value of each field of this part of packet.
         virtual char** printValue(const char* addString = "");
+        
+        virtual void printValueStdout();
 
         //This method loads the field present into the InputText (passed with the
         //parameter).
@@ -63,7 +65,7 @@ class PartOfPacket
         virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
 
         //Returns the dimension (in byte) of this part of packet.
-        virtual  inline word getDimension() {
+        virtual  inline dword getDimension() {
           return fieldsDimension / 8;
         };
 
@@ -249,7 +251,7 @@ class PartOfPacket
         virtual ByteStream* generateStream(bool bigendian);
 
         //## Creates the outputstream ByteStream for the generation of the output stream
-        virtual bool setOutputStream(ByteStream* os, word first);
+        virtual bool setOutputStream(ByteStream* os, dword first);
 
         //## In a recoursive structure, the PartOfPacket that contains this PartOfPacket
         PartOfPacket* previous;

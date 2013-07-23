@@ -20,7 +20,7 @@ PacketDataField::~PacketDataField()
 
 
 //##ModelId=3DA3E5A500D2
-word PacketDataField::getDimension()
+dword PacketDataField::getDimension()
 {
     if(sourceDataField != 0)
         return dataFieldHeader->getDimension() + sourceDataField->getDimension() + tail->getDimension();
@@ -30,7 +30,7 @@ word PacketDataField::getDimension()
 
 
 //##ModelId=3DA3E5A5010E
-word PacketDataField::getMaxDimension()
+dword PacketDataField::getMaxDimension()
 {
     if(sourceDataField != 0)
         return dataFieldHeader->getDimension() + sourceDataField->getMaxDimension() + tail->getDimension();

@@ -58,7 +58,7 @@ class SDFNoBlockFixed : public SourceDataField
         virtual void setFieldValue(word index, word value);
 
         //##ModelId=3EADC1430154
-        virtual word getMaxDimension();
+        virtual dword getMaxDimension();
 
 };
 

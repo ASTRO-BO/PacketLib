@@ -164,12 +164,12 @@ class Packet
         //##ModelId=3EADC131018A
         //##Documentation
         //## Gets the dimension in byte of the current packet.
-        word getDimension();
+        dword getDimension();
 
         //##ModelId=3EADC13101E9
         //##Documentation
         //## Gets the max dimension in byte of the packet.
-        word getMaxDimension();
+        dword getMaxDimension();
         
         //##Documentation
         //## Gets the ByteStream received as input

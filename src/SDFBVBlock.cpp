@@ -18,8 +18,8 @@ Field* SDFBVBlock::getFields(word index)
 }
 
 void SDFBVBlock::setFieldValue(word index, word value) {
-Field* f = getFields(index);
-	f->value = (value & pattern[f->dimension]);
+	Field* f = getFields(index);
+	f->value = (value & pattern[f->getDimension()]);
 }
 
 //##ModelId=3DA3E5BF0352
@@ -41,24 +41,24 @@ word SDFBVBlock::getNumberOfFields()
 
 
 //##ModelId=3C9AED6B0226
-word SDFBVBlock::getDimension()
+dword SDFBVBlock::getDimension()
 {
-    word nfv = 0;
-    word nff = fixed.getDimension();
-    word nre = fixed.getNumberOfRealElement();
-    for(word i=0; i<nre; i++)
+    dword nfv = 0;
+    dword nff = fixed.getDimension();
+    dword nre = fixed.getNumberOfRealElement();
+    for(dword i=0; i<nre; i++)
         nfv += variables[i].getDimension();
     return nff + nfv;
 }
 
 
 //##ModelId=3DA3E5C00046
-word SDFBVBlock::getMaxDimension()
+dword SDFBVBlock::getMaxDimension()
 {
-    word nfv = 0;
-    word nff = fixed.getDimension();
-    word ne = fixed.getMaxNumberOfElement();
-    for(word i=0; i<ne; i++)
+    dword nfv = 0;
+    dword nff = fixed.getDimension();
+    dword ne = fixed.getMaxNumberOfElement();
+    for(dword i=0; i<ne; i++)
         nfv += variables[i].getDimension();
     return nff + nfv;
 
@@ -66,12 +66,12 @@ word SDFBVBlock::getMaxDimension()
 
 
 //##ModelId=3DA3E5C00082
-bool SDFBVBlock::setOutputStream(ByteStream* os, word first)
+bool SDFBVBlock::setOutputStream(ByteStream* os, dword first)
 {
     fixed.setOutputStream(os, first);
-    word nrb = fixed.getNumberOfRealElement();
-    word start = first + fixed.getDimension();
-    for(word i = 0; i < nrb; i++)
+    dword nrb = fixed.getNumberOfRealElement();
+    dword start = first + fixed.getDimension();
+    for(dword i = 0; i < nrb; i++)
     {
         variables[i].setOutputStream(os, start);
         start += variables[i].getDimension();

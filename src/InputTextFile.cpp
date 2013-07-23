@@ -17,6 +17,7 @@
 
 #include "InputTextFile.h"
 #include "MemoryBuffer.h"
+#include "PacketLibDefinition.h"
 
 using namespace PacketLib;
 
@@ -28,7 +29,7 @@ InputTextFile::InputTextFile() : InputText()
 {
 	//create buffer list
     if(InputTextFile::listOfBuffers == 0) {
-    	int nb = 2000;
+    	int nb = CONFIG_MAXNUMBER_OFCONFIGILES;
     	InputTextFile::listOfBuffers = (MemoryBuffer**) new MemoryBuffer* [nb];
     	for(int i = 0; i<nb; i++)
     		InputTextFile::listOfBuffers[i] = 0;
@@ -68,28 +69,32 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
 {
 	//cout << "open " << parameters[0] << endl;
 	
-    try
-    {
+    
         bool ret;
         //check if the file has been already loaded into MemoryBuffer
         //find the name of the buffer in the list
     	
         	
-    	buffer = 0;
-    	usebuffer = false;
-    	int i = 0;
-		while(InputTextFile::listOfBuffers[i] != 0) {
-			char* filename = parameters[0];
-			char* buffername = InputTextFile::listOfBuffers[i]->getName();
-			//cout << "# i: " << i << " " << buffername << " " << filename << endl;
-			if(strcmp(filename, buffername) == 0) {
-				//cout << "# BN: " << listOfBuffers[i]->getName() << endl;
-				buffer = (MemoryBuffer*) listOfBuffers[i];
-				usebuffer = true;
-				ret = true;
-			}
-			i++;
+	buffer = 0;
+	usebuffer = false;
+	int i = 0;
+	while(InputTextFile::listOfBuffers[i] != 0) {
+		char* filename = parameters[0];
+		char* buffername = InputTextFile::listOfBuffers[i]->getName();
+		//cout << "# i: " << i << " " << buffername << " " << filename << endl;
+		if(strcmp(filename, buffername) == 0) {
+			//cout << "# BN: " << listOfBuffers[i]->getName() << endl;
+			buffer = (MemoryBuffer*) listOfBuffers[i];
+			usebuffer = true;
+			ret = true;
 		}
+		i++;
+	}
+	if(i>CONFIG_MAXNUMBER_OFCONFIGILES)
+		throw new PacketExceptionIO("InputTextFile::open(char** parameters) too many config files");
+			
+	try
+    {
 		if(usebuffer == false) {
 			ret =  file.open(parameters[0]);
         	eof = file.isEOF();
@@ -127,6 +132,11 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
     {
         throw e;
     }
+    catch(PacketException* e)
+    {
+        throw e;
+    }
+    
 };
 
 //##ModelId=3AA6492200F6

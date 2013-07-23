@@ -40,7 +40,7 @@ PacketLib::ByteStream::ByteStream(bool bigendian)
 
 
 //##ModelId=3EADC12501CA
-PacketLib::ByteStream::ByteStream(long dim, bool bigendian)
+PacketLib::ByteStream::ByteStream(dword dim, bool bigendian)
 {
     mem_allocation_constructor = true;
 
@@ -55,7 +55,7 @@ PacketLib::ByteStream::ByteStream(long dim, bool bigendian)
 
 
 //##ModelId=3EADC125023B
-PacketLib::ByteStream::ByteStream(byte* stream, long dim, bool bigendian, bool memory_sharing)
+PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool memory_sharing)
 {
     mem_allocation_constructor = true;
 
@@ -63,7 +63,7 @@ PacketLib::ByteStream::ByteStream(byte* stream, long dim, bool bigendian, bool m
     this->stream = stream;
     this->bigendian = bigendian;
     if(!memory_sharing)
-	swap();
+		swap();
     //se memory_sharing == false significa che la responsabilit della memoria diviene
     //di questo oggetto
     setMemoryAllocated(!memory_sharing);
@@ -75,8 +75,8 @@ PacketLib::ByteStream::ByteStream(byte* stream, long dim, bool bigendian, bool m
 PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2)
 {
     //si suppone che gli stream siano gi swappati
-    unsigned i = 0;
-    unsigned dim = 0;
+    dword i = 0;
+    dword dim = 0;
     if(b0 == 0 && b1 == 0 && b2 == 0)
     {
 
@@ -98,20 +98,20 @@ PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2
     if(b1!=0)
     {
         dim += b1->getDimension();
-        unsigned istart = i;
+        dword istart = i;
         for(;i<dim; i++)
         {
-            unsigned pos = i-istart;
+            dword pos = i-istart;
             stream[i] = b1->stream[pos];
         }
     }
     if(b2!=0)
     {
         dim += b2->getDimension();
-        unsigned istart = i;
+        dword istart = i;
         for(;i<dim; i++)
         {
-            unsigned pos = i-istart;
+            dword pos = i-istart;
             stream[i] = b2->stream[pos];
         }
     }
@@ -125,7 +125,7 @@ PacketLib::ByteStream::~ByteStream()
     if(mem_allocation)
     {
         ByteStream::count_object_deleted++;
-	//cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
+		//cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
         delete[] stream; stream = 0;
     }
     else
@@ -136,7 +136,7 @@ PacketLib::ByteStream::~ByteStream()
 
 
 //##ModelId=3C0F6BDB0041
-byte PacketLib::ByteStream::getByte( unsigned byteNumber)
+byte PacketLib::ByteStream::getByte( dword byteNumber)
 {
     DEMORET0;
     if(byteNumber >= 0 && byteNumber <= byteInTheStream)
@@ -147,7 +147,7 @@ byte PacketLib::ByteStream::getByte( unsigned byteNumber)
 
 
 //##ModelId=3C18775001BB
-long PacketLib::ByteStream::getValue(unsigned start, unsigned dim)
+long PacketLib::ByteStream::getValue(dword start, dword dim)
 {
     DEMORET0;
     byte b1, b2;
@@ -192,7 +192,7 @@ long PacketLib::ByteStream::getValue(unsigned start, unsigned dim)
 
 
 //##ModelId=3C301E8800C7
-ByteStream* PacketLib::ByteStream::getSubByteStream(word first, word last)
+ByteStream* PacketLib::ByteStream::getSubByteStream(dword first, dword last)
 {
     DEMORET0;
     if(first > last)
@@ -205,7 +205,7 @@ ByteStream* PacketLib::ByteStream::getSubByteStream(word first, word last)
 
 
 //##ModelId=3EADC126003A
-ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(word first, word last)
+ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
 {
     DEMORET0;
     if(first > last)
@@ -213,7 +213,7 @@ ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(word first, word last)
     if(last > byteInTheStream)
         return NULL;
     byte* streamtemp = (byte*) new byte[last-first+1];
-    for(int i=0; i<last-first+1; i++)
+    for(dword i=0; i<last-first+1; i++)
         streamtemp[i] = stream[first+i];
     ByteStream* b = new ByteStream(streamtemp, last-first+1, bigendian, false);
     return b;
@@ -243,7 +243,7 @@ void PacketLib::ByteStream::endOutputStream()
 
 
 //##ModelId=3C87744001D8
-unsigned PacketLib::ByteStream::getDimension()
+dword PacketLib::ByteStream::getDimension()
 {
     return byteInTheStream;
 }
@@ -257,13 +257,13 @@ char* PacketLib::ByteStream::printStreamInHexadecimal()
 
 
 //##ModelId=3EADC1260244
-void PacketLib::ByteStream::setStreamCopy(byte* b, unsigned dim)
+void PacketLib::ByteStream::setStreamCopy(byte* b, dword dim)
 {
     deleteStreamMemory();
 
     byteInTheStream = dim;
     stream = (byte*) new byte[dim];
-    for(unsigned i=0; i<dim; i++)
+    for(dword i=0; i<dim; i++)
         stream[i] = b[i];
     swap();
     setMemoryAllocated(true);
@@ -271,7 +271,7 @@ void PacketLib::ByteStream::setStreamCopy(byte* b, unsigned dim)
 
 
 //##ModelId=3C87744001F6
-bool PacketLib::ByteStream::setStream(byte* b, unsigned dim, bool bigendian, bool memory_sharing)
+bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool memory_sharing)
 {
     deleteStreamMemory();
 
@@ -286,7 +286,7 @@ bool PacketLib::ByteStream::setStream(byte* b, unsigned dim, bool bigendian, boo
 
 
 //##ModelId=3EADC1260157
-bool PacketLib::ByteStream::setStream(ByteStream* b, word first, word last)
+bool PacketLib::ByteStream::setStream(ByteStream* b, dword first, dword last)
 {
     if(first > last)
         return false;
@@ -320,14 +320,14 @@ bool PacketLib::ByteStream::isBigendian() const
 
 
 //##ModelId=3EADC12603A5
-void PacketLib::ByteStream::setByte(unsigned start, word value)
+void PacketLib::ByteStream::setByte(dword start, word value)
 {
     stream[start] = value;
 }
 
 
 //##ModelId=3EADC12602F1
-bool PacketLib::ByteStream::setWord(unsigned start, word value)
+bool PacketLib::ByteStream::setWord(dword start, word value)
 {
     byte b1, b2;
     //solo posizioni pari
@@ -361,8 +361,8 @@ void PacketLib::ByteStream::swap()
 {
     if(!bigendian)
     {
-        word dim =  byteInTheStream;
-        for(word i = 0; i< dim; i+=2)
+        dword dim =  byteInTheStream;
+        for(dword i = 0; i< dim; i+=2)
         {
             if((dim - i) != 1)   //per dimensioni dispari
             {

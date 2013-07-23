@@ -19,6 +19,7 @@
 #define MEMORYBUFFER_H
 #include "PacketLibDefinition.h"
 #include "PacketExceptionIO.h"
+#include "PacketException.h"
 
 namespace PacketLib {
 
@@ -41,10 +42,10 @@ class MemoryBuffer
         //##ModelId=3EADC12A00B8
         //##Documentation
         //## Write property of char** buffer.
-        void setbuffer( char* _newVal);
+        void setbuffer( char* _newVal) throw(PacketException*);;
 
         //##ModelId=3EADC12A00BF
-        void setbuffer( char* _newVal, dword index);
+        void setbuffer( char* _newVal, dword index) throw(PacketException*);
 
         //##ModelId=3EADC12A00CB
         //##Documentation

@@ -152,8 +152,8 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                             //TODO: chiudere il file anche negli altri casi
                                             file.close();
                                             //allocate memory for output stream
-                                            word dimpo = getMaxDimension();
-                                            word dimpr = (isprefix?dimprefix:0);
+                                            dword dimpo = getMaxDimension();
+                                            dword dimpr = (isprefix?dimprefix:0);
                                             packet_output = new ByteStream(dimpo + dimpr, bigendian);
 
                                             file.close();
@@ -477,15 +477,15 @@ void Packet::printPacketValue() {
 
 
 //##ModelId=3DA3E58E024E
-word Packet::getDimension() {
+dword Packet::getDimension() {
     return header->getDimension() + dataField->getDimension();
 }
 
 
 //##ModelId=3DA3E58E0398
-word Packet::getMaxDimension() {
-    word dimh = header->getDimension();
-    word dimdf = dataField->getMaxDimension();
+dword Packet::getMaxDimension() {
+    dword dimh = header->getDimension();
+    dword dimdf = dataField->getMaxDimension();
     return dimh + dimdf;
 }
 
@@ -750,7 +750,7 @@ char* Packet::printTailStream() {
 }
 
 char* Packet::printPacketOutputStream() {
-word dim = getDimension();
+dword dim = getDimension();
 if(thereisprefix)
 	dim += dimPrefix;
 ByteStream b(packet_output->stream, dim, bigendian);

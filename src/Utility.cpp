@@ -257,13 +257,13 @@ char* Utility::integerToString(int n)
 
 
 //##ModelId=3DA3E6550212
-char* Utility::stringToHexadecimal(byte* b, unsigned dim, bool bigendian, bool addSpace)
+char* Utility::stringToHexadecimal(byte* b, dword dim, bool bigendian, bool addSpace)
 {
     string s, s1, s2;
     char* c1 = new char[1];
     char* c2 = new char[1];
     s = "";
-    for(unsigned i=0; i<dim; i+=2)
+    for(dword i=0; i<dim; i+=2)
     {
 		 if(bigendian)  {
 	        sprintf(c1, "%2x", b[i]);

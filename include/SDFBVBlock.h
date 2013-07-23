@@ -54,15 +54,15 @@ class SDFBVBlock : public PartOfPacket
 	void setFieldValue(word index, word value);
 
         //##ModelId=3EADC14203BB
-        word getDimension();
+        dword getDimension();
 
         //##ModelId=3EADC14203BD
         //##Documentation
         //## Total max dimension in bytes of block
-        word getMaxDimension();
+        dword getMaxDimension();
 
         //##ModelId=3EADC14203BF
-        bool setOutputStream(ByteStream* os, word first);
+        bool setOutputStream(ByteStream* os, dword first);
 
         //##ModelId=3EADC14203C6
         ByteStream* generateStream(bool bigendian);

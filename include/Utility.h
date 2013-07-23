@@ -68,7 +68,7 @@ class Utility
 
 
         //##ModelId=405AA86F00DB
-        static char* stringToHexadecimal(byte* s, unsigned dim, bool bigendian = true, bool addSpace = true);
+        static char* stringToHexadecimal(byte* s, dword dim, bool bigendian = true, bool addSpace = true);
 
         //##ModelId=405AA86F00E1
         static long strlen(char* s);
