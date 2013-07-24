@@ -26,8 +26,6 @@ class FieldType {
 
 	public:
 	
-		FieldType();
-	
 		//Dimension of field in bit.
         word dimension;
 

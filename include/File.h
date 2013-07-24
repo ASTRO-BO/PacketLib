@@ -54,6 +54,8 @@ class File : public Device
         //## \param mode Mode of file opened. r for read, w for writing
         virtual bool open( const char* filename, const char* mode="r") throw(PacketExceptionIO*);
 
+		virtual void setFileName(char* filename ) { this->filename = filename; };
+		
         virtual char* getFileName() { return filename;};
 
         //##ModelId=3C0F6C1A0016

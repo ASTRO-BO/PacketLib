@@ -67,7 +67,7 @@ bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*
         closed = true;
         eof = true;
         this->filename = 0;
-	this->mode = 0;
+		this->mode = 0;
         //throw new PacketExceptionIO("File not opened. [File::open()]");
         throw new PacketExceptionIO(strerror(errno));
 
@@ -78,7 +78,7 @@ bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*
         eof = false;
         setFirstPos();
         this->filename = (char*)filename;
-	this->mode = (char*)mode;
+		this->mode = (char*)mode;
     };
     return !closed;
 }

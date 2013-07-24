@@ -85,6 +85,7 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
 		if(strcmp(filename, buffername) == 0) {
 			//cout << "# BN: " << listOfBuffers[i]->getName() << endl;
 			buffer = (MemoryBuffer*) listOfBuffers[i];
+			file.setFileName(filename);     
 			usebuffer = true;
 			ret = true;
 		}

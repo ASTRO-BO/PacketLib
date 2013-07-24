@@ -31,7 +31,7 @@ ConfigurationFile::ConfigurationFile()
 //##ModelId=3DA3E568008D
 ConfigurationFile::~ConfigurationFile()
 {
-    free(currentpwd);
+    //free(currentpwd);
 }
 
 

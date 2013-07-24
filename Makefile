@@ -60,7 +60,7 @@ CC       = gcc
 CXX      = g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
 #- g3
-CFLAGS   = -O2 -O0 -g3 -m64
+CFLAGS   = -O2 -O0 -g3 -m64 -fPIC
 #-O2 -O0 -g3
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include

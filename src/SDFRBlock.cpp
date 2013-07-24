@@ -33,7 +33,8 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*) {
     block[0].setRBlockType(0);
     block[0].setID(0);
     block[0].loadFields(fp);
-    line = fp.getLine(); //get the [Identifiers] section
+    fp.setpos(0);
+    line = fp.getLine("[Identifiers]"); //get the [Identifiers] section
     return true;
   } catch(PacketExceptionIO* e) {
         e->add(" - ");

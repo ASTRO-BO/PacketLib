@@ -9,9 +9,6 @@ using namespace PacketLib;
 
 static FieldType** filedTypeList = 0;
 
-FieldType::FieldType() {
-	//cout << "CREATE FIELDTYPE" << endl; 
-}
 
 //##ModelId=3C0F6C1A0001
 Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
@@ -20,9 +17,9 @@ Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 	//create FieldType list
     if(filedTypeList == 0) {
     	//cout << "create list" << endl;
-    	int nb = CONFIG_MAXNUMBEROFLINES_OFCONFIGILES/3;
+    	dword nb = CONFIG_MAXNUMBEROFLINES_OFCONFIGILES/3;
     	filedTypeList = (FieldType**) new FieldType* [nb];
-    	for(int i = 0; i<nb; i++)
+    	for(dword i = 0; i<nb; i++)
     		filedTypeList[i] = 0;
     }
 	//cout << "------" << endl;
