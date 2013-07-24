@@ -196,7 +196,7 @@ SDFRBBlock::SDFRBBlock()
 {
     tempBlock = new ByteStream();
     counter++;
-    cout << counter << " " << sizeof(SDFRBBlock) << endl;
+    //cout << counter << " " << sizeof(SDFRBBlock) << endl;
 
     //create BlockType list
     if(blockTypeList == 0)
