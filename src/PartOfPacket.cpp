@@ -316,6 +316,7 @@ char** PartOfPacket::printValue(const char* addString)
         //Field* f = (Field*) &(*iter);
         Field* f = fields[i];
         //sprintf(s, "Name: %s Value: %d\n", f->name.c_str(), f->value);
+        //cout << "@ " << f->value << endl; 
         sprintf(s, "%d", f->value);
         //s1 = "Name: ";
         s1 = "";
@@ -402,7 +403,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
         if(!fields[i]->thereIsPredefinedValue())
             wtemp = fields[i]->value;
         else
-            wtemp = fields[i]->getPredefinedValue();
+            wtemp = fields[i]->value =  fields[i]->getPredefinedValue();
         dimbit = fields[i]->getDimension();
         shift = 16 - dimbit - posbit;
         if(shift < 0)
