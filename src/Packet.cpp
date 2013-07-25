@@ -276,7 +276,7 @@ void Packet::printIdentifiers() {
 
 //##ModelId=3C301E890023
 bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField) {
-
+	cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
     ByteStream* packet = new ByteStream(packetHeader, packetDataField, 0);
     memByteStream(prefix, packet);
@@ -317,7 +317,7 @@ bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteSt
 
 //##ModelId=3DA3E5890136
 bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet) {
-    word dimHeader = header->getDimension();
+    dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
     tempHeader->setStream(packet, 0, dimHeader-1);
     tempDataField->setStream(packet, dimHeader, packet->getDimension());
@@ -327,7 +327,7 @@ bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet) {
 
 //##ModelId=3DA3E58A0320
 bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packet) {
-    word dimHeader = header->getDimension();
+    dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
     tempHeader->setStream(packet, 0, dimHeader-1);
     tempDataField->setStream(packet, dimHeader, packet->getDimension());
@@ -398,7 +398,7 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, Byt
 
 //##ModelId=3DA3E58600B4
 bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet) {
-    word dimHeader = header->getDimension();
+    dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
     tempHeader->setStream(packet, 0, dimHeader-1);
     tempDataField->setStream(packet, dimHeader, packet->getDimension());
@@ -508,8 +508,10 @@ void Packet::generateStream() {
         dataField->sourceDataField->set_reset_output_stream(false);
     }
 
-    Field* f = header->getFieldWithPacketDimension();
-    f->value = dataField->getDimension() - 1;
+	//PACKET DIMENSIONE MANAGEMENT
+	header->setPacketLength(dataField->getDimension());
+    //Field* f = header->getFieldWithPacketDimension();
+    //f->value = dataField->getDimension() - 1;
 
     header->generateStream(bigendian);
     dataField->generateStream(bigendian);
@@ -541,7 +543,7 @@ bool Packet::setPacketValuePrefix(ByteStream* prefix) {
 //##ModelId=3DA3E599012C
 bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField) {
     bool b;
-    word packetLength;
+    dword packetLength;
     //4) data field header
     packetLength = dataField->dataFieldHeader->getDimension();
     //si legge e si setta il data field header
@@ -559,14 +561,14 @@ bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField) {
 //##ModelId=3DA3E59A033E
 bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField) {
     bool b;
-    word packetLength;
-    word packetLength2;
+    dword packetLength;
+    dword packetLength2;
 
     //5) source data field
 
     //se necessario, si setta il numero di blocchi reali presenti
     if(dataField->sourceDataField->isBlock()) {
-      word  nrd = dataField->getNumberOfRealDataBlock();
+      dword  nrd = dataField->getNumberOfRealDataBlock();
       dataField->sourceDataField->setNumberOfRealDataBlock(nrd);
     }
     /*if(dataField->sourceDataField->isRBlock()) {
@@ -576,9 +578,9 @@ bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField) {
       
 
     packetLength = dataField->dataFieldHeader->getDimension();
-    int pl1 = header->getPacketLength();
-    int pl3 = dataField->dataFieldHeader->getDimension();
-    int pl4 = dataField->tail->getDimension();
+    dword pl1 = header->getPacketLength();
+    dword pl3 = dataField->dataFieldHeader->getDimension();
+    dword pl4 = dataField->tail->getDimension();
     packetLength2 = pl1 - pl3 -pl4;
     b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
     if(b)
@@ -596,7 +598,7 @@ bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField) {
 
 bool Packet::setPacketValueTail(ByteStream* packetDataField) {
     bool b;
-    word s, e;
+    dword s, e;
     if(dataField->tail->getDimension() == 0)
         return true;
     /* NON CANCELLLARE: questo codice sotto funziona bene. Si utilizza

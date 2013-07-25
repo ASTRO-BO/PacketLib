@@ -46,7 +46,7 @@ class InputFile : public Input
         virtual void close() throw(PacketExceptionIO*);
 
         //##ModelId=3EADC1280371
-        virtual ByteStream* readByteStream(int n_byte) throw(PacketExceptionIO*);
+        virtual ByteStream* readByteStream(dword n_byte) throw(PacketExceptionIO*);
 
         //##ModelId=3EADC1280377
         virtual char* readString() throw(PacketExceptionIO*);

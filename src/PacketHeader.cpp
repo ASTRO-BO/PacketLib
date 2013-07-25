@@ -8,6 +8,7 @@ using namespace PacketLib;
 PacketHeader::PacketHeader() : PartOfPacket("Packet Header")
 {
     name = 0;
+    dimensionOfPacketLenght = 16;
 }
 
 //##ModelId=3DA3E5A7012C
@@ -33,8 +34,16 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
         line = header.getLine();
         numberOfFieldWithPacketDimension = atoi(line);
         //delete[] line; 
+        
+        line = header.getLine();
+        if(strcmp(line, "[Field]") == 0)
+        	dimensionOfPacketLenght = 16;
+        else
+        	dimensionOfPacketLenght = atoi(line);
+        //cout << 	dimensionOfPacketLenght << endl;
+        header.setpos(0);
 
-                                 //find the start position of the fields
+        //find the start position of the fields
         line = header.getLine("[Field]");
         //delete[] line; 
 
@@ -55,14 +64,26 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 
 
 //##ModelId=3C15ED930064
-word PacketHeader::getPacketLength()
+dword PacketHeader::getPacketLength()
 {
-    Field* f = getFields(numberOfFieldWithPacketDimension);
-    //standard ESA Nel packet lenght bisogna aggiungere 1
-    return f->value + 1;
+	if(dimensionOfPacketLenght == 16) {
+    	Field* f = getFields(numberOfFieldWithPacketDimension);
+    	//standard ESA Nel packet lenght bisogna aggiungere 1
+    	return f->value + 1;
+    } else {
+    	return getFieldValue_4_14(numberOfFieldWithPacketDimension) + 1;
+    }
 }
 
-
+void PacketHeader::setPacketLength(dword dim) {
+	if(dimensionOfPacketLenght == 16) {
+    	Field* f = getFields(numberOfFieldWithPacketDimension);
+    	//standard ESA Nel packet lenght bisogna aggiungere 1
+    	f->value = (word) dim-1;
+    } else {
+    	 setFieldValue_4_14(numberOfFieldWithPacketDimension, dim-1);
+    }
+}
 
 
 //##ModelId=3DA3E5A70208

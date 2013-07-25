@@ -36,7 +36,7 @@ PartOfPacket::PartOfPacket(const char* popName)
 //##ModelId=3C35860301F9
 PartOfPacket::~PartOfPacket()
 {
-    deleteFields();  
+    deleteFields();
     //delete stream;
     //Don't deletes the extern ByteStream. The responsibility of this isn't of Packet class;
     //But deletes the internal ByteStream
@@ -92,18 +92,19 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     //count the number of fields
     long pos = fp.getpos();
     count++;
-    while(strlen(name) !=  0) {
-    	name = fp.getLine();
-    	count++;
-    	if(name[0] == '[')
-        {	
-        	count--;
+    while(strlen(name) !=  0)
+    {
+        name = fp.getLine();
+        count++;
+        if(name[0] == '[')
+        {
+            count--;
             break;
         }
     }
     fp.setpos(pos);
     fields = new Field* [count/3];
-    
+
     name = fp.getLine();
     if(strlen(name) == 0)
     {
@@ -112,8 +113,8 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 
     while(strlen(name) != 0)
     {
-        
-       	dimension = fp.getLine();
+
+        dimension = fp.getLine();
         value = fp.getLine();
         Field* f = new Field(name, dimension, value, numberOfFields);
         fieldsDimension += f->getDimension();
@@ -162,7 +163,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
         //legge fino a quando non finisce il buffer
         if(name == 0)
         {
-            	return true;
+            return true;
         }
     }
     return true;
@@ -196,7 +197,7 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
         //legge fino a quando non incontra [
         if(name[0] == '[')
         {
-	    	//delete[] name;	
+            //delete[] name;
             break;
         }
     }
@@ -235,7 +236,7 @@ bool PartOfPacket::setByteStream(ByteStream* s)
     //number of fields
     //unsigned nof = getNumberOfFields();
     word nof = numberOfFields;
-    for(word i=0; i<nof;i++)
+    for(word i=0; i<nof; i++)
     {
         ftemp =  fields[i];
         dimbit = ftemp->getDimension();
@@ -245,38 +246,40 @@ bool PartOfPacket::setByteStream(ByteStream* s)
         //word wordtemp = *(stream + posword);
         word wordtemp;
         if (s->isBigendian())
-			wordtemp = bh * 256 + bl;
-		 else
-			wordtemp = bl * 256 + bh;
+            wordtemp = bh * 256 + bl;
+        else
+            wordtemp = bl * 256 + bh;
         numberOfShift = 16 - (posbit + dimbit);
-	//parte nuova
-	if(numberOfShift < 0) { //NB: se non si verifica mai questa condizione, il codice è assolutamente uguale al pre PacketLib 1.3.3
-		short currentDimBit = dimbit + numberOfShift;
-		dimbit = abs(numberOfShift);
-		ftemp->value = (wordtemp & pattern[currentDimBit] ) << dimbit;
-		posbit = 0;
-		posword += 2;
-        	bh = *(stream + posword);
-        	bl = *(stream + posword + 1);		
-        	if (s->isBigendian())
-			wordtemp = bh * 256 + bl;
-		else
-			wordtemp = bl * 256 + bh;	
-		
-		numberOfShift = 16 - (posbit + dimbit);
-		wordtemp = wordtemp >> numberOfShift;
-/*		cout << i << ": " << ftemp->value << endl;
-		cout << i << ": " << (ftemp->value << currentDimBit) << endl; 	
-		cout << i << ": " << wordtemp << endl;*/
-		ftemp->value = (ftemp->value) | wordtemp & pattern[dimbit];
-/*		cout << i << ": " << ftemp->value << endl;
-		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
-	}
-	else {
-		//questa fa parte della parte vecchia
-		wordtemp = wordtemp >> numberOfShift;
-        	ftemp->value = wordtemp & pattern[dimbit];
-	}
+        //parte nuova
+        if(numberOfShift < 0)   //NB: se non si verifica mai questa condizione, il codice è assolutamente uguale al pre PacketLib 1.3.3
+        {
+            short currentDimBit = dimbit + numberOfShift;
+            dimbit = abs(numberOfShift);
+            ftemp->value = (wordtemp & pattern[currentDimBit] ) << dimbit;
+            posbit = 0;
+            posword += 2;
+            bh = *(stream + posword);
+            bl = *(stream + posword + 1);
+            if (s->isBigendian())
+                wordtemp = bh * 256 + bl;
+            else
+                wordtemp = bl * 256 + bh;
+
+            numberOfShift = 16 - (posbit + dimbit);
+            wordtemp = wordtemp >> numberOfShift;
+            /*		cout << i << ": " << ftemp->value << endl;
+            		cout << i << ": " << (ftemp->value << currentDimBit) << endl;
+            		cout << i << ": " << wordtemp << endl;*/
+            ftemp->value = (ftemp->value) | wordtemp & pattern[dimbit];
+            /*		cout << i << ": " << ftemp->value << endl;
+            		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
+        }
+        else
+        {
+            //questa fa parte della parte vecchia
+            wordtemp = wordtemp >> numberOfShift;
+            ftemp->value = wordtemp & pattern[dimbit];
+        }
         //aggiornamento pobit e posword
         posbit += dimbit;
         if(posbit >=16)
@@ -317,8 +320,8 @@ char** PartOfPacket::printValue(const char* addString)
         //s1 = "Name: ";
         s1 = "";
         s2 = f->getName();
-	s2 += " (";
-	s2 += Utility::integerToString(f->getDimension());
+        s2 += " (";
+        s2 += Utility::integerToString(f->getDimension());
         s2 +=  ") - ";
         s2 += "Value: ";
         s2 += s;
@@ -356,8 +359,8 @@ void PartOfPacket::printValueStdout()
         //s1 = "Name: ";
         s1 = "";
         s2 = f->getName();
-		s2 += " (";
-		s2 += Utility::integerToString(f->getDimension());
+        s2 += " (";
+        s2 += Utility::integerToString(f->getDimension());
         s2 +=  ") - ";
         s2 += "Value: ";
         s2 += s;
@@ -367,6 +370,10 @@ void PartOfPacket::printValueStdout()
         s3 = s1 + s2;
         cout << s3 << endl;
     }
+    /* if(stream)
+         	cout << stream->printStreamInHexadecimal() << endl;
+     if(outputstream)
+         	cout << stream->printStreamInHexadecimal() << endl;*/
 }
 
 
@@ -396,27 +403,30 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
             wtemp = fields[i]->value;
         else
             wtemp = fields[i]->getPredefinedValue();
-	dimbit = fields[i]->getDimension();
+        dimbit = fields[i]->getDimension();
         shift = 16 - dimbit - posbit;
-	if(shift < 0) {
-		byte nbitshigh = abs(shift);
-		//word wh = wtemp >> (16 - nbitshigh);
-		word wh = wtemp >> (nbitshigh);
-		w = w | wh;
-		if(outputstream->setWord(posword, w))
-                	posword+=2;
-            	else
-                	return 0;
-            	w = 0;
-		posbit = nbitshigh;		
-		w = (wtemp & pattern[nbitshigh]) << (16-posbit);
-			
-	} else {
-        	wtemp = (wtemp << shift);
-        	w = w | wtemp;
-        	//cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
-        	posbit += fields[i]->getDimension();
-	}
+        if(shift < 0)
+        {
+            byte nbitshigh = abs(shift);
+            //word wh = wtemp >> (16 - nbitshigh);
+            word wh = wtemp >> (nbitshigh);
+            w = w | wh;
+            if(outputstream->setWord(posword, w))
+                posword+=2;
+            else
+                return 0;
+            w = 0;
+            posbit = nbitshigh;
+            w = (wtemp & pattern[nbitshigh]) << (16-posbit);
+
+        }
+        else
+        {
+            wtemp = (wtemp << shift);
+            w = w | wtemp;
+            //cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
+            posbit += fields[i]->getDimension();
+        }
         if(posbit == 16)
         {
             posbit = 0;
@@ -434,7 +444,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
         }
     }
     if(posbit < 16)
-    	outputstream->setWord(posword, w);
+        outputstream->setWord(posword, w);
     return outputstream;
 };
 
@@ -446,109 +456,124 @@ bool PartOfPacket::setOutputStream(ByteStream* os, dword first)
     return true;
 }
 
-void PartOfPacket::setFieldValue(word index, word value) {
-	if(index < numberOfFields)
-        	fields[index]->value = (value & pattern[fields[index]->getDimension()]);                  
+void PartOfPacket::setFieldValue(word index, word value)
+{
+    if(index < numberOfFields)
+        fields[index]->value = (value & pattern[fields[index]->getDimension()]);
 }
 
-float PartOfPacket::getFieldValue_5_1(word index) {
-union u_tag {
-	unsigned long i;		//32 bit
-	float f;	//32 bit single precision
-} u;
-	u.i = (getFieldValue(index) << 16) | getFieldValue(index + 1);
-	return u.f;
+float PartOfPacket::getFieldValue_5_1(word index)
+{
+    union u_tag
+    {
+        unsigned long i;		//32 bit
+        float f;	//32 bit single precision
+    } u;
+    u.i = (getFieldValue(index) << 16) | getFieldValue(index + 1);
+    return u.f;
 }
 
-void PartOfPacket::setFieldValue_5_1(word index, float value) {
-union u_tag {
-	unsigned long i;		//32 bit
-	float f;	//32 bit single precision
-} u;
-word w;
-	u.f = value;
-	w = (word)(u.i >> 16);
-	setFieldValue(index, w);
-	w = (word)(0xFFFF & u.i);
-	setFieldValue(index + 1, w);	
+void PartOfPacket::setFieldValue_5_1(word index, float value)
+{
+    union u_tag
+    {
+        unsigned long i;		//32 bit
+        float f;	//32 bit single precision
+    } u;
+    word w;
+    u.f = value;
+    w = (word)(u.i >> 16);
+    setFieldValue(index, w);
+    w = (word)(0xFFFF & u.i);
+    setFieldValue(index + 1, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_14(word index) {
-long l;
-	l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
-	return l;
+signed long PartOfPacket::getFieldValue_4_14(word index)
+{
+    long l;
+    l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
+    return l;
 }
 
-void PartOfPacket::setFieldValue_4_14(word index, signed long value) {
-word w;
-	w = (word)(value >> 16);
-	setFieldValue(index, w);
-	w = (word) (0xFFFF & value);
-	setFieldValue(index + 1, w);
+void PartOfPacket::setFieldValue_4_14(word index, signed long value)
+{
+    word w;
+    w = (word)(value >> 16);
+    setFieldValue(index, w);
+    w = (word) (0xFFFF & value);
+    setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_14(word index) {
-dword l;
-	l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
-	return l;
+unsigned long PartOfPacket::getFieldValue_3_14(word index)
+{
+    dword l;
+    l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
+    return l;
 }
 
-void PartOfPacket::setFieldValue_3_14(word index, unsigned long value) {
-word w;
-	w = (word)(value >> 16);
-	setFieldValue(index, w);
-	w = (word) (0xFFFF & value);
-	setFieldValue(index + 1, w);
+void PartOfPacket::setFieldValue_3_14(word index, unsigned long value)
+{
+    word w;
+    w = (word)(value >> 16);
+    setFieldValue(index, w);
+    w = (word) (0xFFFF & value);
+    setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_13(word index) {
-word wh, wl;
-	wh = getFieldValue(index);
-	wl = getFieldValue(index + 1);
-	return (dword)(wh << 8) | (dword)(wl & 0xFF);
+unsigned long PartOfPacket::getFieldValue_3_13(word index)
+{
+    word wh, wl;
+    wh = getFieldValue(index);
+    wl = getFieldValue(index + 1);
+    return (dword)(wh << 8) | (dword)(wl & 0xFF);
 }
 
-void PartOfPacket::setFieldValue_3_13(word index, unsigned long value) throw(PacketException*) {
-word w;
-	if(value > U24BITINTGEGERUNSIGNED_MAX)
-		throw new PacketException("setFieldValue_3_13(): the max value of 24 bit unsigned integer should be 16777215");
-	w = (word)(value >> 8);
-	setFieldValue(index, w);
-	w = (word) (0xFF & value);
-	setFieldValue(index + 1, w);	
+void PartOfPacket::setFieldValue_3_13(word index, unsigned long value) throw(PacketException*)
+{
+    word w;
+    if(value > U24BITINTGEGERUNSIGNED_MAX)
+        throw new PacketException("setFieldValue_3_13(): the max value of 24 bit unsigned integer should be 16777215");
+    w = (word)(value >> 8);
+    setFieldValue(index, w);
+    w = (word) (0xFF & value);
+    setFieldValue(index + 1, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_13(word index) {
-union u_tag {
-	unsigned long u;		//32 bit
-	signed long s;	
-} us;
-	us.u = getFieldValue_3_14(index);
-	unsigned long sign = (us.u  >> 23); //get the sign
-	unsigned long wh = us.u & 0x007FFFFF;
-	//get a long 32 bit
-	if(sign == 1)
-		us.u = 0x7F800000 + wh + (sign << 31);
-	else
-		us.u = wh + (sign << 31);
-	return us.s;
+signed long PartOfPacket::getFieldValue_4_13(word index)
+{
+    union u_tag
+    {
+        unsigned long u;		//32 bit
+        signed long s;
+    } us;
+    us.u = getFieldValue_3_14(index);
+    unsigned long sign = (us.u  >> 23); //get the sign
+    unsigned long wh = us.u & 0x007FFFFF;
+    //get a long 32 bit
+    if(sign == 1)
+        us.u = 0x7F800000 + wh + (sign << 31);
+    else
+        us.u = wh + (sign << 31);
+    return us.s;
 }
 
 
-void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(PacketException*) {
-union u_tag {
-	unsigned long u;		//32 bit
-	signed long s;	
-} us;
-	if(value > U24BITINTGEGERSIGNED_MAX)
-		throw new PacketException("setFieldValue_4_13(): the max value of 24 bit signed integer should be 8388607");
-	if(value < U24BITINTGEGERSIGNED_MIN)
-		throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
-	us.s = value;
-	unsigned long sign = (us.u >> 31);
-	unsigned long wh = us.u & 0x007FFFFF; //23 bit 
-	unsigned long value2 = 0;
-	value2 = wh + (sign << 23);
-	setFieldValue_3_14(index, value2);
+void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(PacketException*)
+{
+    union u_tag
+    {
+        unsigned long u;		//32 bit
+        signed long s;
+    } us;
+    if(value > U24BITINTGEGERSIGNED_MAX)
+        throw new PacketException("setFieldValue_4_13(): the max value of 24 bit signed integer should be 8388607");
+    if(value < U24BITINTGEGERSIGNED_MIN)
+        throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
+    us.s = value;
+    unsigned long sign = (us.u >> 31);
+    unsigned long wh = us.u & 0x007FFFFF; //23 bit
+    unsigned long value2 = 0;
+    value2 = wh + (sign << 23);
+    setFieldValue_3_14(index, value2);
 }
 

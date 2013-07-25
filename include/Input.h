@@ -43,7 +43,7 @@ class Input
         virtual bool open( char** parameters ) throw(PacketExceptionIO*) = 0;
 
         //##ModelId=3EADC128033E
-        virtual ByteStream* readByteStream(int n_byte) throw(PacketExceptionIO*) = 0;
+        virtual ByteStream* readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
 
         //##ModelId=3EADC1280341
         virtual char* readString() throw(PacketExceptionIO*) = 0;

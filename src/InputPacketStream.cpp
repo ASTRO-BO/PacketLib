@@ -60,7 +60,7 @@ int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packet)
 {
     // Iterate through list and output each element.
     // Il packetType 0 e' il packet not recognized
-    for (int i = 1; i<numberOfPacketType; i++)
+    for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
         if(p->verifyPacketValue(prefix, packet))
@@ -83,30 +83,32 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
     unsigned dimHeader = getHeaderDimension();
     unsigned dimPrefix = getPrefixDimension();
     ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
-    word pl, dim, pindex;
+    dword pl, dim, pindex;
     try
     {
-        if(in == 0)  
+        if(in == 0)
             throw new PacketExceptionIO("no input set.");
         b0 = in->readByteStream(dimPrefix);
-        if(b0 == 0 && dimPrefix != 0) {
-	    if(!in->isEOF())
-            	throw new PacketExceptionIO("it is impossible to read the prefix.");
-	    else
-	    	return 0;
-	}
+        if(b0 == 0 && dimPrefix != 0)
+        {
+            if(!in->isEOF())
+                throw new PacketExceptionIO("it is impossible to read the prefix.");
+            else
+                return 0;
+        }
         b1 = in->readByteStream(dimHeader);
-        if(b1 == 0) {
-	    if(!in->isEOF())
-            	throw new PacketExceptionIO("it is impossible to read the header.");
-	    else
-	    	return 0;
-	}
+        if(b1 == 0)
+        {
+            if(!in->isEOF())
+                throw new PacketExceptionIO("it is impossible to read the header.");
+            else
+                return 0;
+        }
         if(b1->getDimension() != dimHeader)
         {
             if(b1->getDimension() != 0)
                 pindex = 0;
-            else 
+            else
                 throw new PacketExceptionIO("it is impossible to read the full header.");
         }
         else
@@ -120,12 +122,13 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
             } */
             pl = headerReference->getPacketLength();
             b2 = in->readByteStream(pl);
-            if(b2 == 0) {
-	    	if(!in->isEOF())
-                	throw new PacketExceptionIO("it is impossible to read the data field.");
-		else
-			return 0;
-	    }
+            if(b2 == 0)
+            {
+                if(!in->isEOF())
+                    throw new PacketExceptionIO("it is impossible to read the data field.");
+                else
+                    return 0;
+            }
             dim= b2->getDimension();
             if(dim != pl)
             {
@@ -138,9 +141,10 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
                 pindex = detPacketType(b0, b1, b2);
         }
         Packet* p = packetType[pindex];
+        cout << "entro " << pindex << endl;
         if(!p->setPacketValue(b0, b1, b2)) //gli stream diventano del packet
-            throw new PacketExceptionIO("it is impossible to resolve the packet.");    			
-        return p;	
+            throw new PacketExceptionIO("it is impossible to resolve the packet.");
+        return p;
     }
     catch(PacketExceptionIO* e)
     {

@@ -54,7 +54,7 @@ void InputFile::close()  throw(PacketExceptionIO*)
 
 
 //##ModelId=3DBFBFBD0104
-ByteStream* InputFile::readByteStream(int n_byte) throw(PacketExceptionIO*)
+ByteStream* InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
     ByteStream* bs;
     if(!closed)

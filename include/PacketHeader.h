@@ -52,10 +52,15 @@ class PacketHeader : public PartOfPacket
         //##ModelId=3C15ED930064
         //##Documentation
         //## Returns the total lenght of packet data field (data field header plus source data field)
-        word getPacketLength();
+        dword getPacketLength();
+        
+        //set the length of the packet in the 'packet lenght' field (the data field dimension - 1)
+        void setPacketLength(dword dim);
 
         //##ModelId=3EADC13A00BC
         Field * getFieldWithPacketDimension();
+        
+        inline word getDimensionOfPacketLenght() { return dimensionOfPacketLenght; };
 
     private:
 
@@ -67,6 +72,9 @@ class PacketHeader : public PartOfPacket
         //##Documentation
         //## Numbers of fields into the header that contains the dimension of packet.
         word numberOfFieldWithPacketDimension;
+        
+        //16 or 32 bit
+        word dimensionOfPacketLenght;
 
 };
 

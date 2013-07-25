@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -19,24 +19,26 @@
 
 #include "PacketLibDefinition.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 
-class FieldType {
+class FieldType
+{
 
-	public:
-	
-		//Dimension of field in bit.
-        word dimension;
+public:
 
-        //It indicates that there's a predefined value for this field.
-        bool thereIsPredefinedValue;
+    //Dimension of field in bit.
+    word dimension;
 
-        //Predefined value of field (for the generation of packet).
-        int predefinedValue;
-	
-        //Name of the field.
-        char* name;	
+    //It indicates that there's a predefined value for this field.
+    bool thereIsPredefinedValue;
+
+    //Predefined value of field (for the generation of packet).
+    int predefinedValue;
+
+    //Name of the field.
+    char* name;
 };
 
 
@@ -44,37 +46,52 @@ class FieldType {
 //A single field of a telemetry packet
 class Field
 {
-    public:
+public:
 
-        //Constructor of class.
-        Field(char* name, char* dimension, char* predefinedValue, int progressiv);
+    //Constructor of class.
+    Field(char* name, char* dimension, char* predefinedValue, int progressiv);
 
-        //Destructor of class.
-        ~Field();
+    //Destructor of class.
+    ~Field();
 
-        //Value reads from stream of byte (from packet).
-        word value;
-        
-        //Dimension of field in bit.
-        inline dword getDimension() { return type->dimension; };
+    //Value reads from stream of byte (from packet).
+    word value;
 
-        //It indicates that there's a predefined value for this field.
-        inline bool thereIsPredefinedValue() { return type->thereIsPredefinedValue; };
+    //Dimension of field in bit.
+    inline dword getDimension()
+    {
+        return type->dimension;
+    };
 
-        //Predefined value of field (for the generation of packet).
-        inline int getPredefinedValue() { return type->predefinedValue; };
-	
-        //Name of the field.
-        inline char* getName() { return type->name; };	
-        
-        inline int getProgressiv() { return progressiv; };
-        
-    protected:
-        
-        //Index of packet in the list of packet.
-        int progressiv;
-        
-        FieldType * type;
+    //It indicates that there's a predefined value for this field.
+    inline bool thereIsPredefinedValue()
+    {
+        return type->thereIsPredefinedValue;
+    };
+
+    //Predefined value of field (for the generation of packet).
+    inline int getPredefinedValue()
+    {
+        return type->predefinedValue;
+    };
+
+    //Name of the field.
+    inline char* getName()
+    {
+        return type->name;
+    };
+
+    inline int getProgressiv()
+    {
+        return progressiv;
+    };
+
+protected:
+
+    //Index of packet in the list of packet.
+    int progressiv;
+
+    FieldType * type;
 
 };
 

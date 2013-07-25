@@ -24,9 +24,9 @@
 using namespace PacketLib;
 
 //##ModelId=3DA3E56900F0
-unsigned long File::byte_read = 0;
+dword File::byte_read = 0;
 //##ModelId=3DA3E56A0078
-unsigned long File::char_read = 0;
+dword File::char_read = 0;
 
 //##ModelId=3C0F6C1A0012
 File::File() : Device(false)
@@ -108,9 +108,9 @@ int File::getByte()
 
 
 //##ModelId=3C0F6C1A0018
-ByteStream* File::getNByte(int N)
+ByteStream* File::getNByte(dword N)
 {
-    int i = 0;
+    dword i = 0;
     int c1, c2;
     if(N == 0)
         return new ByteStream(0, bigendian);
@@ -163,7 +163,7 @@ char* File::getLine() throw(PacketExceptionIO*)
     static char s[2048];
     //	static unsigned long dimalloc = 0;
     char c;
-    int i = 0;
+    dword i = 0;
 
     if(!closed)
     {
@@ -241,9 +241,9 @@ char* File::getLastLineRead()
 
 
 //##ModelId=3C205AF20278
-long File::setpos(long offset)  throw(PacketExceptionIO*)
+dword File::setpos(dword offset)  throw(PacketExceptionIO*)
 {
-    long f;
+    dword f;
     //clearerr(fp);
     f =  fseek(fp, offset, 0);
     if(feof(fp))
@@ -255,7 +255,7 @@ long File::setpos(long offset)  throw(PacketExceptionIO*)
 
 
 //##ModelId=3C205AF202C3
-long File::getpos()
+dword File::getpos()
 {
     return ftell(fp);
 }
@@ -264,7 +264,7 @@ long File::getpos()
 //##ModelId=3C205AF20313
 bool File::memBookmarkPos()
 {
-    if((bookmarkPos = ftell(fp)) != -1)
+    if((bookmarkPos =  ftell(fp)) != (dword) -1)
         return true;
     else
         return false;

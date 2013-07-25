@@ -69,7 +69,7 @@ class File : public Device
         //## Reads a pair number of byte from opened file and manages the big or little endian
         //## format. If the format of machine is little endian, a pair of byte is swapped.
         //## \pre The file must be opened.
-        virtual ByteStream* getNByte( int N = 1 );
+        virtual ByteStream* getNByte( dword N = 1 );
 
         //##ModelId=3C0F6C1A001B
         //##Documentation
@@ -96,12 +96,12 @@ class File : public Device
         //##ModelId=3C205AF20278
         //## Sets the position into file.
         //## \pre The file must be opened.
-        virtual long setpos(long offset) throw(PacketExceptionIO*);
+        virtual dword setpos(dword offset) throw(PacketExceptionIO*);
 
         //##ModelId=3C205AF202C3
         //## Gets the current file position.
         //## \pre The file must be opened.
-        virtual long getpos();
+        virtual dword getpos();
 
         //##ModelId=3C205AF20313
         //##Documentation
@@ -149,10 +149,10 @@ class File : public Device
 	long getNumberOfStringLines();
 
         //##ModelId=3EADC12702C9
-        static unsigned long byte_read;
+        static dword byte_read;
 
         //##ModelId=3EADC1270363
-        static unsigned long char_read;
+        static dword char_read;
 
     protected:
 
@@ -163,10 +163,10 @@ class File : public Device
         FILE* fp;
 
         //##ModelId=3C187750023E
-        long bookmarkPos;
+        dword bookmarkPos;
 
         //##ModelId=3C51324900FB
-        long startPosition;
+        dword startPosition;
 
         //##ModelId=3C5132490213
         char* filename;
