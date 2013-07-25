@@ -40,7 +40,10 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
         	dimensionOfPacketLenght = 16;
         else
         	dimensionOfPacketLenght = atoi(line);
-        //cout << 	dimensionOfPacketLenght << endl;
+
+        if(!(dimensionOfPacketLenght == 16 || dimensionOfPacketLenght == 32))
+        	throw new PacketExceptionIO("Dimension of packet length, 16 or 32 bit");;
+
         header.setpos(0);
 
         //find the start position of the fields
@@ -53,12 +56,12 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
             return true;
         }
         else
-            throw new PacketExceptionIO("Can't create the header.");;
+            throw new PacketExceptionIO("Can't create the header.");
 
     }
     else {
     	delete[] argv; 
-        throw new PacketExceptionIO("Can't open the header file configuration.");;
+        throw new PacketExceptionIO("Can't open the header file configuration.");
     }
 }
 
