@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -19,7 +19,8 @@
 #define PACKTEXCEPTION_H
 #include "PacketLibDefinition.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC123017C
 //##Documentation
@@ -30,34 +31,34 @@ namespace PacketLib {
 //##	\brief Exception class of the PacketLib
 class PacketException
 {
-    public:
+public:
 
-        //##ModelId=3EADC139032F
-        PacketException(const char* error, int code = 0);
+    //##ModelId=3EADC139032F
+    PacketException(const char* error, int code = 0);
 
-        //##ModelId=3EADC1390335
-        virtual ~PacketException();
+    //##ModelId=3EADC1390335
+    virtual ~PacketException();
 
-        //##ModelId=3EADC1390337
-        virtual const char* geterror();
+    //##ModelId=3EADC1390337
+    virtual const char* geterror();
 
-        //##ModelId=3EADC1390339
-        void add(const char* error);
+    //##ModelId=3EADC1390339
+    void add(const char* error);
 
-        //##ModelId=3EADC139033C
-        int geterrorcode() const;
+    //##ModelId=3EADC139033C
+    int geterrorcode() const;
 
 
-        //##ModelId=3EADC139033E
-        void seterrorcode(int errorcode);
+    //##ModelId=3EADC139033E
+    void seterrorcode(int errorcode);
 
-    protected:
+protected:
 
-        //##ModelId=3EADC1390326
-        string* error;
+    //##ModelId=3EADC1390326
+    string* error;
 
-        //##ModelId=3EADC139032C
-        int errorcode;
+    //##ModelId=3EADC139032C
+    int errorcode;
 
 };
 }

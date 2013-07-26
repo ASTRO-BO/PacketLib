@@ -44,11 +44,11 @@ void OutputSerial::close()  throw(PacketExceptionIO*)
 //##ModelId=3DA3E57C0317
 bool OutputSerial::open(char** parameters) throw(PacketExceptionIO*)
 {
- 	flag   = atoi( parameters[1] );
-	device = parameters[0];
-    	serial->open( device, flag );
-    	isclosed = false;
-    	return true;
+    flag   = atoi( parameters[1] );
+    device = parameters[0];
+    serial->open( device, flag );
+    isclosed = false;
+    return true;
 }
 
 
@@ -59,22 +59,22 @@ bool OutputSerial::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
     unsigned n_byte = b->getDimension();
 
     if(!isclosed)
-    	 if( serial->write( buff, n_byte ) > 0 )
-    	 	return true;
-    	 else
-	 		return false;
-	else
-		return false; 
+        if( serial->write( buff, n_byte ) > 0 )
+            return true;
+        else
+            return false;
+    else
+        return false;
 }
 
 
 //##ModelId=3DA3E57C0384
 bool OutputSerial::writeString(const char* str) throw(PacketExceptionIO*)
 {
- /*   if(!isclosed)
-        file->writeString(str);
-    else
-        return false;
-    isclosed = file->isClosed();*/
+    /*   if(!isclosed)
+           file->writeString(str);
+       else
+           return false;
+       isclosed = file->isClosed();*/
     return false;
 }

@@ -316,7 +316,7 @@ char** PartOfPacket::printValue(const char* addString)
         //Field* f = (Field*) &(*iter);
         Field* f = fields[i];
         //sprintf(s, "Name: %s Value: %d\n", f->name.c_str(), f->value);
-        //cout << "@ " << f->value << endl; 
+        //cout << "@ " << f->value << endl;
         sprintf(s, "%d", f->value);
         //s1 = "Name: ";
         s1 = "";

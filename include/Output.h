@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "ByteStream.h"
 #include "PacketExceptionIO.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C51317202D1
 //##Documentation
@@ -32,38 +33,38 @@ namespace PacketLib {
 //##	\brief This class represents generic type of output.
 class Output
 {
-    public:
-        //##ModelId=3EADC12A0144
-        Output(bool bigendian);
+public:
+    //##ModelId=3EADC12A0144
+    Output(bool bigendian);
 
-        //##ModelId=3C5131A3033F
-        virtual void close() throw(PacketExceptionIO*) = 0;
+    //##ModelId=3C5131A3033F
+    virtual void close() throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3C5131A30373
-        virtual bool open(char** parameters) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3C5131A30373
+    virtual bool open(char** parameters) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3C5131A3038E
-        virtual bool isClosed();
+    //##ModelId=3C5131A3038E
+    virtual bool isClosed();
 
-        //##ModelId=3EADC12A0193
-        virtual bool isBigendian();
+    //##ModelId=3EADC12A0193
+    virtual bool isBigendian();
 
-        //##ModelId=3C5131B30382
-        virtual bool writeByteStream(ByteStream* b) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3C5131B30382
+    virtual bool writeByteStream(ByteStream* b) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC12A01E3
-        virtual bool writeString(const char* str) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3EADC12A01E3
+    virtual bool writeString(const char* str) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC12A0223
-        virtual int getType() = 0;
+    //##ModelId=3EADC12A0223
+    virtual int getType() = 0;
 
-    protected:
+protected:
 
-        //##ModelId=3EADC12A00EE
-        bool isclosed;
+    //##ModelId=3EADC12A00EE
+    bool isclosed;
 
-        //##ModelId=3EADC12A0119
-        bool bigendian;
+    //##ModelId=3EADC12A0119
+    bool bigendian;
 };
 
 }

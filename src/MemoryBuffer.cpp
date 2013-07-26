@@ -38,16 +38,18 @@ MemoryBuffer::MemoryBuffer()
 //##ModelId=3DA3E57B01A5
 MemoryBuffer::~MemoryBuffer()
 {
-	//if(buffer)
-	//	freebuffer();
+    //if(buffer)
+    //	freebuffer();
 }
 
-void MemoryBuffer::freebuffer() {
+void MemoryBuffer::freebuffer()
+{
     if(!buffer)
-    	return;
-    for(dword i = 0; i < dim; i++) {
+        return;
+    for(dword i = 0; i < dim; i++)
+    {
         delete[] buffer[i];
-		buffer[i] = 0;
+        buffer[i] = 0;
     }
     free(buffer);
     buffer = 0;
@@ -60,9 +62,9 @@ char* MemoryBuffer::getbuffer()
 {
     if(indexread <= dim)
     {
-    	
-    	char* ret =  getbuffer(indexread);
-    	indexread++;
+
+        char* ret =  getbuffer(indexread);
+        indexread++;
         return ret;
     }
     else
@@ -79,23 +81,27 @@ char* MemoryBuffer::getlastbuffer()
         return 0;
 }
 
-int MemoryBuffer::getpos() {
-	return indexread;
+int MemoryBuffer::getpos()
+{
+    return indexread;
 }
 
-bool MemoryBuffer::memBookmarkPos() {
-	bookmarkpos = indexread;
-	return true;
+bool MemoryBuffer::memBookmarkPos()
+{
+    bookmarkpos = indexread;
+    return true;
 }
 
-bool MemoryBuffer::setLastBookmarkPos() {
-	indexread = bookmarkpos;
-	return true;
+bool MemoryBuffer::setLastBookmarkPos()
+{
+    indexread = bookmarkpos;
+    return true;
 }
 
-long MemoryBuffer::setpos(int index) {
-	indexread = index;
-	return index;
+long MemoryBuffer::setpos(int index)
+{
+    indexread = index;
+    return index;
 }
 
 
@@ -107,9 +113,9 @@ char* MemoryBuffer::getbuffer(dword index)
     if(index <= dim)
     {
         //int dimline = strlen(buffer[index]);
-    	//char* ret = (char*) new char[dimline+1];
-    	//strcpy(ret, buffer[index]);
-    	char* ret = buffer[index];
+        //char* ret = (char*) new char[dimline+1];
+        //strcpy(ret, buffer[index]);
+        char* ret = buffer[index];
         return ret;
     }
     else
@@ -121,13 +127,13 @@ char* MemoryBuffer::getbuffer(dword index)
 //##ModelId=3DA3E57B01D6
 void MemoryBuffer::setbuffer(char* line) throw (PacketException*)
 {
-	//copy string
-	int dimline = strlen(line);
+    //copy string
+    int dimline = strlen(line);
     buffer[indexwrite] = (char*) new char[dimline+1];
     strcpy(buffer[indexwrite], line);
     indexwrite++;
     if(indexwrite > dim)
-         throw new PacketException("MemoryBuffer::setbuffer. Buffer too big");                      
+        throw new PacketException("MemoryBuffer::setbuffer. Buffer too big");
     //realloc
 }
 
@@ -152,13 +158,13 @@ void MemoryBuffer::setbuffer(char* line, dword index) throw(PacketException*)
     if(buffer[index] != 0)
         delete buffer[index];
 
-	int dimline = strlen(line);
+    int dimline = strlen(line);
     buffer[index] = (char*) new char[dimline+1];
     strcpy(buffer[index], line);
-    
+
 
     if(indexwrite > dim)
-        throw new PacketException("MemoryBuffer::setbuffer(2). Buffer too big");                        
+        throw new PacketException("MemoryBuffer::setbuffer(2). Buffer too big");
     //realloc
 }
 
@@ -188,33 +194,34 @@ dword MemoryBuffer::getBufferDimension()
 //##ModelId=3DA3E57B02EE
 bool MemoryBuffer::loadBuffer(char* filename)  throw(PacketExceptionIO*)
 {
-    	bool ret;
-   	File* itf= new File;
+    bool ret;
+    File* itf= new File;
 
-    	indexread = 0;
-    	indexwrite = 0;
-    
+    indexread = 0;
+    indexwrite = 0;
 
-    	ret = itf->open(filename, "r");
-    	unsigned long tempdim = itf->getNumberOfStringLines();
-        if(tempdim > dim) {
-    		for(int i=0; buffer[i] !=0; i++)
-    		{
-        		delete[] buffer[i];
-        		buffer[i]=0;
-    		}
-    		delete[] buffer;
-    		buffer = (char**) malloc(sizeof(char*)*dim);
-    		for(dword i=0; i<dim; i++)
-        		buffer[i] = 0;		
-    	}	    
-    	while(!itf->isEOF())
-    	{
-        	setbuffer(itf->getLine());
-    	}
 
-    	delete itf;
-    	return ret;
+    ret = itf->open(filename, "r");
+    unsigned long tempdim = itf->getNumberOfStringLines();
+    if(tempdim > dim)
+    {
+        for(int i=0; buffer[i] !=0; i++)
+        {
+            delete[] buffer[i];
+            buffer[i]=0;
+        }
+        delete[] buffer;
+        buffer = (char**) malloc(sizeof(char*)*dim);
+        for(dword i=0; i<dim; i++)
+            buffer[i] = 0;
+    }
+    while(!itf->isEOF())
+    {
+        setbuffer(itf->getLine());
+    }
+
+    delete itf;
+    return ret;
 }
 
 
@@ -240,8 +247,9 @@ bool MemoryBuffer::saveBuffer(char* filename)  throw(PacketExceptionIO*)
 
 }
 
-void MemoryBuffer::setName(char* name) { 
+void MemoryBuffer::setName(char* name)
+{
 
-	bufferName = name; 
-	
+    bufferName = name;
+
 }

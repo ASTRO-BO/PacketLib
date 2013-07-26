@@ -24,18 +24,21 @@ using namespace PacketLib;
 
 
 
-MSGQ::MSGQ(bool bigendian) : Device(bigendian){
-  created = 0;
+MSGQ::MSGQ(bool bigendian) : Device(bigendian)
+{
+    created = 0;
 }
 
-MSGQ::~MSGQ(){
-  //delete[] buf.mtext;
+MSGQ::~MSGQ()
+{
+    //delete[] buf.mtext;
 }
 
 
-bool MSGQ::create(long msgqkey, long dim) throw(PacketExceptionIO*) {
-   DEMORET0;
-   try
+bool MSGQ::create(long msgqkey, long dim) throw(PacketExceptionIO*)
+{
+    DEMORET0;
+    try
     {
         if(created)
             throw new PacketExceptionIO("MSGQ: the message queue exists.");
@@ -51,7 +54,7 @@ bool MSGQ::create(long msgqkey, long dim) throw(PacketExceptionIO*) {
             }
         }
         this->msgqkey = msgqkey;
-       // buf.mtext = (char*) new char[dim];
+        // buf.mtext = (char*) new char[dim];
         dimmsg = dim;
         eof = true;              //non ha senso in questo contesto
         closed = false;           //corrisponde con attach
@@ -66,7 +69,8 @@ bool MSGQ::create(long msgqkey, long dim) throw(PacketExceptionIO*) {
 }
 
 
-bool MSGQ::open(long msgqkey, long dim) throw(PacketExceptionIO*) {
+bool MSGQ::open(long msgqkey, long dim) throw(PacketExceptionIO*)
+{
     DEMORET0;
     try
     {
@@ -84,7 +88,7 @@ bool MSGQ::open(long msgqkey, long dim) throw(PacketExceptionIO*) {
             }
             this->msgqkey = msgqkey;
         }
-       // buf.mtext = (char*) new char[dim];
+        // buf.mtext = (char*) new char[dim];
         dimmsg=dim;
         eof = false;
         closed = false;
@@ -97,14 +101,16 @@ bool MSGQ::open(long msgqkey, long dim) throw(PacketExceptionIO*) {
 }
 
 
-bool MSGQ::close() throw(PacketExceptionIO*) {
-        eof = true;
-        closed = true;
-        return true;
+bool MSGQ::close() throw(PacketExceptionIO*)
+{
+    eof = true;
+    closed = true;
+    return true;
 }
 
 
-bool MSGQ::destroy() throw(PacketExceptionIO*) {
+bool MSGQ::destroy() throw(PacketExceptionIO*)
+{
     try
     {
         if(msgctl(msgqid, IPC_RMID, 0) < 0)
@@ -121,12 +127,14 @@ bool MSGQ::destroy() throw(PacketExceptionIO*) {
 }
 
 
-bool MSGQ::isCreated() const {
+bool MSGQ::isCreated() const
+{
     return created;
 }
 
 
-void MSGQ::writeMessage(char* msg, long mtype) throw(PacketExceptionIO*) {
+void MSGQ::writeMessage(char* msg, long mtype) throw(PacketExceptionIO*)
+{
     //msgbuf localbuf;
     //localbuf.mtype = mtype;
     //localbuf.mtext = msg;
@@ -146,7 +154,8 @@ void MSGQ::writeMessage(char* msg, long mtype) throw(PacketExceptionIO*) {
 }
 
 
-char* MSGQ::readMessage(long mtype) throw(PacketExceptionIO*) {
+char* MSGQ::readMessage(long mtype) throw(PacketExceptionIO*)
+{
     buf.mtype = mtype;
     try
     {

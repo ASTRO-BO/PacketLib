@@ -49,17 +49,18 @@ File::File(bool b, long startP) : Device(b)
     lastLineRead = 0;
 }
 
-File::~File() {
-	//delete[] lastLineRead;
-	//delete[] filename;
-	//delete[] mode;
+File::~File()
+{
+    //delete[] lastLineRead;
+    //delete[] filename;
+    //delete[] mode;
 }
 
 //##ModelId=3C0F6C1A0013
 bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*)
 {
     DEMORET0;
-	
+
     fp = fopen(filename, mode);
 
     if(fp == NULL)
@@ -67,7 +68,7 @@ bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*
         closed = true;
         eof = true;
         this->filename = 0;
-		this->mode = 0;
+        this->mode = 0;
         //throw new PacketExceptionIO("File not opened. [File::open()]");
         throw new PacketExceptionIO(strerror(errno));
 
@@ -78,7 +79,7 @@ bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*
         eof = false;
         setFirstPos();
         this->filename = (char*)filename;
-		this->mode = (char*)mode;
+        this->mode = (char*)mode;
     };
     return !closed;
 }
@@ -191,27 +192,29 @@ char* File::getLine() throw(PacketExceptionIO*)
     for(unsigned i=0; i<=dims; i++)
         sr[i] = s[i];
 
-    delete[] lastLineRead; 
+    delete[] lastLineRead;
     lastLineRead = new char[ dims + 1];
     for(unsigned i=0; i<=dims; i++)
-        lastLineRead[i] = s[i];  
-    
+        lastLineRead[i] = s[i];
+
     return sr;
 }
 
 
-long File::getNumberOfStringLines() {
-long nlines = 0;
-	memBookmarkPos();
-	setpos(0);
-	while(!isEOF()) {
-		char* line = getLine();
-		nlines++;
-		delete[] line;
-	}	
-	setLastBookmarkPos();
-	setpos(0);
-	return nlines;
+long File::getNumberOfStringLines()
+{
+    long nlines = 0;
+    memBookmarkPos();
+    setpos(0);
+    while(!isEOF())
+    {
+        char* line = getLine();
+        nlines++;
+        delete[] line;
+    }
+    setLastBookmarkPos();
+    setpos(0);
+    return nlines;
 }
 
 //##ModelId=3C0F6C1A001F
@@ -301,17 +304,20 @@ int File::setFirstPos()  throw(PacketExceptionIO*)
 //##ModelId=3C51324A0299
 bool File::fchdir() throw(PacketExceptionIO*)
 {
-	
+
     char* path = Utility::extractPath(filename);
-    if(strlen(path) != 0) {
-    	if(chdir(path)==0) {
-    		delete[] path;
-        	return true;
-    	}
-    	else {
-    		delete[] path;
-        	throw new PacketExceptionIO("Error: can't change directory.");
-    	}
+    if(strlen(path) != 0)
+    {
+        if(chdir(path)==0)
+        {
+            delete[] path;
+            return true;
+        }
+        else
+        {
+            delete[] path;
+            throw new PacketExceptionIO("Error: can't change directory.");
+        }
     }
     delete[] path;
     return true;

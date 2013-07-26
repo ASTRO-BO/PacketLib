@@ -234,7 +234,7 @@ public:
     //## if a predefined value is specified in the .stream, this method has not effect and the
     //## value contained in the .stream is used.
     //## \param index Represent the index in the list.
-    //## \param value The value must be setted.
+    //## \param value The value must be set.
     virtual void setFieldValue(word index, word value);
 
     //## Returns the number of fields.

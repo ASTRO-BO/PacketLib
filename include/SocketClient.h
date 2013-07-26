@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -23,7 +23,8 @@
 #include "Socket.h"
 #include "ByteStream.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC12400C3
 //##Documentation
@@ -34,10 +35,10 @@ namespace PacketLib {
 //##	\brief This class represents generic client socket.
 class SocketClient : public Socket
 {
-    public:
+public:
 
-        //##ModelId=3EADC14400E1
-        SocketClient ( bool bigendian, std::string host, int port );
+    //##ModelId=3EADC14400E1
+    SocketClient ( bool bigendian, std::string host, int port );
 
 };
 }

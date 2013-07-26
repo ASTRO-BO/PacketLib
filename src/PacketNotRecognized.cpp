@@ -26,9 +26,27 @@ bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dim
     if(header->loadHeader(fileName))
     {
         name = new char [22];
-        name[0] = 'P'; name[1] = 'a'; name[2] = 'c'; name[3] = 'k'; name[4] = 'e'; name[5] = 't'; name[6] = ' ';
-        name[7] = 'n'; name[8] = 'o'; name[9] = 't'; name[10] = ' '; name[11] = 'R'; name[12] = 'e'; name[13] = 'c';
-        name[14] = 'o'; name[15] = 'g'; name[16] = 'n'; name[17] = 'i'; name[18] = 'z'; name[19] = 'e'; name[20] = 'd';
+        name[0] = 'P';
+        name[1] = 'a';
+        name[2] = 'c';
+        name[3] = 'k';
+        name[4] = 'e';
+        name[5] = 't';
+        name[6] = ' ';
+        name[7] = 'n';
+        name[8] = 'o';
+        name[9] = 't';
+        name[10] = ' ';
+        name[11] = 'R';
+        name[12] = 'e';
+        name[13] = 'c';
+        name[14] = 'o';
+        name[15] = 'g';
+        name[16] = 'n';
+        name[17] = 'i';
+        name[18] = 'z';
+        name[19] = 'e';
+        name[20] = 'd';
         name[21] = '\0';
         return true;
     }

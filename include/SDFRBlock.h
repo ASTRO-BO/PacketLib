@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -18,10 +18,11 @@
 #define SDFRBLOCK_H_HEADER_INCLUDED_89D3066E
 #include "SourceDataField.h"
 #include "PacketException.h"
-#include "PacketExceptionFileFormat.h" 
+#include "PacketExceptionFileFormat.h"
 #include "SDFRBBlock.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C347FA20329
 //##Documentation
@@ -32,7 +33,7 @@ namespace PacketLib {
 //##	\brief Class which represents the source data field of Layout 4 (see the Interface Control Document).
 class SDFRBlock : public SourceDataField
 {
-  public:
+public:
 
     SDFRBlock(PartOfPacket* pop = 0);
 
@@ -41,10 +42,10 @@ class SDFRBlock : public SourceDataField
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
     //##Documentation
-    //## Get a block of number nblock of the group of blocks of the rblock 
+    //## Get a block of number nblock of the group of blocks of the rblock
     //## with the index rBlockIndex.
     //## \param nblock the number of the block
-    //## \param rBlockIndex the number of the rblock    
+    //## \param rBlockIndex the number of the rblock
     virtual SDFRBBlock* getBlock(word nblock, word rBlockIndex);
 
     //##Documentation
@@ -60,16 +61,16 @@ class SDFRBlock : public SourceDataField
     //##Documentation
     //## Sets the value of a field in the fixed part of this source data field.
     //## \param index Represent the index in the list.
-    //## \param value The value must be setted.
-    virtual void setFieldValue(word index, word value);    
+    //## \param value The value must be set.
+    virtual void setFieldValue(word index, word value);
 
     //##ModelId=3C187751018C
     //##Documentation
     //## Returns the number of fields.
-    virtual word getNumberOfFields();                
+    virtual word getNumberOfFields();
 
     virtual dword getMaxDimension();
-    
+
     virtual dword getDimension();
 
     virtual bool setByteStream(ByteStream* s);
@@ -94,18 +95,18 @@ class SDFRBlock : public SourceDataField
     //##Documentation
     //## Prints the value of each field of this part of packet
     virtual char** printValue(char* addString = "");
-    
+
     virtual void printValueStdout();
 
     //##Documentation
     //## Prints the structure of this part of packet
-    virtual string* printStructure();    
-    
-  protected:
+    virtual string* printStructure();
+
+protected:
 
     //##ModelId=405AD4BD00C2
     SDFRBBlock* block;
-    
+
 
     //##Documentation
     //## The number of rblock
@@ -113,7 +114,7 @@ class SDFRBlock : public SourceDataField
 
     //##Documentation
     //## for variable block, number of level of headers in which is present the field
-    //## with the number of blocks of the variable part    
+    //## with the number of blocks of the variable part
     word* headerLevelOfNBlockIndex;
 
     char** rblockFilename;

@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -27,7 +27,8 @@
 #include <string>
 #include <arpa/inet.h>
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC12400D3
 //##Documentation
@@ -38,27 +39,27 @@ namespace PacketLib {
 //##	\brief This class represents generic client socket.
 class SocketServer : public Socket
 {
-    public:
-        //##ModelId=3EADC14400F1
-        SocketServer (bool bigendian);
-        //##ModelId=3EADC14400F5
-        SocketServer (bool bigendian,  int port );
+public:
+    //##ModelId=3EADC14400F1
+    SocketServer (bool bigendian);
+    //##ModelId=3EADC14400F5
+    SocketServer (bool bigendian,  int port );
 
-        //##ModelId=3EADC14400FC
-        virtual ~SocketServer();
+    //##ModelId=3EADC14400FC
+    virtual ~SocketServer();
 
-        //##ModelId=3EADC14400FE
-        bool bind ( const int port ) throw(PacketExceptionIO*);
-        //##ModelId=3EADC1440103
-        bool listen() const throw(PacketExceptionIO*);
+    //##ModelId=3EADC14400FE
+    bool bind ( const int port ) throw(PacketExceptionIO*);
+    //##ModelId=3EADC1440103
+    bool listen() const throw(PacketExceptionIO*);
 
-        // Client initialization
+    // Client initialization
 
-        //##ModelId=3EADC1440106
-        void set_non_blocking ( const bool );
+    //##ModelId=3EADC1440106
+    void set_non_blocking ( const bool );
 
-        //##ModelId=3EADC1440109
-        bool accept ( SocketServer& ) throw(PacketExceptionIO*);
+    //##ModelId=3EADC1440109
+    bool accept ( SocketServer& ) throw(PacketExceptionIO*);
 
 };
 }

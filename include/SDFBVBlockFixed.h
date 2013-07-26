@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -20,7 +20,8 @@
 #include "PacketLibDefinition.h"
 #include "PartOfPacket.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##Documentation
 //##	$Date: 2005/03/09 10:57:50 $
@@ -30,45 +31,45 @@ namespace PacketLib {
 //##	\brief Class wich represent the part of block with the number of field fixed.
 class SDFBVBlockFixed : public PartOfPacket
 {
-    private:
+private:
 
-        //##ModelId=3EADC14203D4
-        //##Documentation
-        //## Represents the index of field which have the number of element in a
-        //## source data field variable.
-        word indexOfNElement;
+    //##ModelId=3EADC14203D4
+    //##Documentation
+    //## Represents the index of field which have the number of element in a
+    //## source data field variable.
+    word indexOfNElement;
 
-        //##ModelId=3EADC14203DC
-        //##Documentation
-        //## Number to sum for obtaining the numbers of real elements.
-        unsigned addToNElement;
+    //##ModelId=3EADC14203DC
+    //##Documentation
+    //## Number to sum for obtaining the numbers of real elements.
+    unsigned addToNElement;
 
-        //##ModelId=3EADC14203E1
-        //##Documentation
-        //## Represents the max number of elements in a source data field variable.
-        word maxNumberOfElement;
+    //##ModelId=3EADC14203E1
+    //##Documentation
+    //## Represents the max number of elements in a source data field variable.
+    word maxNumberOfElement;
 
-    public:
+public:
 
-        //##ModelId=3EADC1430001
-        word getNumberOfRealElement() ;
+    //##ModelId=3EADC1430001
+    word getNumberOfRealElement() ;
 
-        //##ModelId=3EADC1430003
-        void setNumberOfRealElement(word value);
+    //##ModelId=3EADC1430003
+    void setNumberOfRealElement(word value);
 
-        //##ModelId=3EADC1430008
-        void setIndexOfNElement(word index);
+    //##ModelId=3EADC1430008
+    void setIndexOfNElement(word index);
 
-        //##ModelId=3EADC143000D
-        //##Documentation
-        //## Sets the number to sum for obtaining the numbers of real elements.
-        void setAddToNElement(unsigned num);
+    //##ModelId=3EADC143000D
+    //##Documentation
+    //## Sets the number to sum for obtaining the numbers of real elements.
+    void setAddToNElement(unsigned num);
 
-        //##ModelId=3EADC1430013
-        void setMaxNumberOfElement(word num);
+    //##ModelId=3EADC1430013
+    void setMaxNumberOfElement(word num);
 
-        //##ModelId=3EADC1430018
-        word getMaxNumberOfElement() const;
+    //##ModelId=3EADC1430018
+    word getMaxNumberOfElement() const;
 
 };
 

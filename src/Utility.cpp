@@ -29,7 +29,8 @@ int Utility::convertToInteger(string bin)
 
     pos = bin.find("0b",0);
     if(pos == 0)
-    {                            //is a binary number
+    {
+        //is a binary number
         return binaryToInteger(bin);
     }
     else
@@ -40,7 +41,8 @@ int Utility::convertToInteger(string bin)
 
 }
 
-char* Utility::extractPath(char* filename) {
+char* Utility::extractPath(char* filename)
+{
     int len = Utility::strlen(filename);
     int index;
     for(index=len-1; index>=0; index--)
@@ -74,7 +76,8 @@ int Utility::binaryToInteger(string bin)
     string::size_type pos;
     pos = bin.find("0b",0);
     if(pos == 0)
-    {                            //is a binary number
+    {
+        //is a binary number
         int size = bin.size();
         int pos = 1;
         int decimal = 0;
@@ -103,7 +106,8 @@ int Utility::hexadecimalToInteger(string hex)
     string::size_type pos;
     pos = hex.find("0x",0);
     if(pos == 0)
-    {                            //is a binary number
+    {
+        //is a binary number
         int size = hex.size();
         int pos = 1;
         int decimal = 0;
@@ -116,15 +120,15 @@ int Utility::hexadecimalToInteger(string hex)
             /*decimal += (*c - 48) * pos;
             c--;
             pos *= 16;*/
-						int val;
-						if(*c >=97)
-							val = *c - 32;
-						else
-							val = *c;
-						if(val>=65)
-							val=val-55;
-						else
-							val=val-48;						
+            int val;
+            if(*c >=97)
+                val = *c - 32;
+            else
+                val = *c;
+            if(val>=65)
+                val=val-55;
+            else
+                val=val-48;
             decimal += val * pos;
             c--;
             pos *= 16;
@@ -136,26 +140,30 @@ int Utility::hexadecimalToInteger(string hex)
         return -1;
 }
 
-char* Utility::format_output(dword data, bool dec, bool hex, bool bin) {
-string q, qdata, qn;
-char* c1 = new char[1];
-char* c2 = new char[1];
-	q = "";
-	if(dec) {
-		q = "(";
-  	sprintf(c2, "%d", (int) data);
-		q = q + c2;
-		q = q + ")";
-	}        		
-	if(hex) {
-		sprintf(c1, "0x%4.4x", (int) data);
-		q = q + c1;
-	}
-	if(bin) {
-		qdata = wordToBinary2(data,16);
-		q = q + qdata;
-	}
-	return (char*) q.c_str();
+char* Utility::format_output(dword data, bool dec, bool hex, bool bin)
+{
+    string q, qdata, qn;
+    char* c1 = new char[1];
+    char* c2 = new char[1];
+    q = "";
+    if(dec)
+    {
+        q = "(";
+        sprintf(c2, "%d", (int) data);
+        q = q + c2;
+        q = q + ")";
+    }
+    if(hex)
+    {
+        sprintf(c1, "0x%4.4x", (int) data);
+        q = q + c1;
+    }
+    if(bin)
+    {
+        qdata = wordToBinary2(data,16);
+        q = q + qdata;
+    }
+    return (char*) q.c_str();
 
 }
 
@@ -200,23 +208,23 @@ string* Utility::wordToBinary(word w, byte dim)
             *temp = "0" + *temp;
     }
     return temp;
-/* versione che restituisce un char*
-    char *temp = (char*) new char[dim+1];
-    unsigned valuetemp;
-		unsigned int i;
-    for(i=0; i<dim+1; i++) temp[i]='\0';
-    //si parte da LSB
-    for(i=0; i<dim; i++)
-    {
-        valuetemp = getbits(w, 15-i, 1);
-        if(valuetemp)
-            temp[i] = '1';
-        else
-            temp[i] = '0';
-    }
-		i++;
-		temp[i]='\0';
-    return temp;*/
+    /* versione che restituisce un char*
+        char *temp = (char*) new char[dim+1];
+        unsigned valuetemp;
+    		unsigned int i;
+        for(i=0; i<dim+1; i++) temp[i]='\0';
+        //si parte da LSB
+        for(i=0; i<dim; i++)
+        {
+            valuetemp = getbits(w, 15-i, 1);
+            if(valuetemp)
+                temp[i] = '1';
+            else
+                temp[i] = '0';
+        }
+    		i++;
+    		temp[i]='\0';
+        return temp;*/
 }
 
 char* Utility::wordToBinary2(dword w, unsigned int dim)
@@ -230,11 +238,12 @@ char* Utility::wordToBinary2(dword w, unsigned int dim)
     int j=-1;
     for(i=0; i<dim; i++)
     {
-				j++;
-				if(i%4==0) {
-					temp[j]='-';
-					j++;
-				}
+        j++;
+        if(i%4==0)
+        {
+            temp[j]='-';
+            j++;
+        }
         valuetemp = getbits32(w, 31-i, 1);
         if(valuetemp)
             temp[j] = '1';
@@ -265,14 +274,16 @@ char* Utility::stringToHexadecimal(byte* b, dword dim, bool bigendian, bool addS
     s = "";
     for(dword i=0; i<dim; i+=2)
     {
-		 if(bigendian)  {
-	        sprintf(c1, "%2x", b[i]);
-    	    sprintf(c2, "%2x", b[i+1]);
-		 }
-		 else {
-	        sprintf(c1, "%2x", b[i+1]);
-    	    sprintf(c2, "%2x", b[i]);
-		 }
+        if(bigendian)
+        {
+            sprintf(c1, "%2x", b[i]);
+            sprintf(c2, "%2x", b[i+1]);
+        }
+        else
+        {
+            sprintf(c1, "%2x", b[i+1]);
+            sprintf(c2, "%2x", b[i]);
+        }
         if(c1[0] == ' ') c1[0] = '0';
         if(c2[0] == ' ') c2[0] = '0';
         if(c1[0] >= 'a' && c1[0] <= 'f')
@@ -286,12 +297,12 @@ char* Utility::stringToHexadecimal(byte* b, dword dim, bool bigendian, bool addS
         s1 = c1;
         s2 = s1;
         if(addSpace)
-          s2 += ' ';
+            s2 += ' ';
         s1 = c2;
         s += s2 + s1;
         if(addSpace)
-          s += ' ';
-        
+            s += ' ';
+
     }
     //s += '\n';
     char* cc = (char*) s.c_str();
@@ -407,47 +418,57 @@ char* Utility::charcat(char* c1, char c2)
     return c1;
 }
 
-int Utility::getchildpid(int startpid, char* procname, int maxsearch) {
-int tmppid = startpid;
-int nsearch = 0;
-File f(false);
-bool ok;
-char c[50] ;
-  while(nsearch <= maxsearch) {
-    sprintf(c, "/proc/%d/cmdline", tmppid);
-    try {
-      ok = true;
-      f.open(c, "r");
-      char* name = f.getLine();
-      if(strcmp(name, procname) != 0)
-        ok = false;
-    } catch(PacketExceptionIO* e) {
-      ok = false;
+int Utility::getchildpid(int startpid, char* procname, int maxsearch)
+{
+    int tmppid = startpid;
+    int nsearch = 0;
+    File f(false);
+    bool ok;
+    char c[50] ;
+    while(nsearch <= maxsearch)
+    {
+        sprintf(c, "/proc/%d/cmdline", tmppid);
+        try
+        {
+            ok = true;
+            f.open(c, "r");
+            char* name = f.getLine();
+            if(strcmp(name, procname) != 0)
+                ok = false;
+        }
+        catch(PacketExceptionIO* e)
+        {
+            ok = false;
+        }
+        if(ok)
+            break;
+        else
+        {
+            nsearch++;
+            tmppid++;
+        }
     }
-    if(ok)
-      break;
-    else {
-      nsearch++;
-      tmppid++;
-    }
-  }
-  if(nsearch > maxsearch)
-    return 0;
-  else
-    return tmppid;
+    if(nsearch > maxsearch)
+        return 0;
+    else
+        return tmppid;
 }
 
-bool Utility::getchildpidlive(int pid) {
-File f(false);
-bool ok;
-char c[50] ;
+bool Utility::getchildpidlive(int pid)
+{
+    File f(false);
+    bool ok;
+    char c[50] ;
 
-  sprintf(c, "/proc/%d/cmdline", pid);
-  try {
-      ok = true;
-      f.open(c, "r");
-  } catch(PacketExceptionIO* e) {
-      ok = false;
-  }
-  return ok;
+    sprintf(c, "/proc/%d/cmdline", pid);
+    try
+    {
+        ok = true;
+        f.open(c, "r");
+    }
+    catch(PacketExceptionIO* e)
+    {
+        ok = false;
+    }
+    return ok;
 }

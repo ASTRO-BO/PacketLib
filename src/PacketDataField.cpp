@@ -46,16 +46,19 @@ word PacketDataField::getNumberOfRealDataBlock()
     //il numero di blocchi presenti, solo se numero di blocchi fissi = false
     if(sourceDataField->isBlock())
     {
-        if(!sourceDataField->isNumberOfBlockFixed()) {
+        if(!sourceDataField->isNumberOfBlockFixed())
+        {
             word index = (sourceDataField)->getIndexOfNBlock();
             Field* f = dataFieldHeader->getFields(index);
             return (word) f->value + sourceDataField->getSubFromNBlock();
-        } else {
+        }
+        else
+        {
             //se numero di blocchi fissi �true, allora si prende il max
-            return sourceDataField->getMaxNumberOfBlock();            
+            return sourceDataField->getMaxNumberOfBlock();
         }
     }
-    
+
     return (word) 0;
 }
 
@@ -87,9 +90,9 @@ bool PacketDataField::setOutputStream(ByteStream* os, word first)
     sourceDataField->setOutputStream(os, sdfstart);
     word tailstart = sdfstart;
     if(sourceDataField != 0)
-      tailstart += sourceDataField->getDimension();
+        tailstart += sourceDataField->getDimension();
     if(tail->getDimension() != 0)
-      tail->setOutputStream(os, tailstart);
+        tail->setOutputStream(os, tailstart);
     return true;
 }
 

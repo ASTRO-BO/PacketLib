@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,38 +21,39 @@
 #include "PacketLibDefinition.h"
 #include "PacketExceptionIO.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //This class represents generic type of input. The input must be a text input. This class is used for the configuration files
 class InputText
 {
-    public:
+public:
 
-        InputText();
+    InputText();
 
-        virtual ~InputText();
+    virtual ~InputText();
 
-        virtual char* getLine() throw(PacketExceptionIO*) = 0 ;
+    virtual char* getLine() throw(PacketExceptionIO*) = 0 ;
 
-        virtual char* getLine(const char* s) throw(PacketExceptionIO*) = 0;
+    virtual char* getLine(const char* s) throw(PacketExceptionIO*) = 0;
 
-        virtual char* getLastLineRead() = 0;
+    virtual char* getLastLineRead() = 0;
 
-        virtual char* getInputTextName() = 0;
-        
-        virtual long getpos() = 0;
-        
-        virtual long setpos(long offset) throw(PacketExceptionIO*) = 0;
+    virtual char* getInputTextName() = 0;
 
-        virtual bool isClosed();
+    virtual long getpos() = 0;
 
-        virtual bool isEOF();
+    virtual long setpos(long offset) throw(PacketExceptionIO*) = 0;
 
-    protected:
+    virtual bool isClosed();
 
-        bool eof;
+    virtual bool isEOF();
 
-        bool closed;
+protected:
+
+    bool eof;
+
+    bool closed;
 
 };
 }

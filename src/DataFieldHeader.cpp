@@ -6,6 +6,7 @@
 
 using namespace PacketLib;
 
-DataFieldHeader::DataFieldHeader() : PartOfPacket("Data Field Header") {
-  
+DataFieldHeader::DataFieldHeader() : PartOfPacket("Data Field Header")
+{
+
 }

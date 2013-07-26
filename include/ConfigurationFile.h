@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "PacketExceptionIO.h"
 #include "InputTextFile.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC12201A5
 //##Documentation
@@ -32,30 +33,30 @@ namespace PacketLib {
 //##	\brief This class represent the text file which contains the configurations
 class ConfigurationFile : public InputTextFile
 {
-    public:
+public:
 
-        //##ModelId=3EADC12701F1
-        ConfigurationFile();
+    //##ModelId=3EADC12701F1
+    ConfigurationFile();
 
-        //##ModelId=3EADC12701F4
-        ~ConfigurationFile();
+    //##ModelId=3EADC12701F4
+    ~ConfigurationFile();
 
-        //##ModelId=3EADC12701F5
-        virtual bool open(char** parameters) throw(PacketExceptionIO*);
+    //##ModelId=3EADC12701F5
+    virtual bool open(char** parameters) throw(PacketExceptionIO*);
 
-        //##ModelId=3EADC12701F8
-        virtual char* getLine() throw(PacketExceptionIO*);
+    //##ModelId=3EADC12701F8
+    virtual char* getLine() throw(PacketExceptionIO*);
 
-        //##ModelId=3EADC12701FB
-        virtual char* getLine(const char* s) throw(PacketExceptionIO*);
+    //##ModelId=3EADC12701FB
+    virtual char* getLine(const char* s) throw(PacketExceptionIO*);
 
-        //##ModelId=3EADC12701FE
-        virtual void close() throw(PacketExceptionIO*);
+    //##ModelId=3EADC12701FE
+    virtual void close() throw(PacketExceptionIO*);
 
-    private:
+private:
 
-        //##ModelId=3EADC12701EF
-        char* currentpwd;
+    //##ModelId=3EADC12701EF
+    char* currentpwd;
 
 };
 

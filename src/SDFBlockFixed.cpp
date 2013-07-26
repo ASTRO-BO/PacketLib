@@ -24,9 +24,9 @@ bool SDFBlockFixed::loadFields(InputText& fp) throw(PacketException*)
     line = fp.getLine();
     maxNumberOfBlock[0] = atoi(line);
     //delete[] line;
-    
+
     if(numberOfBlockFixed[0])
-    	numberOfRealDataBlock[0] = maxNumberOfBlock[0];
+        numberOfRealDataBlock[0] = maxNumberOfBlock[0];
 
     line = fp.getLine();
     indexOfNBlock[0] = atoi(line);
@@ -79,10 +79,12 @@ SDFBlockFixed::SDFBlockFixed() : SourceDataField("SDF Block Fixed")
 //##ModelId=3C357B64026E
 SDFBlockFixed::~SDFBlockFixed()
 {
-    delete tempBlock; tempBlock = 0;
+    delete tempBlock;
+    tempBlock = 0;
     //for(int i=0; i< maxNumberOfBlock; i++)
     //	delete &block[i];
-    delete[] block; block = 0;
+    delete[] block;
+    block = 0;
 }
 
 
@@ -171,7 +173,8 @@ bool SDFBlockFixed::setByteStream(ByteStream* s)
     word n_block = getNumberOfRealDataBlock();
     //controllo sulla dimensione massima dei blocchi
     word n_block_max = getMaxNumberOfBlock();
-    if(n_block > n_block_max) {
+    if(n_block > n_block_max)
+    {
         PRINTERROR("Error in SDFBlockFixed n_block > n_block_max");
         return false;
     }
@@ -218,7 +221,7 @@ char** SDFBlockFixed::printValue(char* addString)
         //cc[index] = s;
 
         //index++;
-        for(int j=0; c[j] != 0;j++, index++)
+        for(int j=0; c[j] != 0; j++, index++)
         {
             cc[index] = c[j];
             //printf("%p\n", cc[index]);
@@ -319,9 +322,10 @@ word SDFBlockFixed::getNumberOfFields(word nblock)
         return 0;
 }
 
-SDFBFBlock* SDFBlockFixed::getBlock(word nblock) {
-	if(nblock < maxNumberOfBlock[0])
-		return &block[nblock];
-	return 0;
+SDFBFBlock* SDFBlockFixed::getBlock(word nblock)
+{
+    if(nblock < maxNumberOfBlock[0])
+        return &block[nblock];
+    return 0;
 }
 

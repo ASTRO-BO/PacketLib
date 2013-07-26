@@ -114,12 +114,6 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
         else
         {
             headerReference->setByteStream(b1);
-            /*for(int i=0; i<7; i++) {
-            Field* f = headerReference->getFields(i);
-                    cout << f->name << endl;
-                    cout << f->value << endl;
-
-            } */
             pl = headerReference->getPacketLength();
             b2 = in->readByteStream(pl);
             if(b2 == 0)
@@ -141,7 +135,6 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
                 pindex = detPacketType(b0, b1, b2);
         }
         Packet* p = packetType[pindex];
-        cout << "entro " << pindex << endl;
         if(!p->setPacketValue(b0, b1, b2)) //gli stream diventano del packet
             throw new PacketExceptionIO("it is impossible to resolve the packet.");
         return p;

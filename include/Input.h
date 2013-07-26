@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "PacketExceptionIO.h"
 #include "ByteStream.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC12202F0
 //##	$Date: 2005/03/09 10:57:50 $
@@ -31,48 +32,48 @@ namespace PacketLib {
 //##	\brief This class represent a generic input for IO system.
 class Input
 {
-    public:
+public:
 
-        //##ModelId=3EADC1280336
-        Input(bool bigendian);
+    //##ModelId=3EADC1280336
+    Input(bool bigendian);
 
-        //##ModelId=3EADC1280338
-        virtual ~Input();
+    //##ModelId=3EADC1280338
+    virtual ~Input();
 
-        //##ModelId=3EADC128033A
-        virtual bool open( char** parameters ) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3EADC128033A
+    virtual bool open( char** parameters ) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC128033E
-        virtual ByteStream* readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3EADC128033E
+    virtual ByteStream* readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC1280341
-        virtual char* readString() throw(PacketExceptionIO*) = 0;
+    //##ModelId=3EADC1280341
+    virtual char* readString() throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC1280344
-        virtual void close( ) throw(PacketExceptionIO*) = 0;
+    //##ModelId=3EADC1280344
+    virtual void close( ) throw(PacketExceptionIO*) = 0;
 
-        //##ModelId=3EADC1280347
-        virtual int getType() = 0;
+    //##ModelId=3EADC1280347
+    virtual int getType() = 0;
 
-        //##ModelId=3EADC1280349
-        virtual bool isClosed();
+    //##ModelId=3EADC1280349
+    virtual bool isClosed();
 
-        //##ModelId=3EADC128034B
-        virtual bool isEOF();
+    //##ModelId=3EADC128034B
+    virtual bool isEOF();
 
-        //##ModelId=3EADC128034E
-        virtual bool isBigendian();
+    //##ModelId=3EADC128034E
+    virtual bool isBigendian();
 
-    protected:
+protected:
 
-        //##ModelId=3EADC128032F
-        bool eof;
+    //##ModelId=3EADC128032F
+    bool eof;
 
-        //##ModelId=3EADC1280331
-        bool closed;
+    //##ModelId=3EADC1280331
+    bool closed;
 
-        //##ModelId=3EADC1280333
-        bool bigendian;
+    //##ModelId=3EADC1280333
+    bool bigendian;
 
 };
 }

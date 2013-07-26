@@ -4,7 +4,7 @@ using namespace PacketLib;
 
 //##ModelId=3C1877500365
 FileStream::FileStream(bool prefix, bool bigen, word dimprefix, long startposition)
-: File(bigen, startposition)
+    : File(bigen, startposition)
 {
     thereIsPrefix = prefix;
     dimPrefix = dimprefix;

@@ -47,8 +47,8 @@ Socket::~Socket()
 bool Socket::create() throw(PacketExceptionIO*)
 {
     m_sock = socket ( AF_INET,
-        SOCK_STREAM,
-        0 );
+                      SOCK_STREAM,
+                      0 );
     closed = false;
     if ( ! is_valid() )
         throw new PacketExceptionIO("Socket: it is impossible to create a socket");
@@ -56,7 +56,7 @@ bool Socket::create() throw(PacketExceptionIO*)
     // TIME_WAIT - argh
     int on = 1;
     if ( setsockopt ( m_sock, SOL_SOCKET, SO_REUSEADDR, ( const char* ) &on, sizeof ( on ) ) == -1 )
-       throw new PacketExceptionIO("Socket: it is impossible to create a socket");
+        throw new PacketExceptionIO("Socket: it is impossible to create a socket");
 
     return true;
 
@@ -120,7 +120,8 @@ ByteStream* Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
     } */
 
     if ( status == -1 )
-    {   throw new PacketExceptionIO("Socket: no recv data - status = -1");
+    {
+        throw new PacketExceptionIO("Socket: no recv data - status = -1");
 //        std::cout << "status == -1   errno == " << errno << "  in Socket::recv\n";
     }
     else if ( status == 0 )
@@ -129,8 +130,8 @@ ByteStream* Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
     }
     else
     {
-			ByteStream* b = new ByteStream(stream, dim, bigendian, false);
-        	return b;
+        ByteStream* b = new ByteStream(stream, dim, bigendian, false);
+        return b;
     }
 
 }
@@ -141,7 +142,7 @@ bool Socket::connect ( const std::string host, const int port ) throw(PacketExce
 {
     DEMORET0;
     if ( ! is_valid() )
-			throw new PacketExceptionIO("Socket connect: socket not valid");
+        throw new PacketExceptionIO("Socket connect: socket not valid");
 
     m_addr.sin_family = AF_INET;
     m_addr.sin_port = htons ( port );
@@ -149,7 +150,7 @@ bool Socket::connect ( const std::string host, const int port ) throw(PacketExce
     int status = inet_pton ( AF_INET, host.c_str(), &m_addr.sin_addr );
 
     if ( errno == EAFNOSUPPORT )
-			throw new PacketExceptionIO("Socket connect: EAFNOSUPPORT error");
+        throw new PacketExceptionIO("Socket connect: EAFNOSUPPORT error");
 
     status = ::connect ( m_sock, ( sockaddr * ) &m_addr, sizeof ( m_addr ) );
 

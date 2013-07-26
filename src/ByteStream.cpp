@@ -6,9 +6,9 @@
 #include "PacketLibDemo.h"
 #include "Utility.h"
 using namespace PacketLib;
-                                 //oggetti che devono deallocare memoria
+//oggetti che devono deallocare memoria
 dword ByteStream::count_object = 0;
-                                 //oggetti che non devono deallocare memoria
+//oggetti che non devono deallocare memoria
 dword ByteStream::count_object2 = 0;
 //##ModelId=3DA3E55D032A
 dword ByteStream::count_object_deleted = 0;
@@ -63,7 +63,7 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
     this->stream = stream;
     this->bigendian = bigendian;
     if(!memory_sharing)
-		swap();
+        swap();
     //se memory_sharing == false significa che la responsabilit della memoria diviene
     //di questo oggetto
     setMemoryAllocated(!memory_sharing);
@@ -92,14 +92,14 @@ PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2
     if(b0 != 0)
     {
         dim = b0->getDimension();
-        for(;i<b0->getDimension(); i++)
+        for(; i<b0->getDimension(); i++)
             stream[i] = b0->stream[i];
     }
     if(b1!=0)
     {
         dim += b1->getDimension();
         dword istart = i;
-        for(;i<dim; i++)
+        for(; i<dim; i++)
         {
             dword pos = i-istart;
             stream[i] = b1->stream[pos];
@@ -109,7 +109,7 @@ PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2
     {
         dim += b2->getDimension();
         dword istart = i;
-        for(;i<dim; i++)
+        for(; i<dim; i++)
         {
             dword pos = i-istart;
             stream[i] = b2->stream[pos];
@@ -125,12 +125,13 @@ PacketLib::ByteStream::~ByteStream()
     if(mem_allocation)
     {
         ByteStream::count_object_deleted++;
-		//cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
-        delete[] stream; stream = 0;
+        //cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
+        delete[] stream;
+        stream = 0;
     }
     else
-    	;
-       // ByteStream::count_object_deleted2++;
+        ;
+    // ByteStream::count_object_deleted2++;
     //cout <<  "ByteStream::~ByteStream()" << endl;
 }
 
@@ -147,7 +148,7 @@ byte PacketLib::ByteStream::getByte( dword byteNumber)
 
 
 //##ModelId=3C18775001BB
-long PacketLib::ByteStream::getValue(dword start, dword dim)
+long PacketLib::ByteStream::getValue(dword start, word dim)
 {
     DEMORET0;
     byte b1, b2;

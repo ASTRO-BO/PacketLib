@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "Packet.h"
 #include "PacketLibDefinition.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C87743F0349
 //##Documentation
@@ -32,19 +33,19 @@ namespace PacketLib {
 //##	\brief Packet not recognized.
 class PacketNotRecognized : public Packet
 {
-    public:
+public:
 
-        //##ModelId=3AA64A03005A
-        PacketNotRecognized(bool bigendian);
+    //##ModelId=3AA64A03005A
+    PacketNotRecognized(bool bigendian);
 
-        //##ModelId=3AA64A03005B
-        virtual ~PacketNotRecognized();
+    //##ModelId=3AA64A03005B
+    virtual ~PacketNotRecognized();
 
-        //##ModelId=3AA64A03005D
-        virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
+    //##ModelId=3AA64A03005D
+    virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
 
-        //##ModelId=3AA64A030065
-        virtual bool setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    //##ModelId=3AA64A030065
+    virtual bool setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
 };
 
 }

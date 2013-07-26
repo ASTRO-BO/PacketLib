@@ -1,34 +1,23 @@
 /***************************************************************************
-                          |FILENAME|  -  description
-                             -------------------
-    begin                : |DATE|
-    copyright            : (C) |YEAR| by |AUTHOR|
-    email                : |EMAIL|
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *   This program can be used only for non commercial purpose and in	   *
- *   in the context of the scientific research.   			   *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
 
 #ifndef _FILENAME_H
 #define _FILENAME_H
 
-//##Documentation
-//## Insert here the description of the class
-//## $Date: 2004/11/09 16:15:03 $
-//## $Header: /home/repository/cvs/gtb/PacketLib/template/header_template,v 1.2 2004/11/09 16:15:03 bulgarelli Exp $
-//## $Id: header_template,v 1.2 2004/11/09 16:15:03 bulgarelli Exp $
-//## $Revision: 1.2 $
-//## \brief Insert here a brief description of the class
-
-
+/// Insert here the description of the class
+/// \brief Insert here a brief description of the class
 
 
 #endif 

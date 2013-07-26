@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -43,7 +43,8 @@
 #define PRINTERROR(strprint) if(ERRORMODE) cerr <<  strprint << endl;
 //##ModelId=3C0F6C190397
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3EADC124020F
 typedef unsigned char byte;      //1 byte for both 32 and 64 bit system

@@ -13,7 +13,7 @@ static FieldType** filedTypeList = 0;
 //##ModelId=3C0F6C1A0001
 Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 {
-	value = 0; 
+    value = 0;
     //create FieldType list
     if(filedTypeList == 0)
     {

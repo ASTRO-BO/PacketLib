@@ -24,7 +24,7 @@ bool OutputPacketStream::writePacket(Packet* p) throw(PacketExceptionIO*)
     {
         bs = p->getOutputStream();
         if(out == 0)
-            throw new PacketExceptionIO("No output setted..");
+            throw new PacketExceptionIO("No output set..");
         out->writeByteStream(bs);
         delete bs;
         return true;

@@ -29,14 +29,14 @@ class SDFRBBlockType
 
 public:
 
-	SDFRBBlockType();
+    SDFRBBlockType();
 
-	bool loadType(InputText& fp) throw(PacketException*);
+    bool loadType(InputText& fp) throw(PacketException*);
 
-	//the name of the InputFile
-	char* name;
-	
-	//## Fixed part present
+    //the name of the InputFile
+    char* name;
+
+    //## Fixed part present
     bool fixedPresent;
 
     //## Variable part present
@@ -45,7 +45,7 @@ public:
 
     char** rblockFilename;
 
-	//## The number of rblock
+    //## The number of rblock
     int numberOfRBlocks;
 
     //MANAGEMENT OF BLOCKS
@@ -59,7 +59,7 @@ public:
     //## source data field. This variable not represent the effective number of
     //## block into the stream of data.
     word* maxNumberOfBlock;
-    
+
     //## for variable block, number of level of headers in which is present the field
     //## with the number of blocks of the variable part
     word* headerLevelOfNBlockIndex;
@@ -80,7 +80,7 @@ public:
     //## The max number of blocks
     word nblockmax;
 
-    
+
 
 
 };
@@ -162,7 +162,7 @@ public:
 
     //## Sets the value of a field in the list of fields of the fixed part.
     //## \param index Represent the index in the list.
-    //## \param value The value must be setted.
+    //## \param value The value must be set.
     virtual  inline void setFieldValue(word index, word value)
     {
         fixed.setFieldValue(index, value);
@@ -199,7 +199,7 @@ protected:
     //##Documentation
     //## An index that represent an unique index for each block of a particular rblock.
     word ID;
-    
+
     //## An index that represent the type of rblock (starting from 0). This index
     //## is unique into a rblock container.
     word rBlockType;
@@ -208,11 +208,11 @@ protected:
     bool reset_output_stream;
 
     ByteStream* tempBlock;
-    
+
     SDFRBBlockType* type;
-    
+
     static long counter;
-    
+
 };
 
 }

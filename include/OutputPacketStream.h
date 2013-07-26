@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "PacketStream.h"
 #include "Output.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C0F6C190344
 //##Documentation
@@ -32,25 +33,25 @@ namespace PacketLib {
 //##	\brief This class represents generic output of strean if packet.
 class OutputPacketStream : public PacketStream
 {
-    public:
+public:
 
-        //##ModelId=3EADC12A0289
-        OutputPacketStream();
+    //##ModelId=3EADC12A0289
+    OutputPacketStream();
 
-        //##ModelId=3EADC12A0290
-        OutputPacketStream(const char* fileNameConfig);
+    //##ModelId=3EADC12A0290
+    OutputPacketStream(const char* fileNameConfig);
 
-        //##ModelId=3EADC12A02A9
-        //## Generate the output ByteStream and send it to the output.
-        bool writePacket(Packet* p) throw(PacketExceptionIO*);
+    //##ModelId=3EADC12A02A9
+    //## Generate the output ByteStream and send it to the output.
+    bool writePacket(Packet* p) throw(PacketExceptionIO*);
 
-        //##ModelId=3EADC12A02C8
-        void setOutput(Output* out);
+    //##ModelId=3EADC12A02C8
+    void setOutput(Output* out);
 
-    protected:
+protected:
 
-	//##ModelId=3EADC12A027A
-        Output* out;
+    //##ModelId=3EADC12A027A
+    Output* out;
 };
 
 }

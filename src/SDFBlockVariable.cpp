@@ -30,9 +30,9 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
         line = fp.getLine();
         maxNumberOfBlock[0] = atoi(line);
         //delete line;
-	
-	if(numberOfBlockFixed[0])
-    		numberOfRealDataBlock[0] = maxNumberOfBlock[0];
+
+        if(numberOfBlockFixed[0])
+            numberOfRealDataBlock[0] = maxNumberOfBlock[0];
 
         //indice del fields che contiene il numero di blocchi presenti
         line = fp.getLine();
@@ -103,15 +103,15 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
                         //					long pos = fp.getpos();
                         for(int j=0; j<maxNumberOfElement; j++)
                             if(blocks[i].variables[j].loadFields(buffer2))
-                        {
-                            if(j != maxNumberOfElement - 1)
                             {
-                                //							fp.setpos(pos);
-                                buffer2->readRewind();
+                                if(j != maxNumberOfElement - 1)
+                                {
+                                    //							fp.setpos(pos);
+                                    buffer2->readRewind();
+                                }
                             }
-                        }
-                        else
-                            throw new PacketExceptionFileFormat("No load fields in section [SourceDataFieldBlockVariable].");
+                            else
+                                throw new PacketExceptionFileFormat("No load fields in section [SourceDataFieldBlockVariable].");
                     }
                     else
                         throw new PacketExceptionFileFormat("Section [SourceDataFieldBlockVariable] not found.");
@@ -415,8 +415,9 @@ ByteStream* SDFBlockVariable::generateStream(bool bigendian)
     return outputstream;
 }
 
-SDFBVBlock* SDFBlockVariable::getBlock(word block) {
-	if(block < maxNumberOfBlock[0])
-		return &blocks[block];
-	return 0;
+SDFBVBlock* SDFBlockVariable::getBlock(word block)
+{
+    if(block < maxNumberOfBlock[0])
+        return &blocks[block];
+    return 0;
 }

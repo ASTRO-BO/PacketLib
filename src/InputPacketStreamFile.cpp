@@ -13,7 +13,7 @@ using namespace PacketLib;
 
 //##ModelId=3DBFBFBE02E5
 InputPacketStreamFile::InputPacketStreamFile(const char* fileNameConfig, const char* fileNameStream, long initialPosition) :
-InputPacketStream(fileNameConfig)
+    InputPacketStream(fileNameConfig)
 {
     this->initialPosition = initialPosition;
     this->fileNameStream = (char*) fileNameStream;
@@ -21,7 +21,7 @@ InputPacketStream(fileNameConfig)
     numberOfFileStreamPointer = 0;
     listOfFileStreamPointer = (FileStreamPointer**)new FileStreamPointer* [FSP_STEP];
     for(int i=0; i<FSP_STEP; i++)
-    	listOfFileStreamPointer[i] = 0;
+        listOfFileStreamPointer[i] = 0;
 }
 
 
@@ -34,20 +34,21 @@ InputPacketStreamFile::InputPacketStreamFile() : InputPacketStream()
     numberOfFileStreamPointer = 0;
     listOfFileStreamPointer = (FileStreamPointer**)new FileStreamPointer* [FSP_STEP];
     for(int i=0; i<FSP_STEP; i++)
-    	listOfFileStreamPointer[i] = 0;    
+        listOfFileStreamPointer[i] = 0;
 }
 
 
 //##ModelId=3DBFBFBE0324
 InputPacketStreamFile::~InputPacketStreamFile()
 {
-   
-    for(int i=0; i<numberOfFileStreamPointer; i++) {
-    	delete listOfFileStreamPointer[i];    
-	listOfFileStreamPointer[i] = 0;
+
+    for(int i=0; i<numberOfFileStreamPointer; i++)
+    {
+        delete listOfFileStreamPointer[i];
+        listOfFileStreamPointer[i] = 0;
     }
     delete[] listOfFileStreamPointer;
-    
+
     delete inputStream;
     //delete fileNameStream;
 }
@@ -80,10 +81,11 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
     ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
     word pl, dim;
     long pointer;
-    
-    for(int i=0; i<numberOfFileStreamPointer; i++) {
-    	delete listOfFileStreamPointer[i];    
-	listOfFileStreamPointer[i] = 0;
+
+    for(int i=0; i<numberOfFileStreamPointer; i++)
+    {
+        delete listOfFileStreamPointer[i];
+        listOfFileStreamPointer[i] = 0;
     }
 
     numberOfFileStreamPointer = 0;
@@ -95,10 +97,11 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
         int pindex = 0;
         pointer = inputStream->getpos();
         b0 = inputStream->readPrefix();
-        if(inputStream->isEOF()) {
-	    delete b0;
+        if(inputStream->isEOF())
+        {
+            delete b0;
             return true;
-	}
+        }
         b1 = inputStream->readHeader(dimHeader);
         if(b1->getDimension() != dimHeader)
         {
@@ -106,7 +109,8 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
                 pindex = 0;
             else
             {
-	    	delete b0; delete b1;
+                delete b0;
+                delete b1;
                 numberOfFileStreamPointer = count;
                 return false;
             }
@@ -123,7 +127,9 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
                     pindex = 0;
                 else
                 {
-		    delete b0; delete b1; delete b2;
+                    delete b0;
+                    delete b1;
+                    delete b2;
                     numberOfFileStreamPointer = count;
                     return false;
                 }
@@ -140,19 +146,21 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
         fsp->index = count;
         fsp->nameOfPacket = (char*) (getPacketType(pindex)->getName());
         fsp->pointerEnd = inputStream->getpos() - 1;
-	if(count%FSP_STEP == 0) {
-		//resize
-		FileStreamPointer** lfsp = (FileStreamPointer**)new FileStreamPointer* [count + FSP_STEP];
-		for(int i=0; i<count; i++) {
-			lfsp[i] = listOfFileStreamPointer[i];
-		}	
-		for(int i=count; i<count + FSP_STEP; i++) 
-			lfsp[i] = 0;
-		FileStreamPointer** lfsp_tmp = listOfFileStreamPointer;
-		listOfFileStreamPointer = lfsp;
-		delete[] lfsp_tmp;
-	}
-		
+        if(count%FSP_STEP == 0)
+        {
+            //resize
+            FileStreamPointer** lfsp = (FileStreamPointer**)new FileStreamPointer* [count + FSP_STEP];
+            for(int i=0; i<count; i++)
+            {
+                lfsp[i] = listOfFileStreamPointer[i];
+            }
+            for(int i=count; i<count + FSP_STEP; i++)
+                lfsp[i] = 0;
+            FileStreamPointer** lfsp_tmp = listOfFileStreamPointer;
+            listOfFileStreamPointer = lfsp;
+            delete[] lfsp_tmp;
+        }
+
         listOfFileStreamPointer[count] = fsp;
         count++;
         numberOfFileStreamPointer = count;
@@ -177,7 +185,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
         index = 0;
 
     FileStreamPointer* it = listOfFileStreamPointer[index];
-    
+
     type = it->typeOfPacket;
     pos = it->pointerStart;
     inputStream->setpos(pos);
@@ -190,17 +198,18 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
     if((b2 = inputStream->readDataField(pl)) == NULL)
         return NULL;
     Packet* p = getPacketType(type);
-    if(newpointer) {
-    	//make the full filename
-	string sf = pathFileNameConfig;
-	sf += "/";
-	sf += p->getFileName();
- 	Packet* pnew;
+    if(newpointer)
+    {
+        //make the full filename
+        string sf = pathFileNameConfig;
+        sf += "/";
+        sf += p->getFileName();
+        Packet* pnew;
         pnew = new Packet(bigendian);
-	//cout << (char*)sf.c_str() << endl;
-        pnew->createPacketType((char*)sf.c_str(), prefix, dimPrefix);	
-	p = pnew;
-    }    
+        //cout << (char*)sf.c_str() << endl;
+        pnew->createPacketType((char*)sf.c_str(), prefix, dimPrefix);
+        p = pnew;
+    }
     if(p->setPacketValue(b0, b1, b2))
         return p;
     else

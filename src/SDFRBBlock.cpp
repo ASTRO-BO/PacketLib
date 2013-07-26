@@ -8,188 +8,190 @@ static SDFRBBlockType** blockTypeList = 0;
 
 long SDFRBBlock::counter = 0;
 
-SDFRBBlockType::SDFRBBlockType() {
+SDFRBBlockType::SDFRBBlockType()
+{
 // 	cout << "SDFRBBlockType::SDFRBBlockType " << sizeof(SDFRBBlockType) << endl;
 }
 
-bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*) {
+bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
+{
 
-	char* popName = fp.getInputTextName();
-	try
+    char* popName = fp.getInputTextName();
+    try
+    {
+
+
+        int dimline = strlen(popName);
+        name = (char*) new char[dimline+1];
+        strcpy(name, popName);
+
+        //cout << type->name << endl;
+
+        fp.setpos(0);
+        char* line=fp.getLine("[RBlock Configuration]");
+        if(strlen(line) != 0)
         {
-           
-			
-            int dimline = strlen(popName);
-            name = (char*) new char[dimline+1];
-            strcpy(name, popName);
-            
-            //cout << type->name << endl;
-
-			fp.setpos(0);
-            char* line=fp.getLine("[RBlock Configuration]");
-            if(strlen(line) != 0)
+            //fixed part
+            line = fp.getLine();
+            if(strcmp(line, "yes") == 0)
             {
-                //fixed part
-                line = fp.getLine();
-                if(strcmp(line, "yes") == 0)
-                {
-                    fixedPresent = true;
-                }
-                else
-                {
-                    if(strcmp(line, "no") == 0)
-                        fixedPresent = false;
-                    else
-                        throw new PacketExceptionFileFormat("Rblock file format error. Fixed part section - expected yes or no keywords.");
-                }
-
-                //variable part
-                line = fp.getLine();
-                if(strcmp(line, "yes") == 0)
-                {
-                    variablePresent = true;
-                }
-                else
-                {
-                    if(strcmp(line, "no") == 0)
-                        variablePresent = false;
-                    else
-                        throw new PacketExceptionFileFormat("Rblock file format error. Variable part section - expected yes or no keywords.");
-                }
-
-                if(variablePresent)
-                {
-                    //numero di rblocchi presenti
-                    line = fp.getLine();
-                    dword nev = atoi(line);
-                    
-                    if(nev > 65535)
-                            throw new PacketExceptionFileFormat("Too many number of Rblocks in the packet type.");
-                    numberOfRBlocks = nev;
-                    //si alloca la memoria per gestire gli rblock previsti
-                    rblockFilename = new char* [nev];
-                    rBlockVariable = new bool[nev];
-                    maxNumberOfBlock = new word[nev];
-                    indexOfNBlock = new word[nev];
-                    subFromNBlock = new word[nev];
-                    numberOfBlockFixed = new bool[nev];
-                    headerLevelOfNBlockIndex = new word[nev];
-                    operatorType = new byte[nev];
-                    
-                }
-                else
-                {
-                    numberOfRBlocks = 0;
-                    rblockFilename = 0;
-                    rBlockVariable = 0;
-                    maxNumberOfBlock = 0;
-                    indexOfNBlock = 0;
-                    subFromNBlock = 0;
-                    numberOfBlockFixed = 0;
-                    headerLevelOfNBlockIndex = 0;
-                    operatorType = 0;
-                    
-                }
-
-                if(variablePresent)
-                {
-                    //find the [SourceDataFieldBlock] section
-                    for(int i=0; i< numberOfRBlocks; i++)
-                    {
-                        char* linefind = Utility::integerToString3((char*)"[RBlock%d]", i+1);
-                        fp.setpos(0);
-                        line=fp.getLine(linefind);
-                        /*if(i == 0)
-                            line = fp.getLastLineRead();
-                        else
-                            line = fp.getLine();*/
-                        if(strcmp(line, linefind) == 0)
-                        {
-                            if(i != 0)
-                            {
-                                line = 0;
-                            }
-                            //delete[] linefind;
-                            linefind = 0;
-
-                            //type of number of block
-                            line = fp.getLine();
-                            if(strcmp(line, "variable") == 0)
-                            {
-                                rBlockVariable[i] = true;
-                            }
-                            else
-                            {
-                                if(strcmp(line, "fixed") == 0)
-                                {
-                                    rBlockVariable[i] = false;
-                                }
-                                else
-                                    throw new PacketExceptionFileFormat("It's impossibile to identify the type of rblock. Expected fixed or variable keywords.");
-                            }
-
-                            //number of blocks
-                            line = fp.getLine();
-                            dword nev = atoi(line);
-                            if(nev > 65535)
-                                throw new PacketExceptionFileFormat("Too many number of blocks in the packet type.");
-                            maxNumberOfBlock[i] = (word) nev;
-
-                            
-
-                            //header level for the index of field
-                            line = fp.getLine();
-                            headerLevelOfNBlockIndex[i] = atoi(line);
-
-                            //index of field
-                            line = fp.getLine();
-                            indexOfNBlock[i] = atoi(line);
-
-                            //sum value
-                            line = fp.getLine();
-                            switch(line[0])
-                            {
-                            case '/':
-                                operatorType[i] = 1;
-                                subFromNBlock[i] = atoi(line+1);
-                                break;
-                            case '*':
-                                operatorType[i] = 2;
-                                subFromNBlock[i] = atoi(line+1);
-                                break;
-                            default:
-                                operatorType[i] = 0;
-                                subFromNBlock[i] = atoi(line);
-                            }
-
-                            //file name of the rblock 
-                            rblockFilename[i] = fp.getLine();
-//                             cout << "S " << rblockFilename[i] << endl;
-                        }
-                        else
-                            throw new PacketExceptionFileFormat("No [RBlockX] section found.");
-                    }
-                }
-                nblockmax = 0;
-                if(variablePresent)
-                {
-                    for(int i=0; i < numberOfRBlocks; i++)
-                        nblockmax += maxNumberOfBlock[i];
-                           
-                }
+                fixedPresent = true;
             }
             else
-                throw new PacketExceptionFileFormat("[RBlock Configuration] section not found");
-                
+            {
+                if(strcmp(line, "no") == 0)
+                    fixedPresent = false;
+                else
+                    throw new PacketExceptionFileFormat("Rblock file format error. Fixed part section - expected yes or no keywords.");
+            }
+
+            //variable part
+            line = fp.getLine();
+            if(strcmp(line, "yes") == 0)
+            {
+                variablePresent = true;
+            }
+            else
+            {
+                if(strcmp(line, "no") == 0)
+                    variablePresent = false;
+                else
+                    throw new PacketExceptionFileFormat("Rblock file format error. Variable part section - expected yes or no keywords.");
+            }
+
+            if(variablePresent)
+            {
+                //numero di rblocchi presenti
+                line = fp.getLine();
+                dword nev = atoi(line);
+
+                if(nev > 65535)
+                    throw new PacketExceptionFileFormat("Too many number of Rblocks in the packet type.");
+                numberOfRBlocks = nev;
+                //si alloca la memoria per gestire gli rblock previsti
+                rblockFilename = new char* [nev];
+                rBlockVariable = new bool[nev];
+                maxNumberOfBlock = new word[nev];
+                indexOfNBlock = new word[nev];
+                subFromNBlock = new word[nev];
+                numberOfBlockFixed = new bool[nev];
+                headerLevelOfNBlockIndex = new word[nev];
+                operatorType = new byte[nev];
+
+            }
+            else
+            {
+                numberOfRBlocks = 0;
+                rblockFilename = 0;
+                rBlockVariable = 0;
+                maxNumberOfBlock = 0;
+                indexOfNBlock = 0;
+                subFromNBlock = 0;
+                numberOfBlockFixed = 0;
+                headerLevelOfNBlockIndex = 0;
+                operatorType = 0;
+
+            }
+
+            if(variablePresent)
+            {
+                //find the [SourceDataFieldBlock] section
+                for(int i=0; i< numberOfRBlocks; i++)
+                {
+                    char* linefind = Utility::integerToString3((char*)"[RBlock%d]", i+1);
+                    fp.setpos(0);
+                    line=fp.getLine(linefind);
+                    /*if(i == 0)
+                        line = fp.getLastLineRead();
+                    else
+                        line = fp.getLine();*/
+                    if(strcmp(line, linefind) == 0)
+                    {
+                        if(i != 0)
+                        {
+                            line = 0;
+                        }
+                        //delete[] linefind;
+                        linefind = 0;
+
+                        //type of number of block
+                        line = fp.getLine();
+                        if(strcmp(line, "variable") == 0)
+                        {
+                            rBlockVariable[i] = true;
+                        }
+                        else
+                        {
+                            if(strcmp(line, "fixed") == 0)
+                            {
+                                rBlockVariable[i] = false;
+                            }
+                            else
+                                throw new PacketExceptionFileFormat("It's impossibile to identify the type of rblock. Expected fixed or variable keywords.");
+                        }
+
+                        //number of blocks
+                        line = fp.getLine();
+                        dword nev = atoi(line);
+                        if(nev > 65535)
+                            throw new PacketExceptionFileFormat("Too many number of blocks in the packet type.");
+                        maxNumberOfBlock[i] = (word) nev;
+
+
+
+                        //header level for the index of field
+                        line = fp.getLine();
+                        headerLevelOfNBlockIndex[i] = atoi(line);
+
+                        //index of field
+                        line = fp.getLine();
+                        indexOfNBlock[i] = atoi(line);
+
+                        //sum value
+                        line = fp.getLine();
+                        switch(line[0])
+                        {
+                        case '/':
+                            operatorType[i] = 1;
+                            subFromNBlock[i] = atoi(line+1);
+                            break;
+                        case '*':
+                            operatorType[i] = 2;
+                            subFromNBlock[i] = atoi(line+1);
+                            break;
+                        default:
+                            operatorType[i] = 0;
+                            subFromNBlock[i] = atoi(line);
+                        }
+
+                        //file name of the rblock
+                        rblockFilename[i] = fp.getLine();
+//                             cout << "S " << rblockFilename[i] << endl;
+                    }
+                    else
+                        throw new PacketExceptionFileFormat("No [RBlockX] section found.");
+                }
+            }
+            nblockmax = 0;
+            if(variablePresent)
+            {
+                for(int i=0; i < numberOfRBlocks; i++)
+                    nblockmax += maxNumberOfBlock[i];
+
+            }
         }
-        catch(PacketException* e)
-        {
-            e->add(": ");
-            e->add(popName);
-            throw e;
-        }
-        
-        return true;
+        else
+            throw new PacketExceptionFileFormat("[RBlock Configuration] section not found");
+
+    }
+    catch(PacketException* e)
+    {
+        e->add(": ");
+        e->add(popName);
+        throw e;
+    }
+
+    return true;
 }
 
 SDFRBBlock::SDFRBBlock()
@@ -230,79 +232,81 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
             indexlist++;
     }
 
-	this->previous = previous;
+    this->previous = previous;
 // 	cout << "T" << type << endl;
     if(type == 0)
     {
 //     	cout << "create the type " << popName << endl;
-		type = new SDFRBBlockType;
-		blockTypeList[indexlist] = type;
-		type->loadType(fp);
-        
-    } 
-    
-// 	cout << "NZ " << type->name << endl;
-	if(type->variablePresent)
-	{
-		numberOfRealDataBlock = new word[type->numberOfRBlocks];
-	} else 
-	{
-		numberOfRealDataBlock = 0;
-	}
-	//si carica la fixed part (se presente)
-	if(type->fixedPresent)
-	{
-		fp.setpos(0);
-		line=fp.getLine("[Fixed Part]");
-		if(strcmp(line, "[Fixed Part]") == 0)
-		{
-			fixed.loadFields(fp);
-		}
-		else
-			throw new PacketExceptionFileFormat("[Fixed Part] section not found");
-	}
-	if(type->variablePresent)
-	{
-		for(int i=0; i< type->numberOfRBlocks; i++)
-			if(type->rBlockVariable[i] == false)
-				numberOfRealDataBlock[i] = type->maxNumberOfBlock[i];
-	}
-	
-	if(type->variablePresent) {
-// 		cout << "CP --- " << type->name << endl;	
-		block = (SDFRBBlock*) new SDFRBBlock[type->nblockmax];
+        type = new SDFRBBlockType;
+        blockTypeList[indexlist] = type;
+        type->loadType(fp);
 
-		int indexRBlock = 0;
-		dword sumBlock = type->maxNumberOfBlock[indexRBlock];
-		word id = 0;
-		for(dword nblock=0; nblock < type->nblockmax; nblock++)
-		{
+    }
+
+// 	cout << "NZ " << type->name << endl;
+    if(type->variablePresent)
+    {
+        numberOfRealDataBlock = new word[type->numberOfRBlocks];
+    }
+    else
+    {
+        numberOfRealDataBlock = 0;
+    }
+    //si carica la fixed part (se presente)
+    if(type->fixedPresent)
+    {
+        fp.setpos(0);
+        line=fp.getLine("[Fixed Part]");
+        if(strcmp(line, "[Fixed Part]") == 0)
+        {
+            fixed.loadFields(fp);
+        }
+        else
+            throw new PacketExceptionFileFormat("[Fixed Part] section not found");
+    }
+    if(type->variablePresent)
+    {
+        for(int i=0; i< type->numberOfRBlocks; i++)
+            if(type->rBlockVariable[i] == false)
+                numberOfRealDataBlock[i] = type->maxNumberOfBlock[i];
+    }
+
+    if(type->variablePresent)
+    {
+// 		cout << "CP --- " << type->name << endl;
+        block = (SDFRBBlock*) new SDFRBBlock[type->nblockmax];
+
+        int indexRBlock = 0;
+        dword sumBlock = type->maxNumberOfBlock[indexRBlock];
+        word id = 0;
+        for(dword nblock=0; nblock < type->nblockmax; nblock++)
+        {
 // 			cout << "nblock: " << nblock << endl;
-			if(nblock >= sumBlock)
-			{
-				indexRBlock++;
-				id = 0;
-				sumBlock += type->maxNumberOfBlock[indexRBlock];
-			}
-			ConfigurationFile* file = new ConfigurationFile;
-			char** argv = new char* [1];
+            if(nblock >= sumBlock)
+            {
+                indexRBlock++;
+                id = 0;
+                sumBlock += type->maxNumberOfBlock[indexRBlock];
+            }
+            ConfigurationFile* file = new ConfigurationFile;
+            char** argv = new char* [1];
 // 			cout << "indexRBlock " << indexRBlock << endl;
-			argv[0] = type->rblockFilename[indexRBlock];
-			if(file->open(argv))
-			{
-				block[nblock].setPreviousPop(&fixed);
-				block[nblock].setRBlockType(indexRBlock);
-				block[nblock].setID(id);
+            argv[0] = type->rblockFilename[indexRBlock];
+            if(file->open(argv))
+            {
+                block[nblock].setPreviousPop(&fixed);
+                block[nblock].setRBlockType(indexRBlock);
+                block[nblock].setID(id);
 // 				cout << "now load " << argv[0] << endl;
-				block[nblock].loadFields(*file);
-				id++;
-				file->close();
-			}
-			else
-				throw new PacketExceptionFileFormat("rblock file name not found.");
-		}
-	}
-//     cout << "1------" << endl;        
+                block[nblock].loadFields(*file);
+                id++;
+                file->close();
+            }
+            else
+                throw new PacketExceptionFileFormat("rblock file name not found.");
+        }
+    }
+//     cout << "1------" << endl;
     return true;
 }
 

@@ -17,9 +17,10 @@ Field* SDFBVBlock::getFields(word index)
     }
 }
 
-void SDFBVBlock::setFieldValue(word index, word value) {
-	Field* f = getFields(index);
-	f->value = (value & pattern[f->getDimension()]);
+void SDFBVBlock::setFieldValue(word index, word value)
+{
+    Field* f = getFields(index);
+    f->value = (value & pattern[f->getDimension()]);
 }
 
 //##ModelId=3DA3E5BF0352
@@ -92,26 +93,31 @@ ByteStream*  SDFBVBlock::generateStream(bool bigendian)
     return outputstream;
 }
 
-word  SDFBVBlock::getNumberOfRealElement() {
-	return fixed.getNumberOfRealElement();
+word  SDFBVBlock::getNumberOfRealElement()
+{
+    return fixed.getNumberOfRealElement();
 }
 
 
-void  SDFBVBlock::setNumberOfRealElement(word value) {
-	fixed.setNumberOfRealElement(value);
-}	
-
-word  SDFBVBlock::getMaxNumberOfElements() {
-	return fixed.getMaxNumberOfElement();
+void  SDFBVBlock::setNumberOfRealElement(word value)
+{
+    fixed.setNumberOfRealElement(value);
 }
 
-SDFBVBlockFixed* SDFBVBlock::getFixedPart() {
-	return &fixed;
+word  SDFBVBlock::getMaxNumberOfElements()
+{
+    return fixed.getMaxNumberOfElement();
 }
-	
-SDFBVBlockVariable* SDFBVBlock::getElement(word nelement) {
-	if(nelement < fixed.getNumberOfRealElement())
-		return &variables[nelement];
-	return 0;
+
+SDFBVBlockFixed* SDFBVBlock::getFixedPart()
+{
+    return &fixed;
+}
+
+SDFBVBlockVariable* SDFBVBlock::getElement(word nelement)
+{
+    if(nelement < fixed.getNumberOfRealElement())
+        return &variables[nelement];
+    return 0;
 
 }

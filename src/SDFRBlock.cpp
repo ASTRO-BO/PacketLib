@@ -2,57 +2,66 @@
 
 using namespace PacketLib;
 
-SDFRBlock::SDFRBlock(PartOfPacket* pop) : SourceDataField("SDF Recoursive Block") {
+SDFRBlock::SDFRBlock(PartOfPacket* pop) : SourceDataField("SDF Recoursive Block")
+{
     isblock = false;
     fixed = false;
     rblock = true;
     block = NULL;
-    previous = pop;   
+    previous = pop;
 }
 
-SDFRBlock::~SDFRBlock() {
+SDFRBlock::~SDFRBlock()
+{
 
-  //delete[] block;
-  
+    //delete[] block;
+
 }
 
-bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*) {
-  try {
-    char* line;
-    numberOfRBlocks = 1;
-    rblockFilename = new char* [numberOfRBlocks];
-    numberOfBlockFixed[0] = true;
-    maxNumberOfBlock[0] = 1;
-    numberOfRealDataBlock[0] = 1;
-    indexOfNBlock[0] = 0;
-    subFromNBlock[0] = 0;
-    rblockFilename[0]= (char*)"Source Data Field";
-    nblockmax = 1;
-    block = (SDFRBBlock*) new SDFRBBlock[nblockmax];
-    block[0].setPreviousPop(previous);
-    block[0].setRBlockType(0);
-    block[0].setID(0);
-    block[0].loadFields(fp);
-    fp.setpos(0);
-    line = fp.getLine("[Identifiers]"); //get the [Identifiers] section
-    return true;
-  } catch(PacketExceptionIO* e) {
+bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
+{
+    try
+    {
+        char* line;
+        numberOfRBlocks = 1;
+        rblockFilename = new char* [numberOfRBlocks];
+        numberOfBlockFixed[0] = true;
+        maxNumberOfBlock[0] = 1;
+        numberOfRealDataBlock[0] = 1;
+        indexOfNBlock[0] = 0;
+        subFromNBlock[0] = 0;
+        rblockFilename[0]= (char*)"Source Data Field";
+        nblockmax = 1;
+        block = (SDFRBBlock*) new SDFRBBlock[nblockmax];
+        block[0].setPreviousPop(previous);
+        block[0].setRBlockType(0);
+        block[0].setID(0);
+        block[0].loadFields(fp);
+        fp.setpos(0);
+        line = fp.getLine("[Identifiers]"); //get the [Identifiers] section
+        return true;
+    }
+    catch(PacketExceptionIO* e)
+    {
         e->add(" - ");
         e->add("Configuration file: ");
         throw e;
-  }  
+    }
 }
 
-SDFRBBlock* SDFRBlock::getBlock(word nblock,word rBlockIndex) {
-  return block[0].getBlock(nblock, rBlockIndex);  
+SDFRBBlock* SDFRBlock::getBlock(word nblock,word rBlockIndex)
+{
+    return block[0].getBlock(nblock, rBlockIndex);
 }
 
-dword SDFRBlock::getMaxDimension() {
-  return block[0].getMaxDimension();
+dword SDFRBlock::getMaxDimension()
+{
+    return block[0].getMaxDimension();
 }
 
-dword SDFRBlock::getDimension() {
-  return block[0].getDimension();
+dword SDFRBlock::getDimension()
+{
+    return block[0].getDimension();
 }
 
 void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
@@ -77,40 +86,48 @@ bool SDFRBlock::setOutputStream(ByteStream* os, dword first)
 
 ByteStream* SDFRBlock::generateStream(bool bigendian)
 {
-    return block[0].generateStream(bigendian);      
+    return block[0].generateStream(bigendian);
 }
 
-bool SDFRBlock::setByteStream(ByteStream* s) {
+bool SDFRBlock::setByteStream(ByteStream* s)
+{
     stream = s;
     return block[0].setByteStream(s);
 }
 
-Field* SDFRBlock::getFields(word index) {
-  return block[0].getFields(index);
+Field* SDFRBlock::getFields(word index)
+{
+    return block[0].getFields(index);
 }
 
-word SDFRBlock::getFieldValue(word index) {
-  return block[0].getFieldValue(index);
+word SDFRBlock::getFieldValue(word index)
+{
+    return block[0].getFieldValue(index);
 }
 
-void SDFRBlock::setFieldValue(word index, word value) {
-  return block[0].setFieldValue(index, value);
+void SDFRBlock::setFieldValue(word index, word value)
+{
+    return block[0].setFieldValue(index, value);
 }
 
-word SDFRBlock::getNumberOfFields() {
-  return block[0].getNumberOfFields();
+word SDFRBlock::getNumberOfFields()
+{
+    return block[0].getNumberOfFields();
 }
 
-char** SDFRBlock::printValue(char* addString) {
+char** SDFRBlock::printValue(char* addString)
+{
     return block[0].printValue(addString);
 }
 
-void SDFRBlock::printValueStdout() {
+void SDFRBlock::printValueStdout()
+{
     block[0].printValueStdout();
 }
 
-string* SDFRBlock::printStructure() {
+string* SDFRBlock::printStructure()
+{
     return block[0].printStructure();
 }
-  
+
 

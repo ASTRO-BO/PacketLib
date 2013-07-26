@@ -16,9 +16,9 @@ PacketStream::PacketStream(const char* fileNameConfig)
     this->filenameConfig = (char*) fileNameConfig;
     numberOfPacketType = 0;
     headerReference = 0;
-                                 //TODO
+    //TODO
     packetType = new Packet* [100];
-                                 //TODO
+    //TODO
     memset(packetType, 0, sizeof(Packet*)*100);
     pathFileNameConfig = 0;
 }
@@ -30,9 +30,9 @@ PacketStream::PacketStream()
     this->filenameConfig = 0;
     numberOfPacketType = 0;
     headerReference = 0;
-                                 //TODO
+    //TODO
     packetType =  new Packet* [100];
-                                 //TODO
+    //TODO
     memset(packetType, 0, sizeof(Packet*)*100);
     pathFileNameConfig = 0;
 }
@@ -57,14 +57,14 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
     char* line;
     char **argv = new char* [1];
     argv[0] = filenameConfig;
-    
+
     try
     {
         if(config.open(argv))
         {
-	    delete[] argv;
-	    if(pathFileNameConfig) free(pathFileNameConfig);
-	    pathFileNameConfig = getcwd(NULL, 512L);
+            delete[] argv;
+            if(pathFileNameConfig) free(pathFileNameConfig);
+            pathFileNameConfig = getcwd(NULL, 512L);
             //prefix
             line = config.getLine();
             if(strcmp(line, "[Configuration]") == 0)
@@ -79,13 +79,13 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                         prefix = true;
                     else
                     {
-		        delete[] line;
+                        delete[] line;
                         throw new PacketExceptionFileFormat("Prefix selector format not correct. It's possible only true or false value.");
                         return false;
                     }
                 }
                 delete[] line;
-                //bigendian		
+                //bigendian
                 line = config.getLine();
                 if(strcmp(line, "false") == 0)
                     bigendian = false;
@@ -118,7 +118,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                 headerReference = (PacketHeader*) new PacketHeader();
                 if(!headerReference->loadHeader(line))
                 {
-		    delete[] line;
+                    delete[] line;
                     throw new PacketExceptionFileFormat("No parameters in file header format");
                     return false;
                 }
@@ -126,7 +126,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                 PacketNotRecognized* p = new PacketNotRecognized(bigendian);
                 if(!p->createPacketType(line, prefix, dimPrefix))
                 {
-		    delete[] line;
+                    delete[] line;
                     throw new PacketExceptionFileFormat("Packet Not Recognized not created.");
                 }
                 else
@@ -134,7 +134,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     numberOfPacketType++;
                 }
-				delete[] line;
+                delete[] line;
             }
             else
             {
@@ -154,7 +154,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     p->setPacketID(numberOfPacketType);
                     numberOfPacketType++;
-		    		delete[] packetFileName;
+                    delete[] packetFileName;
                     packetFileName = config.getLine();
                 }
             }

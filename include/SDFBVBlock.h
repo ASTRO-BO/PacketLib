@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -21,7 +21,8 @@
 #include "SDFBVBlockFixed.h"
 #include "SDFBVBlockVariable.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##Documentation
 //##	$Date: 2005/03/09 10:57:50 $
@@ -31,53 +32,53 @@ namespace PacketLib {
 //##	\brief Class wich represents a single block with a fixed part and with a variable part.
 class SDFBVBlock : public PartOfPacket
 {
-    public:
+public:
 
-        //##ModelId=3EADC14203A4
-        //##D
-        SDFBVBlockFixed fixed;
+    //##ModelId=3EADC14203A4
+    //##D
+    SDFBVBlockFixed fixed;
 
-        //##ModelId=3EADC14203AB
-        SDFBVBlockVariable* variables;
+    //##ModelId=3EADC14203AB
+    SDFBVBlockVariable* variables;
 
-        //##ModelId=3EADC14203B1
-        word getNumberOfFields();
+    //##ModelId=3EADC14203B1
+    word getNumberOfFields();
 
-        //##ModelId=3EADC14203B2
-        Field* getFields(word index);
+    //##ModelId=3EADC14203B2
+    Field* getFields(word index);
 
-        //##ModelId=3EADC14203B7
-	//##Documentation
-	//## 
-        word getFieldValue(word index);
-	
-	void setFieldValue(word index, word value);
+    //##ModelId=3EADC14203B7
+    //##Documentation
+    //##
+    word getFieldValue(word index);
 
-        //##ModelId=3EADC14203BB
-        dword getDimension();
+    void setFieldValue(word index, word value);
 
-        //##ModelId=3EADC14203BD
-        //##Documentation
-        //## Total max dimension in bytes of block
-        dword getMaxDimension();
+    //##ModelId=3EADC14203BB
+    dword getDimension();
 
-        //##ModelId=3EADC14203BF
-        bool setOutputStream(ByteStream* os, dword first);
+    //##ModelId=3EADC14203BD
+    //##Documentation
+    //## Total max dimension in bytes of block
+    dword getMaxDimension();
 
-        //##ModelId=3EADC14203C6
-        ByteStream* generateStream(bool bigendian);
-	
-        //##ModelId=3EADC1430127
-        virtual word getNumberOfRealElement();
+    //##ModelId=3EADC14203BF
+    bool setOutputStream(ByteStream* os, dword first);
 
-        //##ModelId=3EADC143012C
-        virtual void setNumberOfRealElement(word value);	
-	
-	virtual word getMaxNumberOfElements();
-	
-	SDFBVBlockFixed* getFixedPart();
- 	
- 	SDFBVBlockVariable* getElement(word nelement);
+    //##ModelId=3EADC14203C6
+    ByteStream* generateStream(bool bigendian);
+
+    //##ModelId=3EADC1430127
+    virtual word getNumberOfRealElement();
+
+    //##ModelId=3EADC143012C
+    virtual void setNumberOfRealElement(word value);
+
+    virtual word getMaxNumberOfElements();
+
+    SDFBVBlockFixed* getFixedPart();
+
+    SDFBVBlockVariable* getElement(word nelement);
 
 };
 

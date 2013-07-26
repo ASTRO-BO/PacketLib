@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -20,7 +20,8 @@
 
 #include "PacketException.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C87743F0317
 //##Documentation
@@ -31,13 +32,13 @@ namespace PacketLib {
 //##	\brief Exception class of the PacketLib. The error is an IO error.
 class PacketExceptionIO : public PacketException
 {
-    public:
+public:
 
-        //##ModelId=3AA649E902A2
-        PacketExceptionIO(const char* error);
+    //##ModelId=3AA649E902A2
+    PacketExceptionIO(const char* error);
 
-        //##ModelId=3AA649E902AC
-        virtual ~PacketExceptionIO();
+    //##ModelId=3AA649E902AC
+    virtual ~PacketExceptionIO();
 };
 
 }

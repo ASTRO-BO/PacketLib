@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -19,7 +19,8 @@
 
 #include "PacketLibDefinition.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C0F6C190364
 //##Documentation
@@ -30,27 +31,27 @@ namespace PacketLib {
 //##	\brief Identifier of packet.
 class PacketIdentifier
 {
-    public:
+public:
 
-	//##ModelId=3EADC13A0178
-        word fieldNumber;
+    //##ModelId=3EADC13A0178
+    word fieldNumber;
 
-        //##ModelId=3C0F6C1A01EC
-        //##Documentation
-        //## This field rappresent which list of fields read:
-        //## \li 0 - List of fields of PacketHeader;
-        //## \li 1 - List of fields of DataFieldHeader
-        //## \li 2 - List of fields of SourceDataField
-        byte type;
+    //##ModelId=3C0F6C1A01EC
+    //##Documentation
+    //## This field rappresent which list of fields read:
+    //## \li 0 - List of fields of PacketHeader;
+    //## \li 1 - List of fields of DataFieldHeader
+    //## \li 2 - List of fields of SourceDataField
+    byte type;
 
-	//##ModelId=3EADC13A0199
-        word value;
+    //##ModelId=3EADC13A0199
+    word value;
 
-        //##ModelId=3C18775100C8
-        PacketIdentifier(int fn, byte t, word v);
+    //##ModelId=3C18775100C8
+    PacketIdentifier(int fn, byte t, word v);
 
-        //##ModelId=3EADC13A01FC
-        ~PacketIdentifier();
+    //##ModelId=3EADC13A01FC
+    ~PacketIdentifier();
 
 };
 

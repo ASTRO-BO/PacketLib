@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -19,7 +19,8 @@
 #include "File.h"
 #include "ByteStream.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C187750014C
 //##Documentation
@@ -30,36 +31,36 @@ namespace PacketLib {
 //##	\brief This class represent a stream of byte into a file.
 class FileStream : public File
 {
-    public:
+public:
 
-        //##ModelId=3C1877500365
-        FileStream(bool prefix, bool bigen, word dimprefix, long startposition = 0);
+    //##ModelId=3C1877500365
+    FileStream(bool prefix, bool bigen, word dimprefix, long startposition = 0);
 
-        //##ModelId=3C87744100F3
-        ByteStream* readPrefix();
+    //##ModelId=3C87744100F3
+    ByteStream* readPrefix();
 
-        //##ModelId=3C205AF20368
-        ByteStream* readHeader(unsigned int dimHeader);
+    //##ModelId=3C205AF20368
+    ByteStream* readHeader(unsigned int dimHeader);
 
-        //##ModelId=3C205AF2036F
-        ByteStream* readDataField(unsigned int dimDataField);
+    //##ModelId=3C205AF2036F
+    ByteStream* readDataField(unsigned int dimDataField);
 
-    private:
+private:
 
-        //##ModelId=3C18775002D6
-        //##Documentation
-        //## Indicates if it's present a prefix for each packet
-        //## \li true if it's present
-        //## \li false if it isn't present
-        bool thereIsPrefix;
+    //##ModelId=3C18775002D6
+    //##Documentation
+    //## Indicates if it's present a prefix for each packet
+    //## \li true if it's present
+    //## \li false if it isn't present
+    bool thereIsPrefix;
 
-        ByteStream* header;
+    ByteStream* header;
 
-        ByteStream* dataField;
+    ByteStream* dataField;
 
-        ByteStream* prefix;
+    ByteStream* prefix;
 
-        word dimPrefix;
+    word dimPrefix;
 
 };
 

@@ -27,12 +27,13 @@ MemoryBuffer** InputTextFile::listOfBuffers = 0;
 //##ModelId=3AA64922006A
 InputTextFile::InputTextFile() : InputText()
 {
-	//create buffer list
-    if(InputTextFile::listOfBuffers == 0) {
-    	int nb = CONFIG_MAXNUMBER_OFCONFIGILES;
-    	InputTextFile::listOfBuffers = (MemoryBuffer**) new MemoryBuffer* [nb];
-    	for(int i = 0; i<nb; i++)
-    		InputTextFile::listOfBuffers[i] = 0;
+    //create buffer list
+    if(InputTextFile::listOfBuffers == 0)
+    {
+        int nb = CONFIG_MAXNUMBER_OFCONFIGILES;
+        InputTextFile::listOfBuffers = (MemoryBuffer**) new MemoryBuffer* [nb];
+        for(int i = 0; i<nb; i++)
+            InputTextFile::listOfBuffers[i] = 0;
     }
     usebuffer = false;
     buffer = 0;
@@ -51,10 +52,10 @@ bool InputTextFile::fchdir() throw(PacketExceptionIO*)
 {
     try
     {
-    	if(usebuffer)
-    		return true;
-    	else
-        	return file.fchdir();
+        if(usebuffer)
+            return true;
+        else
+            return file.fchdir();
     }
     catch(PacketExceptionIO* e)
     {
@@ -67,66 +68,70 @@ bool InputTextFile::fchdir() throw(PacketExceptionIO*)
 //##ModelId=3AA64922009C
 bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
 {
-	//cout << "open " << parameters[0] << endl;
-	
-    
-        bool ret;
-        //check if the file has been already loaded into MemoryBuffer
-        //find the name of the buffer in the list
-    	
-        	
-	buffer = 0;
-	usebuffer = false;
-	int i = 0;
-	while(InputTextFile::listOfBuffers[i] != 0) {
-		char* filename = parameters[0];
-		char* buffername = InputTextFile::listOfBuffers[i]->getName();
-		//cout << "# i: " << i << " " << buffername << " " << filename << endl;
-		if(strcmp(filename, buffername) == 0) {
-			//cout << "# BN: " << listOfBuffers[i]->getName() << endl;
-			buffer = (MemoryBuffer*) listOfBuffers[i];
-			file.setFileName(filename);     
-			usebuffer = true;
-			ret = true;
-		}
-		i++;
-	}
-	if(i>CONFIG_MAXNUMBER_OFCONFIGILES)
-		throw new PacketExceptionIO("InputTextFile::open(char** parameters) too many config files");
-			
-	try
+    //cout << "open " << parameters[0] << endl;
+
+
+    bool ret;
+    //check if the file has been already loaded into MemoryBuffer
+    //find the name of the buffer in the list
+
+
+    buffer = 0;
+    usebuffer = false;
+    int i = 0;
+    while(InputTextFile::listOfBuffers[i] != 0)
     {
-		if(usebuffer == false) {
-			ret =  file.open(parameters[0]);
-        	eof = file.isEOF();
-        	closed = file.isClosed();
-        	
-        	
-			buffer =  new MemoryBuffer;
-			buffer->setName(parameters[0]);
-			//cout << "# NEW BN: " << buffer->getName() << endl;
-    		InputTextFile::listOfBuffers[i] = buffer;
-    		bool eofl = false;
-    		while(!eofl) {
-    			char* ret =  file.getLine();
-    			eofl = file.isEOF();
-    			//cout << ret << endl;
-				buffer->setbuffer(ret);
-    		}
-    	}
-    	buffer->setpos(0);
-    	/*
-    	cout << "#### BUFFER: " << buffer << " " << buffer->getName() << endl;
-    	cout << "#### check list: " << endl;
-    	char* line;
-    	line = buffer->getbuffer();
-    	if(line) cout << "** " << line << endl;
-    	while(line != 0) {
-    		line = buffer->getbuffer();
-    		if(line) cout << "** " << line << endl;
-    	}
-    	buffer->setpos(0);
-    	*/
+        char* filename = parameters[0];
+        char* buffername = InputTextFile::listOfBuffers[i]->getName();
+        //cout << "# i: " << i << " " << buffername << " " << filename << endl;
+        if(strcmp(filename, buffername) == 0)
+        {
+            //cout << "# BN: " << listOfBuffers[i]->getName() << endl;
+            buffer = (MemoryBuffer*) listOfBuffers[i];
+            file.setFileName(filename);
+            usebuffer = true;
+            ret = true;
+        }
+        i++;
+    }
+    if(i>CONFIG_MAXNUMBER_OFCONFIGILES)
+        throw new PacketExceptionIO("InputTextFile::open(char** parameters) too many config files");
+
+    try
+    {
+        if(usebuffer == false)
+        {
+            ret =  file.open(parameters[0]);
+            eof = file.isEOF();
+            closed = file.isClosed();
+
+
+            buffer =  new MemoryBuffer;
+            buffer->setName(parameters[0]);
+            //cout << "# NEW BN: " << buffer->getName() << endl;
+            InputTextFile::listOfBuffers[i] = buffer;
+            bool eofl = false;
+            while(!eofl)
+            {
+                char* ret =  file.getLine();
+                eofl = file.isEOF();
+                //cout << ret << endl;
+                buffer->setbuffer(ret);
+            }
+        }
+        buffer->setpos(0);
+        /*
+        cout << "#### BUFFER: " << buffer << " " << buffer->getName() << endl;
+        cout << "#### check list: " << endl;
+        char* line;
+        line = buffer->getbuffer();
+        if(line) cout << "** " << line << endl;
+        while(line != 0) {
+        	line = buffer->getbuffer();
+        	if(line) cout << "** " << line << endl;
+        }
+        buffer->setpos(0);
+        */
         return ret;
     }
     catch(PacketExceptionIO* e)
@@ -137,7 +142,7 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
     {
         throw e;
     }
-    
+
 };
 
 //##ModelId=3AA6492200F6
@@ -154,12 +159,13 @@ char* InputTextFile::getLine() throw(PacketExceptionIO*)
     try
     {
         char* ret;
-		ret = buffer->getbuffer();
-		//cout << "## " << ret << endl;
-		if(ret == 0) {
-			eof = true;
-		}
-		//closed = file.isClosed();
+        ret = buffer->getbuffer();
+        //cout << "## " << ret << endl;
+        if(ret == 0)
+        {
+            eof = true;
+        }
+        //closed = file.isClosed();
         return ret;
     }
     catch(PacketExceptionIO* e)
@@ -175,19 +181,22 @@ char* InputTextFile::getLine(const char* s) throw(PacketExceptionIO*)
     char* line;
     bool eof;
     line = buffer->getbuffer();
-    if(line == 0) {
-		eof = true;
-	}
-    
-    while(strstr(line, s) == NULL) {
-    	line = buffer->getbuffer();
-    	if(line == 0) {
-			eof = true;
-		}
-    	if(eof == true)
-			break;
-	}
-    
+    if(line == 0)
+    {
+        eof = true;
+    }
+
+    while(strstr(line, s) == NULL)
+    {
+        line = buffer->getbuffer();
+        if(line == 0)
+        {
+            eof = true;
+        }
+        if(eof == true)
+            break;
+    }
+
     //closed = file.isClosed();
     return line;
 }
@@ -196,7 +205,7 @@ char* InputTextFile::getLine(const char* s) throw(PacketExceptionIO*)
 //##ModelId=3AA649220196
 char* InputTextFile::getLastLineRead()
 {
-	return buffer->getlastbuffer();
+    return buffer->getlastbuffer();
 }
 
 
@@ -224,7 +233,7 @@ int InputTextFile::setFirstPos()
 //##ModelId=3AA64922022C
 bool InputTextFile::setLastBookmarkPos()
 {
-	return buffer->setLastBookmarkPos();
+    return buffer->setLastBookmarkPos();
 }
 
 
@@ -233,8 +242,8 @@ long InputTextFile::setpos(long offset) throw(PacketExceptionIO*)
 {
     long l;
 
-	l = buffer->setpos(offset);
-	eof = false;
-	closed = false;
+    l = buffer->setpos(offset);
+    eof = false;
+    closed = false;
     return l;
 }

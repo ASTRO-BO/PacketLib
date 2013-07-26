@@ -49,12 +49,14 @@ void PacketException::add(const char* err)
     *error = err + *error;
 }
 
-int PacketException::geterrorcode() const {
-  return errorcode;
+int PacketException::geterrorcode() const
+{
+    return errorcode;
 }
 
 
-    //##ModelId=3DEE784300CF
-void PacketException::seterrorcode(int errorcode) {
-  this->errorcode = errorcode;
+//##ModelId=3DEE784300CF
+void PacketException::seterrorcode(int errorcode)
+{
+    this->errorcode = errorcode;
 }

@@ -63,8 +63,8 @@ bool SocketServer::bind ( const int port ) throw(PacketExceptionIO*)
     m_addr.sin_port = htons ( port );
 
     int bind_return = ::bind ( m_sock,
-        ( struct sockaddr * ) &m_addr,
-        sizeof ( m_addr ) );
+                               ( struct sockaddr * ) &m_addr,
+                               sizeof ( m_addr ) );
 
     if ( bind_return == -1 )
     {
@@ -114,7 +114,7 @@ void SocketServer::set_non_blocking ( const bool b )
     int opts;
 
     opts = fcntl ( m_sock,
-        F_GETFL );
+                   F_GETFL );
 
     if ( opts < 0 )
     {
@@ -127,6 +127,6 @@ void SocketServer::set_non_blocking ( const bool b )
         opts = ( opts & ~O_NONBLOCK );
 
     fcntl ( m_sock,
-        F_SETFL,opts );
+            F_SETFL,opts );
 
 }

@@ -129,10 +129,10 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
-	doxyfilter < $< > $@
+	cp  $<  $@
 
 $(DOXY_SOURCE_DIR)/%.cpp : %.cpp
-	doxyfilter < $< > $@
+	cp  $<  $@
 	
 ####### 10) Build rules
 

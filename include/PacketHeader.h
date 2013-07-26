@@ -10,7 +10,7 @@
  *                                                                         *
  *   This program is free software for non commercial purpose              *
  *   and for public research institutes; you can redistribute it and/or    *
- *   modify it under the terms of the GNU General Public License.          *             
+ *   modify it under the terms of the GNU General Public License.          *
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
@@ -20,7 +20,8 @@
 #include "PacketLibDefinition.h"
 #include "PartOfPacket.h"
 
-namespace PacketLib {
+namespace PacketLib
+{
 
 //##ModelId=3C0F6C19035E
 //##Documentation
@@ -31,50 +32,56 @@ namespace PacketLib {
 //##	\brief Header of packet.
 class PacketHeader : public PartOfPacket
 {
-    public:
+public:
 
-        //##ModelId=3EADC13A0088
-        PacketHeader();
-    
-        //##ModelId=3EADC13A0016
-        ~PacketHeader();
+    //##ModelId=3EADC13A0088
+    PacketHeader();
 
-        //##ModelId=3C0F6C1A01DC
-        //##Documentation
-        //## Sets the name of packet header
-        void setName(char* n){ name = n;};
+    //##ModelId=3EADC13A0016
+    ~PacketHeader();
 
-        //##ModelId=3C14980F00F2
-        //##Documentation
-        //## Loads data header from configuration file.
-        bool loadHeader(char* fileName) throw(PacketException*);
+    //##ModelId=3C0F6C1A01DC
+    //##Documentation
+    //## Sets the name of packet header
+    void setName(char* n)
+    {
+        name = n;
+    };
 
-        //##ModelId=3C15ED930064
-        //##Documentation
-        //## Returns the total lenght of packet data field (data field header plus source data field)
-        dword getPacketLength();
-        
-        //set the length of the packet in the 'packet lenght' field (the data field dimension - 1)
-        void setPacketLength(dword dim);
+    //##ModelId=3C14980F00F2
+    //##Documentation
+    //## Loads data header from configuration file.
+    bool loadHeader(char* fileName) throw(PacketException*);
 
-        //##ModelId=3EADC13A00BC
-        Field * getFieldWithPacketDimension();
-        
-        inline word getDimensionOfPacketLenght() { return dimensionOfPacketLenght; };
+    //##ModelId=3C15ED930064
+    //##Documentation
+    //## Returns the total lenght of packet data field (data field header plus source data field)
+    dword getPacketLength();
 
-    private:
+    //set the length of the packet in the 'packet lenght' field (the data field dimension - 1)
+    void setPacketLength(dword dim);
 
-        //##ModelId=3EADC1390359
-        //##Documentation
-        //## Packet name
-        char* name;
+    //##ModelId=3EADC13A00BC
+    Field * getFieldWithPacketDimension();
 
-        //##Documentation
-        //## Numbers of fields into the header that contains the dimension of packet.
-        word numberOfFieldWithPacketDimension;
-        
-        //16 or 32 bit
-        word dimensionOfPacketLenght;
+    inline word getDimensionOfPacketLenght()
+    {
+        return dimensionOfPacketLenght;
+    };
+
+private:
+
+    //##ModelId=3EADC1390359
+    //##Documentation
+    //## Packet name
+    char* name;
+
+    //##Documentation
+    //## Numbers of fields into the header that contains the dimension of packet.
+    word numberOfFieldWithPacketDimension;
+
+    //16 or 32 bit
+    word dimensionOfPacketLenght;
 
 };
 
