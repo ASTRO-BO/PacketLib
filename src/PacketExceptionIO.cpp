@@ -2,8 +2,8 @@
                           PacketExceptionIO.cpp  -  description
                              -------------------
     begin                : Tue Jan 15 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,14 +19,14 @@
 
 using namespace PacketLib;
 
-//##ModelId=3AA649E902A2
+
 PacketExceptionIO::PacketExceptionIO(const char* error) : PacketException(error)
 {
 
 }
 
 
-//##ModelId=3AA649E902AC
+
 PacketExceptionIO::~PacketExceptionIO()
 {
 

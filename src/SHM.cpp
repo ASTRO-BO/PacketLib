@@ -2,8 +2,8 @@
                           SHM.cpp  -  description
                              -------------------
     begin                : Fri Jun 21 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,14 +21,14 @@
 
 using namespace PacketLib;
 
-//##ModelId=3AA649A2005A
+
 SHM::SHM(bool bigendian) : Device (bigendian)
 {
     created = false;
 }
 
 
-//##ModelId=3AA649A200A0
+
 SHM::~SHM()
 {
     shmctl(shmid, IPC_RMID, 0);
@@ -36,7 +36,7 @@ SHM::~SHM()
 }
 
 
-//##ModelId=3DA3E5FC0302
+
 bool SHM::create(long shmkey, dword num_slot, dword slot_dim) throw(PacketExceptionIO*)
 {
     DEMORET0;
@@ -71,14 +71,14 @@ bool SHM::create(long shmkey, dword num_slot, dword slot_dim) throw(PacketExcept
 }
 
 
-//##ModelId=3AA649A200B4
+
 bool SHM::open(long shmkey, dword num_slot, dword slot_dim) throw(PacketExceptionIO*)
 {
     DEMORET0;
     //attach
     try
     {
-        //ottiene la memoria condivisa
+        /// It gets the shared memory
         if(shmkey != 0)
         {
             if((shmid = shmget(shmkey, num_slot*slot_dim, 0)) < 0)
@@ -94,7 +94,7 @@ bool SHM::open(long shmkey, dword num_slot, dword slot_dim) throw(PacketExceptio
             this->num_slot = num_slot;
             this->slot_dim = slot_dim;
         }
-        //connette la memoria condivisa
+        /// It connects the shared memory
 
         if((shm = (byte*) shmat(shmid, 0, 0)) == (byte*) -1)
             throw new PacketExceptionIO("SHM: it is impossible to connect with the shared memory.");
@@ -110,7 +110,7 @@ bool SHM::open(long shmkey, dword num_slot, dword slot_dim) throw(PacketExceptio
 }
 
 
-//##ModelId=3AA649A200FA
+
 bool SHM::close() throw(PacketExceptionIO*)
 {
     //detach
@@ -129,7 +129,7 @@ bool SHM::close() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E5FE00BE
+
 bool SHM::destroy() throw(PacketExceptionIO*)
 {
     try
@@ -148,14 +148,13 @@ bool SHM::destroy() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E5FE0168
 bool SHM::isCreated() const
 {
     return created;
 }
 
 
-//##ModelId=3DA3E5FE0244
+
 void SHM::writeSlot(dword n_slot, void* element) throw(PacketExceptionIO*)
 {
     try
@@ -175,7 +174,7 @@ void SHM::writeSlot(dword n_slot, void* element) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E5FF0122
+
 void* SHM::readSlot(dword n_slot) throw(PacketExceptionIO*)
 {
     try

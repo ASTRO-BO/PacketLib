@@ -1,3 +1,20 @@
+/***************************************************************************
+                          SDFRBBlock.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SDFRBBlock.h"
 #include "ConfigurationFile.h"
 #include "PacketExceptionFileFormat.h"
@@ -31,7 +48,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
         char* line=fp.getLine("[RBlock Configuration]");
         if(strlen(line) != 0)
         {
-            //fixed part
+            /// fixed part
             line = fp.getLine();
             if(strcmp(line, "yes") == 0)
             {
@@ -45,7 +62,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
                     throw new PacketExceptionFileFormat("Rblock file format error. Fixed part section - expected yes or no keywords.");
             }
 
-            //variable part
+            /// variable part
             line = fp.getLine();
             if(strcmp(line, "yes") == 0)
             {
@@ -61,14 +78,14 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
 
             if(variablePresent)
             {
-                //numero di rblocchi presenti
+                /// numero di rblocchi presenti
                 line = fp.getLine();
                 dword nev = atoi(line);
 
                 if(nev > 65535)
                     throw new PacketExceptionFileFormat("Too many number of Rblocks in the packet type.");
                 numberOfRBlocks = nev;
-                //si alloca la memoria per gestire gli rblock previsti
+                /// Memory allocation to handle the expected rblock
                 rblockFilename = new char* [nev];
                 rBlockVariable = new bool[nev];
                 maxNumberOfBlock = new word[nev];
@@ -95,7 +112,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
 
             if(variablePresent)
             {
-                //find the [SourceDataFieldBlock] section
+                /// It finds the [SourceDataFieldBlock] section
                 for(int i=0; i< numberOfRBlocks; i++)
                 {
                     char* linefind = Utility::integerToString3((char*)"[RBlock%d]", i+1);
@@ -111,10 +128,10 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
                         {
                             line = 0;
                         }
-                        //delete[] linefind;
+                        /// delete[] linefind;
                         linefind = 0;
 
-                        //type of number of block
+                        /// type of number of block
                         line = fp.getLine();
                         if(strcmp(line, "variable") == 0)
                         {
@@ -130,7 +147,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
                                 throw new PacketExceptionFileFormat("It's impossibile to identify the type of rblock. Expected fixed or variable keywords.");
                         }
 
-                        //number of blocks
+                        /// number of blocks
                         line = fp.getLine();
                         dword nev = atoi(line);
                         if(nev > 65535)
@@ -139,15 +156,15 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
 
 
 
-                        //header level for the index of field
+                        /// header level for the index of field
                         line = fp.getLine();
                         headerLevelOfNBlockIndex[i] = atoi(line);
 
-                        //index of field
+                        /// index of field
                         line = fp.getLine();
                         indexOfNBlock[i] = atoi(line);
 
-                        //sum value
+                        /// sum value
                         line = fp.getLine();
                         switch(line[0])
                         {
@@ -164,7 +181,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
                             subFromNBlock[i] = atoi(line);
                         }
 
-                        //file name of the rblock
+                        /// file name of the rblock
                         rblockFilename[i] = fp.getLine();
 //                             cout << "S " << rblockFilename[i] << endl;
                     }
@@ -200,7 +217,7 @@ SDFRBBlock::SDFRBBlock()
     counter++;
     //cout << counter << " " << sizeof(SDFRBBlock) << endl;
 
-    //create BlockType list
+    /// create BlockType list
     if(blockTypeList == 0)
     {
         dword nb = CONFIG_MAXNUMBER_OFCONFIGILES;
@@ -252,7 +269,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
     {
         numberOfRealDataBlock = 0;
     }
-    //si carica la fixed part (se presente)
+    /// It loads the fixed part (if present)
     if(type->fixedPresent)
     {
         fp.setpos(0);
@@ -313,8 +330,9 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
 //OK
 dword SDFRBBlock::getMaxDimension()
 {
-    dword dim = fixed.getDimension(); //for fixed part
-    //variable part
+	/// for fixed part
+    dword dim = fixed.getDimension(); 
+    ///variable part
 
     for(dword i=0; i < type->nblockmax; i++)
     {
@@ -325,7 +343,8 @@ dword SDFRBBlock::getMaxDimension()
 
 dword SDFRBBlock::getDimension()
 {
-    dword dim = fixed.getDimension(); //for fixed part
+	/// for fixed part
+    dword dim = fixed.getDimension(); 
     word bi = 0;
     word rbi = 0;
     for(int i=0; i < type->nblockmax; i++)
@@ -358,8 +377,9 @@ SDFRBBlock* SDFRBBlock::getBlock(word nblock, word rBlockIndex)
 
 void SDFRBBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
 {
-    //Nel caso in cui la parte variabile non sia presente oppure rBlockVariable = false,
-    //non e' presente un field in cui salvare il valore. La dimensione e' fissata
+
+	/// In case the variable part is not present or rBlockVariable = false,
+	/// the field where to save the value is not present. The dimension is fixed.
     if(!type->variablePresent || !type->rBlockVariable[rblockIndex])
     {
         throw new PacketException("It is not possible to set setNumberOfRealDataBlock for this rBlock: variable part not present");
@@ -427,7 +447,7 @@ word SDFRBBlock::getCurrentNumberOfBlocks()
 bool SDFRBBlock::setOutputStream(ByteStream* os, dword first)
 {
     dword start = first;
-    //setta l'output stream per la parte fixed (se presente)
+    /// It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {
         fixed.setOutputStream(os, start);
@@ -445,7 +465,7 @@ bool SDFRBBlock::setOutputStream(ByteStream* os, dword first)
             rbi = block[i].getRBlockType();
             if(bi < getNumberOfRealDataBlock(rbi))
             {
-                //solo per i blocchi validi
+                /// Only for valid blocks
                 block[i].setOutputStream(os, start);
                 start += block[i].getDimension();
             }
@@ -471,7 +491,7 @@ ByteStream* SDFRBBlock::generateStream(bool bigendian)
             rbi = block[i].getRBlockType();
             if(bi < getNumberOfRealDataBlock(rbi))
             {
-                //solo per i blocchi validi
+                /// Only for valid blocks
                 block[i].generateStream(bigendian);
             }
             else
@@ -488,7 +508,7 @@ bool SDFRBBlock::setByteStream(ByteStream* s)
     dword bytestop=0;
     stream = s;
     //ByteStream* s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
-    //setta l'output stream per la parte fixed (se presente)
+    // It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {
         bytestop += fixed.getDimension() - 1;
@@ -508,13 +528,12 @@ bool SDFRBBlock::setByteStream(ByteStream* s)
             word nrdb = getNumberOfRealDataBlock(rbi);
             if(bi < nrdb)
             {
-                //solo per i blocchi validi
-                //1) per prima cosa occorre settare la parte fissa del block[i]
-                //prima di richiamare block[i].getDimension(), altrimenti ci sono
-                //solo valori casuali
+                /// Only for valid blocks
+            	/// 1) first of all the fixed part of block[i] must be set 
+            	/// before calling  block[i].getDimension(), otherwise only random values are present
                 tempBlock->setStream(s, bytestart, s->getDimension() - 1);
                 block[i].setByteStream(tempBlock);
-                //2) ora si puo' procedere con il calcolo corretto della dimensione
+                /// 2) Now the dimension correct computation can be started
                 if(bytestop != 0)
                     bytestop += block[i].getDimension();
                 else
@@ -560,7 +579,7 @@ char** SDFRBBlock::printValue(char* addString)
             rbi = block[i].getRBlockType();
             if(bi < getNumberOfRealDataBlock(rbi))
             {
-                //solo per i blocchi validi
+                /// Only for valid blocks
                 ct = block[i].printValue(addString);
                 for(int ii=0; ct[ii] != 0; ii++)
                 {
@@ -594,7 +613,7 @@ void SDFRBBlock::printValueStdout()
             rbi = block[i].getRBlockType();
             if(bi < getNumberOfRealDataBlock(rbi))
             {
-                //solo per i blocchi validi
+                /// Only for valid blocks
                 block[i].printValueStdout();
             }
             else
@@ -612,7 +631,8 @@ string* SDFRBBlock::printStructure()
 
 word SDFRBBlock::getTotalNumberOfFields()
 {
-    word dim = fixed.getNumberOfFields(); //for fixed part
+	/// for fixed part
+    word dim = fixed.getNumberOfFields(); 
     word bi = 0;
     word rbi = 0;
     int j;

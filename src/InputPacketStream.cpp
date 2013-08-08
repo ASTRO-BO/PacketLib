@@ -2,8 +2,8 @@
                           InputPacketStream.cpp  -  description
                              -------------------
     begin                : Sun Oct 27 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,32 +19,31 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E5730122
+
 InputPacketStream::InputPacketStream() : PacketStream()
 {
     in = 0;
 }
 
 
-//##ModelId=3DA3E57400AA
+
 InputPacketStream::InputPacketStream(const char* fileNameConfig) : PacketStream(fileNameConfig)
 {
     in = 0;
 }
 
 
-//##ModelId=3DA3E5740118
+
 InputPacketStream::~InputPacketStream()
 {
 
 }
 
 
-//##ModelId=3C3AB71401AE
 int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
-    // Iterate through list and output each element.
-    // Il packetType 0 e' il packet not recognized
+    ///  Iterate through list and output each element.
+    ///  The packetType 0 is the packet not recognized
     for (int i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
@@ -55,11 +54,11 @@ int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packetHeade
 }
 
 
-//##ModelId=3DA3E57500D2
+
 int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packet)
 {
-    // Iterate through list and output each element.
-    // Il packetType 0 e' il packet not recognized
+    /// Iterate through list and output each element.
+    /// The packetType 0 is the packet not recognized
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
@@ -70,14 +69,14 @@ int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packet)
 }
 
 
-//##ModelId=3DBFBFBD03D4
+
 void InputPacketStream::setInput(Input* in)
 {
     this->in = in;
 }
 
 
-//##ModelId=3DBFBFBE00C8
+
 Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
 {
     unsigned dimHeader = getHeaderDimension();

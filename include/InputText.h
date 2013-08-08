@@ -2,8 +2,8 @@
                           InputText.h  -  description
                              -------------------
     begin                : Mon Mar 4 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef INPUTTEXT_H
-#define INPUTTEXT_H
+#ifndef _INPUTTEXT_H
+#define _INPUTTEXT_H
 
 #include "PacketLibDefinition.h"
 #include "PacketExceptionIO.h"
@@ -24,7 +24,7 @@
 namespace PacketLib
 {
 
-//This class represents generic type of input. The input must be a text input. This class is used for the configuration files
+/// This class represents generic type of input. The input must be a text input. This class is used for the configuration files
 class InputText
 {
 public:

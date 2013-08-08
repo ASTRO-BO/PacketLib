@@ -1,8 +1,25 @@
+/***************************************************************************
+                          PacketDataField.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "PacketDataField.h"
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E5A4033E
+
 PacketDataField::PacketDataField() : PartOfPacket("Packet Data Field")
 {
     dataFieldHeader = (DataFieldHeader*) new DataFieldHeader();
@@ -10,7 +27,7 @@ PacketDataField::PacketDataField() : PartOfPacket("Packet Data Field")
     sourceDataField = 0;
 };
 
-//##ModelId=3DA3E5A4037A
+
 PacketDataField::~PacketDataField()
 {
     delete dataFieldHeader;
@@ -19,7 +36,7 @@ PacketDataField::~PacketDataField()
 }
 
 
-//##ModelId=3DA3E5A500D2
+
 dword PacketDataField::getDimension()
 {
     if(sourceDataField != 0)
@@ -29,7 +46,7 @@ dword PacketDataField::getDimension()
 }
 
 
-//##ModelId=3DA3E5A5010E
+
 dword PacketDataField::getMaxDimension()
 {
     if(sourceDataField != 0)
@@ -39,11 +56,11 @@ dword PacketDataField::getMaxDimension()
 }
 
 
-//##ModelId=3DA3E5A403AC
+
 word PacketDataField::getNumberOfRealDataBlock()
 {
-    //nel caso del packet block, deve essere presente un campo in cui �indicato
-    //il numero di blocchi presenti, solo se numero di blocchi fissi = false
+    /// For the packet block case, a field must be present to indicate the number 
+	/// of present blocks, if the number of fixed blocks = false
     if(sourceDataField->isBlock())
     {
         if(!sourceDataField->isNumberOfBlockFixed())
@@ -54,7 +71,7 @@ word PacketDataField::getNumberOfRealDataBlock()
         }
         else
         {
-            //se numero di blocchi fissi �true, allora si prende il max
+            /// If the number of fixed blocks is true, it gets the max value
             return sourceDataField->getMaxNumberOfBlock();
         }
     }
@@ -63,7 +80,7 @@ word PacketDataField::getNumberOfRealDataBlock()
 }
 
 
-//##ModelId=3DA3E5A50000
+
 void PacketDataField::setNumberOfRealDataBlock(word number)
 {
     if(number > sourceDataField->getMaxNumberOfBlock())
@@ -80,7 +97,7 @@ void PacketDataField::setNumberOfRealDataBlock(word number)
 }
 
 
-//##ModelId=3DA3E5A5017C
+
 bool PacketDataField::setOutputStream(ByteStream* os, word first)
 {
     delete outputstream;
@@ -97,7 +114,7 @@ bool PacketDataField::setOutputStream(ByteStream* os, word first)
 }
 
 
-//##ModelId=3DA3E5A60028
+
 ByteStream* PacketDataField::generateStream(bool bigendian)
 {
     dataFieldHeader->generateStream(bigendian);

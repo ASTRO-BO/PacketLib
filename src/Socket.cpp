@@ -2,8 +2,8 @@
                           Socket.cpp  -  description
                              -------------------
     begin                : Thu May 16 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -26,7 +26,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E600000A
+
 Socket::Socket(bool bigendian) : Device(bigendian),  m_sock ( -1 )
 {
 
@@ -35,7 +35,7 @@ Socket::Socket(bool bigendian) : Device(bigendian),  m_sock ( -1 )
 }
 
 
-//##ModelId=3DA3E600003C
+
 Socket::~Socket()
 {
     if ( is_valid() )
@@ -43,7 +43,7 @@ Socket::~Socket()
 }
 
 
-//##ModelId=3DA3E6000118
+
 bool Socket::create() throw(PacketExceptionIO*)
 {
     m_sock = socket ( AF_INET,
@@ -63,7 +63,7 @@ bool Socket::create() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E600011A
+
 bool Socket::close() throw(PacketExceptionIO*)
 {
 
@@ -74,7 +74,7 @@ bool Socket::close() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E6000078
+
 bool Socket::send ( ByteStream * b ) const throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();
@@ -92,7 +92,7 @@ bool Socket::send ( ByteStream * b ) const throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E600007B
+
 ByteStream* Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
 {
     //ByteStream* b = new ByteStream(dim, bigendian);

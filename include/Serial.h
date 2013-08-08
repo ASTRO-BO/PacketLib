@@ -2,8 +2,8 @@
                           Serial.h  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,9 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef SERIAL_h_h_ZC2002
-#define SERIAL_h_h_ZC2002
+ 
+#ifndef _SERIAL_H
+#define _SERIAL_H
 #include "PacketLibDefinition.h"
 #include <termios.h>
 #include <fcntl.h>
@@ -29,19 +30,13 @@
 namespace PacketLib
 {
 
-//##ModelId=3C0F6BDB0029
-//##Documentation
-//##	$Date: 2005/03/09 10:57:50 $
-//##	$Header: /home/repository/cvs/gtb/PacketLib/include/Serial.h,v 1.3 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Id: Serial.h,v 1.3 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Revision: 1.3 $
-//##	\brief Represent a serial I/O port
+///	\brief Represent a serial I/O port
 
 class Serial
 {
 
 public:
-    // Common parameters
+    /// Common parameters
     static const int
     b1200		= 1200,
          b1800		= 1800,
@@ -59,22 +54,25 @@ public:
     SERIAL2	= 2;
 
     static const int
-    RDO		= 0,		// Read only
-       WRO		= 1,		// Write only
-          RDWR	= 2;		// Read & Write
+    /// Read only
+    RDO		= 0,		
+       /// Write only
+       WRO		= 1,		
+          /// Read & Write
+          RDWR	= 2;		
 
-    // Construction & Destruction
+    /// Construction & Destruction
     Serial();
     Serial( char* path, int oflag );
     Serial( int dev, int oflag );
     ~Serial();
 
-    // Open & Close serial connection
+    /// Open & Close serial connection
     int 	open( char* path, int oflag );
     int 	open( int dev, int oflag );
     void	close();
 
-    // Svuota il buffer della seriale (ad es. prima dell'acquisizione)
+    /// Svuota il buffer della seriale (ad es. prima dell'acquisizione)
     int 	dump();
 
     int 	set( speed_t baud );

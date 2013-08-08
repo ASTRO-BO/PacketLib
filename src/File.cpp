@@ -1,9 +1,9 @@
 /***************************************************************************
-                          file.cpp  -  description
+                          File.cpp  -  description
                              -------------------
     begin                : Tue Nov 20 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -23,15 +23,14 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E56900F0
 dword File::byte_read = 0;
-//##ModelId=3DA3E56A0078
+
 dword File::char_read = 0;
 
-//##ModelId=3C0F6C1A0012
 File::File() : Device(false)
 {
-    //	bigendian = false; //si presume che la macchina sia little endian
+    ///	\param bigendian = false; 
+	/// \remarks A little endian machine is assumed
     startPosition = 0;
     filename = 0;
     bookmarkPos =0;
@@ -39,10 +38,11 @@ File::File() : Device(false)
 }
 
 
-//##ModelId=3C187750028F
+
 File::File(bool b, long startP) : Device(b)
 {
-    //bigendian = b;   //si specifica il formato endian della macchina
+    /// \param bigendian = b;   
+	/// The machine endian format is specified
     startPosition = startP;
     filename = 0;
     bookmarkPos =0;
@@ -56,7 +56,6 @@ File::~File()
     //delete[] mode;
 }
 
-//##ModelId=3C0F6C1A0013
 bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*)
 {
     DEMORET0;
@@ -85,7 +84,6 @@ bool File::open(const char* filename, const char* mode) throw(PacketExceptionIO*
 }
 
 
-//##ModelId=3C0F6C1A0016
 int File::getByte()
 {
     int c;
@@ -108,7 +106,6 @@ int File::getByte()
 }
 
 
-//##ModelId=3C0F6C1A0018
 ByteStream* File::getNByte(dword N)
 {
     dword i = 0;
@@ -157,7 +154,6 @@ ByteStream* File::getNByte(dword N)
 }
 
 
-//##ModelId=3C0F6C1A001B
 char* File::getLine() throw(PacketExceptionIO*)
 {
     //char* s = new char[500];
@@ -217,7 +213,6 @@ long File::getNumberOfStringLines()
     return nlines;
 }
 
-//##ModelId=3C0F6C1A001F
 void File::close( )  throw(PacketExceptionIO*)
 {
     if(!closed)
@@ -229,21 +224,18 @@ void File::close( )  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3C0F6C1A0021
 bool File::isClosed()
 {
     return closed;
 }
 
 
-//##ModelId=3C15F42303C4
 char* File::getLastLineRead()
 {
     return lastLineRead;
 }
 
 
-//##ModelId=3C205AF20278
 dword File::setpos(dword offset)  throw(PacketExceptionIO*)
 {
     dword f;
@@ -257,14 +249,13 @@ dword File::setpos(dword offset)  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3C205AF202C3
+
 dword File::getpos()
 {
     return ftell(fp);
 }
 
 
-//##ModelId=3C205AF20313
 bool File::memBookmarkPos()
 {
     if((bookmarkPos =  ftell(fp)) != (dword) -1)
@@ -274,7 +265,7 @@ bool File::memBookmarkPos()
 }
 
 
-//##ModelId=3C205AF20334
+
 bool File::setLastBookmarkPos()
 {
     if(fseek(fp, bookmarkPos, SEEK_SET) == 0)
@@ -284,7 +275,7 @@ bool File::setLastBookmarkPos()
 }
 
 
-//##ModelId=3A5A30B40368
+
 bool File::isEOF()
 {
     if(!closed)
@@ -294,14 +285,13 @@ bool File::isEOF()
 }
 
 
-//##ModelId=3C51324A022E
+
 int File::setFirstPos()  throw(PacketExceptionIO*)
 {
     return setpos(startPosition);
 }
 
 
-//##ModelId=3C51324A0299
 bool File::fchdir() throw(PacketExceptionIO*)
 {
 
@@ -324,8 +314,7 @@ bool File::fchdir() throw(PacketExceptionIO*)
 }
 
 
-/** No descriptions */
-//##ModelId=3C51324A0304
+
 long File::find(byte b)   throw(PacketExceptionIO*)
 {
     byte f;
@@ -339,7 +328,6 @@ long File::find(byte b)   throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E56D0244
 bool File::writeString(const char* str) throw(PacketExceptionIO*)
 {
     if(str != 0)
@@ -350,7 +338,7 @@ bool File::writeString(const char* str) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E56F00DC
+
 bool File::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();

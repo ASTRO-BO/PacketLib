@@ -1,8 +1,24 @@
+/***************************************************************************
+                          FileStream.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "FileStream.h"
 
 using namespace PacketLib;
 
-//##ModelId=3C1877500365
 FileStream::FileStream(bool prefix, bool bigen, word dimprefix, long startposition)
     : File(bigen, startposition)
 {
@@ -11,7 +27,6 @@ FileStream::FileStream(bool prefix, bool bigen, word dimprefix, long startpositi
 }
 
 
-//##ModelId=3C205AF20368
 ByteStream* FileStream::readHeader(unsigned int dimHeader)
 {
     header = getNByte(dimHeader);
@@ -19,7 +34,6 @@ ByteStream* FileStream::readHeader(unsigned int dimHeader)
 }
 
 
-//##ModelId=3C205AF2036F
 ByteStream* FileStream::readDataField(unsigned int dimDataField)
 {
     dataField = getNByte(dimDataField);
@@ -27,8 +41,6 @@ ByteStream* FileStream::readDataField(unsigned int dimDataField)
 }
 
 
-/** No descriptions */
-//##ModelId=3C87744100F3
 ByteStream* FileStream::readPrefix()
 {
     if(thereIsPrefix)

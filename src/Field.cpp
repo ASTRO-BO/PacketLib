@@ -1,6 +1,20 @@
-/**
- * @(#) Field.cpp
- */
+/***************************************************************************
+                          Field.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+
 
 #include "Field.h"
 #include "Utility.h"
@@ -10,11 +24,10 @@ using namespace PacketLib;
 static FieldType** filedTypeList = 0;
 
 
-//##ModelId=3C0F6C1A0001
 Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 {
     value = 0;
-    //create FieldType list
+    /// create FieldType list
     if(filedTypeList == 0)
     {
         //cout << "create list" << endl;
@@ -60,7 +73,6 @@ Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
 }
 
 
-//##ModelId=3ACCD75E036B
 Field::~Field()
 {
 

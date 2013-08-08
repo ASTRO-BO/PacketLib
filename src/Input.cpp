@@ -2,8 +2,8 @@
                           Input.cpp  -  description
                              -------------------
     begin                : Sat Oct 26 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,6 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFBC01EB
 Input::Input(bool bigendian)
 {
     eof = true;
@@ -28,21 +27,18 @@ Input::Input(bool bigendian)
 }
 
 
-//##ModelId=3DBFBFBC01ED
 Input::~Input()
 {
 
 }
 
 
-//##ModelId=3DBFBFBC025B
 bool Input::isClosed()
 {
     return closed;
 }
 
 
-//##ModelId=3DBFBFBC025D
 bool Input::isEOF()
 {
     if( closed)
@@ -52,7 +48,6 @@ bool Input::isEOF()
 }
 
 
-//##ModelId=3DBFBFBC025F
 bool Input::isBigendian()
 {
     return bigendian;

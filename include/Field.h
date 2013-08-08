@@ -1,9 +1,9 @@
 /***************************************************************************
-                          Field.h  -  description
+                          Field.h   
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,9 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef Field_h_h
-#define Field_h_h
+
+#ifndef _FIELD_H_H
+#define _FIELD_H_H
 
 #include "PacketLibDefinition.h"
 
@@ -28,54 +29,54 @@ class FieldType
 
 public:
 
-    //Dimension of field in bit.
+    /// Dimension of field in bit.
     word dimension;
 
-    //It indicates that there's a predefined value for this field.
+    /// It indicates that there's a predefined value for this field.
     bool thereIsPredefinedValue;
 
-    //Predefined value of field (for the generation of packet).
+    /// Predefined value of field (for the generation of packet).
     int predefinedValue;
 
-    //Name of the field.
+    /// Name of the field.
     char* name;
 };
 
 
 
-//A single field of a telemetry packet
+/// A single field of a telemetry packet
 class Field
 {
 public:
 
-    //Constructor of class.
+    /// Constructor of class.
     Field(char* name, char* dimension, char* predefinedValue, int progressiv);
 
-    //Destructor of class.
+    /// Destructor of class.
     ~Field();
 
-    //Value reads from stream of byte (from packet).
+    /// Value reads from stream of byte (from packet).
     word value;
 
-    //Dimension of field in bit.
+    /// Dimension of field in bit.
     inline dword getDimension()
     {
         return type->dimension;
     };
 
-    //It indicates that there's a predefined value for this field.
+    /// It indicates that there's a predefined value for this field.
     inline bool thereIsPredefinedValue()
     {
         return type->thereIsPredefinedValue;
     };
 
-    //Predefined value of field (for the generation of packet).
+    /// Predefined value of field (for the generation of packet).
     inline int getPredefinedValue()
     {
         return type->predefinedValue;
     };
 
-    //Name of the field.
+    /// Name of the field.
     inline char* getName()
     {
         return type->name;
@@ -88,7 +89,7 @@ public:
 
 protected:
 
-    //Index of packet in the list of packet.
+    /// Index of packet in the list of packet.
     int progressiv;
 
     FieldType * type;

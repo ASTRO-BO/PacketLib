@@ -1,8 +1,25 @@
+/***************************************************************************
+                          SourceDataField.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SourceDataField.h"
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E603001E
+
 SourceDataField::SourceDataField(const char* sdfName) : PartOfPacket(sdfName)
 {
     fixed = false;
@@ -40,28 +57,27 @@ char* SourceDataField::printInHexadecimal()
     return c;
 }
 
-//##ModelId=3C301E8A0081
+
 bool SourceDataField::isBlock()
 {
     return isblock;
 }
 
 
-//##ModelId=3C347EA003C8
+
 bool SourceDataField::isFixed()
 {
     return fixed;
 }
 
 
-//##ModelId=3C35EF40001F
+
 bool SourceDataField::isNumberOfBlockFixed(word rblockIndex)
 {
     return numberOfBlockFixed[rblockIndex];
 }
 
 
-//##ModelId=3C35EF4303B7
 word SourceDataField::getMaxNumberOfBlock(word rblockIndex)
 {
     return maxNumberOfBlock[rblockIndex];
@@ -81,7 +97,7 @@ word SourceDataField::getIndexOfNBlock(word rblockIndex)
 }
 
 
-//##ModelId=3C9AEC0A01AD
+
 void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
 {
     numberOfRealDataBlock[rblockIndex] = number;
@@ -89,20 +105,20 @@ void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex) th
 }
 
 
-//##ModelId=3C9AEC0B011F
+
 word SourceDataField::getNumberOfRealDataBlock(word rblockIndex)
 {
     return  numberOfRealDataBlock[rblockIndex];
 }
 
 
-//##ModelId=3DA3E63E0384
+
 word SourceDataField::getNumberOfFields()
 {
     return PartOfPacket::getNumberOfFields();
 };
 
-//##ModelId=3DA3E6380320
+
 word SourceDataField::getNumberOfFields(word block)
 {
     return 0;
@@ -115,13 +131,13 @@ dword SourceDataField::getDimension()
 }
 
 
-//##ModelId=3C9AFF7A0170
+
 word SourceDataField::getNumberOfRealElement(word block)
 {
     return 0;
 }
 
-//##ModelId=3DA3E6430082
+
 void SourceDataField::setNumberOfRealElement(word block, word value)
 {
 
@@ -146,8 +162,10 @@ float SourceDataField::getFieldValue_5_1(word block, word index)
 {
     union u_tag
     {
-        unsigned long i;		//32 bit
-        float f;	//32 bit single precision
+    	/// 32 bit
+        unsigned long i;
+        /// 32 bit single precision
+        float f;	
     } u;
     u.i = (getFieldValue(block, index) << 16) | getFieldValue(block, index + 1);
     return u.f;
@@ -157,8 +175,10 @@ void SourceDataField::setFieldValue_5_1(word block, word index, float value)
 {
     union u_tag
     {
-        unsigned long i;		//32 bit
-        float f;	//32 bit single precision
+    	/// 32 bit
+    	unsigned long i;		
+        /// 32 bit single precision
+        float f;	
     } u;
     word w;
     u.f = value;
@@ -188,13 +208,15 @@ signed long SourceDataField::getFieldValue_4_13(word block, word index)
 {
     union u_tag
     {
-        unsigned long u;		//32 bit
+    	/// 32 bit
+    	unsigned long u;		
         signed long s;
     } us;
     us.u = getFieldValue_3_14(block, index);
-    unsigned long sign = (us.u  >> 23); //get the sign
+    /// gets the sign
+    unsigned long sign = (us.u  >> 23); 
     unsigned long wh = us.u & 0x007FFFFF;
-    //get a long 32 bit
+    /// gets a long 32 bit
     if(sign == 1)
         us.u = 0x7F800000 + wh + (sign << 31);
     else
@@ -206,7 +228,8 @@ void  SourceDataField::setFieldValue_4_13(word block, word index, signed long va
 {
     union u_tag
     {
-        unsigned long u;		//32 bit
+    	/// 32 bit
+        unsigned long u;		
         signed long s;
     } us;
     if(value > U24BITINTGEGERSIGNED_MAX)
@@ -215,7 +238,8 @@ void  SourceDataField::setFieldValue_4_13(word block, word index, signed long va
         throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
     us.s = value;
     unsigned long sign = (us.u >> 31);
-    unsigned long wh = us.u & 0x007FFFFF; //23 bit
+    /// 23 bit
+    unsigned long wh = us.u & 0x007FFFFF; 
     unsigned long value2 = 0;
     value2 = wh + (sign << 23);
     setFieldValue_3_14(block, index, value2);
@@ -256,7 +280,7 @@ void SourceDataField::setFieldValue_3_13(word block, word index, unsigned long v
     setFieldValue(block, index + 1, w);
 }
 
-//##ModelId=3DA3E6120276
+
 dword SourceDataField::getDimension(word block)
 {
     return 0;
@@ -267,20 +291,20 @@ dword SourceDataField::getMaxDimension(word nblock)
     return 0;
 }
 
-//##ModelId=3DA3E60B0064
+
 word SourceDataField::getMaxNumberOfElements(word nblock)
 {
     return 0;
 }
 
-//##ModelId=3DA3E64B0320
+
 bool SourceDataField::get_reset_output_stream() const
 {
     return reset_output_stream;
 }
 
 
-//##ModelId=3DA3E6500168
+
 void SourceDataField::set_reset_output_stream(bool value)
 {
     reset_output_stream = value;

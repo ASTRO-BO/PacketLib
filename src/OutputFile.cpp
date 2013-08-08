@@ -2,8 +2,8 @@
                           OutputFile.cpp  -  description
                              -------------------
     begin                : Mon Apr 29 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,21 +19,21 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E57C02A8
+
 OutputFile::OutputFile(bool bigendian) : Output(bigendian)
 {
     file = new File(bigendian, 0);
 }
 
 
-//##ModelId=3DA3E57C02DA
+
 OutputFile::~OutputFile()
 {
     delete file;
 }
 
 
-//##ModelId=3DA3E57C02DC
+
 void OutputFile::close()  throw(PacketExceptionIO*)
 {
     file->close();
@@ -41,7 +41,7 @@ void OutputFile::close()  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0317
+
 bool OutputFile::open(char** parameters) throw(PacketExceptionIO*)
 {
     file->open(parameters[0], "w");
@@ -51,7 +51,7 @@ bool OutputFile::open(char** parameters) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0348
+
 bool OutputFile::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 {
     if(!isclosed)
@@ -63,7 +63,7 @@ bool OutputFile::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0384
+
 bool OutputFile::writeString(const char* str) throw(PacketExceptionIO*)
 {
     if(!isclosed)

@@ -1,3 +1,20 @@
+/***************************************************************************
+                          SDFBlockVariable.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SDFBlockVariable.h"
 #include "ByteStream.h"
 #include "Field.h"
@@ -7,7 +24,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3C3576980390
+
 bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
 {
     try
@@ -26,7 +43,7 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
             numberOfBlockFixed[0] = false;
         //delete line;
 
-        //numero massimo di blocchi presenti
+        /// Maximum number of present blocks
         line = fp.getLine();
         maxNumberOfBlock[0] = atoi(line);
         //delete line;
@@ -34,19 +51,19 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
         if(numberOfBlockFixed[0])
             numberOfRealDataBlock[0] = maxNumberOfBlock[0];
 
-        //indice del fields che contiene il numero di blocchi presenti
+        /// Field index containing the number of present blocks
         line = fp.getLine();
         indexOfNBlock[0] = atoi(line);
         //delete line;
 
-        //valore da sottrarre al valore nel field dell'indice precedente per ottenere il numero reale di blocchi
+        /// Value to be subtracted to the field value in the previous index to get the real number of blocks
         line = fp.getLine();
         subFromNBlock[0] =  atoi(line);
         //delete line;
 
         blocks = (SDFBVBlock*) new SDFBVBlock[maxNumberOfBlock[0]];
 
-        //find the [SourceDataFieldBlock] section
+        /// find the [SourceDataFieldBlock] section
         if(strlen(line=fp.getLine("[SourceDataFieldBlockFixed]")) != 0)
         {
             if(first1)
@@ -58,19 +75,19 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
             //fp.memBookmarkPos();
             for(int i=0; i<maxNumberOfBlock[0]; i++)
             {
-                //read supposed number (or max number) of element
+                /// read supposed number (or max number) of element
                 //line = fp.getLine();
                 line = buffer1->getbuffer();
                 maxNumberOfElement = atoi(line);
                 //			delete line;
 
-                //index of field in the [SourceDataFieldBlockFixed] section wich rappresent the number of element (the number of bar) of the block
+                /// index of field in the [SourceDataFieldBlockFixed] section wich rappresent the number of element (the number of bar) of the block
                 //		line = fp.getLine();
                 line = buffer1->getbuffer();
                 indexOfNElement = atoi(line);
                 //delete line;
 
-                //numero da sommare per ottenere il numero di elements reale
+                /// Number to sum to get the real number of elements
                 //line = fp.getLine();
                 line = buffer1->getbuffer();
                 addToNElements   = atoi(line);
@@ -90,7 +107,7 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
                     if(strcmp(linesection, "[SourceDataFieldBlockVariable]") == 0)
                     {
                         //					delete line;
-                        //alloca lo spazio necessario
+                        /// It allocates the required space
                         blocks[i].variables = (SDFBVBlockVariable*) new SDFBVBlockVariable[maxNumberOfElement];
 
                         if(first2)
@@ -99,7 +116,7 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
                             first2 = false;
                         }
                         buffer2->readRewind();
-                        //memorizza il bookmark
+                        /// It memorizes the bookmark
                         //					long pos = fp.getpos();
                         for(int j=0; j<maxNumberOfElement; j++)
                             if(blocks[i].variables[j].loadFields(buffer2))
@@ -137,7 +154,7 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
 }
 
 
-//##ModelId=3C357B8103E6
+
 SDFBlockVariable::SDFBlockVariable() : SourceDataField("SDF Block Variable")
 {
     isblock = true;
@@ -148,13 +165,13 @@ SDFBlockVariable::SDFBlockVariable() : SourceDataField("SDF Block Variable")
 }
 
 
-//##ModelId=3C357B85035D
+
 SDFBlockVariable::~SDFBlockVariable()
 {
 }
 
 
-//##ModelId=3A54BDE40309
+
 word SDFBlockVariable::getNumberOfFields()
 {
     word number_of_real_element;
@@ -171,7 +188,7 @@ word SDFBlockVariable::getNumberOfFields()
 }
 
 
-//##ModelId=3A54BDE4032D
+
 bool SDFBlockVariable::setByteStream(ByteStream* s)
 {
     word bytestart=0, bytestop=0;
@@ -204,7 +221,7 @@ bool SDFBlockVariable::setByteStream(ByteStream* s)
 }
 
 
-//##ModelId=3A54BDE40376
+
 dword SDFBlockVariable::getDimension()
 {
     dword nb = getNumberOfRealDataBlock();
@@ -215,7 +232,6 @@ dword SDFBlockVariable::getDimension()
 }
 
 
-//##ModelId=3DA3E5DB0104
 dword SDFBlockVariable::getMaxDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
@@ -225,7 +241,6 @@ dword SDFBlockVariable::getMaxDimension(word nblock)
 }
 
 
-//##ModelId=3DA3E5D900AA
 dword SDFBlockVariable::getDimension(word block)
 {
     if(block < numberOfRealDataBlock[0])
@@ -235,7 +250,7 @@ dword SDFBlockVariable::getDimension(word block)
 }
 
 
-//##ModelId=3DA3E5DA01EA
+
 dword SDFBlockVariable::getMaxDimension()
 {
     dword nb = getMaxNumberOfBlock();
@@ -246,7 +261,6 @@ dword SDFBlockVariable::getMaxDimension()
 }
 
 
-//##ModelId=3A54BDE40351
 char** SDFBlockVariable::printValue(char* addString)
 {
     char** cc;
@@ -283,14 +297,12 @@ char** SDFBlockVariable::printValue(char* addString)
 }
 
 
-//##ModelId=3C35F9580094
 string* SDFBlockVariable::printStructure()
 {
     return new string("string* SDFBlockVariable::printStructure() - TODO");
 }
 
 
-//##ModelId=3C9AED040307
 Field* SDFBlockVariable::getFields(word block, word index)
 {
     if(block < numberOfRealDataBlock[0] && index < blocks[block].getNumberOfFields())
@@ -315,13 +327,12 @@ Field* SDFBlockVariable::getFields(word index)
 }
 
 
-//##ModelId=3C9AFF9E0157
 word SDFBlockVariable::getNumberOfRealElement(word block)
 {
     return blocks[block].fixed.getNumberOfRealElement();
 };
 
-//##ModelId=3DA3E5F002E4
+
 void SDFBlockVariable::setNumberOfRealElement(word nblock, word value)
 {
     if(nblock < numberOfRealDataBlock[0])
@@ -331,14 +342,12 @@ void SDFBlockVariable::setNumberOfRealElement(word nblock, word value)
     reset_output_stream = true;
 };
 
-//##ModelId=3DA3E5DC02E4
 word SDFBlockVariable::getMaxNumberOfElements(word block)
 {
     return blocks[block].fixed.getMaxNumberOfElement();
 }
 
 
-//##ModelId=3DA3E5DE0154
 word SDFBlockVariable::getNumberOfFields(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
@@ -348,7 +357,7 @@ word SDFBlockVariable::getNumberOfFields(word nblock)
 }
 
 
-//##ModelId=3DA3E5E00028
+
 word SDFBlockVariable::getFieldValue(word index)
 {
     Field* f = getFields(index);
@@ -359,7 +368,6 @@ word SDFBlockVariable::getFieldValue(word index)
 }
 
 
-//##ModelId=3DA3E5E10352
 word SDFBlockVariable::getFieldValue(word block, word index)
 {
     Field* f = getFields(block, index);
@@ -370,7 +378,6 @@ word SDFBlockVariable::getFieldValue(word block, word index)
 }
 
 
-//##ModelId=3DA3E5E401EA
 void SDFBlockVariable::setFieldValue(word index, word value)
 {
     Field* f = getFields(index);
@@ -379,7 +386,7 @@ void SDFBlockVariable::setFieldValue(word index, word value)
 }
 
 
-//##ModelId=3DA3E5E7015E
+
 void SDFBlockVariable::setFieldValue(word block, word index, word value)
 {
     Field* f = getFields(block, index);
@@ -388,7 +395,7 @@ void SDFBlockVariable::setFieldValue(word block, word index, word value)
 }
 
 
-//##ModelId=3DA3E5EB00BE
+
 bool SDFBlockVariable::setOutputStream(ByteStream* os, dword first)
 {
     dword mnb = getNumberOfRealDataBlock();
@@ -404,7 +411,7 @@ bool SDFBlockVariable::setOutputStream(ByteStream* os, dword first)
 }
 
 
-//##ModelId=3DA3E5EE017C
+
 ByteStream* SDFBlockVariable::generateStream(bool bigendian)
 {
     word mnb = getNumberOfRealDataBlock();

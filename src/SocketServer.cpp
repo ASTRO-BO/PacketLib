@@ -2,8 +2,8 @@
                           SocketServer.cpp  -  description
                              -------------------
     begin                : Thu May 16 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,7 +21,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E6000230
+
 SocketServer::SocketServer (bool bigendian, int port ) : Socket(bigendian)
 {
     if ( ! create() )
@@ -36,20 +36,20 @@ SocketServer::SocketServer (bool bigendian, int port ) : Socket(bigendian)
 }
 
 
-//##ModelId=3DA3E60001F5
+
 SocketServer::SocketServer (bool bigendian) : Socket(bigendian)
 {
 
 };
 
-//##ModelId=3DA3E6000262
+
 SocketServer::~SocketServer()
 {
 
 }
 
 
-//##ModelId=3DA3E6000264
+
 bool SocketServer::bind ( const int port ) throw(PacketExceptionIO*)
 {
 
@@ -75,7 +75,7 @@ bool SocketServer::bind ( const int port ) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E600029E
+
 bool SocketServer::listen() const  throw(PacketExceptionIO*)
 {
     if ( ! is_valid() )
@@ -94,7 +94,6 @@ bool SocketServer::listen() const  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E60002D0
 bool SocketServer::accept ( SocketServer& new_socket ) throw(PacketExceptionIO*)
 {
     int addr_length = sizeof ( m_addr );
@@ -107,7 +106,7 @@ bool SocketServer::accept ( SocketServer& new_socket ) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E60002A0
+
 void SocketServer::set_non_blocking ( const bool b )
 {
 

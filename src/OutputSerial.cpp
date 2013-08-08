@@ -2,8 +2,8 @@
                           OutputSerial.cpp  -  description
                              -------------------
     begin                : Mon Apr 29 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,21 +19,21 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E57C02A8
+
 OutputSerial::OutputSerial(bool bigendian) : Output(bigendian)
 {
     serial = new Serial();
 }
 
 
-//##ModelId=3DA3E57C02DA
+
 OutputSerial::~OutputSerial()
 {
     delete serial;
 }
 
 
-//##ModelId=3DA3E57C02DC
+
 void OutputSerial::close()  throw(PacketExceptionIO*)
 {
     serial->close();
@@ -41,7 +41,7 @@ void OutputSerial::close()  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0317
+
 bool OutputSerial::open(char** parameters) throw(PacketExceptionIO*)
 {
     flag   = atoi( parameters[1] );
@@ -52,7 +52,7 @@ bool OutputSerial::open(char** parameters) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0348
+
 bool OutputSerial::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 {
     byte* buff = b->getStream();
@@ -68,7 +68,7 @@ bool OutputSerial::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57C0384
+
 bool OutputSerial::writeString(const char* str) throw(PacketExceptionIO*)
 {
     /*   if(!isclosed)

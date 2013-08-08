@@ -2,8 +2,8 @@
                           Device.cpp  -  description
                              -------------------
     begin                : Mon Mar 4 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +17,7 @@
 
 #include "Device.h"
 using namespace PacketLib;
-//##ModelId=3C87744002A0
+
 Device::Device(bool bigendian)
 {
     eof = true;
@@ -25,8 +25,6 @@ Device::Device(bool bigendian)
     this->bigendian = bigendian;
 }
 
-
-//##ModelId=3DC552600182
 bool Device::isBigEndian() const
 {
     return bigendian;
@@ -36,14 +34,12 @@ bool Device::isBigEndian() const
 /*Device::~Device(){
 } */
 
-//##ModelId=3C87744002A2
 bool Device::isClosed() const
 {
     return closed;
 }
 
 
-//##ModelId=3C87744002AB
 bool Device::isEOF() const
 {
     if(!closed)
@@ -53,16 +49,14 @@ bool Device::isEOF() const
 }
 
 
-/** Read property of bool endsession. */
-//##ModelId=3ACCD75E031C
+/// Read property of bool endsession. 
 const bool& Device::getEndSession() const
 {
     return endsession;
 }
 
 
-/** Write property of bool endsession. */
-//##ModelId=3ACCD75E02EE
+/// Write property of bool endsession.
 void Device::setEndSession( const bool& _newVal)
 {
     endsession = _newVal;

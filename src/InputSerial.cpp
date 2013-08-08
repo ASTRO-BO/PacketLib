@@ -1,9 +1,9 @@
 /***************************************************************************
-                          InputFile.cpp  -  description
+                          InputSerial.cpp  -  description
                              -------------------
     begin                : Sat Oct 26 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,21 +19,20 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFBD00D2
+
 InputSerial::InputSerial(bool bg) : Input(bg)
 {
     serial = new Serial();
 }
 
 
-//##ModelId=3DBFBFBD00D4
+
 InputSerial::~InputSerial()
 {
     delete serial;
 }
 
 
-//##ModelId=3DBFBFBD00D5
 bool InputSerial::open( char** parameters ) throw(PacketExceptionIO*)
 {
     flag   = atoi( parameters[1] );
@@ -48,7 +47,7 @@ bool InputSerial::open( char** parameters ) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD00D8
+
 void InputSerial::close()  throw(PacketExceptionIO*)
 {
     serial->close();
@@ -56,7 +55,7 @@ void InputSerial::close()  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD0104
+
 ByteStream* InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
 {
     //cout << "waiting " << n_byte << endl;
@@ -91,7 +90,7 @@ ByteStream* InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD0107
+
 char* InputSerial::readString() throw(PacketExceptionIO*)
 {
     /*    char* c;

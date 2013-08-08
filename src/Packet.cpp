@@ -1,10 +1,27 @@
+/***************************************************************************
+                          Packet.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "Packet.h"
 #include "Field.h"
 #include "PacketLibDemo.h"
 
 using namespace PacketLib;
 
-//##ModelId=3C0F6C1A0187
+
 Packet::Packet(bool bigendian)
 {
     header = (PacketHeader*) new PacketHeader();
@@ -18,7 +35,7 @@ Packet::Packet(bool bigendian)
     packet = 0;
     packet_output = 0;
     this->bigendian = bigendian;
-    //temp
+    /// temp
     tempHeader = new ByteStream();
     tempDataField = new ByteStream();
     tempDataFieldHeader = new ByteStream();
@@ -29,7 +46,7 @@ Packet::Packet(bool bigendian)
 }
 
 
-//##ModelId=3DA3E5830032
+
 Packet::~Packet()
 {
     PRINTDEBUG("Delete Packet " << name << "-----");
@@ -58,7 +75,7 @@ Packet::~Packet()
 }
 
 
-//##ModelId=3C14BA710151
+
 bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) throw (PacketException*)
 {
     DEMORET0;
@@ -76,24 +93,24 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
         if(file.open(argv))
         {
             delete[] argv;
-            //retrieve name of packet header
+            /// retrieve name of packet header
             name = file.getLine();
-            //find the PacketHeader section
+            /// find the PacketHeader section
             line=file.getLine("[PacketHeader]");
             if(strlen(line) != 0)
             {
-                //delete[] line;
+                /// delete[] line;
                 PRINTDEBUG("Found [PacketHeader]");
                 line = file.getLine();
                 if(header->loadHeader(line))
                 {
-                    //delete[] line;
-                    //find the DataFieldHeader section
+                    /// delete[] line;
+                    /// find the DataFieldHeader section
                     line=file.getLine("[DataFieldHeader]");
                     if(strlen(line) != 0)
                     {
-                        //delete[] line;
-                        //section found
+                        /// delete[] line;
+                        /// section found
                         if(dataField->dataFieldHeader->loadFields(file))
                         {
                             //cout << (dataField->dataFieldHeader->printStructure())->c_str();
@@ -101,8 +118,8 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                             char *typeOfPacket = 0;
                             if(strcmp(line, "[SourceDataField]") == 0)
                             {
-                                //delete[] line;
-                                //determinazione del tipo di source data field
+                                /// delete[] line;
+                                /// determination of the source data field type
                                 char *block = file.getLine();
                                 bool section_found = false;
                                 if(strcmp(block, "noblock") == 0)
@@ -150,12 +167,12 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                     line=file.getLastLineRead();
                                     if(strcmp(line, "[Identifiers]") == 0)
                                     {
-                                        //section found
+                                        /// section found
                                         if(loadIdentifiers(file))
                                         {
 
                                             line = file.getLastLineRead();
-                                            //Caricamento della sezione tail
+                                            /// Loading of the tail section
                                             if(strcmp(line, "[Tail]") == 0)
                                             {
                                                 if(!dataField->tail->loadFields(file))
@@ -165,7 +182,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                             }
                                             //TODO: chiudere il file anche negli altri casi
                                             file.close();
-                                            //allocate memory for output stream
+                                            /// Memory allocation for the output stream
                                             dword dimpo = getMaxDimension();
                                             dword dimpr = (isprefix?dimprefix:0);
                                             packet_output = new ByteStream(dimpo + dimpr, bigendian);
@@ -188,7 +205,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                             }
                             else
                             {
-                                //section not found
+                                /// section not found
                                 throw new PacketExceptionFileFormat("SourceDataField section not found");
                             }
                         }
@@ -199,7 +216,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                     }
                     else
                     {
-                        //section not found
+                        /// section not found
                         throw new PacketExceptionFileFormat("DataFieldHeader section not found");
                     }
                 }
@@ -231,7 +248,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
 
 
 
-//##ModelId=3C1877510044
+
 
 bool Packet::loadIdentifiers(ConfigurationFile& fp)
 {
@@ -250,7 +267,8 @@ bool Packet::loadIdentifiers(ConfigurationFile& fp)
         buffer->setbuffer(line);
         line = fp.getLine();
     }
-    //delete[] line; //AB
+    ///delete[] line; 
+    //AB
     number_of_identifier = buffer->getBufferDimension()/3;
     if(number_of_identifier != 0)
     {
@@ -273,13 +291,13 @@ bool Packet::loadIdentifiers(ConfigurationFile& fp)
 }
 
 
-//##ModelId=3C187751008D
+
 void Packet::printIdentifiers()
 {
-    // Create constant iterator for list.
-    //list<PacketIdentifier>::iterator iter;
-    // Iterate through list and output each element.
-    //for (iter=identifiers.begin(); iter != identifiers.end(); iter++)
+    /// Create constant iterator for list.
+    /// list<PacketIdentifier>::iterator iter;
+    /// Iterate through list and output each element.
+    /// for (iter=identifiers.begin(); iter != identifiers.end(); iter++)
     for(unsigned i = 0; i< number_of_identifier; i++)
     {
 
@@ -290,55 +308,54 @@ void Packet::printIdentifiers()
 }
 
 
-//##ModelId=3C301E890023
 bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
     cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
     ByteStream* packet = new ByteStream(packetHeader, packetDataField, 0);
     memByteStream(prefix, packet);
-    //1)
+    /// 1)
     if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
     {
         PRINTERROR("Error in packet value verify");
         return false;
     }
-    //2)
+    /// 2)
     if(!setPacketValuePrefix(prefix))
     {
         PRINTERROR("Error in set packet value prefix");
         return false;
     }
-    //3)
+    /// 3)
     if(!setPacketValueHeader(packetHeader))
     {
         PRINTERROR("Error in set packet value header");
         return false;
     }
-    //4)
+    /// 4)
     if(!setPacketValueDataFieldHeader(packetDataField))
     {
         PRINTERROR("Error in set packet value data field header");
         return false;
     }
-    //5)
+    /// 5)
     if(!setPacketValueSourceDataField(packetDataField))
     {
         PRINTERROR("Error in set packet value source data field");
         return false;
     }
-    //6)
+    /// 6)
     if(!setPacketValueTail(packetDataField))
     {
         PRINTERROR("Error in set packet value tail");
         return false;
     }
-    //7) fine
+    /// 7) end
     return true;
 }
 
 
-//##ModelId=3DA3E5890136
+
 bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet)
 {
     dword dimHeader = header->getDimension();
@@ -349,7 +366,7 @@ bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet)
 }
 
 
-//##ModelId=3DA3E58A0320
+
 bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packet)
 {
     dword dimHeader = header->getDimension();
@@ -360,7 +377,7 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packet)
 }
 
 
-//##ModelId=3DA3E58C00AA
+
 bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
     bool verified = true;
@@ -390,7 +407,7 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, Byt
 
 
     }
-    // Iterate through list and verify each element.
+    ///  Iterate through list and verify each element.
 
     for(unsigned i = 0; i< number_of_identifier; i++)
     {
@@ -422,7 +439,6 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, Byt
 }
 
 
-//##ModelId=3DA3E58600B4
 bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet)
 {
     dword dimHeader = header->getDimension();
@@ -433,7 +449,6 @@ bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet)
 }
 
 
-//##ModelId=3DA3E5840212
 bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
     memByteStream(prefix, packetHeader, packetDataField);
@@ -444,7 +459,7 @@ bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packetHeade
         PRINTERROR("Error in verify packet value");
         return false;
     }
-    //se arrivo qui, allora devo settare il resto
+    // se arrivo qui, allora devo settare il resto
     if(type_of_identifier[2] == false)
     {
 
@@ -486,7 +501,7 @@ bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packetHeade
 }
 
 
-//##ModelId=3DA3E58E005A
+
 void Packet::printPacketValue()
 {
     char** pr;
@@ -511,14 +526,13 @@ void Packet::printPacketValue()
 }
 
 
-//##ModelId=3DA3E58E024E
+
 dword Packet::getDimension()
 {
     return header->getDimension() + dataField->getDimension();
 }
 
 
-//##ModelId=3DA3E58E0398
 dword Packet::getMaxDimension()
 {
     dword dimh = header->getDimension();
@@ -527,7 +541,6 @@ dword Packet::getMaxDimension()
 }
 
 
-//##ModelId=3DA3E590029E
 void Packet::generateStream()
 {
     word dimHeader = header->getDimension();
@@ -546,7 +559,7 @@ void Packet::generateStream()
         dataField->sourceDataField->set_reset_output_stream(false);
     }
 
-    //PACKET DIMENSIONE MANAGEMENT
+    /// PACKET DIMENSIONE MANAGEMENT
     header->setPacketLength(dataField->getDimension());
     //Field* f = header->getFieldWithPacketDimension();
     //f->value = dataField->getDimension() - 1;
@@ -556,21 +569,21 @@ void Packet::generateStream()
 }
 
 
-//##ModelId=3DA3E59600DC
+
 bool Packet::setPacketValueVerify(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
-    //1) verifiche
-    //prima verifica: controlli sui puntatori
+    /// 1) Checking
+    /// First check: pointers control
     if(packetHeader == NULL || packetDataField == NULL)
         return false;
-    //seconda verifica: controllo sulle dimensioni
+    /// Second check: dimension control
     if(header->getDimension() != packetHeader->getDimension())
         return false;
     return true;
 }
 
 
-//##ModelId=3DA3E5940352
+
 bool Packet::setPacketValuePrefix(ByteStream* prefix)
 {
     //2) prefix
@@ -579,17 +592,16 @@ bool Packet::setPacketValuePrefix(ByteStream* prefix)
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E599012C
+
 bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField)
 {
     bool b;
     dword packetLength;
-    //4) data field header
+    /// 4) data field header
     packetLength = dataField->dataFieldHeader->getDimension();
-    //si legge e si setta il data field header
+    /// Reading and setting the data field header
     b = tempDataFieldHeader->setStream(packetDataField, 0, packetLength-1);
-    //libera la memoria da b solamente se va male
+    /// It releases the memory from b only if it goes wrong
     if(b)
     {
         return dataField->dataFieldHeader->setByteStream(tempDataFieldHeader);
@@ -599,16 +611,15 @@ bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField)
 }
 
 
-//##ModelId=3DA3E59A033E
 bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField)
 {
     bool b;
     dword packetLength;
     dword packetLength2;
 
-    //5) source data field
+    /// 5) source data field
 
-    //se necessario, si setta il numero di blocchi reali presenti
+    /// If necessary, it sets the number of real blocks present
     if(dataField->sourceDataField->isBlock())
     {
         dword  nrd = dataField->getNumberOfRealDataBlock();
@@ -664,11 +675,11 @@ bool Packet::setPacketValueTail(ByteStream* packetDataField)
 
 
 
-//##ModelId=3DA3E59C0172
+
 bool Packet::setPacketValueHeader(ByteStream* packetHeader)
 {
-    //3) header
-    //si legge e si setta l'header del pacchetto
+    /// 3) Header
+	/// Reading and setting the packet header
     if(!header->setByteStream(packetHeader))
         return false;
     else
@@ -676,7 +687,7 @@ bool Packet::setPacketValueHeader(ByteStream* packetHeader)
 }
 
 
-//##ModelId=3DA3E5900046
+
 void Packet::deleteExternalByteStream()
 {
     if(prefix != 0)
@@ -706,7 +717,7 @@ void Packet::deleteExternalByteStream()
 }
 
 
-//##ModelId=3DA3E5A10140
+
 void Packet::memByteStream(ByteStream* prefix, ByteStream* packet)
 {
     this->prefix = prefix;
@@ -714,7 +725,7 @@ void Packet::memByteStream(ByteStream* prefix, ByteStream* packet)
 }
 
 
-//##ModelId=3DA3E59D038E
+
 void Packet::memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
     this->prefix = prefix;
@@ -724,7 +735,7 @@ void Packet::memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStr
 }
 
 
-//##ModelId=3DBFBFC003AC
+
 ByteStream* Packet::getOutputStream()
 {
     generateStream();
@@ -740,23 +751,19 @@ ByteStream* Packet::getInputStream()
 }
 
 
-/** Read property of byte packetID. */
-//##ModelId=3DBFBFC10370
+
 const byte& Packet::getPacketID()
 {
     return packetID;
 }
 
 
-/** Write property of byte packetID. */
-//##ModelId=3DBFBFC1006E
 void Packet::setPacketID( const byte& _newVal)
 {
     packetID = _newVal;
 }
 
 
-//##ModelId=3DA3E5930280
 bool Packet::thereIsPrefix()
 {
     return thereisprefix;

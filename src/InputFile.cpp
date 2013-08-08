@@ -2,8 +2,8 @@
                           InputFile.cpp  -  description
                              -------------------
     begin                : Sat Oct 26 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,14 +19,12 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFBD00D2
 InputFile::InputFile(bool bg) : Input(bg)
 {
     file = new File(bg, 0);
 }
 
 
-//##ModelId=3DBFBFBD00D4
 InputFile::~InputFile()
 {
     cout << "InputFile::~InputFile()" << endl;
@@ -34,7 +32,6 @@ InputFile::~InputFile()
 }
 
 
-//##ModelId=3DBFBFBD00D5
 bool InputFile::open( char** parameters ) throw(PacketExceptionIO*)
 {
     file->open(parameters[0], (char*)"r");
@@ -45,7 +42,6 @@ bool InputFile::open( char** parameters ) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD00D8
 void InputFile::close()  throw(PacketExceptionIO*)
 {
     file->close();
@@ -53,7 +49,6 @@ void InputFile::close()  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD0104
 ByteStream* InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
     ByteStream* bs;
@@ -68,7 +63,6 @@ ByteStream* InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBD0107
 char* InputFile::readString() throw(PacketExceptionIO*)
 {
     char* c;

@@ -1,8 +1,24 @@
+/***************************************************************************
+                          PacketIdentifier.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
 #include "PacketIdentifier.h"
 
 using namespace PacketLib;
 
-//##ModelId=3C18775100C8
+
 PacketIdentifier::PacketIdentifier(int fn, byte t, word v)
 {
     fieldNumber = fn;
@@ -11,7 +27,7 @@ PacketIdentifier::PacketIdentifier(int fn, byte t, word v)
 }
 
 
-//##ModelId=3DA3E5A800F0
+
 PacketIdentifier::~PacketIdentifier()
 {
     //	cout << "Delete identifier" << endl;

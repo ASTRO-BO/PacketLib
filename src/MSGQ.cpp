@@ -1,9 +1,9 @@
 /***************************************************************************
-                          SHQ.cpp  -  description
+                          MSGQ.cpp  -  description
                              -------------------
     begin                : Wed Dec 4 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -74,7 +74,7 @@ bool MSGQ::open(long msgqkey, long dim) throw(PacketExceptionIO*)
     DEMORET0;
     try
     {
-        //ottiene la message queue
+        /// It gets the message queue
         if(msgqkey != 0)
         {
             if((msgqid = msgget(msgqkey, PERMMSGQ)) < 0)

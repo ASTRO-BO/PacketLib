@@ -1,9 +1,9 @@
 /***************************************************************************
-                          PartOfPacket.h  -  description
+                          SDFBFBlock.h  -  description
                              -------------------
     begin                : Thu Dec 6 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,9 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef SDFBFBLOCK_H_HEADER_INCLUDED_8B2C5B89
-#define SDFBFBLOCK_H_HEADER_INCLUDED_8B2C5B89
+ 
+#ifndef _SDFBFBLOCK_H
+#define _SDFBFBLOCK_H
 
 #include "PacketLibDefinition.h"
 #include "PartOfPacket.h"
@@ -23,13 +24,7 @@
 namespace PacketLib
 {
 
-//##ModelId=3C3480CB0382
-//##Documentation
-//##	$Date: 2005/03/09 10:57:50 $
-//##	$Header: /home/repository/cvs/gtb/PacketLib/include/SDFBFBlock.h,v 1.2 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Id: SDFBFBlock.h,v 1.2 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Revision: 1.2 $
-//##	\brief Represent a single block with the number of fields fixed.
+///	\brief Represent a single block with the number of fields fixed.
 class SDFBFBlock : public PartOfPacket
 {
 

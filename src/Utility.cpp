@@ -2,8 +2,8 @@
                           Utility.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,7 +22,6 @@
 
 using namespace PacketLib;
 
-//##ModelId=3C0F6C1A023F
 int Utility::convertToInteger(string bin)
 {
     string::size_type pos;
@@ -30,12 +29,12 @@ int Utility::convertToInteger(string bin)
     pos = bin.find("0b",0);
     if(pos == 0)
     {
-        //is a binary number
+        /// is a binary number
         return binaryToInteger(bin);
     }
     else
     {
-        //is a decimal number
+        /// is a decimal number
         return atoi(bin.c_str());
     }
 
@@ -47,7 +46,7 @@ char* Utility::extractPath(char* filename)
     int index;
     for(index=len-1; index>=0; index--)
     {
-        //		char c = filename[index];
+        //I		char c = filename[index];
         if(filename[index] == '/')
             break;
     }
@@ -59,7 +58,6 @@ char* Utility::extractPath(char* filename)
 }
 
 
-//##ModelId=3DA3E65401AE
 int Utility::convertToInteger(char* bin)
 {
     string s;
@@ -69,15 +67,14 @@ int Utility::convertToInteger(char* bin)
 }
 
 
-/** Return the integer or -1 if the string isn't a binary number */
-//##ModelId=3C0F6C1A023C
+/// Return the integer or -1 if the string isn't a binary number 
 int Utility::binaryToInteger(string bin)
 {
     string::size_type pos;
     pos = bin.find("0b",0);
     if(pos == 0)
     {
-        //is a binary number
+        ///is a binary number
         int size = bin.size();
         int pos = 1;
         int decimal = 0;
@@ -99,15 +96,14 @@ int Utility::binaryToInteger(string bin)
 }
 
 
-/** Return the integer or -1 if the string isn't a binary number */
-//##ModelId=3DA3E65700AA
+/// Return the integer or -1 if the string isn't a binary number 
 int Utility::hexadecimalToInteger(string hex)
 {
     string::size_type pos;
     pos = hex.find("0x",0);
     if(pos == 0)
     {
-        //is a binary number
+        ///is a binary number
         int size = hex.size();
         int pos = 1;
         int decimal = 0;
@@ -167,10 +163,9 @@ char* Utility::format_output(dword data, bool dec, bool hex, bool bin)
 
 }
 
-/** Restituisce n bit (allineati a destra di x a partire dalla posizione p).
-Esempio: getbits(x,4,3) restituisce bit 4, 3, 2 (allinemanto a destra)
-15 14 13 12 11 10 9 8 7 6 5 4 3 2 1 0 */
-//##ModelId=3C18775101A5
+/// It gives n bit (alligned at right of "x" from the p position). 
+/// Example: getbits(x,4,3) gives bit 4, 3, 2 (alligned at right)
+/// 7 6 5 4 3 2 1 0 */
 unsigned Utility::getbits(word x, int p, int n)
 {
     return (x >> (p + 1 - n)) & ~(~0 << n);
@@ -181,24 +176,21 @@ unsigned Utility::getbits32(dword x, int p, int n)
     return (x >> (p + 1 - n)) & ~(~0 << n);
 }
 
+/// It gives n bit (alligned at right of "x" from the p position). 
+/// Example: getbits(x,4,3) gives bit 4, 5, 6 (alligned at right but with packet numbering)
+/// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15
 
-/** Restituisce n bit (allineati a destra di x a partire dalla posizione p).
-Esempio: getbits(x,4,3) restituisce bit 4, 5, 6 (allinemanto a destra ma con numerazione packet)
-0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 */
-//##ModelId=3C18775101E6
 unsigned Utility::getbits2(word x, int p, int n)
 {
     return getbits(x, 15 - p, n);
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E65402F8
 string* Utility::wordToBinary(word w, byte dim)
 {
     string* temp = new string("");
     unsigned valuetemp;
-    //si parte da LSB
+    /// It starts from LSB
     for(int i=0; i<dim; i++)
     {
         valuetemp = getbits(w, i, 1);
@@ -234,7 +226,7 @@ char* Utility::wordToBinary2(dword w, unsigned int dim)
     unsigned valuetemp;
     unsigned int i;
     for(i=0; i<dimchar; i++) temp[i]='\0';
-    //si parte da LSB
+    /// It starts from LSB
     int j=-1;
     for(i=0; i<dim; i++)
     {
@@ -254,18 +246,17 @@ char* Utility::wordToBinary2(dword w, unsigned int dim)
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E65500C8
+
 char* Utility::integerToString(int n)
 {
     char* c = new char[20];
     sprintf(c, "%d", n);
-    //string* s = new string;
+    ///string* s = new string;
     return c;
 }
 
 
-//##ModelId=3DA3E6550212
+
 char* Utility::stringToHexadecimal(byte* b, dword dim, bool bigendian, bool addSpace)
 {
     string s, s1, s2;
@@ -310,7 +301,7 @@ char* Utility::stringToHexadecimal(byte* b, dword dim, bool bigendian, bool addS
 }
 
 
-//##ModelId=3DA3E65602DA
+
 char* Utility::byteToHexadecimal(byte b)
 {
     string s;
@@ -327,7 +318,7 @@ char* Utility::byteToHexadecimal(byte b)
 }
 
 
-//##ModelId=3DA3E65600F0
+
 long Utility::strlen(char* s)
 {
     long i = 0;
@@ -352,7 +343,7 @@ char* Utility::ftimeToChar(word MSB, word LSB, word ms)
 }
 
 
-//##ModelId=3DA3E6580294
+
 char* Utility::ftimeToChar(struct tm* res, word ms)
 {
     char*s = new char[1];
@@ -364,8 +355,7 @@ char* Utility::ftimeToChar(struct tm* res, word ms)
 */
 
 
-/** No descriptions */
-//##ModelId=3DA3E659021C
+
 char* Utility::integerToString2(int n, char* str)
 {
     char* c = new char[1];
@@ -388,8 +378,6 @@ char* Utility::integerToString3(char* str, int n)
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E65A019A
 char* Utility::extractFileName(char* path)
 {
     int i = 0;
@@ -408,8 +396,7 @@ char* Utility::extractFileName(char* path)
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E65B0046
+
 char* Utility::charcat(char* c1, char c2)
 {
     int l = strlen(c1);

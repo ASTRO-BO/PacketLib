@@ -2,8 +2,8 @@
                           PacketException.cpp  -  description
                              -------------------
     begin                : Tue Jan 15 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3AA649E10191
+
 PacketException::PacketException(const char* error, int code)
 {
     this->error = new string(error);
@@ -27,23 +27,21 @@ PacketException::PacketException(const char* error, int code)
 }
 
 
-//##ModelId=3AA649E1019B
+
 PacketException::~PacketException()
 {
     delete error;
 }
 
 
-/** Read property of char* error. */
-//##ModelId=3AA649E1019D
+/// Read property of char* error. 
 const char* PacketException::geterror()
 {
     return error->c_str();
 }
 
 
-/** No descriptions */
-//##ModelId=3AA649E1019F
+
 void PacketException::add(const char* err)
 {
     *error = err + *error;
@@ -55,7 +53,7 @@ int PacketException::geterrorcode() const
 }
 
 
-//##ModelId=3DEE784300CF
+
 void PacketException::seterrorcode(int errorcode)
 {
     this->errorcode = errorcode;

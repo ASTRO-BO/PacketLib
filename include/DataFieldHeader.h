@@ -1,9 +1,9 @@
 /***************************************************************************
-                          DataFieldHeader.h  -  description
+                          DataFieldHeader.h
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -14,8 +14,9 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
-#ifndef DataFieldHeader_h_h
-#define DataFieldHeader_h_h
+
+#ifndef _DATAFIELDHEADER_H
+#define _DATAFIELDHEADER_H
 
 #include "PacketLibDefinition.h"
 #include "PartOfPacket.h"
@@ -23,13 +24,7 @@
 namespace PacketLib
 {
 
-//##ModelId=3C0F6C1902E3
-//##Documentation
-//##	$Date: 2005/03/09 10:57:50 $
-//##	$Header: /home/repository/cvs/gtb/PacketLib/include/DataFieldHeader.h,v 1.3 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Id: DataFieldHeader.h,v 1.3 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Revision: 1.3 $
-//##	\brief This class represent the data field header of a packet
+///	\brief This class represent the data field header of a packet
 class DataFieldHeader : public PartOfPacket
 {
 public:

@@ -1,6 +1,20 @@
-/**
- * @(#) InputPacketStream.cpp
- */
+/***************************************************************************
+                          InputPacketStreamFile.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+
 
 #include "InputPacketStreamFile.h"
 
@@ -11,7 +25,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFBE02E5
+
 InputPacketStreamFile::InputPacketStreamFile(const char* fileNameConfig, const char* fileNameStream, long initialPosition) :
     InputPacketStream(fileNameConfig)
 {
@@ -25,7 +39,6 @@ InputPacketStreamFile::InputPacketStreamFile(const char* fileNameConfig, const c
 }
 
 
-//##ModelId=3DBFBFBE0323
 InputPacketStreamFile::InputPacketStreamFile() : InputPacketStream()
 {
     this->initialPosition = 0;
@@ -38,7 +51,7 @@ InputPacketStreamFile::InputPacketStreamFile() : InputPacketStream()
 }
 
 
-//##ModelId=3DBFBFBE0324
+
 InputPacketStreamFile::~InputPacketStreamFile()
 {
 
@@ -54,7 +67,7 @@ InputPacketStreamFile::~InputPacketStreamFile()
 }
 
 
-//##ModelId=3DBFBFBE0353
+
 bool InputPacketStreamFile::openInputStream() throw(PacketExceptionIO*)
 {
     FileStream* f = new FileStream(prefix, bigendian, dimPrefix, initialPosition);
@@ -75,7 +88,6 @@ bool InputPacketStreamFile::openInputStream() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBE038F
 bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
 {
     ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
@@ -148,7 +160,7 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
         fsp->pointerEnd = inputStream->getpos() - 1;
         if(count%FSP_STEP == 0)
         {
-            //resize
+            /// resize
             FileStreamPointer** lfsp = (FileStreamPointer**)new FileStreamPointer* [count + FSP_STEP];
             for(int i=0; i<count; i++)
             {
@@ -170,7 +182,6 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBE0390
 Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool newpointer) throw(PacketExceptionIO*)
 {
     //int i;
@@ -200,7 +211,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
     Packet* p = getPacketType(type);
     if(newpointer)
     {
-        //make the full filename
+        /// make the full filename
         string sf = pathFileNameConfig;
         sf += "/";
         sf += p->getFileName();
@@ -217,14 +228,14 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
 }
 
 
-//##ModelId=3DBFBFBE0354
+
 void InputPacketStreamFile::closeInputStream() throw(PacketExceptionIO*)
 {
     inputStream->close();
 }
 
 
-//##ModelId=3DBFBFBE03C0
+
 FileStreamPointer* InputPacketStreamFile::getFileStreamPointer(int index)
 {
     if(index > numberOfFileStreamPointer)
@@ -237,7 +248,7 @@ FileStreamPointer* InputPacketStreamFile::getFileStreamPointer(int index)
 }
 
 
-//##ModelId=3DBFBFBE03C2
+
 void InputPacketStreamFile::setInitialPosition(long p)
 {
     if(p>=0)
@@ -247,21 +258,21 @@ void InputPacketStreamFile::setInitialPosition(long p)
 }
 
 
-//##ModelId=3DBFBFBE0325
+
 void InputPacketStreamFile::setFileNameStream(char* f)
 {
     this->fileNameStream = f;
 }
 
 
-//##ModelId=3DBFBFBE038E
+
 long InputPacketStreamFile::getNumberOfFileStreamPointer()
 {
     return numberOfFileStreamPointer;
 }
 
 
-//##ModelId=3DBFBFBE0356
+
 Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * )
 {
     ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
@@ -311,7 +322,7 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
 }
 
 
-//##ModelId=3DBFBFBE0355
+
 bool InputPacketStreamFile::isInputStreamEOF() throw(PacketExceptionIO*)
 {
     return inputStream->isEOF();

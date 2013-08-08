@@ -2,8 +2,8 @@
                       MemoryBuffer.cpp  -  description
                          -------------------
 begin                : Fri Apr 12 2002
-copyright            : (C) 2002 by Andrea Bulgarelli
-email                : bulgarelli@tesre.bo.cnr.it
+copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+email                : bulgarelli@iasfbo.inaf.it
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,7 +23,7 @@ email                : bulgarelli@tesre.bo.cnr.it
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E57B01A4
+
 MemoryBuffer::MemoryBuffer()
 {
     dim = CONFIG_MAXNUMBEROFLINES_OFCONFIGILES;
@@ -35,7 +35,7 @@ MemoryBuffer::MemoryBuffer()
 }
 
 
-//##ModelId=3DA3E57B01A5
+
 MemoryBuffer::~MemoryBuffer()
 {
     //if(buffer)
@@ -56,8 +56,7 @@ void MemoryBuffer::freebuffer()
 }
 
 
-/** Read property of char** buffer. */
-//##ModelId=3DA3E57B0245
+/// Read property of char** buffer. 
 char* MemoryBuffer::getbuffer()
 {
     if(indexread <= dim)
@@ -105,8 +104,7 @@ long MemoryBuffer::setpos(int index)
 }
 
 
-/** Read property of char** buffer. */
-//##ModelId=3DA3E57B0280
+/// Read property of char** buffer. 
 char* MemoryBuffer::getbuffer(dword index)
 {
 
@@ -123,8 +121,7 @@ char* MemoryBuffer::getbuffer(dword index)
 }
 
 
-/** Write property of char** buffer. */
-//##ModelId=3DA3E57B01D6
+/// Write property of char** buffer. 
 void MemoryBuffer::setbuffer(char* line) throw (PacketException*)
 {
     //copy string
@@ -138,8 +135,7 @@ void MemoryBuffer::setbuffer(char* line) throw (PacketException*)
 }
 
 
-/** Write property of char** buffer. */
-//##ModelId=3DA3E57B0212
+/// Write property of char** buffer. 
 void MemoryBuffer::setbuffer(char* line, dword index) throw(PacketException*)
 {
     if(index > indexwrite)
@@ -169,29 +165,27 @@ void MemoryBuffer::setbuffer(char* line, dword index) throw(PacketException*)
 }
 
 
-//##ModelId=3DA3E57B02B2
+
 void MemoryBuffer::readRewind()
 {
     indexread = 0;
 }
 
 
-//##ModelId=3DA3E57B02B3
+
 void MemoryBuffer::writeRewind()
 {
     indexwrite = 0;
 }
 
 
-/** No descriptions */
-//##ModelId=3DA3E57B02B4
+
 dword MemoryBuffer::getBufferDimension()
 {
     return indexwrite;
 }
 
 
-//##ModelId=3DA3E57B02EE
 bool MemoryBuffer::loadBuffer(char* filename)  throw(PacketExceptionIO*)
 {
     bool ret;
@@ -225,7 +219,7 @@ bool MemoryBuffer::loadBuffer(char* filename)  throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E57B0320
+
 bool MemoryBuffer::saveBuffer(char* filename)  throw(PacketExceptionIO*)
 {
     bool ret = true;

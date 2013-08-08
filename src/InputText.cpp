@@ -2,8 +2,8 @@
                           InputText.cpp  -  description
                              -------------------
     begin                : Mon Mar 4 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3AA6490E015C
+
 InputText::InputText()
 {
     eof = true;
@@ -27,20 +27,20 @@ InputText::InputText()
 }
 
 
-//##ModelId=3AA6490E016F
+
 InputText::~InputText()
 {
 }
 
 
-//##ModelId=3DC55A8F0075
+
 bool InputText::isClosed()
 {
     return closed;
 }
 
 
-//##ModelId=3DC55A8F00E8
+
 bool InputText::isEOF()
 {
     if( closed)

@@ -1,3 +1,19 @@
+/***************************************************************************
+                          SDFBlockFixed.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
 #include "SDFBlockFixed.h"
 #include "ByteStream.h"
 #include "Field.h"
@@ -6,7 +22,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3C3576890122
+
 bool SDFBlockFixed::loadFields(InputText& fp) throw(PacketException*)
 {
     char* line;
@@ -38,7 +54,7 @@ bool SDFBlockFixed::loadFields(InputText& fp) throw(PacketException*)
 
     block = (SDFBFBlock*) new SDFBFBlock[maxNumberOfBlock[0]];
 
-    //find the [SourceDataFieldBlock] section
+    /// find the [SourceDataFieldBlock] section
     if(strlen(line=fp.getLine("[SourceDataFieldBlock]")) != 0)
     {
         PRINTDEBUG("Found [SourceDataFieldBlock]");
@@ -64,7 +80,7 @@ bool SDFBlockFixed::loadFields(InputText& fp) throw(PacketException*)
 }
 
 
-//##ModelId=3C357B5F035D
+
 SDFBlockFixed::SDFBlockFixed() : SourceDataField("SDF Block Fixed")
 {
     isblock = true;
@@ -76,7 +92,7 @@ SDFBlockFixed::SDFBlockFixed() : SourceDataField("SDF Block Fixed")
 }
 
 
-//##ModelId=3C357B64026E
+
 SDFBlockFixed::~SDFBlockFixed()
 {
     delete tempBlock;
@@ -88,7 +104,6 @@ SDFBlockFixed::~SDFBlockFixed()
 }
 
 
-//##ModelId=3A54BDDC011D
 Field* SDFBlockFixed::getFields(word index)
 {
     word nblock = getNumberOfRealDataBlock();
@@ -105,7 +120,7 @@ Field* SDFBlockFixed::getFields(word index)
 }
 
 
-//##ModelId=3DA3E5C701AE
+
 Field* SDFBlockFixed::getFields(word nblock, word index)
 {
     if(nblock < numberOfRealDataBlock[0] && index < block[nblock].getNumberOfFields())
@@ -115,7 +130,7 @@ Field* SDFBlockFixed::getFields(word nblock, word index)
 }
 
 
-//##ModelId=3DA3E5C9012C
+
 word SDFBlockFixed::getFieldValue(word index)
 {
     Field* f = getFields(index);
@@ -126,7 +141,7 @@ word SDFBlockFixed::getFieldValue(word index)
 }
 
 
-//##ModelId=3DA3E5CA029E
+
 word SDFBlockFixed::getFieldValue(word block, word index)
 {
     Field* f = getFields(block, index);
@@ -137,7 +152,7 @@ word SDFBlockFixed::getFieldValue(word block, word index)
 }
 
 
-//##ModelId=3DA3E5CC02F8
+
 void SDFBlockFixed::setFieldValue(word index, word value)
 {
     Field* f = getFields(index);
@@ -146,7 +161,6 @@ void SDFBlockFixed::setFieldValue(word index, word value)
 }
 
 
-//##ModelId=3DA3E5CE0384
 void SDFBlockFixed::setFieldValue(word block, word index, word value)
 {
     Field* f = getFields(block, index);
@@ -155,7 +169,6 @@ void SDFBlockFixed::setFieldValue(word block, word index, word value)
 }
 
 
-//##ModelId=3A54BDDC0142
 word SDFBlockFixed::getNumberOfFields()
 {
     word n_block = getNumberOfRealDataBlock();
@@ -164,14 +177,13 @@ word SDFBlockFixed::getNumberOfFields()
 
 
 
-//##ModelId=3A54BDDC0166
 bool SDFBlockFixed::setByteStream(ByteStream* s)
 {
     bool b;
     word bytestart=0, bytestop=0;
     stream = s;
     word n_block = getNumberOfRealDataBlock();
-    //controllo sulla dimensione massima dei blocchi
+    /// It controls the blocks maximum dimension
     word n_block_max = getMaxNumberOfBlock();
     if(n_block > n_block_max)
     {
@@ -199,7 +211,7 @@ bool SDFBlockFixed::setByteStream(ByteStream* s)
 }
 
 
-//##ModelId=3DA3E5C203A2
+
 char** SDFBlockFixed::printValue(char* addString)
 {
     char **c;                    // = new char[1];
@@ -234,7 +246,6 @@ char** SDFBlockFixed::printValue(char* addString)
 }
 
 
-//##ModelId=3A54BDDC01AF
 dword SDFBlockFixed::getDimension()
 {
     dword dimOfEventBlock;        //Dimensione di ogni event
@@ -244,7 +255,6 @@ dword SDFBlockFixed::getDimension()
 }
 
 
-//##ModelId=3DA3E5C30398
 dword SDFBlockFixed::getDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
@@ -254,10 +264,11 @@ dword SDFBlockFixed::getDimension(word nblock)
 }
 
 
-//##ModelId=3DA3E5C4038E
+
 dword SDFBlockFixed::getMaxDimension()
 {
-    dword dimOfEventBlock;        //Dimensione di ogni event
+	/// Event dimension
+    dword dimOfEventBlock;        
     if(block != NULL)
         dimOfEventBlock = block[0].getDimension();
     else
@@ -268,7 +279,7 @@ dword SDFBlockFixed::getMaxDimension()
 }
 
 
-//##ModelId=3DA3E5C5023A
+
 dword SDFBlockFixed::getMaxDimension(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])
@@ -278,14 +289,13 @@ dword SDFBlockFixed::getMaxDimension(word nblock)
 }
 
 
-//##ModelId=3DA3E5C602D0
+
 string* SDFBlockFixed::printStructure()
 {
     return new string("string* SDFBlockFixed::printStructure() - TODO");
 }
 
 
-//##ModelId=3DA3E5D10366
 bool SDFBlockFixed::setOutputStream(ByteStream* os, dword first)
 {
     dword mnb = getNumberOfRealDataBlock();
@@ -301,7 +311,6 @@ bool SDFBlockFixed::setOutputStream(ByteStream* os, dword first)
 }
 
 
-//##ModelId=3DA3E5D400E6
 ByteStream* SDFBlockFixed::generateStream(bool bigendian)
 {
     word mnb = getNumberOfRealDataBlock();
@@ -313,7 +322,6 @@ ByteStream* SDFBlockFixed::generateStream(bool bigendian)
 }
 
 
-//##ModelId=3DA3E5D60028
 word SDFBlockFixed::getNumberOfFields(word nblock)
 {
     if(nblock < numberOfRealDataBlock[0])

@@ -1,9 +1,9 @@
 /***************************************************************************
-                          OutputSocket.cpp  -  description
+                          OutputSocketClient.cpp  -  description
                              -------------------
     begin                : Mon May 20 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFC001F5
+
 OutputSocketClient::OutputSocketClient(bool bigendian) : Output(bigendian)
 {
     socketclient = 0;
@@ -27,7 +27,7 @@ OutputSocketClient::OutputSocketClient(bool bigendian) : Output(bigendian)
 }
 
 
-//##ModelId=3DBFBFC00230
+
 OutputSocketClient::~OutputSocketClient()
 {
     delete socketclient;
@@ -35,14 +35,12 @@ OutputSocketClient::~OutputSocketClient()
 }
 
 
-//##ModelId=3DBFBFC00232
 void OutputSocketClient::close() throw(PacketExceptionIO*)
 {
     socketclient->close();
 }
 
 
-//##ModelId=3DBFBFC00262
 bool OutputSocketClient::open(char** argv) throw(PacketExceptionIO*)
 {
     host = argv[0];
@@ -53,7 +51,7 @@ bool OutputSocketClient::open(char** argv) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFC00265
+
 bool OutputSocketClient::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
 {
     if(!isclosed)
@@ -65,7 +63,7 @@ bool OutputSocketClient::writeByteStream(ByteStream* b) throw(PacketExceptionIO*
 }
 
 
-//##ModelId=3DBFBFC00268
+
 bool OutputSocketClient::writeString(const char* str) throw(PacketExceptionIO*)
 {
     throw new PacketExceptionIO("Method not implemented");

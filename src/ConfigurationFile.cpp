@@ -1,9 +1,9 @@
 /***************************************************************************
-                          filepacket.cpp  -  description
+                          ConfigurationFile.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,21 +21,18 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E568008C
 ConfigurationFile::ConfigurationFile()
 {
     currentpwd = 0;
 }
 
 
-//##ModelId=3DA3E568008D
 ConfigurationFile::~ConfigurationFile()
 {
     //free(currentpwd);
 }
 
 
-//##ModelId=3DA3E568008E
 bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 {
     bool ret;
@@ -47,7 +44,7 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E56800FD
+
 void ConfigurationFile::close() throw(PacketExceptionIO*)
 {
     InputTextFile::close();
@@ -55,7 +52,7 @@ void ConfigurationFile::close() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E56800C0
+
 char* ConfigurationFile::getLine() throw(PacketExceptionIO*)
 {
     char* temp;
@@ -78,7 +75,7 @@ char* ConfigurationFile::getLine() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DA3E56800FA
+
 char* ConfigurationFile::getLine(const char* s) throw(PacketExceptionIO*)
 {
     char* line;

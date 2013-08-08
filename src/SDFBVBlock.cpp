@@ -1,8 +1,25 @@
+/***************************************************************************
+                          SDFBVBlock.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SDFBVBlock.h"
 
 using namespace PacketLib;
 
-//##ModelId=3C9AED6B007E
+
 Field* SDFBVBlock::getFields(word index)
 {
     word n1 = fixed.getNumberOfFields();
@@ -23,14 +40,13 @@ void SDFBVBlock::setFieldValue(word index, word value)
     f->value = (value & pattern[f->getDimension()]);
 }
 
-//##ModelId=3DA3E5BF0352
+
 word SDFBVBlock::getFieldValue(word index)
 {
     return getFields(index)->value;
 }
 
 
-//##ModelId=3C9AED6B000F
 word SDFBVBlock::getNumberOfFields()
 {
     word nfv = 0;
@@ -53,7 +69,7 @@ dword SDFBVBlock::getDimension()
 }
 
 
-//##ModelId=3DA3E5C00046
+
 dword SDFBVBlock::getMaxDimension()
 {
     dword nfv = 0;
@@ -66,7 +82,7 @@ dword SDFBVBlock::getMaxDimension()
 }
 
 
-//##ModelId=3DA3E5C00082
+
 bool SDFBVBlock::setOutputStream(ByteStream* os, dword first)
 {
     fixed.setOutputStream(os, first);
@@ -81,7 +97,7 @@ bool SDFBVBlock::setOutputStream(ByteStream* os, dword first)
 }
 
 
-//##ModelId=3DA3E5C0026C
+
 ByteStream*  SDFBVBlock::generateStream(bool bigendian)
 {
     fixed.generateStream(bigendian);

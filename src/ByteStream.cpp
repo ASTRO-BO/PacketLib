@@ -1,31 +1,39 @@
-/**
- * @(#) ByteStream.cpp
- */
+/***************************************************************************
+                          ByteStream.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+   copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+ 
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+
 
 #include "ByteStream.h"
 #include "PacketLibDemo.h"
 #include "Utility.h"
 using namespace PacketLib;
-//oggetti che devono deallocare memoria
+
+/// Objects that deallocate memory
 dword ByteStream::count_object = 0;
-//oggetti che non devono deallocare memoria
+/// Objects that do not deallocate memory
 dword ByteStream::count_object2 = 0;
-//##ModelId=3DA3E55D032A
 dword ByteStream::count_object_deleted = 0;
-//##ModelId=3DA3E55E005A
 dword ByteStream::count_object_deleted2 = 0;
-//long ByteStream::count_object_wrong = 0;
 
-/*
-  mem_allocation = true indica che  presente memoria allocata che deve essere liberata
-    dal distruttore.
-    In tutti i metodi costruttori o di tipo set che accettano un byte*, nel caso in cui
-    memory_sharing=false significa che viene effettuato lo swap.
-    Nei metodi costruttori e di tipo set che accettano ByteStream* non viene mai
-    effettuato lo swap.
-*/
 
-//##ModelId=3C0F6BDB003B
+/// Returns a pointer of a field in the list of fields of this part of packet.
+/// \remarks mem_allocation = true indicates that the allocated memory must be released by the destroyer.
+/// \remarks memory_sharing=false In all methods of constructor or set type accepting byte*, it indicates that the swap is applied. 
+/// In all methods of constructor or set type accepting ByteStream* the swap is never applied.
+
 PacketLib::ByteStream::ByteStream(bool bigendian)
 {
     mem_allocation_constructor = true;
@@ -39,14 +47,13 @@ PacketLib::ByteStream::ByteStream(bool bigendian)
 }
 
 
-//##ModelId=3EADC12501CA
 PacketLib::ByteStream::ByteStream(dword dim, bool bigendian)
 {
     mem_allocation_constructor = true;
 
     byteInTheStream = dim;
     stream = (byte*) new byte[dim];
-    //memset(stream, 0, dim); ok
+    /// memset(stream, 0, dim); ok
     this->bigendian = bigendian;
 
     setMemoryAllocated(true);
@@ -54,7 +61,6 @@ PacketLib::ByteStream::ByteStream(dword dim, bool bigendian)
 }
 
 
-//##ModelId=3EADC125023B
 PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool memory_sharing)
 {
     mem_allocation_constructor = true;
@@ -64,17 +70,15 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
     this->bigendian = bigendian;
     if(!memory_sharing)
         swap();
-    //se memory_sharing == false significa che la responsabilit della memoria diviene
-    //di questo oggetto
+    /// \remarks memory_sharing == false means that the object is responsible for the memory
     setMemoryAllocated(!memory_sharing);
     mem_allocation_constructor = false;
 }
 
 
-//##ModelId=3EADC125031B
 PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2)
 {
-    //si suppone che gli stream siano gi swappati
+    /// Streams are swapped
     dword i = 0;
     dword dim = 0;
     if(b0 == 0 && b1 == 0 && b2 == 0)
@@ -119,7 +123,7 @@ PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2
 }
 
 
-//##ModelId=3C205AF201F8
+
 PacketLib::ByteStream::~ByteStream()
 {
     if(mem_allocation)
@@ -136,7 +140,7 @@ PacketLib::ByteStream::~ByteStream()
 }
 
 
-//##ModelId=3C0F6BDB0041
+
 byte PacketLib::ByteStream::getByte( dword byteNumber)
 {
     DEMORET0;
@@ -147,14 +151,14 @@ byte PacketLib::ByteStream::getByte( dword byteNumber)
 }
 
 
-//##ModelId=3C18775001BB
 long PacketLib::ByteStream::getValue(dword start, word dim)
 {
     DEMORET0;
     byte b1, b2;
-    //only 1 or 2 bytes
+    /// only 1 or 2 bytes
     if(dim <=0 || dim > 2)
-        return -1;               //errore
+    	/// error
+        return -1;               
     if(bigendian)
     {
         b1 = stream[start];
@@ -177,7 +181,7 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
         {
             if((start%2) == 0)
             {
-                //posto pari
+                /// even value
                 b1=stream[start+1];
                 b2=stream[start];
             }
@@ -192,7 +196,7 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
 }
 
 
-//##ModelId=3C301E8800C7
+
 ByteStream* PacketLib::ByteStream::getSubByteStream(dword first, dword last)
 {
     DEMORET0;
@@ -205,7 +209,7 @@ ByteStream* PacketLib::ByteStream::getSubByteStream(dword first, dword last)
 }
 
 
-//##ModelId=3EADC126003A
+
 ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
 {
     DEMORET0;
@@ -221,14 +225,13 @@ ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
 }
 
 
-//##ModelId=3EADC12503D4
 byte* PacketLib::ByteStream::getStream()
 {
     return stream;
 }
 
 
-//##ModelId=3EADC1260005
+
 byte* PacketLib::ByteStream::getOutputStream()
 {
     swap();
@@ -236,28 +239,26 @@ byte* PacketLib::ByteStream::getOutputStream()
 }
 
 
-//##ModelId=3EADC126001E
+
 void PacketLib::ByteStream::endOutputStream()
 {
     swap();
 }
 
 
-//##ModelId=3C87744001D8
 dword PacketLib::ByteStream::getDimension()
 {
     return byteInTheStream;
 }
 
 
-//##ModelId=3C87744001EC
 char* PacketLib::ByteStream::printStreamInHexadecimal()
 {
     return Utility::stringToHexadecimal(stream, byteInTheStream);
 }
 
 
-//##ModelId=3EADC1260244
+
 void PacketLib::ByteStream::setStreamCopy(byte* b, dword dim)
 {
     deleteStreamMemory();
@@ -271,7 +272,7 @@ void PacketLib::ByteStream::setStreamCopy(byte* b, dword dim)
 }
 
 
-//##ModelId=3C87744001F6
+
 bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool memory_sharing)
 {
     deleteStreamMemory();
@@ -286,7 +287,7 @@ bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool m
 }
 
 
-//##ModelId=3EADC1260157
+
 bool PacketLib::ByteStream::setStream(ByteStream* b, dword first, dword last)
 {
     if(first > last)
@@ -306,49 +307,49 @@ bool PacketLib::ByteStream::setStream(ByteStream* b, dword first, dword last)
 }
 
 
-//##ModelId=3EADC1270079
+
 bool PacketLib::ByteStream::getMemAllocation()
 {
     return mem_allocation;
 }
 
 
-//##ModelId=3EADC127009D
 bool PacketLib::ByteStream::isBigendian() const
 {
     return bigendian;
 }
 
 
-//##ModelId=3EADC12603A5
+
 void PacketLib::ByteStream::setByte(dword start, word value)
 {
     stream[start] = value;
 }
 
 
-//##ModelId=3EADC12602F1
 bool PacketLib::ByteStream::setWord(dword start, word value)
 {
     byte b1, b2;
-    //solo posizioni pari
+    /// only even positions
     if(start%2 != 0)
         return false;
-    //non deve superare la dimensione dello stream
+    /// It must not overtake the stream dimension
     if(start+1 > byteInTheStream)
         return false;
-    //estrazione dei byte
-    b1 = (byte) value;           //LSByte
-    b2 = (byte) (value >> 8);    //MSByte
+    /// Byte extraction
+    /// \param LSByte
+    b1 = (byte) value;           
+    /// \param MSByte
+    b2 = (byte) (value >> 8);    
     if((bigendian && !ARCH_BIGENDIAN) || (!bigendian && ARCH_BIGENDIAN))
     {
-        //swap
+        /// Swap
         stream[start] = b2;
         stream[start+1] = b1;
     }
     else
     {
-        //no swap per x86
+        /// No swap for x86
         stream[start] = b1;
         stream[start+1] = b2;
     }
@@ -357,7 +358,6 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
 }
 
 
-//##ModelId=3EADC12700E8
 void PacketLib::ByteStream::swap()
 {
     if(!bigendian)
@@ -365,7 +365,8 @@ void PacketLib::ByteStream::swap()
         dword dim =  byteInTheStream;
         for(dword i = 0; i< dim; i+=2)
         {
-            if((dim - i) != 1)   //per dimensioni dispari
+        	/// For odd dimensions
+        	if((dim - i) != 1)   
             {
                 byte btemp = stream[i];
                 stream[i] = stream[i+1];
@@ -376,7 +377,7 @@ void PacketLib::ByteStream::swap()
 }
 
 
-//##ModelId=3EADC127010D
+
 void PacketLib::ByteStream::setMemoryAllocated(bool allocated)
 {
 
@@ -415,7 +416,7 @@ void PacketLib::ByteStream::setMemoryAllocated(bool allocated)
 }
 
 
-//##ModelId=3EADC12701A5
+
 void PacketLib::ByteStream::deleteStreamMemory()
 {
     if(!mem_allocation_constructor && mem_allocation)

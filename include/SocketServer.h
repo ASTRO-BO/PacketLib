@@ -2,8 +2,8 @@
                           SocketServer.h  -  description
                              -------------------
     begin                : Thu May 16 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@bo.iasf.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SocketServer_class
-#define SocketServer_class
+#ifndef _SOCKETSERVER_H
+#define _SOCKETSERVER_H
 
 #include "Socket.h"
 #include <sys/types.h>
@@ -30,35 +30,23 @@
 namespace PacketLib
 {
 
-//##ModelId=3EADC12400D3
-//##Documentation
-//##	$Date: 2005/03/09 10:57:50 $
-//##	$Header: /home/repository/cvs/gtb/PacketLib/include/SocketServer.h,v 1.2 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Id: SocketServer.h,v 1.2 2005/03/09 10:57:50 bulgarelli Exp $
-//##	$Revision: 1.2 $
-//##	\brief This class represents generic client socket.
+///	\brief This class represents generic client socket.
 class SocketServer : public Socket
 {
 public:
-    //##ModelId=3EADC14400F1
     SocketServer (bool bigendian);
-    //##ModelId=3EADC14400F5
+ 
     SocketServer (bool bigendian,  int port );
 
-    //##ModelId=3EADC14400FC
     virtual ~SocketServer();
 
-    //##ModelId=3EADC14400FE
     bool bind ( const int port ) throw(PacketExceptionIO*);
-    //##ModelId=3EADC1440103
     bool listen() const throw(PacketExceptionIO*);
 
-    // Client initialization
+    /// Client initialization
 
-    //##ModelId=3EADC1440106
     void set_non_blocking ( const bool );
 
-    //##ModelId=3EADC1440109
     bool accept ( SocketServer& ) throw(PacketExceptionIO*);
 
 };

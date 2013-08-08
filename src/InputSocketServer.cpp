@@ -1,9 +1,9 @@
 /***************************************************************************
-                          InputSocket.cpp  -  description
+                          InputSocketServer.cpp  -  description
                              -------------------
     begin                : Sat Oct 26 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,7 +19,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFBF00B9
+
 InputSocketServer::InputSocketServer(bool bg) : Input(bg)
 {
     socketserver = 0;
@@ -27,14 +27,13 @@ InputSocketServer::InputSocketServer(bool bg) : Input(bg)
 }
 
 
-//##ModelId=3DBFBFBF00BB
+
 InputSocketServer::~InputSocketServer()
 {
     delete socketserver;
 }
 
 
-//##ModelId=3DBFBFBF00F0
 bool InputSocketServer::open( char** parameters ) throw(PacketExceptionIO*)
 {
     port = atoi(parameters[0]);
@@ -48,7 +47,7 @@ bool InputSocketServer::open( char** parameters ) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBF00F3
+
 void InputSocketServer::close() throw(PacketExceptionIO*)
 {
     socketserver->close();
@@ -57,7 +56,7 @@ void InputSocketServer::close() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFBF00F5
+
 ByteStream* InputSocketServer::readByteStream(int n_byte) throw(PacketExceptionIO*)
 {
     int status = 0;
@@ -81,7 +80,7 @@ ByteStream* InputSocketServer::readByteStream(int n_byte) throw(PacketExceptionI
 }
 
 
-//##ModelId=3DBFBFBF0122
+
 char* InputSocketServer::readString() throw(PacketExceptionIO*)
 {
     throw new PacketExceptionIO("Method not implemented");

@@ -1,3 +1,20 @@
+/***************************************************************************
+                          PacketStream.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "PacketStream.h"
 #include "ConfigurationFile.h"
 #include "PacketExceptionFileFormat.h"
@@ -10,7 +27,7 @@ using namespace PacketLib;
 
 
 
-//##ModelId=3DA3E5A90226
+
 PacketStream::PacketStream(const char* fileNameConfig)
 {
     this->filenameConfig = (char*) fileNameConfig;
@@ -24,7 +41,7 @@ PacketStream::PacketStream(const char* fileNameConfig)
 }
 
 
-//##ModelId=3DA3E5AA0064
+
 PacketStream::PacketStream()
 {
     this->filenameConfig = 0;
@@ -38,7 +55,7 @@ PacketStream::PacketStream()
 }
 
 
-//##ModelId=3DA3E5AA00A0
+
 PacketStream::~PacketStream()
 {
     for(int i=0; i< numberOfPacketType; i++)
@@ -49,7 +66,7 @@ PacketStream::~PacketStream()
 }
 
 
-//##ModelId=3DA3E5AA01EA
+
 bool PacketStream::createStreamStructure() throw(PacketException*)
 {
     DEMORET0;
@@ -65,7 +82,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
             delete[] argv;
             if(pathFileNameConfig) free(pathFileNameConfig);
             pathFileNameConfig = getcwd(NULL, 512L);
-            //prefix
+            /// prefix
             line = config.getLine();
             if(strcmp(line, "[Configuration]") == 0)
             {
@@ -85,7 +102,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     }
                 }
                 delete[] line;
-                //bigendian
+                /// bigendian
                 line = config.getLine();
                 if(strcmp(line, "false") == 0)
                     bigendian = false;
@@ -99,20 +116,20 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                         return false;
                     }
                 }
-                //dimensione of prefix
+                /// dimensione of prefix
                 delete[] line;
                 line = config.getLine();
                 dimPrefix = atoi(line);
             }
             else
                 throw new PacketExceptionFileFormat("No [Configuration] section found.");
-            //[Header Format] section
+            /// [Header Format] section
             delete[] line;
             line = config.getLine();
             if(strcmp(line, "[Header Format]") == 0)
             {
                 delete[] line;
-                // Create headerReference of PacketHeader type. The method reads the structure of header from configuration file (named in filenameConfig)
+                ///  Create headerReference of PacketHeader type. The method reads the structure of header from configuration file (named in filenameConfig)
                 line = config.getLine();
                 delete headerReference;
                 headerReference = (PacketHeader*) new PacketHeader();
@@ -122,7 +139,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     throw new PacketExceptionFileFormat("No parameters in file header format");
                     return false;
                 }
-                //crea il PACKET NOT RECOGNIZED
+                /// It creates the PACKET NOT RECOGNIZED
                 PacketNotRecognized* p = new PacketNotRecognized(bigendian);
                 if(!p->createPacketType(line, prefix, dimPrefix))
                 {
@@ -141,7 +158,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                 throw new PacketExceptionFileFormat("No [Header format] section");
                 return false;
             }
-            //[Packet Format]
+            /// [Packet Format]
             line = config.getLine();
             if(strcmp(line, "[Packet Format]") == 0)
             {
@@ -186,8 +203,6 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
     }
 }
 
-
-//##ModelId=3DBFBFC30050
 word PacketStream::getPrefixDimension() const
 {
     if(prefix)
@@ -197,7 +212,6 @@ word PacketStream::getPrefixDimension() const
 }
 
 
-//##ModelId=3DBFBFC300BE
 word PacketStream::getHeaderDimension() const
 {
     if(headerReference != 0)
@@ -207,28 +221,25 @@ word PacketStream::getHeaderDimension() const
 }
 
 
-//##ModelId=3DA3E5AB0172
 word PacketStream::getNumberOfPacketType()
 {
     return numberOfPacketType;
 }
 
 
-//##ModelId=3DA3E5AA0258
 Packet* PacketStream::getPacketType(int index)
 {
     return packetType[index];
 }
 
 
-//##ModelId=3DA3E5AB0096
+
 bool PacketStream::isBigEndian()
 {
     return (bool) this->bigendian;
 }
 
 
-//##ModelId=3DA3E5AA00D2
 void PacketStream::setFileNameConfig(const char* f)
 {
     this->filenameConfig = (char*) f;
@@ -236,7 +247,6 @@ void PacketStream::setFileNameConfig(const char* f)
 }
 
 
-//##ModelId=3DA3E5AB0104
 bool PacketStream::thereIsPrefix()
 {
     return prefix;

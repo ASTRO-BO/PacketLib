@@ -1,24 +1,41 @@
+/***************************************************************************
+                          PacketHeader.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "PacketHeader.h"
 #include "ConfigurationFile.h"
 
 using namespace PacketLib;
 
 
-//##ModelId=3DA3E5A701D6
+
 PacketHeader::PacketHeader() : PartOfPacket("Packet Header")
 {
     name = 0;
     dimensionOfPacketLenght = 16;
 }
 
-//##ModelId=3DA3E5A7012C
+
 PacketHeader::~PacketHeader()
 {
     delete[] name;
 }
 
 
-//##ModelId=3C14980F00F2
+
 bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 {
     ConfigurationFile header;
@@ -28,12 +45,12 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
     {
         delete[] argv;
         char* line = header.getLine();
-        //retrieve name of packet header
+        /// retrieve name of packet header
         name = line;
 
         line = header.getLine();
         numberOfFieldWithPacketDimension = atoi(line);
-        //delete[] line;
+        /// delete[] line;
 
         line = header.getLine();
         if(strcmp(line, "[Field]") == 0)
@@ -46,9 +63,9 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 
         header.setpos(0);
 
-        //find the start position of the fields
+        /// find the start position of the fields
         line = header.getLine("[Field]");
-        //delete[] line;
+        /// delete[] line;
 
         if(loadFields(header))
         {
@@ -67,13 +84,13 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 }
 
 
-//##ModelId=3C15ED930064
+
 dword PacketHeader::getPacketLength()
 {
     if(dimensionOfPacketLenght == 16)
     {
         Field* f = getFields(numberOfFieldWithPacketDimension);
-        //standard ESA Nel packet lenght bisogna aggiungere 1
+        /// ESA standard: in the packet length the value 1 must be added
         return f->value + 1;
     }
     else
@@ -87,7 +104,7 @@ void PacketHeader::setPacketLength(dword dim)
     if(dimensionOfPacketLenght == 16)
     {
         Field* f = getFields(numberOfFieldWithPacketDimension);
-        //standard ESA Nel packet lenght bisogna aggiungere 1
+        /// ESA standard: in the packet length the value 1 must be added
         f->value = (word) dim-1;
     }
     else
@@ -97,7 +114,6 @@ void PacketHeader::setPacketLength(dword dim)
 }
 
 
-//##ModelId=3DA3E5A70208
 Field * PacketHeader::getFieldWithPacketDimension()
 {
     return getFields(numberOfFieldWithPacketDimension);

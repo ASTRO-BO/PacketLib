@@ -2,8 +2,8 @@
                           InputTextFile.cpp  -  description
                              -------------------
     begin                : Mon Mar 4 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,10 +24,10 @@ using namespace PacketLib;
 int InputTextFile::nListOfBuffers = 0;
 MemoryBuffer** InputTextFile::listOfBuffers = 0;
 
-//##ModelId=3AA64922006A
+
 InputTextFile::InputTextFile() : InputText()
 {
-    //create buffer list
+    /// create buffer list
     if(InputTextFile::listOfBuffers == 0)
     {
         int nb = CONFIG_MAXNUMBER_OFCONFIGILES;
@@ -40,14 +40,12 @@ InputTextFile::InputTextFile() : InputText()
 }
 
 
-//##ModelId=3AA64922007E
 InputTextFile::~InputTextFile()
 {
 
 }
 
 
-//##ModelId=3DA3E57A02F8
 bool InputTextFile::fchdir() throw(PacketExceptionIO*)
 {
     try
@@ -65,15 +63,14 @@ bool InputTextFile::fchdir() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3AA64922009C
 bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
 {
     //cout << "open " << parameters[0] << endl;
 
 
     bool ret;
-    //check if the file has been already loaded into MemoryBuffer
-    //find the name of the buffer in the list
+    /// check if the file has been already loaded into MemoryBuffer
+    /// find the name of the buffer in the list
 
 
     buffer = 0;
@@ -145,7 +142,7 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
 
 };
 
-//##ModelId=3AA6492200F6
+
 void InputTextFile::close()  throw(PacketExceptionIO*)
 {
     file.close();
@@ -153,7 +150,7 @@ void InputTextFile::close()  throw(PacketExceptionIO*)
     closed = file.isClosed();
 };
 
-//##ModelId=3AA64922011E
+
 char* InputTextFile::getLine() throw(PacketExceptionIO*)
 {
     try
@@ -175,7 +172,7 @@ char* InputTextFile::getLine() throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3AA64922013C
+
 char* InputTextFile::getLine(const char* s) throw(PacketExceptionIO*)
 {
     char* line;
@@ -202,42 +199,37 @@ char* InputTextFile::getLine(const char* s) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3AA649220196
+
 char* InputTextFile::getLastLineRead()
 {
     return buffer->getlastbuffer();
 }
 
 
-//##ModelId=3AA6492201BE
 long InputTextFile::getpos()
 {
     return buffer->getpos();
 }
 
 
-//##ModelId=3AA6492201DC
 bool InputTextFile::memBookmarkPos()
 {
     return buffer->memBookmarkPos();
 }
 
 
-//##ModelId=3AA64922020E
 int InputTextFile::setFirstPos()
 {
     return buffer->setpos(0);
 }
 
 
-//##ModelId=3AA64922022C
 bool InputTextFile::setLastBookmarkPos()
 {
     return buffer->setLastBookmarkPos();
 }
 
 
-//##ModelId=3AA64922025E
 long InputTextFile::setpos(long offset) throw(PacketExceptionIO*)
 {
     long l;

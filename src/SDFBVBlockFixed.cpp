@@ -1,8 +1,25 @@
+/***************************************************************************
+                          SDFBVBlockFixed.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SDFBVBlockFixed.h"
 
 using namespace PacketLib;
 
-//##ModelId=3C9AEDA50372
+
 word SDFBVBlockFixed::getNumberOfRealElement()
 {
     Field* f = getFields(indexOfNElement);
@@ -10,7 +27,7 @@ word SDFBVBlockFixed::getNumberOfRealElement()
 }
 
 
-//##ModelId=3DA3E5C100AA
+
 void SDFBVBlockFixed::setNumberOfRealElement(word value)
 {
     Field* f = getFields(indexOfNElement);
@@ -18,29 +35,28 @@ void SDFBVBlockFixed::setNumberOfRealElement(word value)
 }
 
 
-/** No descriptions */
-//##ModelId=3C9AEDA60002
+
 void SDFBVBlockFixed::setIndexOfNElement(word index)
 {
     indexOfNElement = index;
 }
 
 
-//##ModelId=3C9AEDA601CA
+
 void SDFBVBlockFixed::setAddToNElement(unsigned num)
 {
     addToNElement = num;
 }
 
 
-//##ModelId=3DA3E5C101C2
+
 void SDFBVBlockFixed::setMaxNumberOfElement(word num)
 {
     maxNumberOfElement = num;
 }
 
 
-//##ModelId=3DA3E5C102D0
+
 word SDFBVBlockFixed::getMaxNumberOfElement() const
 {
     return maxNumberOfElement;

@@ -2,8 +2,8 @@
                           PacketNotRecognized.cpp  -  description
                              -------------------
     begin                : Mon Jan 21 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -20,7 +20,7 @@
 
 using namespace PacketLib;
 
-//##ModelId=3AA64A03005D
+
 bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*)
 {
     if(header->loadHeader(fileName))
@@ -58,24 +58,23 @@ bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dim
 }
 
 
-//##ModelId=3AA64A03005A
+
 PacketNotRecognized::PacketNotRecognized(bool bigendian) : Packet(bigendian)
 {
     dataField->sourceDataField = 0;
 }
 
 
-//##ModelId=3AA64A03005B
 PacketNotRecognized::~PacketNotRecognized()
 {
     //	cout << "PacketNotRecognized deleted" << endl;
 }
 
 
-//##ModelId=3AA64A030065
+
 bool PacketNotRecognized::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
-    //si legge e si setta l'header del pacchetto
+    /// It reads and sets the packet header 
     if(!header->setByteStream(packetHeader))
         return false;
 

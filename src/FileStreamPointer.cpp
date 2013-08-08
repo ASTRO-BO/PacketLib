@@ -2,8 +2,8 @@
                           FileStreamPointer.cpp  -  description
                              -------------------
     begin                : Mon Jan 14 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -19,13 +19,11 @@
 
 using namespace PacketLib;
 
-//##ModelId=3C877441011B
 FileStreamPointer::FileStreamPointer()
 {
 }
 
 
-//##ModelId=3C877441011C
 FileStreamPointer::~FileStreamPointer()
 {
 

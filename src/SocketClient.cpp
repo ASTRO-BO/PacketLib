@@ -2,8 +2,8 @@
                           SocketClient.cpp  -  description
                              -------------------
     begin                : Thu May 16 2002
-    copyright            : (C) 2002 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2002, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,14 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-// Implementation of the SocketClient class
-
 #include "SocketClient.h"
 #include "PacketExceptionIO.h"
 
 using namespace PacketLib;
 
-//##ModelId=3DA3E6000155
+
 SocketClient::SocketClient ( bool bigendian, std::string host, int port ) : Socket(bigendian)
 {
     if ( ! Socket::create() )

@@ -1,22 +1,38 @@
+/***************************************************************************
+                          OutputPacketStream.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "OutputPacketStream.h"
 
 using namespace PacketLib;
 
-//##ModelId=3DBFBFC0007D
+
 OutputPacketStream::OutputPacketStream() : PacketStream()
 {
     out = 0;
 }
 
 
-//##ModelId=3DBFBFC000AA
+
 OutputPacketStream::OutputPacketStream(const char* fileNameConfig) : PacketStream(fileNameConfig)
 {
     out = 0;
 }
 
 
-//##ModelId=3DBFBFC000E6
 bool OutputPacketStream::writePacket(Packet* p) throw(PacketExceptionIO*)
 {
     ByteStream* bs;
@@ -38,7 +54,7 @@ bool OutputPacketStream::writePacket(Packet* p) throw(PacketExceptionIO*)
 }
 
 
-//##ModelId=3DBFBFC00118
+
 void OutputPacketStream::setOutput(Output* out)
 {
     this->out = out;

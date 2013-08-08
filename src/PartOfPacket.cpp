@@ -2,8 +2,8 @@
                           PartOfPacket.cpp  -  description
                              -------------------
     begin                : Thu Dec 6 2001
-    copyright            : (C) 2001 by Andrea Bulgarelli
-    email                : bulgarelli@tesre.bo.cnr.it
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,7 +21,7 @@ using namespace PacketLib;
 
 word PacketLib::pattern[] = {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535};
 
-//##ModelId=3C0F6C1A0223
+
 PartOfPacket::PartOfPacket(const char* popName)
 {
     fieldsDimension = 0;
@@ -33,13 +33,12 @@ PartOfPacket::PartOfPacket(const char* popName)
 }
 
 
-//##ModelId=3C35860301F9
 PartOfPacket::~PartOfPacket()
 {
     deleteFields();
-    //delete stream;
-    //Don't deletes the extern ByteStream. The responsibility of this isn't of Packet class;
-    //But deletes the internal ByteStream
+    /// delete stream;
+    /// Don't deletes the extern ByteStream. The responsibility of this isn't of Packet class;
+    /// But deletes the internal ByteStream
 //     if(stream !=0) AB27Aug2005
 //         if(!stream->getMemAllocation()) {
 //             delete stream; stream = 0;
@@ -47,7 +46,7 @@ PartOfPacket::~PartOfPacket()
 }
 
 
-//##ModelId=3CAEAC8B0280
+
 string* PartOfPacket::printStructure()
 {
     bool first = true;
@@ -86,10 +85,10 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 {
     char* name, *dimension, *value;
-    //chiama la funzione che libera la memoria
+    /// It calls the function that releases the memory
     deleteFields();
     int count = 0;
-    //count the number of fields
+    /// count the number of fields
     long pos = fp.getpos();
     count++;
     while(strlen(name) !=  0)
@@ -121,7 +120,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
         fields[numberOfFields] = f;
         numberOfFields++;
         name = fp.getLine();
-        //legge fino a quando non finisce il buffer
+        /// It reads until the buffer ends
         if(name[0] == '[')
         {
             break;
@@ -131,7 +130,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 }
 
 
-//##ModelId=3DA3E5AD0046
+
 bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
 {
     char* name;
@@ -139,13 +138,13 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
     char* value;
     int count = 0;
 
-    //chiama la funzione che libera la memoria
+    /// It calls the function to release the memory
     deleteFields();
     count = buffer->getBufferDimension();
-    //si alloca la memoria per i fields
+    /// It allocates the field memory
     fields = new Field* [count/3];
 
-    //inizio creazione packet
+    /// Begin of the packet creation
     name = buffer->getbuffer();
     if(name == 0)
     {
@@ -160,7 +159,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
         fields[numberOfFields] = f;
         numberOfFields++;
         name = buffer->getbuffer();
-        //legge fino a quando non finisce il buffer
+        /// It reads until the buffer ends
         if(name == 0)
         {
             return true;
@@ -171,7 +170,6 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
 
 
 
-//##ModelId=3DA3E5AF0064
 MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
 {
     char* name, *dimension, *value;
@@ -194,7 +192,7 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
         buffer->setbuffer(value);
         count++;
         name = fp.getLine();
-        //legge fino a quando non incontra [
+        /// It reads until it reaches [
         if(name[0] == '[')
         {
             //delete[] name;
@@ -204,12 +202,12 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
     return buffer;
 }
 
-//##ModelId=3C18AB2E037F
+
 bool PartOfPacket::setByteStream(ByteStream* s)
 {
     Field* ftemp;
 
-    //se e' stato passato un NULL si esce
+    /// If NULL is passed it exits
     if(s == NULL) return true;
 
     if(getDimension() > s->getDimension())
@@ -219,28 +217,28 @@ bool PartOfPacket::setByteStream(ByteStream* s)
     if(!s->getMemAllocation())
         stream->setStream(s->stream, s->getDimension(), s->isBigendian());
 
-    //si assegna lo stream all'header
+    /// The stream is assigned to the header
     this->stream = s;
-    //converto il puntatore a byte in un puntatore a void. La lettura da file ha gia'
-    //garantito la corretta interpretazione dei dati per macchine big o little endian
+    /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
+    /// for big or little endian machines
     byte* stream = (byte*) s->stream;
-    //indica la posizione all'interno della word:
+    /// It indicates the position inside the word:
     byte posbit = 0;
-    //indica la word da analizzare nello stream:
+    /// It indicates the word to be analyzed inside the stream
     word posword = 0;
-    //dimensione del field corrente
+    /// Dimension nof the current field
     byte dimbit = 0;
 
-    //number of shift for elaboration
+    /// number of shift for elaboration
     short numberOfShift = 0;
-    //number of fields
+    /// number of fields
     //unsigned nof = getNumberOfFields();
     word nof = numberOfFields;
     for(word i=0; i<nof; i++)
     {
         ftemp =  fields[i];
         dimbit = ftemp->getDimension();
-        //word temporanea da modificare per le elaborazioni
+        /// Temporary word to be modified for the elaboration
         byte bh = *(stream + posword);
         byte bl = *(stream + posword + 1);
         //word wordtemp = *(stream + posword);
@@ -251,7 +249,8 @@ bool PartOfPacket::setByteStream(ByteStream* s)
             wordtemp = bl * 256 + bh;
         numberOfShift = 16 - (posbit + dimbit);
         //parte nuova
-        if(numberOfShift < 0)   //NB: se non si verifica mai questa condizione, il codice è assolutamente uguale al pre PacketLib 1.3.3
+        /// \remarks if the condition is not fulfilled, the code is equal to the versions older than PacketLib 1.3.3
+        if(numberOfShift < 0)   
         {
             short currentDimBit = dimbit + numberOfShift;
             dimbit = abs(numberOfShift);
@@ -280,7 +279,7 @@ bool PartOfPacket::setByteStream(ByteStream* s)
             wordtemp = wordtemp >> numberOfShift;
             ftemp->value = wordtemp & pattern[dimbit];
         }
-        //aggiornamento pobit e posword
+        /// Upgrade of pobit and posword
         posbit += dimbit;
         if(posbit >=16)
         {
@@ -292,7 +291,7 @@ bool PartOfPacket::setByteStream(ByteStream* s)
 }
 
 
-//##ModelId=3CAEAC8B02FD
+
 char** PartOfPacket::printValue(const char* addString)
 {
     //bool first = true;
@@ -308,7 +307,7 @@ char** PartOfPacket::printValue(const char* addString)
     // Create constant iterator for list.
 
     //list<Field>::iterator iter;
-    // Iterate through list and output each element.
+    /// Iterate through list and output each element.
     index = 0;
     //for (iter=fields.begin(); iter != fields.end(); iter++)
     for(unsigned i=0; i<numberOfFields; i++)
@@ -378,7 +377,6 @@ void PartOfPacket::printValueStdout()
 }
 
 
-//##ModelId=3DA3E5BE0172
 void PartOfPacket::deleteFields()
 {
     for(unsigned i = 0; i < numberOfFields; i++)
@@ -387,14 +385,13 @@ void PartOfPacket::deleteFields()
 }
 
 
-//##ModelId=3DA3E5B701FE
 ByteStream* PartOfPacket::generateStream(bool bigendian)
 {
     word w = 0, wtemp = 0;
     int posbit = 0;
     word posword = 0;
     short shift;
-    //dimensione del field corrente
+    /// Dimension of the current field
     byte dimbit = 0;
     if(outputstream == 0)
         outputstream = new ByteStream(getDimension(), bigendian);
@@ -449,7 +446,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
     return outputstream;
 };
 
-//##ModelId=3DA3E5BA00FA
+
 bool PartOfPacket::setOutputStream(ByteStream* os, dword first)
 {
     delete outputstream;
@@ -467,8 +464,10 @@ float PartOfPacket::getFieldValue_5_1(word index)
 {
     union u_tag
     {
-        unsigned long i;		//32 bit
-        float f;	//32 bit single precision
+    	/// 32 bit
+        unsigned long i;
+        /// 32 bit single precision
+        float f;	
     } u;
     u.i = (getFieldValue(index) << 16) | getFieldValue(index + 1);
     return u.f;
@@ -478,8 +477,10 @@ void PartOfPacket::setFieldValue_5_1(word index, float value)
 {
     union u_tag
     {
-        unsigned long i;		//32 bit
-        float f;	//32 bit single precision
+    	/// 32 bit
+        unsigned long i;
+        /// 32 bit single precision
+        float f;	
     } u;
     word w;
     u.f = value;
@@ -544,13 +545,15 @@ signed long PartOfPacket::getFieldValue_4_13(word index)
 {
     union u_tag
     {
-        unsigned long u;		//32 bit
+    	/// 32 bit
+        unsigned long u;		
         signed long s;
     } us;
     us.u = getFieldValue_3_14(index);
-    unsigned long sign = (us.u  >> 23); //get the sign
+    /// get the sign
+    unsigned long sign = (us.u  >> 23); 
     unsigned long wh = us.u & 0x007FFFFF;
-    //get a long 32 bit
+    /// get a long 32 bit
     if(sign == 1)
         us.u = 0x7F800000 + wh + (sign << 31);
     else
@@ -563,7 +566,8 @@ void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(Packe
 {
     union u_tag
     {
-        unsigned long u;		//32 bit
+    	/// 32 bit
+        unsigned long u;		
         signed long s;
     } us;
     if(value > U24BITINTGEGERSIGNED_MAX)
@@ -572,7 +576,8 @@ void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(Packe
         throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
     us.s = value;
     unsigned long sign = (us.u >> 31);
-    unsigned long wh = us.u & 0x007FFFFF; //23 bit
+    /// 23 bit
+    unsigned long wh = us.u & 0x007FFFFF;
     unsigned long value2 = 0;
     value2 = wh + (sign << 23);
     setFieldValue_3_14(index, value2);

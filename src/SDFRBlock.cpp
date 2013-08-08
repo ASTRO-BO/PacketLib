@@ -1,3 +1,20 @@
+/***************************************************************************
+                          SDFRBlock.cpp  -  description
+                             -------------------
+    begin                : Thu Nov 29 2001
+    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    email                : bulgarelli@iasfbo.inaf.it
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software for non commercial purpose              *
+ *   and for public research institutes; you can redistribute it and/or    *
+ *   modify it under the terms of the GNU General Public License.          *
+ *   For commercial purpose see appropriate license terms                  *
+ *                                                                         *
+ ***************************************************************************/
+ 
 #include "SDFRBlock.h"
 
 using namespace PacketLib;
@@ -38,7 +55,8 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
         block[0].setID(0);
         block[0].loadFields(fp);
         fp.setpos(0);
-        line = fp.getLine("[Identifiers]"); //get the [Identifiers] section
+        /// It gets the [Identifiers] section
+        line = fp.getLine("[Identifiers]"); 
         return true;
     }
     catch(PacketExceptionIO* e)
@@ -66,7 +84,7 @@ dword SDFRBlock::getDimension()
 
 void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
 {
-    //il block[0] e' l'unico block presente
+    /// The block[0] is the only block present
     block[0].setNumberOfRealDataBlock(number, rblockIndex);
     reset_output_stream = true;
 }
@@ -74,7 +92,7 @@ void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (
 
 word SDFRBlock::getNumberOfRealDataBlock(word rblockIndex)
 {
-    //il block[0] e' l'unico block presente
+    /// The block[0] is the only block present
     return  block[0].getNumberOfRealDataBlock(rblockIndex);
 }
 
