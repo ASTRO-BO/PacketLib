@@ -184,16 +184,13 @@ char* File::getLine() throw(PacketExceptionIO*)
     }
     s[i] = '\0';
     unsigned dims = strlen(s);
-    char* sr = new char[ dims + 1];
-    for(unsigned i=0; i<=dims; i++)
-        sr[i] = s[i];
-
+    //char* sr = new char[ dims + 1];
     delete[] lastLineRead;
     lastLineRead = new char[ dims + 1];
     for(unsigned i=0; i<=dims; i++)
-        lastLineRead[i] = s[i];
+    	lastLineRead[i]  = s[i];
 
-    return sr;
+    return lastLineRead;
 }
 
 

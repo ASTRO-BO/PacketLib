@@ -41,6 +41,8 @@ public:
     /// Read property of char** buffer.
     char* getbuffer();
 
+    bool getEOF();
+
     char* getlastbuffer();
 
     char* getbuffer(dword index);
@@ -72,6 +74,8 @@ public:
 
     long setpos(int index);
 
+    void printBuffer();
+
 private:
 
     int bookmarkpos;
@@ -87,6 +91,8 @@ private:
     char* currentpwd;
 
     char* bufferName;
+
+    bool eof;
 };
 
 }

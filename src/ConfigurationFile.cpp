@@ -60,6 +60,8 @@ char* ConfigurationFile::getLine() throw(PacketExceptionIO*)
     try
     {
         temp = InputTextFile::getLine();
+        if(temp[0] == 0)
+        	return temp;
         while(strstr(temp, "--") !=  NULL)
         {
             //delete[] temp;

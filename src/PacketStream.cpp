@@ -69,24 +69,24 @@ PacketStream::~PacketStream()
 
 bool PacketStream::createStreamStructure() throw(PacketException*)
 {
-    DEMORET0;
     ConfigurationFile config;
     char* line;
     char **argv = new char* [1];
     argv[0] = filenameConfig;
-
+    //cout << "@@@@@@@@@@OPEN " << filenameConfig << endl;
     try
     {
         if(config.open(argv))
         {
-            delete[] argv;
+            //delete[] argv;
             if(pathFileNameConfig) free(pathFileNameConfig);
             pathFileNameConfig = getcwd(NULL, 512L);
             /// prefix
+            config.setpos(0);
             line = config.getLine();
             if(strcmp(line, "[Configuration]") == 0)
             {
-                delete[] line;
+                //delete[] line;
                 line = config.getLine();
                 if(strcmp(line, "false") == 0)
                     prefix = false;
@@ -96,12 +96,12 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                         prefix = true;
                     else
                     {
-                        delete[] line;
+                        //delete[] line;
                         throw new PacketExceptionFileFormat("Prefix selector format not correct. It's possible only true or false value.");
                         return false;
                     }
                 }
-                delete[] line;
+                //delete[] line;
                 /// bigendian
                 line = config.getLine();
                 if(strcmp(line, "false") == 0)
@@ -117,25 +117,25 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     }
                 }
                 /// dimensione of prefix
-                delete[] line;
+                //delete[] line;
                 line = config.getLine();
                 dimPrefix = atoi(line);
             }
             else
                 throw new PacketExceptionFileFormat("No [Configuration] section found.");
             /// [Header Format] section
-            delete[] line;
+            //delete[] line;
             line = config.getLine();
             if(strcmp(line, "[Header Format]") == 0)
             {
-                delete[] line;
+                //delete[] line;
                 ///  Create headerReference of PacketHeader type. The method reads the structure of header from configuration file (named in filenameConfig)
                 line = config.getLine();
                 delete headerReference;
                 headerReference = (PacketHeader*) new PacketHeader();
                 if(!headerReference->loadHeader(line))
                 {
-                    delete[] line;
+                    //delete[] line;
                     throw new PacketExceptionFileFormat("No parameters in file header format");
                     return false;
                 }
@@ -143,7 +143,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                 PacketNotRecognized* p = new PacketNotRecognized(bigendian);
                 if(!p->createPacketType(line, prefix, dimPrefix))
                 {
-                    delete[] line;
+                    //delete[] line;
                     throw new PacketExceptionFileFormat("Packet Not Recognized not created.");
                 }
                 else
@@ -151,7 +151,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     numberOfPacketType++;
                 }
-                delete[] line;
+                //delete[] line;
             }
             else
             {
@@ -171,7 +171,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     packetType[numberOfPacketType] = p;
                     p->setPacketID(numberOfPacketType);
                     numberOfPacketType++;
-                    delete[] packetFileName;
+                    //delete[] packetFileName;
                     packetFileName = config.getLine();
                 }
             }

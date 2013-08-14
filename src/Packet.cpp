@@ -262,10 +262,13 @@ bool Packet::loadIdentifiers(ConfigurationFile& fp)
 
     MemoryBuffer* buffer = new MemoryBuffer();
     char* line = fp.getLine();
-    while(!fp.isEOF() && strcmp(line, "[Tail]") != 0)
+    while(strcmp(line, "[Tail]") != 0)
     {
         buffer->setbuffer(line);
         line = fp.getLine();
+        bool eof = fp.isEOF();
+        if(eof == true || line[0] == 0)
+        	break;
     }
     ///delete[] line; 
     //AB
@@ -286,7 +289,7 @@ bool Packet::loadIdentifiers(ConfigurationFile& fp)
             identifiers[i] = p;
         }
     }
-    delete buffer;
+    //delete buffer;
     return true;
 }
 

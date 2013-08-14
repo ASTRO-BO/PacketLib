@@ -42,6 +42,24 @@ MemoryBuffer::~MemoryBuffer()
     //	freebuffer();
 }
 
+bool MemoryBuffer::getEOF() {
+	return eof;
+}
+
+void MemoryBuffer::printBuffer() {
+	if(!buffer)
+		return;
+	dword i = 0;
+	cout << "********************************************" << endl;
+	cout << bufferName << endl;
+	cout << "**********************" << endl;
+	while(buffer[i] != 0) {
+		cout << buffer[i++] << endl;
+	}
+	cout << "********************************************" << endl;
+
+}
+
 void MemoryBuffer::freebuffer()
 {
     if(!buffer)
@@ -68,6 +86,29 @@ char* MemoryBuffer::getbuffer()
     }
     else
         return 0;
+}
+
+/// Read property of char** buffer.
+char* MemoryBuffer::getbuffer(dword index)
+{
+
+    if(index <= dim)
+    {
+        //int dimline = strlen(buffer[index]);
+        //char* ret = (char*) new char[dimline+1];
+        //strcpy(ret, buffer[index]);
+        char* ret = buffer[index];
+        if(ret == 0)
+        	eof = true;
+        else
+        	eof = false;
+        return ret;
+    }
+    else {
+    	eof = true;
+    	return 0;
+    }
+
 }
 
 char* MemoryBuffer::getlastbuffer()
@@ -104,21 +145,7 @@ long MemoryBuffer::setpos(int index)
 }
 
 
-/// Read property of char** buffer. 
-char* MemoryBuffer::getbuffer(dword index)
-{
 
-    if(index <= dim)
-    {
-        //int dimline = strlen(buffer[index]);
-        //char* ret = (char*) new char[dimline+1];
-        //strcpy(ret, buffer[index]);
-        char* ret = buffer[index];
-        return ret;
-    }
-    else
-        return 0;
-}
 
 
 /// Write property of char** buffer. 
@@ -244,6 +271,9 @@ bool MemoryBuffer::saveBuffer(char* filename)  throw(PacketExceptionIO*)
 void MemoryBuffer::setName(char* name)
 {
 
-    bufferName = name;
-
+	int dimline = strlen(name);
+	bufferName = (char*) new char[dimline+1];
+	strcpy(bufferName, name);
 }
+
+

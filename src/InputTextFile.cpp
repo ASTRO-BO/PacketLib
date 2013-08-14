@@ -88,6 +88,7 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
             file.setFileName(filename);
             usebuffer = true;
             ret = true;
+            break;
         }
         i++;
     }
@@ -117,6 +118,12 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
             }
         }
         buffer->setpos(0);
+        /*if(usebuffer == false) {
+        	int i=0;
+        	cout << "@@@@ add buffer to  InputTextFile()::buffer " << parameters[0] << endl;
+        	while(InputTextFile::listOfBuffers[i] != 0)
+        		 InputTextFile::listOfBuffers[i++]->printBuffer();
+        }*/
         /*
         cout << "#### BUFFER: " << buffer << " " << buffer->getName() << endl;
         cout << "#### check list: " << endl;
@@ -157,12 +164,7 @@ char* InputTextFile::getLine() throw(PacketExceptionIO*)
     {
         char* ret;
         ret = buffer->getbuffer();
-        //cout << "## " << ret << endl;
-        if(ret == 0)
-        {
-            eof = true;
-        }
-        //closed = file.isClosed();
+        eof = buffer->getEOF();
         return ret;
     }
     catch(PacketExceptionIO* e)
