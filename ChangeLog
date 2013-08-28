@@ -1,3 +1,9 @@
+2013-08-28  bulgarelli  <bulgarelli@tesp28.local>
+
+	* include/ByteStream.h (ByteStream): renamed swap() in swapWord()
+	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsLittleEndian();
+	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
+
 25 July 2003
 v2.0.3 on git
 
@@ -63,11 +69,11 @@ TAG CVS: PACKETLIB_1_3_9
 
 7 December 2005
 TAG CVS: PACKETLIB_1_3_8
-+ added the management of number of blocks *2 per rblocks in the SDFRBBlock (symbol * in the line of sub from nblocks)
++ added the management of number of blocks *2 per rblocks in the SDFRBBlock (symbol '*' in the line of sub from nblocks)
 
 21 October 2005
 TAG CVS: PACKETLIB_1_3_7
-+ added the management of number of blocks /2 per rblocks in the SDFRBBlock (symbol / in the line of sub from nblocks)
++ added the management of number of blocks /2 per rblocks in the SDFRBBlock (symbol '/' in the line of sub from nblocks)
 + added include <unistd.h>
 
 24 August 2005
@@ -256,3 +262,4 @@ socket
 9 Maggio 2002
 Prima versione 1.0.4.
 Tag CVS: START
+	 

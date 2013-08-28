@@ -69,7 +69,7 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
     this->stream = stream;
     this->bigendian = bigendian;
     if(!memory_sharing)
-        swap();
+        swapWordIfStreamIsLittleEndian();
     /// \remarks memory_sharing == false means that the object is responsible for the memory
     setMemoryAllocated(!memory_sharing);
     mem_allocation_constructor = false;
@@ -234,7 +234,7 @@ byte* PacketLib::ByteStream::getStream()
 
 byte* PacketLib::ByteStream::getOutputStream()
 {
-    swap();
+    swapWordIfStreamIsLittleEndian();
     return stream;
 }
 
@@ -242,7 +242,7 @@ byte* PacketLib::ByteStream::getOutputStream()
 
 void PacketLib::ByteStream::endOutputStream()
 {
-    swap();
+    swapWordIfStreamIsLittleEndian();
 }
 
 
@@ -267,7 +267,7 @@ void PacketLib::ByteStream::setStreamCopy(byte* b, dword dim)
     stream = (byte*) new byte[dim];
     for(dword i=0; i<dim; i++)
         stream[i] = b[i];
-    swap();
+    swapWordIfStreamIsLittleEndian();
     setMemoryAllocated(true);
 }
 
@@ -281,7 +281,7 @@ bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool m
     this->bigendian = bigendian;
     this->stream = b;
 
-    if(!memory_sharing) swap();
+    if(!memory_sharing) swapWordIfStreamIsLittleEndian();
     setMemoryAllocated(!memory_sharing);
     return true;
 }
@@ -358,21 +358,19 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
 }
 
 
-void PacketLib::ByteStream::swap()
+void PacketLib::ByteStream::swapWordIfStreamIsLittleEndian()
 {
     if(!bigendian)
     {
-        dword dim =  byteInTheStream;
-        for(dword i = 0; i< dim; i+=2)
-        {
-        	/// For odd dimensions
-        	if((dim - i) != 1)   
-            {
-                byte btemp = stream[i];
-                stream[i] = stream[i+1];
-                stream[i+1] = btemp;
-            }
-        }
+       swapWord();
+    }
+}
+
+void PacketLib::ByteStream::swapWordIfStreamIsBigEndian()
+{
+    if(bigendian)
+    {
+       swapWord();
     }
 }
 
@@ -421,4 +419,18 @@ void PacketLib::ByteStream::deleteStreamMemory()
 {
     if(!mem_allocation_constructor && mem_allocation)
         delete[] stream;
+}
+
+void PacketLib::ByteStream::swapWord() {
+	dword dim =  byteInTheStream;
+	for(dword i = 0; i< dim; i+=2)
+	{
+		/// For odd dimensions
+		if((dim - i) != 1)
+		{
+			byte btemp = stream[i];
+			stream[i] = stream[i+1];
+			stream[i+1] = btemp;
+		}
+	}
 }

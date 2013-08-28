@@ -106,8 +106,14 @@ public:
     bool isBigendian() const;
 
 
-    /// Swap of the stream if the architecture is little endian
-    void swap();
+    /// Swap the stream if it is little endian (for big endian architectures, e.g. Motorola)
+    void swapWordIfStreamIsLittleEndian();
+
+    /// Swap the stream if it is big endian (for little endian architectures, e.g. Intel)
+    void swapWordIfStreamIsBigEndian();
+
+    /// Swap  the stream of words
+    void swapWord();
 
     /// Pointer to the stream
     byte* stream;
