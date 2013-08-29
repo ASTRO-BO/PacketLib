@@ -434,3 +434,7 @@ void PacketLib::ByteStream::swapWord() {
 		}
 	}
 }
+
+void PacketLib::ByteStream::swapWordForIntel() {
+	swapWordIfStreamIsBigEndian();
+}

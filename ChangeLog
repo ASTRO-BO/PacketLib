@@ -1,3 +1,7 @@
+2013-08-29  bulgarelli  <bulgarelli@tesp28.local>
+
+	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
+
 2013-08-28  bulgarelli  <bulgarelli@tesp28.local>
 
 	* include/ByteStream.h (ByteStream): renamed swap() in swapWord()

@@ -112,6 +112,10 @@ public:
     /// Swap the stream if it is big endian (for little endian architectures, e.g. Intel)
     void swapWordIfStreamIsBigEndian();
 
+    /// Swap the stream Intel architectures
+    void swapWordForIntel();
+
+
     /// Swap  the stream of words
     void swapWord();
 
