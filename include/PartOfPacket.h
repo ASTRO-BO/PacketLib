@@ -245,8 +245,16 @@ public:
     /// Sets the stream of byte. This method assigns the value of stream for each field of part of packet
     virtual bool setByteStream(ByteStream* s);
 
-    /// Represent current stream reads from input.
-    ByteStream* stream;
+    /// Get the current ByteStream
+    virtual ByteStream* getByteStream()
+    {
+    	return stream;
+    }
+
+    /// Delete the current ByteStream
+    virtual void deleteByteStream();
+
+    virtual void memByteStream(ByteStream* stream);
 
     /// Represent current stream writes to output.
     ByteStream* outputstream;
@@ -263,6 +271,9 @@ public:
     char* popName;
 
 protected:
+
+    /// Represent current stream reads from input.
+    ByteStream* stream;
 
     /// List of field of part of packet.
     Field** fields;

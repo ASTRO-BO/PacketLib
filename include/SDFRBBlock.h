@@ -86,7 +86,7 @@ public:
 
 };
 
-///ModelId=405AD49C00E5
+///The core of the variable packet structure
 class SDFRBBlock : public PartOfPacket
 {
 public:
@@ -147,6 +147,11 @@ public:
 
     virtual bool setByteStream(ByteStream* s);
 
+    virtual ByteStream* getByteStream()
+    {
+        return stream;
+    }
+
     /// Returns a pointer of a field in the list of fields of the fixed part.
     /// \param index Represent the index in the list.
     virtual  inline  Field* getFields(word index)
@@ -206,7 +211,7 @@ protected:
 
     bool reset_output_stream;
 
-    ByteStream* tempBlock;
+    ByteStream* tempBlock1;
 
     SDFRBBlockType* type;
 

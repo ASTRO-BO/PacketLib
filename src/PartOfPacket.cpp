@@ -217,8 +217,9 @@ bool PartOfPacket::setByteStream(ByteStream* s)
     if(!s->getMemAllocation())
         stream->setStream(s->stream, s->getDimension(), s->isBigendian());
 
-    /// The stream is assigned to the header
-    this->stream = s;
+    /// The stream is assigned
+    //this->stream = s;
+    this->stream->setStream(s, 0, s->getDimension() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
     byte* stream = (byte*) s->stream;
@@ -583,3 +584,11 @@ void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(Packe
     setFieldValue_3_14(index, value2);
 }
 
+void PacketLib::PartOfPacket::deleteByteStream() {
+	delete stream;
+	stream = 0;
+}
+
+void PacketLib::PartOfPacket::memByteStream(ByteStream* stream) {
+	this->stream = stream;
+}

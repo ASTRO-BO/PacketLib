@@ -36,8 +36,6 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
     char* popName = fp.getInputTextName();
     try
     {
-
-
         int dimline = strlen(popName);
         name = (char*) new char[dimline+1];
         strcpy(name, popName);
@@ -213,7 +211,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
 
 SDFRBBlock::SDFRBBlock()
 {
-    tempBlock = new ByteStream();
+    tempBlock1 = new ByteStream();
     counter++;
     //cout << counter << " " << sizeof(SDFRBBlock) << endl;
 
@@ -504,16 +502,19 @@ ByteStream* SDFRBBlock::generateStream(bool bigendian)
 
 bool SDFRBBlock::setByteStream(ByteStream* s)
 {
+	//cout << "bool SDFRBBlock::setByteStream(ByteStream* s)" << " " << s << endl; //AB
     dword bytestart=0;
     dword bytestop=0;
-    stream = s;
+    this->stream->setStream(s, 0, s->getDimension() - 1);
+
+    //ByteStream*  tmpstream = new ByteStream(s->stream, s->getDimension(), s->isBigendian());
     //ByteStream* s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
     // It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {
         bytestop += fixed.getDimension() - 1;
-        if(tempBlock->setStream(s, bytestart, bytestop))
-            if(!fixed.setByteStream(tempBlock))
+        if(tempBlock1->setStream(s, bytestart, bytestop))
+            if(!fixed.setByteStream(tempBlock1))
                 return false;
         bytestart = bytestop + 1;
     }
@@ -531,15 +532,15 @@ bool SDFRBBlock::setByteStream(ByteStream* s)
                 /// Only for valid blocks
             	/// 1) first of all the fixed part of block[i] must be set 
             	/// before calling  block[i].getDimension(), otherwise only random values are present
-                tempBlock->setStream(s, bytestart, s->getDimension() - 1);
-                block[i].setByteStream(tempBlock);
-                /// 2) Now the dimension correct computation can be started
+                tempBlock1->setStream(s, bytestart, s->getDimension() - 1);
+                block[i].setByteStream(tempBlock1);
+                /// 2) Now the correct computation of the dimension can be started
                 if(bytestop != 0)
                     bytestop += block[i].getDimension();
                 else
                     bytestop += block[i].getDimension() - 1;
-                if(tempBlock->setStream(s, bytestart, bytestop))
-                    if(!block[i].setByteStream(tempBlock))
+                if(tempBlock1->setStream(s, bytestart, bytestop))
+                    if(!block[i].setByteStream(tempBlock1))
                         return false;
                 bytestart = bytestop + 1;
             }

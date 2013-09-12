@@ -1,21 +1,34 @@
-2013-08-29
-tag v2.0.5
+2013-09-12  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v2.0.6
 
-2013-08-29  bulgarelli  <bulgarelli@tesp28.local>
+Bug resolved (http://redmine.iasfbo.inaf.it/issues/983): the ByteStream::stream do not contain the correct point to the stream
+* src/SDFRBBlock.cpp (SDFRBBlock::setByteStream): 
+	this->stream->setStream(s, 0, s->getDimension() - 1);
+* src/PartOfPacket.cpp (PartOfPacket::setByteStream):
+	//this->stream = s; <- OLD
+    this->stream->setStream(s, 0, s->getDimension() - 1); <- NEW
+* include/PartOfPacket.h (PartOfPacket): 
+	** new method: virtual void deleteByteStream();
+	** new method: virtual void memByteStream(ByteStream* stream);
+	** stream moved into protected section
+* include/SDFRBBlock.h: added deleteByteStream() and memByteStrem()
+* changes on Packet.cpp,  PacketNotRecognized.cpp for new methods on PartOfPacket
 
-	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
+2013-08-29 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v2.0.5
 
-2013-08-28  bulgarelli  <bulgarelli@tesp28.local>
+* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
+* include/ByteStream.h (ByteStream): renamed swap() in swapWord()
+* include/ByteStream.h (ByteStream): void swapWordIfStreamIsLittleEndian();
+* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
 
-	* include/ByteStream.h (ByteStream): renamed swap() in swapWord()
-	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsLittleEndian();
-	* include/ByteStream.h (ByteStream): void swapWordIfStreamIsBigEndian();
+2013-07-25 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v2.0.3
 
-25 July 2003
-v2.0.3 on git
+* 32 bit packet length
 
-+ 32 bit packet length
 Example of .header format
+
 -- name of header
 Header CTA
 -- number of field with dimension of packet (or first field if dim of packet is stored in a 32 bit field)
@@ -58,8 +71,8 @@ none
 
 If the field '-- 16 or 32 bit size dimension of the packet lenght' is set to 16 or it is absent, the packet lenght is 16 bit.
 
-+ Field::value management (set predefined value=0 and during output stream generation
-
+* Field::value management (set predefined value=0 and during output stream generation
+* Migration to git repository
 
 15 July 2013
 TAG CVS: PACKETLIB_1_4_0

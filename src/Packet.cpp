@@ -313,7 +313,7 @@ void Packet::printIdentifiers()
 
 bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
 {
-    cout << "@ " << packetDataField->getDimension() << endl;
+    //cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
     ByteStream* packet = new ByteStream(packetHeader, packetDataField, 0);
     memByteStream(prefix, packet);
@@ -705,17 +705,16 @@ void Packet::deleteExternalByteStream()
             delete packet;
             packet = 0;
         }
-    if(dataField->stream != 0)
-        if(dataField->stream->getMemAllocation())
+    if(dataField->getByteStream() != 0)
+        if(dataField->getByteStream()->getMemAllocation())
         {
-            delete dataField->stream;
-            dataField->stream = 0;
+            dataField->deleteByteStream();
+
         }
-    if(header->stream != 0)
-        if(header->stream->getMemAllocation())
+    if(header->getByteStream() != 0)
+        if(header->getByteStream()->getMemAllocation())
         {
-            delete header->stream;
-            header->stream = 0;
+            header->deleteByteStream();
         }
 }
 
@@ -733,8 +732,8 @@ void Packet::memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStr
 {
     this->prefix = prefix;
     //this->packet = 0;
-    this->header->stream = packetHeader;
-    this->dataField->stream = packetDataField;
+    this->header->memByteStream(packetHeader);
+    this->dataField->memByteStream(packetDataField);
 }
 
 
@@ -749,7 +748,7 @@ ByteStream* Packet::getOutputStream()
 ByteStream* Packet::getInputStream()
 {
     if(packet == 0)
-        packet = new ByteStream(header->stream, dataField->stream, 0);
+        packet = new ByteStream(header->getByteStream(), dataField->getByteStream(), 0);
     return packet;
 }
 
@@ -787,7 +786,7 @@ char** Packet::printHeaderValue()
 
 char* Packet::printHeaderStream()
 {
-    return (char*)header->stream->printStreamInHexadecimal();
+    return (char*)header->getByteStream()->printStreamInHexadecimal();
 }
 
 char** Packet::printDataFieldHeaderValue()
@@ -797,7 +796,7 @@ char** Packet::printDataFieldHeaderValue()
 
 char* Packet::printDataFieldHeaderStream()
 {
-    return (char*)dataField->dataFieldHeader->stream->printStreamInHexadecimal();
+    return (char*)dataField->dataFieldHeader->getByteStream()->printStreamInHexadecimal();
 }
 
 char** Packet::printSourceDataFieldValue()
@@ -821,7 +820,7 @@ char** Packet::printTailValue()
 char* Packet::printTailStream()
 {
     if(dataField->tail->getDimension() != 0)
-        return dataField->tail->stream->printStreamInHexadecimal();
+        return dataField->tail->getByteStream()->printStreamInHexadecimal();
 
     else
         return 0;

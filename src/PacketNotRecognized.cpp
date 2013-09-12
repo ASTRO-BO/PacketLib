@@ -78,7 +78,7 @@ bool PacketNotRecognized::setPacketValue(ByteStream* prefix, ByteStream* packetH
     if(!header->setByteStream(packetHeader))
         return false;
 
-    dataField->dataFieldHeader->stream = packetDataField;
+    dataField->dataFieldHeader->memByteStream(packetDataField);
 
     this->prefix = prefix;
 
