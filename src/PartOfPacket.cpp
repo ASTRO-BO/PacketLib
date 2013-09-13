@@ -218,8 +218,8 @@ bool PartOfPacket::setByteStream(ByteStream* s)
         stream->setStream(s->stream, s->getDimension(), s->isBigendian());
 
     /// The stream is assigned
-    //this->stream = s;
-    this->stream->setStream(s, 0, s->getDimension() - 1);
+    this->stream = s;
+    //this->stream->setStream(s, 0, s->getDimension() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
     byte* stream = (byte*) s->stream;
