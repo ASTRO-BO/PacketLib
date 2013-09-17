@@ -86,6 +86,10 @@ public:
     /// \return True if the ByteStream contains a packet
     bool verifyPacketValue(ByteStream* prefix, ByteStream* packet);
 
+    /// Verifies if within the byte* stream passed with arguments it's present a correct packet. The stream* contains also the prefix (if present)
+    /// \param stream A pointer to the stream of byte, with prefix and packet
+    bool verifyPacketValue(byte* stream);
+
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet.

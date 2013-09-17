@@ -835,3 +835,22 @@ char* Packet::printPacketOutputStream()
     char* c = b.printStreamInHexadecimal();
     return c;
 }
+
+bool Packet::verifyPacketValue(byte* stream) {
+
+
+	dword dimPre = 0;
+	if(thereisprefix)
+	        dimPre += dimPrefix;
+	ByteStream* prefix = new ByteStream(stream, dimPre, bigendian);
+
+	dword dim = 0;
+	dword dimHeader = header->getDimension();
+	dim += dimHeader;
+	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
+	header->setByteStream(tempHeader);
+	dim += header->getDimensionOfPacketLenght() + 1;
+	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
+
+	return verifyPacketValue(prefix, packet);
+}

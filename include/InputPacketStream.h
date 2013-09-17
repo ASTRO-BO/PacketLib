@@ -36,16 +36,25 @@ public:
 
     ~InputPacketStream();
 
-    /// \return The index of packet type if it's recognized. 0 if packet isn't recogniezed.
+    /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packetHeader A ByteStream that contains the packet header.
     /// \param packetDataField A ByteStream that contains the packet data field.
     int detPacketType(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
 
-   /// \return The index of packet type if it's recognized. 0 if packet isn't recogniezed.
+    /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packet A ByteStream that contains the packet.
     int detPacketType(ByteStream* prefix, ByteStream* packet);
+
+    ///It returns the index of the packet type contained in the stream. The stream* contains also the prefix (if present)
+    /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
+    /// \param packet A byte* that contains the packet.
+    int detPacketType(byte* packet);
+
+	///It returns the total dimension of the packet contained in the stream (without prefix). The stream* contains also the prefix (if present)
+	///\param The stream with the prefix (if present)
+    dword getPacketDimension(byte* stream);
 
     /// This method sets the generic input of the stream
     /// \param in An input.
