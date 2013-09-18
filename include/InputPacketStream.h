@@ -65,6 +65,8 @@ public:
     /// \return A pointer telemetry packet. Make attention: the object returned is one of the TM packet object of the array of this object. Don't delete it!
     Packet* readPacket() throw(PacketExceptionIO*);
 
+    Packet* decodePacket(byte* stream);
+
 protected:
 
     Input* in;

@@ -174,3 +174,16 @@ dword InputPacketStream::getPacketDimension(byte* stream) {
 		delete tempHeader;
 		return dim;
 }
+
+Packet* PacketLib::InputPacketStream::decodePacket(byte* stream) {
+
+	int index = detPacketType(stream);
+	if(index > 0) {
+		Packet* p = getPacketType(index);
+		p->setPacketValue(stream);
+		return p;
+	}
+	else
+		return 0;
+
+}

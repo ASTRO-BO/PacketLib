@@ -93,6 +93,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
         if(file.open(argv))
         {
             delete[] argv;
+            file.setpos(0);
             /// retrieve name of packet header
             name = file.getLine();
             /// find the PacketHeader section
@@ -158,8 +159,8 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                 if(!section_found)
                                     throw new PacketExceptionFileFormat("It's impossibile to identify the type of source data field. Expected block, noblock or rblock keyword.");
 
-                                delete[] block;
-                                delete[] typeOfPacket;
+                                //delete[] block;
+                                //delete[] typeOfPacket;
 
                                 if(dataField->sourceDataField->loadFields(file))
                                 {
@@ -853,4 +854,22 @@ bool Packet::verifyPacketValue(byte* stream) {
 	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
 
 	return verifyPacketValue(prefix, packet);
+}
+
+bool Packet::setPacketValue(byte* stream) {
+	dword dimPre = 0;
+	if(thereisprefix)
+			dimPre += dimPrefix;
+	ByteStream* prefix = new ByteStream(stream, dimPre, bigendian);
+
+	dword dim = 0;
+	dword dimHeader = header->getDimension();
+	dim += dimHeader;
+	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
+	header->setByteStream(tempHeader);
+	dim += header->getDimensionOfPacketLenght() + 1;
+	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
+
+	return setPacketValue(prefix, packet);
+
 }

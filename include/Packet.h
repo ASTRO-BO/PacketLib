@@ -90,6 +90,10 @@ public:
     /// \param stream A pointer to the stream of byte, with prefix and packet
     bool verifyPacketValue(byte* stream);
 
+    /// Sets all the fields of the packet with correct value contained into the input ByteStream.
+    /// \param stream A pointer to the stream of byte, with prefix and packet
+    bool setPacketValue(byte* stream);
+
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet.
