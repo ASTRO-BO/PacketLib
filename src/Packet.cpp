@@ -850,7 +850,7 @@ bool Packet::verifyPacketValue(byte* stream) {
 	dim += dimHeader;
 	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
 	header->setByteStream(tempHeader);
-	dim += header->getDimensionOfPacketLenght() + 1;
+	dim += header->getDimensionOfPacketLength() + 1;
 	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
 
 	return verifyPacketValue(prefix, packet);
@@ -867,7 +867,7 @@ bool Packet::setPacketValue(byte* stream) {
 	dim += dimHeader;
 	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
 	header->setByteStream(tempHeader);
-	dim += header->getDimensionOfPacketLenght() + 1;
+	dim += header->getPacketLength() + 1;
 	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
 
 	return setPacketValue(prefix, packet);

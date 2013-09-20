@@ -50,9 +50,9 @@ public:
 
     Field * getFieldWithPacketDimension();
 
-    inline word getDimensionOfPacketLenght()
+    inline word getDimensionOfPacketLength()
     {
-        return dimensionOfPacketLenght;
+        return dimensionOfPacketLength;
     };
 
 private:
@@ -64,7 +64,7 @@ private:
     word numberOfFieldWithPacketDimension;
 
     /// 16 or 32 bit
-    word dimensionOfPacketLenght;
+    word dimensionOfPacketLength;
 
 };
 

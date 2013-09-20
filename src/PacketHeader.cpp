@@ -25,7 +25,7 @@ using namespace PacketLib;
 PacketHeader::PacketHeader() : PartOfPacket("Packet Header")
 {
     name = 0;
-    dimensionOfPacketLenght = 16;
+    dimensionOfPacketLength = 16;
 }
 
 
@@ -54,11 +54,11 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 
         line = header.getLine();
         if(strcmp(line, "[Field]") == 0)
-            dimensionOfPacketLenght = 16;
+            dimensionOfPacketLength = 16;
         else
-            dimensionOfPacketLenght = atoi(line);
+            dimensionOfPacketLength = atoi(line);
 
-        if(!(dimensionOfPacketLenght == 16 || dimensionOfPacketLenght == 32))
+        if(!(dimensionOfPacketLength == 16 || dimensionOfPacketLength == 32))
             throw new PacketExceptionIO("Dimension of packet length, 16 or 32 bit");;
 
         header.setpos(0);
@@ -87,7 +87,7 @@ bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 
 dword PacketHeader::getPacketLength()
 {
-    if(dimensionOfPacketLenght == 16)
+    if(dimensionOfPacketLength == 16)
     {
         Field* f = getFields(numberOfFieldWithPacketDimension);
         /// ESA standard: in the packet length the value 1 must be added
@@ -101,7 +101,7 @@ dword PacketHeader::getPacketLength()
 
 void PacketHeader::setPacketLength(dword dim)
 {
-    if(dimensionOfPacketLenght == 16)
+    if(dimensionOfPacketLength == 16)
     {
         Field* f = getFields(numberOfFieldWithPacketDimension);
         /// ESA standard: in the packet length the value 1 must be added
