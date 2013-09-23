@@ -188,6 +188,10 @@ public:
 
     bool thereIsPrefix();
 
+    bool isBigendian() {
+    	return bigendian;
+    }
+
     
     /// This attribute represents the packet header.
     PacketHeader *header;

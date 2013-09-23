@@ -57,7 +57,7 @@ void InputSocketServer::close() throw(PacketExceptionIO*)
 
 
 
-ByteStream* InputSocketServer::readByteStream(int n_byte) throw(PacketExceptionIO*)
+ByteStream* InputSocketServer::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
     int status = 0;
     if(!accepted)

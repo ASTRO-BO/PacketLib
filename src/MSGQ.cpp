@@ -162,7 +162,7 @@ char* MSGQ::readMessage(long mtype) throw(PacketExceptionIO*)
         if(closed)
             throw new PacketExceptionIO("MSGQ: it is impossible to read from a message queue not opened.");
         if(msgrcv(msgqid, &buf, dimmsg, mtype, 0) < 0)
-            throw new PacketExceptionIO("MSGQ: it is impossible to write in this message queue.");
+            throw new PacketExceptionIO("MSGQ: it is impossible to read from this message queue.");
         return buf.mtext;
     }
     catch(PacketExceptionIO* e)
