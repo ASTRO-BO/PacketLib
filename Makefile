@@ -124,6 +124,12 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 
 ####### 9) Pattern rules
 
+test/%.o : test/%.cpp
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@
+
+test/%: test/%.o lib
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $< -lboost_unit_test_framework -Llib -lpacket
+
 %.o : %.cpp
 	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
@@ -145,7 +151,7 @@ exe: makeobjdir main.o $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
 	
-tests: test/testsuite.o
+tests: test/testInputPacketStreamFile
 
 staticlib: makelibdir makeobjdir $(OBJECTS)	
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
