@@ -16,14 +16,14 @@
  ***************************************************************************/
 
 
-#include "./packet/PacketLibDefinition.h"
-#include "./packet/Utility.h"
-#include "./packet/InputPacketStreamFile.h"
-#include "./packet/FileStreamPointer.h"
-#include "./packet/PacketExceptionFileFormat.h"
-#include "./packet/Output.h"
-#include "./packet/OutputFile.h"
-#include "./packet/MemoryBuffer.h"
+#include "PacketLibDefinition.h"
+#include "Utility.h"
+#include "InputPacketStreamFile.h"
+#include "FileStreamPointer.h"
+#include "PacketExceptionFileFormat.h"
+#include "Output.h"
+#include "OutputFile.h"
+#include "MemoryBuffer.h"
 #include "testpacketlib.h"
 #include <unistd.h>
 #include <time.h>
@@ -80,7 +80,6 @@ MemoryBuffer* mm = new MemoryBuffer();
 
 return 0;  	
 */
-time_t  timevar2;	
 try {
 
 InputPacketStreamFile* ips = new InputPacketStreamFile();
@@ -88,7 +87,7 @@ InputPacketStreamFile* ips = new InputPacketStreamFile();
 InputPacketStream* ips3 = new InputPacketStream();
 InputPacketStream* ips4 = new InputPacketStream();*/
 //cout << Utility::extractFileName("/data1/archive/raw/science/0506/cer05060_011018.hrt");
-//char* c = new char[1048576];
+//const char* c = new const char[1048576];
 //sleep(1);
 TestPacketLib* tpl = new TestPacketLib;
 TestPacketLib* tp2 = new TestPacketLib;
@@ -97,7 +96,7 @@ TestPacketLib* tp3 = new TestPacketLib;
 
 
 
-char** t1 = new (char*)[6];
+const char** t1 = new const char*[6];
 	t1[0]="./CAL-DFE-TE/data/10BURT.RAW";
   t1[1]="./CAL-DFE-TE/data/03bursts.raw";
 	t1[2]="./CAL-DFE-TE/data/03grids.raw";
@@ -105,7 +104,7 @@ char** t1 = new (char*)[6];
 	t1[4]="./CAL-DFE-TE/data/15grids.raw";
 	t1[5]=0;
 
-char** t2 = new (char*)[20];
+const char** t2 = new const char*[20];
   t2[0]="./CAL-CSIBarsTE/data/0508/cer05080_011018.hrt";
 	t2[1]="./CAL-CSIBarsTE/data/0508/cer05089_011019.hrt";
   t2[2]="./CAL-CSIBarsTE/data/0508/cer05084_011018_.hrt";
@@ -133,7 +132,7 @@ char** t2 = new (char*)[20];
   //t2[0]="./CAL-CSIBarsTE/data/0508/cer05084_011018_.hrt";
 	//t2[1]=0;
 
-char** t3 = new (char*)[6];
+const char** t3 = new const char*[6];
   t3[0]="./Proto-MCAL-TE/data/vme_burst_telemetry_file.raw";
 	t3[1]="./Proto-MCAL-TE/data/ite00024_020326.prt";
   /*t3[2]="./data/0508/cer05084_011018_.hrt";
@@ -148,17 +147,17 @@ char** t3 = new (char*)[6];
 //delete[] c;
 //goto notest;
   bool ret1, ret2, ret3;	
-	if(!(ret1=tpl->TestSuiteType1("TEST SUITE 1","./CAL-DFE-TE/stream.stream", t1)))
+	if(!(ret1=tpl->TestSuiteType1((char*)"TEST SUITE 1",(char*)"./CAL-DFE-TE/stream.stream", (char**)t1)))
 		cout << "TEST SUITE 1 FAILED" << endl;
   else
 		cout << "TEST SUITE 1 OK" << endl;
 
-	if(!(ret2=tp2->TestSuiteType1("TEST SUITE 2","./CAL-CSIBarsTE/CAL-CSIBarsTE.stream", t2)))
+	if(!(ret2=tp2->TestSuiteType1((char*)"TEST SUITE 2",(char*)"./CAL-CSIBarsTE/CAL-CSIBarsTE.stream", (char**)t2)))
 		cout << "TEST SUITE 2 FAILED" << endl;
   else
 		cout << "TEST SUITE 2 OK" << endl;		
 
-	if(!(ret3=tp3->TestSuiteType1("TEST SUITE 3","./Proto-MCAL-TE/stream.stream", t3)))
+	if(!(ret3=tp3->TestSuiteType1((char*)"TEST SUITE 3",(char*)"./Proto-MCAL-TE/stream.stream", (char**)t3)))
 		cout << "TEST SUITE 3 FAILED" << endl;
   else
 		cout << "TEST SUITE 3 OK" << endl;		
@@ -194,7 +193,7 @@ return 0;
 
 	ips->setFileNameConfig("./CAL-DFE-TE/stream.stream");
   ips->createStreamStructure();
-	ips->setFileNameStream("./CAL-DFE-TE/data/03bursts.raw");
+	ips->setFileNameStream((char*)"./CAL-DFE-TE/data/03bursts.raw");
 	ips->openInputStream();
 
 	while(!ips->isInputStreamEOF()) {
@@ -217,7 +216,7 @@ delete[] t3;
   cout << "end of program" << endl;
 
 return 0;
-notest:
+//notest:
 
 {
 	char in;
@@ -242,16 +241,16 @@ notest:
 			c = p->prefix->printStreamInHexadecimal();		
 			cout << c << endl;			
 			cout << "Header hex:" << endl;			
-			c = p->header->stream->printStreamInHexadecimal();		
+			c = p->header->getByteStream()->printStreamInHexadecimal();		
 			cout << c << endl;
-			cout << p->header->stream->getValue(1,2) << endl;
+			cout << p->header->getByteStream()->getValue(1,2) << endl;
 			cout << "Header fields:" << endl;
 			cc = p->header->printValue();
 			for(int i=0; cc[i] != 0; i++)
 				cout << cc[i] << endl;
 
 			cout << "Data field header hex:" << endl;
-			c =  p->dataField->dataFieldHeader->stream->printStreamInHexadecimal();
+			c =  p->dataField->dataFieldHeader->getByteStream()->printStreamInHexadecimal();
 			cout << c << endl;
 			cout << "Data field header fields:" << endl;
 			cc =  p->dataField->dataFieldHeader->printValue();
