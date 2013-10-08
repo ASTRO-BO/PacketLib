@@ -60,7 +60,7 @@ CC       = gcc
 CXX      = g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
 #- g3
-CFLAGS   = -O2 -O0 -m64 -fPIC
+CFLAGS   = -O2 -O0 -m64 -fPIC -g
 #-O2 -O0 -g3
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include
@@ -76,10 +76,9 @@ LIBS = -lstdc++
 ifeq ($(SYSTEM), QNX)
 	LIBS += -lsocket
 endif
-BOOST_LIBNAME = -lboost_unit_test_framework
 ifneq (, $(findstring apple, $(SYSTEM)))
  	# Do apple things
-	CPPFLAGS += -I$(LOCAL)/include
+	CPPFLAGS += -I$(LOCAL)/include/cppunit
 	LIBS += -L$(LOCAL)/lib
 endif 
 
@@ -132,10 +131,7 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 test/%.o : test/%.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@
-
-test/%: test/%.o lib
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $< $(BOOST_LIBNAME) -Llib -lpacket $(LIBS)
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
 
 %.o : %.cpp
 	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
@@ -158,7 +154,13 @@ exe: makeobjdir main.o $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
 	
-tests: test/testInputPacketStreamFile
+tests: test/runtests
+
+TESTOBJS = test/InputPacketStreamFileTest.o test/runtests.o
+
+test/runtests: $(TESTOBJS) lib
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
+
 
 staticlib: makelibdir makeobjdir $(OBJECTS)	
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
