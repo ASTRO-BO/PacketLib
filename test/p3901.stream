@@ -1,0 +1,13 @@
+[Configuration]
+--prefix
+true
+--stream format bigendian
+true
+--dimension of prefix
+2
+[Header Format]
+headerESATM.header
+[Packet Format]
+39_01.packet
+TC_start.packet
+TC_stop.packet

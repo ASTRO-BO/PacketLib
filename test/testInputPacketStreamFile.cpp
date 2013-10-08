@@ -22,18 +22,14 @@
 #include <boost/test/unit_test.hpp>
 #include<unistd.h>
 
-const char config[] = "stream.stream";
+const char config[] = "p3901.stream";
 
-const int NFILES=5;
+const int NFILES = 1;
 
-const char* files[NFILES] = {	"./CAL-DFE-TE/data/10BURT.RAW",
-								"./CAL-DFE-TE/data/03bursts.raw",
-								"./CAL-DFE-TE/data/03grids.raw",
-								"./CAL-DFE-TE/data/06grids.raw",
-								"./CAL-DFE-TE/data/15grids.raw" };
+const char* files[NFILES] = { "VC-01.P-033300.pkt" };
 
-const int good[NFILES] = {100, 100, 100, 100, 100};
-const int bad[NFILES] = {5, 5, 5, 5, 5};
+const int good[NFILES] = {100};
+const int bad[NFILES] = {5};
 
 BOOST_AUTO_TEST_CASE(input_packet_stream_file)
 {

@@ -1,0 +1,54 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no)
+no
+[Fixed Part]
+-- field 0
+FTB (0-X, 1-Z)
+1
+none
+-- field 1
+FEB (0-5)
+3
+none
+-- field 2
+CHIP (0-23)
+5
+none
+-- field 3
+Strip address (0-127)
+7
+none
+-- field 4
+Total charge MSW
+16
+none
+-- field 5
+Total charge LSW
+16
+none
+-- field 6
+Total width
+8
+none
+-- field 7
+Central strip charge (XSTRIPC3)
+8
+none
+-- field 8
+Left strip charge (central strip - 2) (XSTRIPC1)
+8
+none
+-- field 9
+Left strip charge (central strip - 1) (XSTRIPC2)
+8
+none
+-- field 10
+Right strip charge (central strip + 1) (XSTRIPC4)
+8
+none
+-- field 11
+Right strip charge (central strip + 2) (XSTRIPC5)
+8
+none
