@@ -22,7 +22,7 @@ SHELL = /bin/sh
 ####### 1) Project names and system
 
 #SYSTEM: linux or QNX
-SYSTEM = linux
+SYSTEM= $(shell gcc -dumpmachine)
 PROJECT=PacketLib
 EXE_NAME = main
 LIB_NAME = libpacket
@@ -70,12 +70,19 @@ ifeq ($(SYSTEM), QNX)
 	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
 endif
 #Use CPPFLAGS for the preprocessor
-CPPFLAGS =  
+CPPFLAGS = 
 #Set LIBS for addition library
 LIBS = -lstdc++ 
 ifeq ($(SYSTEM), QNX)
 	LIBS += -lsocket
 endif
+BOOST_LIBNAME = -lboost_unit_test_framework
+ifneq (, $(findstring apple, $(SYSTEM)))
+ 	# Do apple things
+	CPPFLAGS += -I$(LOCAL)/include
+	LIBS += -L$(LOCAL)/lib
+endif 
+
 LINK     = g++
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
@@ -128,7 +135,7 @@ test/%.o : test/%.cpp
 	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@
 
 test/%: test/%.o lib
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $< -lboost_unit_test_framework -Llib -lpacket
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $< $(BOOST_LIBNAME) -Llib -lpacket $(LIBS)
 
 %.o : %.cpp
 	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
