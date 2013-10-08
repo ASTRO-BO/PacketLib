@@ -6,13 +6,6 @@
 #include <cppunit/XmlOutputter.h>
 #include "InputPacketStreamFileTest.h"
 
-/*int main(int argc, char* argv[]) {
-	CppUnit::TestRunner runner;
-	runner.addTest("InputPacketStreamFile", InputPacketStreamFileTest::suite());
-	runner.run(argc, argv);
-
-	return 0;
-}*/
 using namespace CppUnit;
 
 CPPUNIT_TEST_SUITE_REGISTRATION(InputPacketStreamFileTest);

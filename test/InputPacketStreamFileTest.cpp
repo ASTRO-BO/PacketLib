@@ -46,14 +46,6 @@ void InputPacketStreamFileTest::testCreateStreamStructure()
 
 void InputPacketStreamFileTest::testOpenInputStream()
 {
-/*	// loading an invalid file should raise an exception
-	ips->setFileNameConfig((char*)"notafile");
-	CPPUNIT_ASSERT_THROW(ips->createStreamStructure(), PacketLib::PacketExceptionIO*);
-
-	// loading a valid config file should not raise an exception
-	ips->setFileNameConfig((char*)config);
-	CPPUNIT_ASSERT_NO_THROW(ips->createStreamStructure());*/
-
     ips->setInitialPosition(0L);
 
 	// opening a valid input stream should not raise an exception
@@ -92,17 +84,3 @@ void InputPacketStreamFileTest::testOpenInputStream()
 	// bad packets number should be equal to its known value
 	CPPUNIT_ASSERT_EQUAL(countbad, bad);
 }
-
-/*Test* InputPacketStreamFileTest::suite() {
-	TestSuite* testSuite = new TestSuite("InputPacketStreamFileTest");
-  
-	// add the tests
-	testSuite->addTest( new TestCaller<InputPacketStreamFileTest>(
-							"testCreateStreamStructure",
-							&InputPacketStreamFileTest::testCreateStreamStructure) );
-
-	testSuite->addTest ( new TestCaller<InputPacketStreamFileTest>(
-							"testOpenInputStream",
-							&InputPacketStreamFileTest::testOpenInputStream) );
-	return testSuite;
-}*/
