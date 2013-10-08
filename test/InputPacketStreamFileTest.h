@@ -23,8 +23,7 @@
 class InputPacketStreamFileTest : public CppUnit::TestFixture {
 
 	CPPUNIT_TEST_SUITE(InputPacketStreamFileTest);
-	CPPUNIT_TEST(testCreateStreamStructure);
-	CPPUNIT_TEST(testOpenInputStream);
+	CPPUNIT_TEST(test);
 	CPPUNIT_TEST_SUITE_END(); 
 
 public: 
@@ -32,11 +31,10 @@ public:
     void tearDown();
 
 protected:
-	void testCreateStreamStructure();
-	void testOpenInputStream();
+	void test();
 
 private:
-	PacketLib::InputPacketStreamFile* ips;
+	PacketLib::InputPacketStreamFile ips;
 };
 
 #endif

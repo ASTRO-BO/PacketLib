@@ -26,39 +26,34 @@ using namespace CppUnit;
 
 void InputPacketStreamFileTest::setUp()
 {
-	ips = new PacketLib::InputPacketStreamFile;
 }
 void InputPacketStreamFileTest::tearDown()
 {
-	delete ips;
 }
 
-void InputPacketStreamFileTest::testCreateStreamStructure()
+void InputPacketStreamFileTest::test()
 {
 	// loading an invalid file should raise an exception
-	ips->setFileNameConfig((char*)"notafile");
-	CPPUNIT_ASSERT_THROW(ips->createStreamStructure(), PacketLib::PacketExceptionIO*);
+	ips.setFileNameConfig((char*)"notafile");
+	CPPUNIT_ASSERT_THROW(ips.createStreamStructure(), PacketLib::PacketExceptionIO*);
 
 	// loading a valid config file should not raise an exception
-	ips->setFileNameConfig((char*)config);
-	CPPUNIT_ASSERT_NO_THROW(ips->createStreamStructure());
-}
+	ips.setFileNameConfig((char*)config);
+	CPPUNIT_ASSERT_NO_THROW(ips.createStreamStructure());
 
-void InputPacketStreamFileTest::testOpenInputStream()
-{
-    ips->setInitialPosition(0L);
+    ips.setInitialPosition(0L);
 
 	// opening a valid input stream should not raise an exception
-	ips->setFileNameStream((char*)file);
-	CPPUNIT_ASSERT_NO_THROW(ips->openInputStream());
+	ips.setFileNameStream((char*)file);
+	CPPUNIT_ASSERT_NO_THROW(ips.openInputStream());
 
 	// testing stream EOF should not raise an exception
 	bool eof;
-	CPPUNIT_ASSERT_NO_THROW(eof = ips->isInputStreamEOF());
+	CPPUNIT_ASSERT_NO_THROW(eof = ips.isInputStreamEOF());
 
 	// getting a packet from the stream should not raise an exception
 	PacketLib::Packet *p;
-	CPPUNIT_ASSERT_NO_THROW(p = ips->getPacketFromStream());
+	CPPUNIT_ASSERT_NO_THROW(p = ips.getPacketFromStream());
 
     int count = 0;
     int countbad = 0;
@@ -72,10 +67,10 @@ void InputPacketStreamFileTest::testOpenInputStream()
 			countbad++;
 
 		// testing stream EOF should not raise an exception
-		CPPUNIT_ASSERT_NO_THROW(eof = ips->isInputStreamEOF());
+		CPPUNIT_ASSERT_NO_THROW(eof = ips.isInputStreamEOF());
 
 		// getting a packet from the stream should not raise an exception
-		CPPUNIT_ASSERT_NO_THROW(p = ips->getPacketFromStream());
+		CPPUNIT_ASSERT_NO_THROW(p = ips.getPacketFromStream());
 	}
 
 	// good packets number should be equal to its known value
