@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(input_packet_stream_file)
 
 	// loading an invalid file should raise an exception
 	ips.setFileNameConfig((char*)"notafile");
-	BOOST_CHECK_THROW(ips.createStreamStructure(), PacketLib::PacketExceptionIO);
+	BOOST_CHECK_THROW(ips.createStreamStructure(), PacketLib::PacketExceptionIO*);
 
 	// loading a valid config file should not raise an exception
 	ips.setFileNameConfig((char*)config);
