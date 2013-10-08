@@ -90,10 +90,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     int count = 0;
     /// count the number of fields
     long pos = fp.getpos();
-    name = fp.getLine();
-    count++;
-    while(strlen(name) !=  0)
-    {
+    do {
         name = fp.getLine();
         count++;
         if(name[0] == '[')
@@ -101,7 +98,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
             count--;
             break;
         }
-    }
+    } while(strlen(name) !=  0);
     fp.setpos(pos);
     fields = new Field* [count/3];
 

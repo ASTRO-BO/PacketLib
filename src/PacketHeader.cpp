@@ -31,7 +31,7 @@ PacketHeader::PacketHeader() : PartOfPacket("Packet Header")
 
 PacketHeader::~PacketHeader()
 {
-    delete[] name;
+
 }
 
 

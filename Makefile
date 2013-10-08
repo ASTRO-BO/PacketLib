@@ -78,7 +78,7 @@ ifeq ($(SYSTEM), QNX)
 endif
 ifneq (, $(findstring apple, $(SYSTEM)))
  	# Do apple things
-	CPPFLAGS += -I$(LOCAL)/include/cppunit
+	CPPFLAGS += -I$(LOCAL)/include
 	LIBS += -L$(LOCAL)/lib
 endif 
 

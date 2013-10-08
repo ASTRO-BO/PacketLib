@@ -1,3 +1,8 @@
+2013-10-08  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+
+* src/PartOfPacket.cpp (PartOfPacket::loadFields): inserted do-while
+* src/PacketHeader.cpp (PacketHeader::~PacketHeader): removed delete name
+
 2013-09-19  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 
 * src/Packet.cpp (Packet::setPacketValue): bug correction

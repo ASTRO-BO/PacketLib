@@ -54,8 +54,6 @@ Packet::~Packet()
     header = 0;
     delete dataField;
     dataField = 0;
-    delete[] name;
-    name = 0;
     for(unsigned i = 0; i < number_of_identifier; i++)
         delete identifiers[i];
     delete[] identifiers;
@@ -65,7 +63,7 @@ Packet::~Packet()
     tempHeader = 0;
     delete tempDataField;
     tempDataField = 0;
-    //ANDREA: ricordato di indagare perch�non si riesce ad effettuare il delete
+    //ANDREA: ricordato di indagare perche' non si riesce ad effettuare il delete
     delete tempDataFieldHeader;
     tempDataFieldHeader = 0;
     delete tempPacketDataField;
