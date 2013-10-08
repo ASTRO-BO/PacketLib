@@ -90,6 +90,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     int count = 0;
     /// count the number of fields
     long pos = fp.getpos();
+    name = fp.getLine();
     count++;
     while(strlen(name) !=  0)
     {
