@@ -1,0 +1,249 @@
+-- name of packet
+39.01 - ST GRID
+[PacketHeader]
+-- file in cui e' presente la descrizione dell'header
+headerESATM.header
+[DataFieldHeader]
+-- field 0
+Sync Marker MSB
+16
+65499
+-- field 1
+Sync Marker LSB
+16
+37461
+-- field 2
+CRC flag
+2
+0b11
+-- field 3
+Packet Type
+6
+none
+-- field 4
+Packet Subtype
+8
+1
+-- field 5
+MM Page ID
+16
+none
+--field 6
+MM Packet Counter
+16
+none
+--field 7
+Century
+8
+32
+--field 8
+APID Sequence Counter
+8
+nome
+--field 9
+OBT12
+8
+none
+--field 10
+OBT13
+8
+none
+--field 11
+OBT14
+8
+none
+--field 12
+OBT15
+8
+none
+--field 13
+OBT16
+8
+none
+--field 14
+Not used
+4
+0
+--field 15
+OBT17
+4
+none
+--field 16
+OBT18
+8
+none
+--field 17
+OBT19
+8
+none
+--field 18
+Mode
+8
+none
+--field 19
+Pkt. Struct ID
+4
+1
+-- field 20
+Redundancy ID
+4
+1
+[SourceDataField]
+-- type of packet: noblock, block, rblock (with recoursive block)
+rblock
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no). If yes, add [RBlockX] sections.
+yes
+--number of rblock (if variable part is present)
+1
+[Fixed Part]
+--field 0 - SOURCE DATA FIELD HEADER ----------------------------------------
+Quaternion 1H
+16
+none
+--field 1: parte bassa del float
+Quaternion 1L
+16
+none
+--field 2: parte alta del float
+Quaternion 2H
+16
+none
+--field 3: parte bassa del float
+Quaternion 2L
+16
+none
+--field 4: parte alta del float
+Quaternion 3H
+16
+none
+--field 5: parte bassa del float
+Quaternion 3L
+16
+none
+--field 6: parte alta del float
+Quaternion 4H
+16
+none
+--field 7: parte bassa del float
+Quaternion 4L
+16
+none
+--field 8: parte alta del float
+GPS Position XH
+16
+none
+--field 9: parte bassa del float
+GPS Position XL
+16
+none
+--field 10: parte alta del float
+GPS Position YH
+16
+none
+--field 11: parte bassa del float
+GPS Position YL
+16
+none
+--field 12: parte alta del float
+GPS Position ZH
+16
+none
+--field 13: parte bassa del float
+GPS Position ZL
+16
+none
+--field 14
+Spare OCID
+4
+0
+--field 15
+Orbital phase
+2
+none
+--field 16
+Recovery sub-phase
+1
+none
+--field 17
+Grid configuration mode
+4
+none
+--field 18
+LUT 3/4 X
+3
+none
+--field 19
+LUT 3/4 Z: H
+2
+none
+--field 20
+LUT 3/4 Z: L
+1
+none
+--field 21
+LUT AC
+3
+none
+--field 22
+LUT R-TRIGGER
+3
+none
+--field 23
+LUT DIS
+3
+none
+--field 24
+LUT COEF
+3
+none
+--field 25
+LUT C-DIS
+3
+none
+--field 26
+SSID
+16
+none
+--field 27 (Number of grid events 1<=n<=73)
+GRID Events (1-73)
+16
+none
+[RBlock1]
+--type of number of blocks of this variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part (73)
+73
+-- for variable block, number of level of headers in which is present the field with the number of blocks of the variable part (0: fixed part)
+0
+-- for variable block, index of field of the header which rappresent the number of events (the number of blocks) of the packet
+27
+-- for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali
+0
+39_01_GRIDEvent.rblock
+[Identifiers]
+-- ID0 Type
+1
+0
+0
+-- ID1 APID
+-- field number
+3
+-- type (0 header, 1 data field)
+0
+-- value
+767
+-- ID2 type
+3
+1
+39
+-- ID3 subtype
+4
+1
+1
+[Tail]
+CRC
+16
+none
