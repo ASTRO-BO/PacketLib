@@ -20,7 +20,7 @@
 const char config[] = "p3901.stream";
 const char file[] = "VC-01.P-033300.pkt";
 const int good = 828;
-const int bad = 5;
+const int bad = 349;
 
 using namespace CppUnit;
 
