@@ -322,6 +322,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
                 block[nblock].loadFields(*file);
                 id++;
                 file->close();
+                delete file;
             }
             else
                 throw new PacketExceptionFileFormat("rblock file name not found.");
