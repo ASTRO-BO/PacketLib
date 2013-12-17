@@ -323,6 +323,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
                 id++;
                 file->close();
                 delete[] argv;
+                delete file;
             }
             else {
             	delete[] argv;
