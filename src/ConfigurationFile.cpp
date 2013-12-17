@@ -29,12 +29,14 @@ ConfigurationFile::ConfigurationFile()
 
 ConfigurationFile::~ConfigurationFile()
 {
-    //free(currentpwd);
+    free(currentpwd);
 }
 
 
 bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 {
+    free(currentpwd);
+
     bool ret;
     currentpwd = getcwd(NULL, 512L);
     ret = InputTextFile::open(parameters);
