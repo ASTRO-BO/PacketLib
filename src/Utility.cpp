@@ -372,7 +372,7 @@ char* Utility::integerToString2(int n, char* str)
 
 char* Utility::integerToString3(char* str, int n)
 {
-    char* c = new char[1];
+    char* c = new char[250];
     sprintf(c, (char*) str, n);
     return c;
 }
