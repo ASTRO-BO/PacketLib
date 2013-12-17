@@ -92,6 +92,7 @@ class SDFRBBlock : public PartOfPacket
 public:
 
     SDFRBBlock();
+    ~SDFRBBlock();
 
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
