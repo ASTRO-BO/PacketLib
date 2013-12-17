@@ -31,7 +31,7 @@ SDFRBlock::SDFRBlock(PartOfPacket* pop) : SourceDataField("SDF Recoursive Block"
 SDFRBlock::~SDFRBlock()
 {
 
-    //delete[] block;
+    delete[] block;
 
 }
 

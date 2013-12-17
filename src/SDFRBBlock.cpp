@@ -209,7 +209,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
     return true;
 }
 
-SDFRBBlock::SDFRBBlock()
+SDFRBBlock::SDFRBBlock() : block(0)
 {
     tempBlock1 = new ByteStream();
     counter++;
@@ -224,6 +224,12 @@ SDFRBBlock::SDFRBBlock()
             blockTypeList[i] = 0;
     }
 
+}
+
+
+SDFRBBlock::~SDFRBBlock()
+{
+    delete[] block;
 }
 
 
