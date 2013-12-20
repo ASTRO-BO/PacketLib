@@ -1,3 +1,8 @@
+2013-12-20  Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v3.0.0
+* Using a SharedPtr for the ByteStream instances.
+* Fixed some memleak, jump that depends on uninitialised value(s) and buffer overflow.
+
 2013-10-08  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v2.0.8
 * src/PartOfPacket.cpp (PartOfPacket::loadFields): inserted do-while
