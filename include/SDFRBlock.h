@@ -66,11 +66,11 @@ public:
 
     virtual dword getDimension();
 
-    virtual bool setByteStream(ByteStream* s);
+    virtual bool setByteStream(ByteStreamPtr s);
 
-    virtual bool setOutputStream(ByteStream* os, dword first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
     
     /// Set the number of blocks (the number of times that a block of a

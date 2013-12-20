@@ -55,14 +55,14 @@ public:
     /// contains a packet of this type. This method overloads another method.
     /// \post A side effects of this method is that the value of fields of packet are set with
     /// correct value.
-    virtual bool setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
     /// This method verifies if the ByteStream on argument contains the correct value
     /// in the identifiers. If this is true, the method returns true and the stream
     /// contains a packet of this type. This method overloads another method.
     /// \post A side effect of this method is that the values of fields of packet are set with
     /// correct value
-    virtual bool setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet);
+    virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     ///	\pre The structure of the stream must be loaded.
@@ -70,21 +70,21 @@ public:
     /// \param packetHeader This is the header of the packet
     /// \param packetDataField This is the data field of the packet
     /// \post If return is true all the fields are set with the correct value.
-    virtual bool setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet
     /// \param packet This is the packet
     /// \post If return is true all the fields are set with the correct value.
-    virtual bool setPacketValue(ByteStream* prefix, ByteStream* packet);
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet
     /// \param packet This is the packet
     /// \return True if the ByteStream contains a packet
-    bool verifyPacketValue(ByteStream* prefix, ByteStream* packet);
+    bool verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     /// Verifies if within the byte* stream passed with arguments it's present a correct packet. The stream* contains also the prefix (if present)
     /// \param stream A pointer to the stream of byte, with prefix and packet
@@ -100,7 +100,7 @@ public:
     /// \param packetHeader This is the header of the packet.
     /// \param packetDataField This is the data field of the packet.
     /// \return True if the ByteStream contains a packet.
-    bool verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    bool verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
     /// Prints to stdout the value of packet data field in a formatted mode.
     virtual void printPacketValue();
@@ -148,12 +148,12 @@ public:
 
     
     /// Gets the ByteStream received as input
-    ByteStream* getInputStream();
+    ByteStreamPtr getInputStream();
 
     
     /// Gets the packet generated with the generateStream() method. The output
     /// packet is generated during this call.
-    ByteStream* getOutputStream();
+    ByteStreamPtr getOutputStream();
 
     
     /// Gets the name of packet.
@@ -172,10 +172,6 @@ public:
     
     /// Prints to stdout the identifiers of the packet.
     virtual void printIdentifiers();
-
-    
-    /// Deletes the ByteStream passed as arguments.
-    virtual void deleteExternalByteStream();
 
     
     /// Writes property of byte packetID.
@@ -202,15 +198,15 @@ public:
 
     
     /// the prefix of the packet.
-    ByteStream* prefix;
+    ByteStreamPtr prefix;
 
     
     /// The ByteStrem of the packet read
-    ByteStream* packet;
+    ByteStreamPtr packet;
 
     
     /// This is the ByteStream generated with generateStream().
-    ByteStream* packet_output;
+    ByteStreamPtr packet_output;
 
 
 protected:
@@ -246,21 +242,21 @@ protected:
 
     unsigned number_of_identifier;
 
-    bool setPacketValuePrefix(ByteStream* prefix);
+    bool setPacketValuePrefix(ByteStreamPtr prefix);
 
-    bool setPacketValueVerify(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    bool setPacketValueVerify(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
-    bool setPacketValueDataFieldHeader(ByteStream* packetDataField);
+    bool setPacketValueDataFieldHeader(ByteStreamPtr packetDataField);
 
-    bool setPacketValueSourceDataField(ByteStream* packetDataField);
+    bool setPacketValueSourceDataField(ByteStreamPtr packetDataField);
 
-    bool setPacketValueHeader(ByteStream* header);
+    bool setPacketValueHeader(ByteStreamPtr header);
 
-    bool setPacketValueTail(ByteStream* packetDataField);
+    bool setPacketValueTail(ByteStreamPtr packetDataField);
 
-    void memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    void memByteStream(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
-    void memByteStream(ByteStream* prefix, ByteStream* packet);
+    void memByteStream(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     bool bigendian;
 
@@ -274,15 +270,15 @@ protected:
 
 private:
 
-    ByteStream* tempHeader;
+    ByteStreamPtr tempHeader;
 
-    ByteStream* tempDataField;
+    ByteStreamPtr tempDataField;
 
-    ByteStream* tempDataFieldHeader;
+    ByteStreamPtr tempDataFieldHeader;
 
-    ByteStream* tempPacketDataField;
+    ByteStreamPtr tempPacketDataField;
 
-    ByteStream* tempTail;
+    ByteStreamPtr tempTail;
 
     bool first_output_stream_setted;
 

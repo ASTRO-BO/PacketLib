@@ -56,10 +56,10 @@ void InputSerial::close()  throw(PacketExceptionIO*)
 
 
 
-ByteStream* InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
+ByteStreamPtr InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
 {
     //cout << "waiting " << n_byte << endl;
-    ByteStream* bs;
+    ByteStreamPtr bs;
     byte* buff = new byte[n_byte];
     int current = 0;
     if(!closed)
@@ -71,12 +71,12 @@ ByteStream* InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
             current += readed;
             if( current  == 0 )
             {
-                bs = new ByteStream(0, bigendian);
+                bs = ByteStreamPtr(new ByteStream(0, bigendian));
                 break;
             }
         }
         if(current != 0)
-            bs = new ByteStream( buff, n_byte, bigendian );
+            bs = ByteStreamPtr(new ByteStream(buff, n_byte, bigendian));
     }
     else
         return 0;

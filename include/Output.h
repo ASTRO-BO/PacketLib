@@ -39,7 +39,7 @@ public:
 
     virtual bool isBigendian();
 
-    virtual bool writeByteStream(ByteStream* b) throw(PacketExceptionIO*) = 0;
+    virtual bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*) = 0;
 
     virtual bool writeString(const char* str) throw(PacketExceptionIO*) = 0;
 

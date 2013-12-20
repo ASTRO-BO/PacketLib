@@ -53,10 +53,10 @@ public:
     dword getMaxDimension();
 
     /// Creates the outputstream ByteStream for the generation of the output stream
-    virtual bool setOutputStream(ByteStream* os, word first);
+    virtual bool setOutputStream(ByteStreamPtr os, word first);
 
 
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
     /// Represents the data field header.
     DataFieldHeader *dataFieldHeader;

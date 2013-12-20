@@ -52,7 +52,7 @@ bool OutputFile::open(char** parameters) throw(PacketExceptionIO*)
 
 
 
-bool OutputFile::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
+bool OutputFile::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {
     if(!isclosed)
         file->writeByteStream(b);

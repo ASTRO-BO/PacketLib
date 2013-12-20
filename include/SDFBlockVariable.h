@@ -48,7 +48,7 @@ public:
     virtual word getNumberOfFields();
 
 
-    virtual bool setByteStream(ByteStream* s);
+    virtual bool setByteStream(ByteStreamPtr s);
 
 
     virtual dword getDimension();
@@ -99,10 +99,10 @@ public:
     virtual void setFieldValue(word block, word index, word value);
 
 
-    virtual bool setOutputStream(ByteStream* os, dword first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
 
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
 
     /// Get the number of elements for each block
@@ -124,7 +124,7 @@ private:
 
     SDFBVBlock* blocks;
 
-    ByteStream* tempBlock;
+    ByteStreamPtr tempBlock;
 };
 
 }

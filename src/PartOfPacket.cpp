@@ -25,7 +25,7 @@ word PacketLib::pattern[] = {0,1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16
 PartOfPacket::PartOfPacket(const char* popName)
 {
     fieldsDimension = 0;
-    stream = new ByteStream();
+    stream = ByteStreamPtr(new ByteStream());
     numberOfFields = 0;
     fields = 0;
     outputstream = 0;
@@ -201,7 +201,7 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
 }
 
 
-bool PartOfPacket::setByteStream(ByteStream* s)
+bool PartOfPacket::setByteStream(ByteStreamPtr s)
 {
     Field* ftemp;
 
@@ -384,7 +384,7 @@ void PartOfPacket::deleteFields()
 }
 
 
-ByteStream* PartOfPacket::generateStream(bool bigendian)
+ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
 {
     word w = 0, wtemp = 0;
     int posbit = 0;
@@ -393,7 +393,7 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
     /// Dimension of the current field
     byte dimbit = 0;
     if(outputstream == 0)
-        outputstream = new ByteStream(getDimension(), bigendian);
+        outputstream = ByteStreamPtr(new ByteStream(getDimension(), bigendian));
     for(unsigned i = 0; i<numberOfFields; i++)
     {
         if(!fields[i]->thereIsPredefinedValue())
@@ -446,10 +446,9 @@ ByteStream* PartOfPacket::generateStream(bool bigendian)
 };
 
 
-bool PartOfPacket::setOutputStream(ByteStream* os, dword first)
+bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
 {
-    delete outputstream;
-    outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
     return true;
 }
 
@@ -582,11 +581,6 @@ void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(Packe
     setFieldValue_3_14(index, value2);
 }
 
-void PacketLib::PartOfPacket::deleteByteStream() {
-	delete stream;
-	stream = 0;
-}
-
-void PacketLib::PartOfPacket::memByteStream(ByteStream* stream) {
+void PacketLib::PartOfPacket::memByteStream(ByteStreamPtr stream) {
 	this->stream = stream;
 }

@@ -106,18 +106,18 @@ int File::getByte()
 }
 
 
-ByteStream* File::getNByte(dword N)
+ByteStreamPtr File::getNByte(dword N)
 {
     dword i = 0;
     int c1, c2;
     if(N == 0)
-        return new ByteStream(0, bigendian);
+        return ByteStreamPtr(new ByteStream(0, bigendian));
     //solo un numero pari di byte
     //if(N%2 != 0 || !fileOpened) return NULL;
 
     if(closed) return NULL;
 
-    //ByteStream* b = new ByteStream(N, bigendian);
+    //ByteStreamPtr b = new ByteStream(N, bigendian);
     byte* stream = (byte*) new byte[N];
 
     for(i = 0; i<N && (c1 = getByte()) != EOI && (c2 = getByte()) != EOI; i+=2)
@@ -141,7 +141,7 @@ ByteStream* File::getNByte(dword N)
     }
     /*if(i != N)
     {
-        ByteStream* b1 = new ByteStream(i, bigendian);
+        ByteStreamPtr b1 = new ByteStream(i, bigendian);
         for(int j = 0; j<i; j++)
             b1->stream[j] = b->stream[j];
         delete b;
@@ -150,7 +150,7 @@ ByteStream* File::getNByte(dword N)
     //for(; i<N; i++)
     //	b->stream[i] = 0;
     //return b;
-    return new ByteStream(stream, i, bigendian, false);
+    return ByteStreamPtr(new ByteStream(stream, i, bigendian, false));
 }
 
 
@@ -336,7 +336,7 @@ bool File::writeString(const char* str) throw(PacketExceptionIO*)
 
 
 
-bool File::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
+bool File::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();
     if(fwrite((void*)stream, b->getDimension(), 1, fp)<1)

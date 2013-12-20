@@ -47,9 +47,9 @@ public:
      /// Total max dimension in bytes of block
     dword getMaxDimension();
 
-    bool setOutputStream(ByteStream* os, dword first);
+    bool setOutputStream(ByteStreamPtr os, dword first);
 
-    ByteStream* generateStream(bool bigendian);
+    ByteStreamPtr generateStream(bool bigendian);
 
     virtual word getNumberOfRealElement();
 

@@ -72,7 +72,7 @@ PacketNotRecognized::~PacketNotRecognized()
 
 
 
-bool PacketNotRecognized::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+bool PacketNotRecognized::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     /// It reads and sets the packet header 
     if(!header->setByteStream(packetHeader))

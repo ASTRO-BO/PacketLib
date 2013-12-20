@@ -40,12 +40,12 @@ public:
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packetHeader A ByteStream that contains the packet header.
     /// \param packetDataField A ByteStream that contains the packet data field.
-    int detPacketType(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField);
+    int detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
     /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packet A ByteStream that contains the packet.
-    int detPacketType(ByteStream* prefix, ByteStream* packet);
+    int detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     ///It returns the index of the packet type contained in the stream. The stream* contains also the prefix (if present)
     /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.

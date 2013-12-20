@@ -211,7 +211,7 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
 
 SDFRBBlock::SDFRBBlock() : block(0)
 {
-    tempBlock1 = new ByteStream();
+    tempBlock1 = ByteStreamPtr(new ByteStream());
     counter++;
     //cout << counter << " " << sizeof(SDFRBBlock) << endl;
 
@@ -449,15 +449,14 @@ word SDFRBBlock::getCurrentNumberOfBlocks()
     return nblock;
 }
 
-bool SDFRBBlock::setOutputStream(ByteStream* os, dword first)
+bool SDFRBBlock::setOutputStream(ByteStreamPtr os, dword first)
 {
     dword start = first;
     /// It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {
         fixed.setOutputStream(os, start);
-        delete outputstream;
-        outputstream = new ByteStream((os->stream + start), getDimension(), os->isBigendian());
+        outputstream = ByteStreamPtr(new ByteStream((os->stream + start), getDimension(), os->isBigendian()));
         start += fixed.getDimension();
     }
     if(type->variablePresent)
@@ -481,7 +480,7 @@ bool SDFRBBlock::setOutputStream(ByteStream* os, dword first)
     return true;
 }
 
-ByteStream* SDFRBBlock::generateStream(bool bigendian)
+ByteStreamPtr SDFRBBlock::generateStream(bool bigendian)
 {
     if(type->fixedPresent)
         fixed.generateStream(bigendian);
@@ -507,15 +506,15 @@ ByteStream* SDFRBBlock::generateStream(bool bigendian)
     return outputstream;
 }
 
-bool SDFRBBlock::setByteStream(ByteStream* s)
+bool SDFRBBlock::setByteStream(ByteStreamPtr s)
 {
-	//cout << "bool SDFRBBlock::setByteStream(ByteStream* s)" << " " << s << endl; //AB
+	//cout << "bool SDFRBBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
     dword bytestart=0;
     dword bytestop=0;
     this->stream->setStream(s, 0, s->getDimension() - 1);
 
-    //ByteStream*  tmpstream = new ByteStream(s->stream, s->getDimension(), s->isBigendian());
-    //ByteStream* s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
+    //ByteStreamPtr  tmpstream = new ByteStream(s->stream, s->getDimension(), s->isBigendian());
+    //ByteStreamPtr s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
     // It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {

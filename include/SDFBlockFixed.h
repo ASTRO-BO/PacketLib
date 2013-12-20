@@ -45,7 +45,7 @@ public:
 
     virtual word getNumberOfFields();
 
-    virtual bool setByteStream(ByteStream* s);
+    virtual bool setByteStream(ByteStreamPtr s);
 
     /// Prints the value of each field of this part of packet.
     virtual char** printValue(char* addString = "");
@@ -87,9 +87,9 @@ public:
     /// \param value The value must be set.
     virtual void setFieldValue(word block, word index, word value);
 
-    virtual bool setOutputStream(ByteStream* os, dword first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
     /// Returns the number of fields for each block.
     virtual word getNumberOfFields(word block);
@@ -97,7 +97,7 @@ public:
 private:
     SDFBFBlock *block;
 
-    ByteStream* tempBlock;
+    ByteStreamPtr tempBlock;
 };
 
 }

@@ -161,7 +161,7 @@ SDFBlockVariable::SDFBlockVariable() : SourceDataField("SDF Block Variable")
     fixed = false;
     rblock = false;
     blocks = 0;
-    tempBlock = new ByteStream();
+    tempBlock = ByteStreamPtr(new ByteStream());
 }
 
 
@@ -189,7 +189,7 @@ word SDFBlockVariable::getNumberOfFields()
 
 
 
-bool SDFBlockVariable::setByteStream(ByteStream* s)
+bool SDFBlockVariable::setByteStream(ByteStreamPtr s)
 {
     word bytestart=0, bytestop=0;
     word number_of_real_element;
@@ -396,12 +396,11 @@ void SDFBlockVariable::setFieldValue(word block, word index, word value)
 
 
 
-bool SDFBlockVariable::setOutputStream(ByteStream* os, dword first)
+bool SDFBlockVariable::setOutputStream(ByteStreamPtr os, dword first)
 {
     dword mnb = getNumberOfRealDataBlock();
     dword start = first;
-    delete outputstream;
-    outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
     for(dword i = 0; i<mnb; i++)
     {
         blocks[i].setOutputStream(os, start);
@@ -412,7 +411,7 @@ bool SDFBlockVariable::setOutputStream(ByteStream* os, dword first)
 
 
 
-ByteStream* SDFBlockVariable::generateStream(bool bigendian)
+ByteStreamPtr SDFBlockVariable::generateStream(bool bigendian)
 {
     word mnb = getNumberOfRealDataBlock();
     for(word i = 0; i<mnb; i++)

@@ -243,27 +243,24 @@ public:
     };
 
     /// Sets the stream of byte. This method assigns the value of stream for each field of part of packet
-    virtual bool setByteStream(ByteStream* s);
+    virtual bool setByteStream(ByteStreamPtr s);
 
     /// Get the current ByteStream
-    virtual ByteStream* getByteStream()
+    virtual ByteStreamPtr getByteStream()
     {
     	return stream;
     }
 
-    /// Delete the current ByteStream
-    virtual void deleteByteStream();
-
-    virtual void memByteStream(ByteStream* stream);
+    virtual void memByteStream(ByteStreamPtr stream);
 
     /// Represent current stream writes to output.
-    ByteStream* outputstream;
+    ByteStreamPtr outputstream;
 
     /// Generates the stream.
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
     /// Creates the outputstream ByteStream for the generation of the output stream
-    virtual bool setOutputStream(ByteStream* os, dword first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
     /// In a recoursive structure, the PartOfPacket that contains this PartOfPacket
     PartOfPacket* previous;
@@ -273,7 +270,7 @@ public:
 protected:
 
     /// Represent current stream reads from input.
-    ByteStream* stream;
+    ByteStreamPtr stream;
 
     /// List of field of part of packet.
     Field** fields;

@@ -52,7 +52,7 @@ bool OutputSocketClient::open(char** argv) throw(PacketExceptionIO*)
 
 
 
-bool OutputSocketClient::writeByteStream(ByteStream* b) throw(PacketExceptionIO*)
+bool OutputSocketClient::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {
     if(!isclosed)
         socketclient->send(b);

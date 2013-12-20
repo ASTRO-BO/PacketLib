@@ -40,7 +40,7 @@ InputPacketStream::~InputPacketStream()
 }
 
 
-int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+int InputPacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     ///  Iterate through list and output each element.
     ///  The packetType 0 is the packet not recognized
@@ -55,7 +55,7 @@ int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packetHeade
 
 
 
-int InputPacketStream::detPacketType(ByteStream* prefix, ByteStream* packet)
+int InputPacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet)
 {
     /// Iterate through list and output each element.
     /// The packetType 0 is the packet not recognized
@@ -93,7 +93,7 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
 {
     unsigned dimHeader = getHeaderDimension();
     unsigned dimPrefix = getPrefixDimension();
-    ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
+    ByteStreamPtr b0, b1, b2;
     dword pl, dim, pindex;
     try
     {
@@ -162,16 +162,15 @@ dword InputPacketStream::getPacketDimension(byte* stream) {
 		dword dimPre = 0;
 		if(prefix)
 			dimPre += dimPrefix;
-		//ByteStream* prefix = new ByteStream(stream, dimPre, bigendian);
+		//ByteStreamPtr prefix = new ByteStream(stream, dimPre, bigendian);
 
 		dword dim = 0;
 		dword dimHeader = headerReference->getDimension();
 		dim += dimHeader;
-		ByteStream* tempHeader = new ByteStream();
+		ByteStreamPtr tempHeader = ByteStreamPtr(new ByteStream());
 		tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
 		headerReference->setByteStream(tempHeader);
 		dim += headerReference->getPacketLength();
-		delete tempHeader;
 		return dim;
 }
 

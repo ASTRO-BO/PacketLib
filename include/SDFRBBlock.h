@@ -142,13 +142,13 @@ public:
         return ID;
     };
 
-    virtual bool setOutputStream(ByteStream* os, dword first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
-    virtual ByteStream* generateStream(bool bigendian);
+    virtual ByteStreamPtr generateStream(bool bigendian);
 
-    virtual bool setByteStream(ByteStream* s);
+    virtual bool setByteStream(ByteStreamPtr s);
 
-    virtual ByteStream* getByteStream()
+    virtual ByteStreamPtr getByteStream()
     {
         return stream;
     }
@@ -212,7 +212,7 @@ protected:
 
     bool reset_output_stream;
 
-    ByteStream* tempBlock1;
+    ByteStreamPtr tempBlock1;
 
     SDFRBBlockType* type;
 

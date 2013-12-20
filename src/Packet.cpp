@@ -27,20 +27,16 @@ Packet::Packet(bool bigendian)
     header = (PacketHeader*) new PacketHeader();
     dataField = (PacketDataField*) new PacketDataField();
     name = 0;
-    prefix = 0;
 //    tail = new PartOfPacket();
     number_of_identifier = 0;
     identifiers = 0;
-    prefix = 0;
-    packet = 0;
-    packet_output = 0;
     this->bigendian = bigendian;
     /// temp
-    tempHeader = new ByteStream();
-    tempDataField = new ByteStream();
-    tempDataFieldHeader = new ByteStream();
-    tempPacketDataField = new ByteStream();
-    tempTail = new ByteStream();
+    tempHeader = ByteStreamPtr(new ByteStream);
+    tempDataField = ByteStreamPtr(new ByteStream);
+    tempDataFieldHeader = ByteStreamPtr(new ByteStream);
+    tempPacketDataField = ByteStreamPtr(new ByteStream);
+    tempTail = ByteStreamPtr(new ByteStream);
     first_output_stream_setted = false;
 
 }
@@ -57,19 +53,6 @@ Packet::~Packet()
     for(unsigned i = 0; i < number_of_identifier; i++)
         delete identifiers[i];
     delete[] identifiers;
-    delete packet_output;
-    packet_output = 0;
-    delete tempHeader;
-    tempHeader = 0;
-    delete tempDataField;
-    tempDataField = 0;
-    //ANDREA: ricordato di indagare perche' non si riesce ad effettuare il delete
-    delete tempDataFieldHeader;
-    tempDataFieldHeader = 0;
-    delete tempPacketDataField;
-    tempPacketDataField = 0;
-    delete tempTail;
-    tempTail = 0;
 }
 
 
@@ -184,7 +167,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                             /// Memory allocation for the output stream
                                             dword dimpo = getMaxDimension();
                                             dword dimpr = (isprefix?dimprefix:0);
-                                            packet_output = new ByteStream(dimpo + dimpr, bigendian);
+                                            packet_output = ByteStreamPtr(new ByteStream(dimpo + dimpr, bigendian));
 
                                             file.close();
                                             return true;
@@ -310,11 +293,11 @@ void Packet::printIdentifiers()
 }
 
 
-bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     //cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
-    ByteStream* packet = new ByteStream(packetHeader, packetDataField, 0);
+    ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
     memByteStream(prefix, packet);
     /// 1)
     if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
@@ -358,7 +341,7 @@ bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteSt
 
 
 
-bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet)
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
 {
     dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
@@ -369,7 +352,7 @@ bool Packet::setPacketValue(ByteStream* prefix, ByteStream* packet)
 
 
 
-bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packet)
+bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
 {
     dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
@@ -380,7 +363,7 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packet)
 
 
 
-bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     bool verified = true;
     memByteStream(prefix, packetHeader, packetDataField);
@@ -441,7 +424,7 @@ bool Packet::verifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, Byt
 }
 
 
-bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet)
+bool Packet::setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
 {
     dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
@@ -451,10 +434,10 @@ bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packet)
 }
 
 
-bool Packet::setAndVerifyPacketValue(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+bool Packet::setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     memByteStream(prefix, packetHeader, packetDataField);
-    ByteStream* packet = new ByteStream(packetHeader, packetDataField, 0);
+    ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
     memByteStream(prefix, packet);
     if(verifyPacketValue(prefix, packetHeader, packetDataField)==false)
     {
@@ -572,7 +555,7 @@ void Packet::generateStream()
 
 
 
-bool Packet::setPacketValueVerify(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+bool Packet::setPacketValueVerify(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     /// 1) Checking
     /// First check: pointers control
@@ -586,7 +569,7 @@ bool Packet::setPacketValueVerify(ByteStream* prefix, ByteStream* packetHeader, 
 
 
 
-bool Packet::setPacketValuePrefix(ByteStream* prefix)
+bool Packet::setPacketValuePrefix(ByteStreamPtr prefix)
 {
     //2) prefix
     this->prefix = prefix;
@@ -595,7 +578,7 @@ bool Packet::setPacketValuePrefix(ByteStream* prefix)
 
 
 
-bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField)
+bool Packet::setPacketValueDataFieldHeader(ByteStreamPtr packetDataField)
 {
     bool b;
     dword packetLength;
@@ -613,7 +596,7 @@ bool Packet::setPacketValueDataFieldHeader(ByteStream* packetDataField)
 }
 
 
-bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField)
+bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField)
 {
     bool b;
     dword packetLength;
@@ -652,7 +635,7 @@ bool Packet::setPacketValueSourceDataField(ByteStream* packetDataField)
 
 }
 
-bool Packet::setPacketValueTail(ByteStream* packetDataField)
+bool Packet::setPacketValueTail(ByteStreamPtr packetDataField)
 {
     bool b;
     dword s, e;
@@ -678,7 +661,7 @@ bool Packet::setPacketValueTail(ByteStream* packetDataField)
 
 
 
-bool Packet::setPacketValueHeader(ByteStream* packetHeader)
+bool Packet::setPacketValueHeader(ByteStreamPtr packetHeader)
 {
     /// 3) Header
 	/// Reading and setting the packet header
@@ -688,38 +671,7 @@ bool Packet::setPacketValueHeader(ByteStream* packetHeader)
         return true;
 }
 
-
-
-void Packet::deleteExternalByteStream()
-{
-    if(prefix != 0)
-        if(prefix->getMemAllocation())
-        {
-            delete prefix;
-            prefix = 0;
-        }
-    if(packet !=0)
-        if(packet->getMemAllocation())
-        {
-            delete packet;
-            packet = 0;
-        }
-    if(dataField->getByteStream() != 0)
-        if(dataField->getByteStream()->getMemAllocation())
-        {
-            dataField->deleteByteStream();
-
-        }
-    if(header->getByteStream() != 0)
-        if(header->getByteStream()->getMemAllocation())
-        {
-            header->deleteByteStream();
-        }
-}
-
-
-
-void Packet::memByteStream(ByteStream* prefix, ByteStream* packet)
+void Packet::memByteStream(ByteStreamPtr prefix, ByteStreamPtr packet)
 {
     this->prefix = prefix;
     this->packet = packet;
@@ -727,7 +679,7 @@ void Packet::memByteStream(ByteStream* prefix, ByteStream* packet)
 
 
 
-void Packet::memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStream* packetDataField)
+void Packet::memByteStream(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     this->prefix = prefix;
     //this->packet = 0;
@@ -737,17 +689,17 @@ void Packet::memByteStream(ByteStream* prefix, ByteStream* packetHeader, ByteStr
 
 
 
-ByteStream* Packet::getOutputStream()
+ByteStreamPtr Packet::getOutputStream()
 {
     generateStream();
-    ByteStream* b = new ByteStream(packet_output->stream, getDimension() + (thereisprefix?dimPrefix:0), bigendian);
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, getDimension() + (thereisprefix?dimPrefix:0), bigendian));
     return b;
 }
 
-ByteStream* Packet::getInputStream()
+ByteStreamPtr Packet::getInputStream()
 {
     if(packet == 0)
-        packet = new ByteStream(header->getByteStream(), dataField->getByteStream(), 0);
+        packet = ByteStreamPtr(new ByteStream(header->getByteStream(), dataField->getByteStream(), 0));
     return packet;
 }
 
@@ -841,7 +793,7 @@ bool Packet::verifyPacketValue(byte* stream) {
 	dword dimPre = 0;
 	if(thereisprefix)
 	        dimPre += dimPrefix;
-	ByteStream* prefix = new ByteStream(stream, dimPre, bigendian);
+	ByteStreamPtr prefix = ByteStreamPtr(new ByteStream(stream, dimPre, bigendian));
 
 	dword dim = 0;
 	dword dimHeader = header->getDimension();
@@ -849,7 +801,7 @@ bool Packet::verifyPacketValue(byte* stream) {
 	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
 	header->setByteStream(tempHeader);
 	dim += header->getDimensionOfPacketLength() + 1;
-	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
+	ByteStreamPtr packet = ByteStreamPtr(new ByteStream(stream+dimPre, dim, bigendian));
 
 	return verifyPacketValue(prefix, packet);
 }
@@ -858,7 +810,7 @@ bool Packet::setPacketValue(byte* stream) {
 	dword dimPre = 0;
 	if(thereisprefix)
 			dimPre += dimPrefix;
-	ByteStream* prefix = new ByteStream(stream, dimPre, bigendian);
+	ByteStreamPtr prefix = ByteStreamPtr(new ByteStream(stream, dimPre, bigendian));
 
 	dword dim = 0;
 	dword dimHeader = header->getDimension();
@@ -866,7 +818,7 @@ bool Packet::setPacketValue(byte* stream) {
 	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
 	header->setByteStream(tempHeader);
 	dim += header->getPacketLength() + 1;
-	ByteStream* packet = new ByteStream(stream+dimPre, dim, bigendian);
+	ByteStreamPtr packet = ByteStreamPtr(new ByteStream(stream+dimPre, dim, bigendian));
 
 	return setPacketValue(prefix, packet);
 
