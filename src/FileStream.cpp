@@ -27,21 +27,21 @@ FileStream::FileStream(bool prefix, bool bigen, word dimprefix, long startpositi
 }
 
 
-ByteStream* FileStream::readHeader(unsigned int dimHeader)
+ByteStreamPtr FileStream::readHeader(unsigned int dimHeader)
 {
     header = getNByte(dimHeader);
     return header;
 }
 
 
-ByteStream* FileStream::readDataField(unsigned int dimDataField)
+ByteStreamPtr FileStream::readDataField(unsigned int dimDataField)
 {
     dataField = getNByte(dimDataField);
     return dataField;
 }
 
 
-ByteStream* FileStream::readPrefix()
+ByteStreamPtr FileStream::readPrefix()
 {
     if(thereIsPrefix)
         prefix = getNByte(dimPrefix);

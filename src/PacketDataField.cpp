@@ -98,10 +98,9 @@ void PacketDataField::setNumberOfRealDataBlock(word number)
 
 
 
-bool PacketDataField::setOutputStream(ByteStream* os, word first)
+bool PacketDataField::setOutputStream(ByteStreamPtr os, word first)
 {
-    delete outputstream;
-    outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
     dataFieldHeader->setOutputStream(os, first);
     word sdfstart = first + dataFieldHeader->getDimension();
     sourceDataField->setOutputStream(os, sdfstart);
@@ -115,7 +114,7 @@ bool PacketDataField::setOutputStream(ByteStream* os, word first)
 
 
 
-ByteStream* PacketDataField::generateStream(bool bigendian)
+ByteStreamPtr PacketDataField::generateStream(bool bigendian)
 {
     dataFieldHeader->generateStream(bigendian);
     sourceDataField->generateStream(bigendian);

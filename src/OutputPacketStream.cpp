@@ -35,14 +35,13 @@ OutputPacketStream::OutputPacketStream(const char* fileNameConfig) : PacketStrea
 
 bool OutputPacketStream::writePacket(Packet* p) throw(PacketExceptionIO*)
 {
-    ByteStream* bs;
+    ByteStreamPtr bs;
     try
     {
         bs = p->getOutputStream();
         if(out == 0)
             throw new PacketExceptionIO("No output set..");
         out->writeByteStream(bs);
-        delete bs;
         return true;
     }
     catch(PacketExceptionIO* e)

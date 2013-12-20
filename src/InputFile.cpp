@@ -49,9 +49,9 @@ void InputFile::close()  throw(PacketExceptionIO*)
 }
 
 
-ByteStream* InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
+ByteStreamPtr InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
-    ByteStream* bs;
+    ByteStreamPtr bs;
     if(!closed)
         bs = file->getNByte(n_byte);
     else

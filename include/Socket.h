@@ -51,9 +51,9 @@ public:
     }
 
     /// Data Transimission
-    virtual bool send ( ByteStream* b ) const throw(PacketExceptionIO*) ;
+    virtual bool send ( ByteStreamPtr b ) const throw(PacketExceptionIO*) ;
 
-    virtual ByteStream* recv (word dim, int & status) throw(PacketExceptionIO*) ;
+    virtual ByteStreamPtr recv (word dim, int & status) throw(PacketExceptionIO*) ;
 
     virtual bool connect ( const std::string host, const int port ) throw(PacketExceptionIO*);
 

@@ -38,7 +38,7 @@ public:
 
     virtual bool open(char** parameters) throw(PacketExceptionIO*);
 
-    virtual bool writeByteStream(ByteStream* b) throw(PacketExceptionIO*);
+    virtual bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*);
 
     virtual bool writeString(const char* str) throw(PacketExceptionIO*);
 

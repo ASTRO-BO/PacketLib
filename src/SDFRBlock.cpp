@@ -97,17 +97,17 @@ word SDFRBlock::getNumberOfRealDataBlock(word rblockIndex)
 }
 
 
-bool SDFRBlock::setOutputStream(ByteStream* os, dword first)
+bool SDFRBlock::setOutputStream(ByteStreamPtr os, dword first)
 {
     return block[0].setOutputStream(os, first);
 }
 
-ByteStream* SDFRBlock::generateStream(bool bigendian)
+ByteStreamPtr SDFRBlock::generateStream(bool bigendian)
 {
     return block[0].generateStream(bigendian);
 }
 
-bool SDFRBlock::setByteStream(ByteStream* s)
+bool SDFRBlock::setByteStream(ByteStreamPtr s)
 {
     stream = s;
     return block[0].setByteStream(s);

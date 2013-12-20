@@ -30,11 +30,11 @@ public:
 
     FileStream(bool prefix, bool bigen, word dimprefix, long startposition = 0);
 
-    ByteStream* readPrefix();
+    ByteStreamPtr readPrefix();
 
-    ByteStream* readHeader(unsigned int dimHeader);
+    ByteStreamPtr readHeader(unsigned int dimHeader);
 
-    ByteStream* readDataField(unsigned int dimDataField);
+    ByteStreamPtr readDataField(unsigned int dimDataField);
 
 private:
     ///  Indicates if it's present a prefix for each packet
@@ -42,11 +42,11 @@ private:
     ///  \li false if it isn't present
     bool thereIsPrefix;
 
-    ByteStream* header;
+    ByteStreamPtr header;
 
-    ByteStream* dataField;
+    ByteStreamPtr dataField;
 
-    ByteStream* prefix;
+    ByteStreamPtr prefix;
 
     word dimPrefix;
 

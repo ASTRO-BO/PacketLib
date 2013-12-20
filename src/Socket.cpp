@@ -75,7 +75,7 @@ bool Socket::close() throw(PacketExceptionIO*)
 
 
 
-bool Socket::send ( ByteStream * b ) const throw(PacketExceptionIO*)
+bool Socket::send ( ByteStreamPtr b ) const throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();
     //MSG_NOSIGNAL
@@ -93,9 +93,9 @@ bool Socket::send ( ByteStream * b ) const throw(PacketExceptionIO*)
 
 
 
-ByteStream* Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
+ByteStreamPtr Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
 {
-    //ByteStream* b = new ByteStream(dim, bigendian);
+    //ByteStreamPtr b = new ByteStream(dim, bigendian);
     byte* stream = (byte*) new byte[dim];
     /*byte* temp = (byte*) new byte[1];
     int i;
@@ -130,7 +130,7 @@ ByteStream* Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
     }
     else
     {
-        ByteStream* b = new ByteStream(stream, dim, bigendian, false);
+        ByteStreamPtr b = ByteStreamPtr(new ByteStream(stream, dim, bigendian, false));
         return b;
     }
 

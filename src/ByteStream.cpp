@@ -32,7 +32,7 @@ dword ByteStream::count_object_deleted2 = 0;
 /// Returns a pointer of a field in the list of fields of this part of packet.
 /// \remarks mem_allocation = true indicates that the allocated memory must be released by the destroyer.
 /// \remarks memory_sharing=false In all methods of constructor or set type accepting byte*, it indicates that the swap is applied. 
-/// In all methods of constructor or set type accepting ByteStream* the swap is never applied.
+/// In all methods of constructor or set type accepting ByteStreamPtr the swap is never applied.
 
 PacketLib::ByteStream::ByteStream(bool bigendian)
 {
@@ -76,7 +76,7 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
 }
 
 
-PacketLib::ByteStream::ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2)
+PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStreamPtr b2)
 {
     mem_allocation_constructor = true;
 
@@ -201,20 +201,20 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
 
 
 
-ByteStream* PacketLib::ByteStream::getSubByteStream(dword first, dword last)
+ByteStreamPtr PacketLib::ByteStream::getSubByteStream(dword first, dword last)
 {
     DEMORET0;
     if(first > last)
         return NULL;
     if(last > byteInTheStream)
         return NULL;
-    ByteStream* b = new ByteStream((stream + first), last-first+1, bigendian, true);
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream((stream + first), last-first+1, bigendian, true));
     return b;
 }
 
 
 
-ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
+ByteStreamPtr PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
 {
     DEMORET0;
     if(first > last)
@@ -224,8 +224,7 @@ ByteStream* PacketLib::ByteStream::getSubByteStreamCopy(dword first, dword last)
     byte* streamtemp = (byte*) new byte[last-first+1];
     for(dword i=0; i<last-first+1; i++)
         streamtemp[i] = stream[first+i];
-    ByteStream* b = new ByteStream(streamtemp, last-first+1, bigendian, false);
-    return b;
+    return ByteStreamPtr(new ByteStream(streamtemp, last-first+1, bigendian, false));
 }
 
 
@@ -292,7 +291,7 @@ bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool m
 
 
 
-bool PacketLib::ByteStream::setStream(ByteStream* b, dword first, dword last)
+bool PacketLib::ByteStream::setStream(ByteStreamPtr b, dword first, dword last)
 {
     if(first > last)
         return false;

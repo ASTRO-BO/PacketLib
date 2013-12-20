@@ -90,7 +90,7 @@ bool InputPacketStreamFile::openInputStream() throw(PacketExceptionIO*)
 
 bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
 {
-    ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
+    ByteStreamPtr b0, b1, b2;
     word pl, dim;
     long pointer;
 
@@ -110,10 +110,8 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
         pointer = inputStream->getpos();
         b0 = inputStream->readPrefix();
         if(inputStream->isEOF())
-        {
-            delete b0;
             return true;
-        }
+
         b1 = inputStream->readHeader(dimHeader);
         if(b1->getDimension() != dimHeader)
         {
@@ -121,8 +119,6 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
                 pindex = 0;
             else
             {
-                delete b0;
-                delete b1;
                 numberOfFileStreamPointer = count;
                 return false;
             }
@@ -139,9 +135,6 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
                     pindex = 0;
                 else
                 {
-                    delete b0;
-                    delete b1;
-                    delete b2;
                     numberOfFileStreamPointer = count;
                     return false;
                 }
@@ -149,9 +142,6 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
             else
                 pindex = detPacketType(b0, b1, b2);
         }
-        delete b0;
-        delete b1;
-        delete b2;
         FileStreamPointer* fsp = new FileStreamPointer;
         fsp->typeOfPacket = pindex;
         fsp->pointerStart = pointer;
@@ -187,7 +177,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
     //int i;
     long pos;
     int type;
-    ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
+    ByteStreamPtr b0, b1, b2;
     word pl;
 
     if(index > numberOfFileStreamPointer)
@@ -275,7 +265,7 @@ long InputPacketStreamFile::getNumberOfFileStreamPointer()
 
 Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * )
 {
-    ByteStream* b1 = 0, *b2 = 0, *b0 = 0;
+    ByteStreamPtr b0, b1, b2;
     word pl, dim;
     unsigned dimHeader = headerReference->getDimension();
 
@@ -283,29 +273,17 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
         return 0;
     b0 = inputStream->readPrefix();
     if(inputStream->isEOF())
-    {
-        delete b0;
         return 0;
-    }
     b1 = inputStream->readHeader(dimHeader);
     if(b1->getDimension() != dimHeader)
-    {
-        delete b0;
-        delete b1;
         return 0;
-    }
 
     headerReference->setByteStream(b1);
     pl = headerReference->getPacketLength();
     b2 = inputStream->readDataField(pl);
     dim = b2->getDimension();
     if(dim != pl)
-    {
-        delete b0;
-        delete b1;
-        delete b2;
         return 0;
-    }
 
     Packet* p;
     for (int i = 1; i<numberOfPacketType; i++)
@@ -316,9 +294,7 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
             return p;
         }
     }
-    p->deleteExternalByteStream();
     return 0;
-
 }
 
 

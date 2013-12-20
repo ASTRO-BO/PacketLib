@@ -19,10 +19,13 @@
 #define _BYTESTREAM_H
 
 #include "PacketLibDefinition.h"
+#include "SharedPtr.h"
 
 namespace PacketLib
 {
 
+class ByteStream;
+typedef SharedPtr<ByteStream> ByteStreamPtr;
 
 ///	\brief Represent a stream of byte.
 class ByteStream
@@ -45,7 +48,7 @@ public:
     /// passed as input.
     /// It's possibile to pass 0 as pointer.
     /// The mamory of byte* is allocated.
-    ByteStream(ByteStream* b0, ByteStream* b1, ByteStream* b2);
+    ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStreamPtr b2);
 
     ~ByteStream();
 
@@ -62,17 +65,17 @@ public:
     /// Returns a subset of the current stream. If there is problemas return NULL
     /// \remarks This method don't allocate a new stream structure in memory,
     /// but create only a new ByteStream object that points in the same memory area.
-    ByteStream* getSubByteStream(dword first, dword last);
+    ByteStreamPtr getSubByteStream(dword first, dword last);
 
     /// Returns a subset of the current stream. If there is problemas return NULL
     /// \remarks This method allocate a new stream structure in memory.
-    ByteStream* getSubByteStreamCopy(dword first, dword last);
+    ByteStreamPtr getSubByteStreamCopy(dword first, dword last);
 
     /// Sets the stream from arguments.
     bool setStream(byte* b, dword dim, bool bigendian, bool memory_sharing = true);
 
     /// Get the stream from another object of the same type. Don't allocate new memory
-    bool setStream(ByteStream* b, dword first, dword last);
+    bool setStream(ByteStreamPtr b, dword first, dword last);
 
     /// Copy the stream in argument of dimension dim.
     /// \remarks This method delete old stream and creates a new stream in memory
@@ -157,6 +160,7 @@ private:
     bool mem_allocation_constructor;
 
 };
+
 }
 
 

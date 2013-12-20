@@ -61,7 +61,7 @@ public:
     ///  Reads a pair number of byte from opened file and manages the big or little endian
     ///  format. If the format of machine is little endian, a pair of byte is swapped.
     ///  \pre The file must be opened.
-    virtual ByteStream* getNByte( dword N = 1 );
+    virtual ByteStreamPtr getNByte( dword N = 1 );
 
     ///  Get the current line.
     ///  \pre The file must be opened.
@@ -110,7 +110,7 @@ public:
 
     ///  Writes a stream of byte into opend file.
     ///  \pre The file must be opened in w mode
-    bool writeByteStream(ByteStream* b) throw(PacketExceptionIO*);
+    bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*);
 
     ///  Count the number of string lines into a text file.
     long getNumberOfStringLines();

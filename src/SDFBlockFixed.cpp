@@ -88,19 +88,15 @@ SDFBlockFixed::SDFBlockFixed() : SourceDataField("SDF Block Fixed")
     rblock = false;
     block = NULL;
     subFromNBlock[0] = 0;
-    tempBlock = new ByteStream();
+    tempBlock = ByteStreamPtr(new ByteStream());
 }
 
 
 
 SDFBlockFixed::~SDFBlockFixed()
 {
-    delete tempBlock;
-    tempBlock = 0;
     //for(int i=0; i< maxNumberOfBlock; i++)
     //	delete &block[i];
-    delete[] block;
-    block = 0;
 }
 
 
@@ -177,7 +173,7 @@ word SDFBlockFixed::getNumberOfFields()
 
 
 
-bool SDFBlockFixed::setByteStream(ByteStream* s)
+bool SDFBlockFixed::setByteStream(ByteStreamPtr s)
 {
     bool b;
     word bytestart=0, bytestop=0;
@@ -296,12 +292,11 @@ string* SDFBlockFixed::printStructure()
 }
 
 
-bool SDFBlockFixed::setOutputStream(ByteStream* os, dword first)
+bool SDFBlockFixed::setOutputStream(ByteStreamPtr os, dword first)
 {
     dword mnb = getNumberOfRealDataBlock();
     dword start = first;
-    delete outputstream;
-    outputstream = new ByteStream((os->stream + first), getDimension(), os->isBigendian());
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
     for(dword i = 0; i<mnb; i++)
     {
         block[i].setOutputStream(os, start);
@@ -311,7 +306,7 @@ bool SDFBlockFixed::setOutputStream(ByteStream* os, dword first)
 }
 
 
-ByteStream* SDFBlockFixed::generateStream(bool bigendian)
+ByteStreamPtr SDFBlockFixed::generateStream(bool bigendian)
 {
     word mnb = getNumberOfRealDataBlock();
     for(word i = 0; i<mnb; i++)

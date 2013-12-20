@@ -83,7 +83,7 @@ dword SDFBVBlock::getMaxDimension()
 
 
 
-bool SDFBVBlock::setOutputStream(ByteStream* os, dword first)
+bool SDFBVBlock::setOutputStream(ByteStreamPtr os, dword first)
 {
     fixed.setOutputStream(os, first);
     dword nrb = fixed.getNumberOfRealElement();
@@ -98,7 +98,7 @@ bool SDFBVBlock::setOutputStream(ByteStream* os, dword first)
 
 
 
-ByteStream*  SDFBVBlock::generateStream(bool bigendian)
+ByteStreamPtr  SDFBVBlock::generateStream(bool bigendian)
 {
     fixed.generateStream(bigendian);
     word nrb = fixed.getNumberOfRealElement();

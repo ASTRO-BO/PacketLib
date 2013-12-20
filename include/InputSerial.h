@@ -37,7 +37,7 @@ public:
 
     virtual void close() throw(PacketExceptionIO*);
 
-    virtual ByteStream* readByteStream(int n_byte) throw(PacketExceptionIO*);
+    virtual ByteStreamPtr readByteStream(int n_byte) throw(PacketExceptionIO*);
 
     virtual char* readString() throw(PacketExceptionIO*);
 

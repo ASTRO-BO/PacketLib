@@ -35,7 +35,7 @@ public:
 
     virtual bool open( char** parameters ) throw(PacketExceptionIO*) = 0;
 
-    virtual ByteStream* readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
+    virtual ByteStreamPtr readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
 
     virtual char* readString() throw(PacketExceptionIO*) = 0;
 

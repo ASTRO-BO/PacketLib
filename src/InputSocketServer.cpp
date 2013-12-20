@@ -57,7 +57,7 @@ void InputSocketServer::close() throw(PacketExceptionIO*)
 
 
 
-ByteStream* InputSocketServer::readByteStream(dword n_byte) throw(PacketExceptionIO*)
+ByteStreamPtr InputSocketServer::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
     int status = 0;
     if(!accepted)
@@ -68,7 +68,7 @@ ByteStream* InputSocketServer::readByteStream(dword n_byte) throw(PacketExceptio
         eof = false;
     }
 
-    ByteStream* bl = new_sock->recv(n_byte, status);
+    ByteStreamPtr bl = new_sock->recv(n_byte, status);
     if(status == 0)
     {
         accepted = false;
