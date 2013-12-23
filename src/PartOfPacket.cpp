@@ -463,12 +463,31 @@ float PartOfPacket::getFieldValue_5_1(word index)
     union u_tag
     {
     	/// 32 bit
-        unsigned long i;
+        dword i;
         /// 32 bit single precision
         float f;	
     } u;
-    u.i = (getFieldValue(index) << 16) | getFieldValue(index + 1);
+    u.i =  ( (dword) getFieldValue(index) << 16) | ( (dword) getFieldValue(index + 1) );
     return u.f;
+}
+
+double PartOfPacket::getFieldValue_5_2(word index)
+{
+	if(sizeof(unsigned long) == 4) {
+		//TODO
+		cout << "this does not work in a 32 bit system" << endl;
+		exit(0);
+	}
+		
+    union u_tag
+    {
+    	/// 64 bit for 64 bit os)
+        unsigned long i;
+        /// 64 bit double precision
+        double d;	
+    } u;
+    u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+    return u.d;
 }
 
 void PartOfPacket::setFieldValue_5_1(word index, float value)
@@ -486,6 +505,34 @@ void PartOfPacket::setFieldValue_5_1(word index, float value)
     setFieldValue(index, w);
     w = (word)(0xFFFF & u.i);
     setFieldValue(index + 1, w);
+}
+
+void PartOfPacket::setFieldValue_5_2(word index, double value)
+{
+    if(sizeof(unsigned long) == 4) {
+		//TODO
+		cout << "this does not work in a 32 bit system" << endl;
+		exit(0);
+	}
+		
+    union u_tag
+    {
+    	/// 64 bit for 64 bit os)
+        unsigned long i;
+        /// 64 bit double precision
+        double d;	
+    } u;
+    
+    word w;
+    u.d = value;
+    w = (word)( (u.i >> 48) );
+    setFieldValue(index, w);
+    w = (word)( 0xFFFF &  (u.i >> 32) );
+    setFieldValue(index + 1, w);
+    w = (word)( 0xFFFF &  (u.i >> 16) );
+    setFieldValue(index + 2, w);
+    w = (word)(0xFFFF & u.i);
+    setFieldValue(index + 3, w);
 }
 
 signed long PartOfPacket::getFieldValue_4_14(word index)

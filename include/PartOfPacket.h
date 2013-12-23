@@ -102,6 +102,23 @@ public:
     /// This corresponds with the PTC=5, PFC = 1.
     /// \param index Represent the index of the field.
     virtual float getFieldValue_5_1(word index);
+    
+    /// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a real double precision (IEEE 754).
+    /// The index of the argument is the first 16 bit field of the 4 fields that compound
+    /// the 64 bit real double precision. The layout foreseen is the following:
+    /// ---------------------------------
+    /// -	float last 16 bits	-	the index passed as argument
+    /// ---------------------------------
+    /// -	float third 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// -	float second 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// -	float first 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// This corresponds with the PTC=5, PFC = 2.
+    /// \param index Represent the index of the field.
+    virtual double getFieldValue_5_2(word index);
 
     /// Set the value of a field. The value is interpreted as a real single
     /// precision (IEEE 754).
@@ -117,6 +134,25 @@ public:
     /// \param index Represent the index of the field.
     /// \param value The real single precision value
     virtual void setFieldValue_5_1(word index, float value);
+    
+    /// Set the value of a field. The value is interpreted as a real double
+    /// precision (IEEE 754).
+    /// The index of the argument is the first 16 bit field of the 4 fields that compound
+    /// the 64 bit real double precision. The layout foreseen is the following:
+ 	/// ---------------------------------
+    /// -	float last 16 bits	-	the index passed as argument
+    /// ---------------------------------
+    /// -	float third 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// -	float second 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// -	float first 16 bits	-	the index + 1
+    /// ---------------------------------
+    /// This corresponds with the PTC=5, PFC = 2.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param index Represent the index of the field.
+    /// \param value The real double precision value
+    virtual void setFieldValue_5_2(word index, double value);
 
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 32 bit signed integer.
