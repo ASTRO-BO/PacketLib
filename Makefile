@@ -187,7 +187,7 @@ makelibdir:
 
 #clean: delete all files from the current directory that are normally created by building the program. 
 clean:
-	$(DEL_FILE) $(OBJECTS_DIR)/*.o
+	$(DEL_FILE) $(OBJECTS_DIR)/*.o test/*.o
 	$(DEL_FILE) *~ core *.core
 	$(DEL_FILE) $(LIB_DESTDIR)/*.a
 	$(DEL_FILE) $(LIB_DESTDIR)/*.so*
