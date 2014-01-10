@@ -1,3 +1,8 @@
+2014-01-10	Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v3.1.0
+* InputPacketStream: expose ByteStream instead of byte*.
+* Fixed low level buffer (byte*) deallocation.
+
 2013-12-23  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 * PartOfPacket: get set PTC=5 PFC=2 (real double precision) TODO: this does
 not work in a 32 bit system
