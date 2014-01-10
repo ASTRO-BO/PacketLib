@@ -69,14 +69,14 @@ int InputPacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet)
 }
 
 
-int InputPacketStream::detPacketType(byte* packet)
+int InputPacketStream::detPacketType(ByteStreamPtr packet)
 {
     /// Iterate through list and output each element.
     /// The packetType 0 is the packet not recognized
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-        if(p->verifyPacketValue(packet))
+        if(p->verifyPacketValue(packet->stream))
             return i;
     }
     return 0;
@@ -158,7 +158,7 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
     }
 }
 
-dword InputPacketStream::getPacketDimension(byte* stream) {
+dword InputPacketStream::getPacketDimension(ByteStreamPtr stream) {
 		dword dimPre = 0;
 		if(prefix)
 			dimPre += dimPrefix;
@@ -168,18 +168,18 @@ dword InputPacketStream::getPacketDimension(byte* stream) {
 		dword dimHeader = headerReference->getDimension();
 		dim += dimHeader;
 		ByteStreamPtr tempHeader = ByteStreamPtr(new ByteStream());
-		tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
+		tempHeader->setStream(stream->stream+dimPre, dimHeader, bigendian);
 		headerReference->setByteStream(tempHeader);
 		dim += headerReference->getPacketLength();
 		return dim;
 }
 
-Packet* PacketLib::InputPacketStream::decodePacket(byte* stream) {
+Packet* PacketLib::InputPacketStream::decodePacket(ByteStreamPtr stream) {
 
 	int index = detPacketType(stream);
 	if(index > 0) {
 		Packet* p = getPacketType(index);
-		p->setPacketValue(stream);
+		p->setPacketValue(stream->stream);
 		return p;
 	}
 	else
