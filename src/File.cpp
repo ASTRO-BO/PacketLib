@@ -345,3 +345,18 @@ bool File::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
     return true;
 
 }
+
+dword File::fsize(){
+	if(closed)
+		return 0;
+		
+    long prev=ftell(fp);
+    if(prev == -1L)
+    	return 0;
+    fseek(fp, 0L, SEEK_END);
+    long sz=ftell(fp);
+    if(sz == -1L)
+    	return 0;
+    fseek(fp,prev,SEEK_SET); //go back to where we were
+    return sz;
+}

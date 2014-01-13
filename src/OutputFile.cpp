@@ -44,7 +44,12 @@ void OutputFile::close()  throw(PacketExceptionIO*)
 
 bool OutputFile::open(char** parameters) throw(PacketExceptionIO*)
 {
-    file->open(parameters[0], "w");
+	if(parameters[1] != 0) {
+    	file->open(parameters[0], parameters[1]);
+    }	
+    else {
+    	file->open(parameters[0], "w");
+    }
     filename = parameters[0];
     isclosed = false;
     return true;

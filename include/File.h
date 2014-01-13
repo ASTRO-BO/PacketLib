@@ -114,6 +114,9 @@ public:
 
     ///  Count the number of string lines into a text file.
     long getNumberOfStringLines();
+    
+    ///  The dimension of the file
+    dword fsize();
 
     static dword byte_read;
 

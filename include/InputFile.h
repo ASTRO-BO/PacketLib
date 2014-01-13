@@ -35,16 +35,18 @@ public:
 
     virtual bool open( char** parameters ) throw(PacketExceptionIO*);
 
-     virtual void close() throw(PacketExceptionIO*);
+    virtual void close() throw(PacketExceptionIO*);
 
     virtual ByteStreamPtr readByteStream(dword n_byte) throw(PacketExceptionIO*);
 
-     virtual char* readString() throw(PacketExceptionIO*);
+    virtual char* readString() throw(PacketExceptionIO*);
 
     virtual int getType()
     {
         return 0;
     };
+    
+    virtual dword setpos(dword offset) throw(PacketExceptionIO*);
 
 protected:
 

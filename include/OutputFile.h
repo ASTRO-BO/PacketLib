@@ -36,6 +36,8 @@ public:
 
     virtual void close() throw(PacketExceptionIO*);
 
+	///first parameter: filename
+	///second parameter: fopen modes: w, r, a (optional)
     virtual bool open(char** parameters) throw(PacketExceptionIO*);
 
     virtual bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*);
