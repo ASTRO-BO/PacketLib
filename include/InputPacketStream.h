@@ -49,12 +49,12 @@ public:
 
     ///It returns the index of the packet type contained in the stream. The stream* contains also the prefix (if present)
     /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
-    /// \param packet A byte* that contains the packet.
-    int detPacketType(byte* packet);
+    /// \param packet A ByteStream pointer that contains the packet.
+    int detPacketType(ByteStreamPtr packet);
 
 	///It returns the total dimension of the packet contained in the stream (without prefix). The stream* contains also the prefix (if present)
 	///\param The stream with the prefix (if present)
-    dword getPacketDimension(byte* stream);
+    dword getPacketDimension(ByteStreamPtr stream);
 
     /// This method sets the generic input of the stream
     /// \param in An input.
@@ -65,7 +65,7 @@ public:
     /// \return A pointer telemetry packet. Make attention: the object returned is one of the TM packet object of the array of this object. Don't delete it!
     Packet* readPacket() throw(PacketExceptionIO*);
 
-    Packet* decodePacket(byte* stream);
+    Packet* decodePacket(ByteStreamPtr stream);
 
 protected:
 

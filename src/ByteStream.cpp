@@ -134,7 +134,7 @@ PacketLib::ByteStream::~ByteStream()
     {
         ByteStream::count_object_deleted++;
         //cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
-//        delete[] stream;
+        delete[] stream;
         stream = 0;
     }
     else

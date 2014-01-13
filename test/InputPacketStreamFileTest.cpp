@@ -61,7 +61,6 @@ void InputPacketStreamFileTest::test()
 	while(!eof) {
 		if(p != 0) {
 			count++;
-			p->deleteExternalByteStream();
 		}
 		else
 			countbad++;
