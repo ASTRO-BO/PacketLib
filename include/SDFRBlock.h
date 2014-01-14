@@ -95,6 +95,12 @@ public:
     /// Prints the structure of this part of packet
     virtual string* printStructure();
 
+    /// return the related RBBlock structure.
+    SDFRBBlock* getBBlock()
+    {
+        return block;
+    }
+
 protected:
 
     SDFRBBlock* block;

@@ -196,6 +196,22 @@ public:
     /// Prints the structure of this part of packet
     virtual string* printStructure();
 
+    virtual bool hasFixedPart()
+    {
+        return type->fixedPresent;
+    }
+
+    virtual bool hasVariablePart()
+    {
+        return type->variablePresent;
+    }
+
+	/// Return 'the number of rblock types' defined for this rblock. The value is loaded from the config files.
+    virtual word getNumberOfTypes()
+	{
+		return type->numberOfRBlocks;
+	}
+
     PartOfPacket fixed;
 
 protected:
