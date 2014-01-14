@@ -1,3 +1,9 @@
+2014-01-14  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v3.1.1
+* Added long File::fsize()
+* Added dword InputFile::setpos(dword offset) throw(PacketExceptionIO*)
+* installation of packetlib in $(includedir)/packet
+
 2014-01-10	Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v3.1.0
 * InputPacketStream: expose ByteStream instead of byte*.

@@ -42,7 +42,7 @@ libdir=$(exec_prefix)/lib
 # The directory to install the info files in.
 infodir=$(exec_prefix)/info
 # The directory to install the include files in.
-includedir=$(exec_prefix)/include
+includedir=$(exec_prefix)/include/packet
 
 ####### 3) Directories for the compiler
 
