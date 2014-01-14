@@ -55,9 +55,12 @@ public:
     /// are fixed, if false the number of blocks are variable
     bool* numberOfBlockFixed;
 
-    /// Represents the number of blocks (if numberOfBlockFixed is true) or max
+    /// Represents the number of blocks for each rblock (for each data type)
+    /// (if numberOfBlockFixed is true) or max
     /// number of blocks (if numberOfBlockFixed is false) in the structure of
-    /// source data field. This variable not represent the effective number of
+    /// source data field. 
+    /// This value is read from .packet configuration file.
+    /// This variable not represent the effective number of
     /// block into the stream of data.
     word* maxNumberOfBlock;
 
@@ -78,7 +81,8 @@ public:
     /// Indicates if an rblock has a fixed or variable number of blocks
     bool* rBlockVariable;
 
-    /// The max number of blocks
+    /// The max number of blocks for all rblocks (it is the sum of all maxNumberOfBlock values)
+    /// regardless the rblock type (data type)
     word nblockmax;
 
 
@@ -118,7 +122,7 @@ public:
     virtual void setNumberOfRealDataBlock(word number, word rblockIndex = 0) throw (PacketException*);
 
     /// Get the number of blocks (the number of times that a block of a
-    /// determinated type is repeated) for each type of rblock present.
+    /// determinate type is repeated) for each type of rblock present.
     /// \param rBlockIndex The number of rblock
     virtual word getNumberOfRealDataBlock(word rblockIndex = 0);
 
