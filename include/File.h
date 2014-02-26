@@ -116,7 +116,7 @@ public:
     long getNumberOfStringLines();
     
     ///  The dimension of the file
-    dword fsize();
+    long fsize();
 
     static dword byte_read;
 

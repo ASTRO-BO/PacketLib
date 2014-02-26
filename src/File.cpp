@@ -346,7 +346,7 @@ bool File::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 
 }
 
-dword File::fsize(){
+long File::fsize(){
 	if(closed)
 		return 0;
 		
