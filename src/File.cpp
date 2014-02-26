@@ -233,9 +233,9 @@ char* File::getLastLineRead()
 }
 
 
-dword File::setpos(dword offset)  throw(PacketExceptionIO*)
+long File::setpos(long offset)  throw(PacketExceptionIO*)
 {
-    dword f;
+    long f;
     //clearerr(fp);
     f =  fseek(fp, offset, 0);
     if(feof(fp))
@@ -247,7 +247,7 @@ dword File::setpos(dword offset)  throw(PacketExceptionIO*)
 
 
 
-dword File::getpos()
+long File::getpos()
 {
     return ftell(fp);
 }
@@ -283,7 +283,7 @@ bool File::isEOF()
 
 
 
-int File::setFirstPos()  throw(PacketExceptionIO*)
+long File::setFirstPos()  throw(PacketExceptionIO*)
 {
     return setpos(startPosition);
 }

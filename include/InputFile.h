@@ -46,7 +46,7 @@ public:
         return 0;
     };
     
-    virtual dword setpos(dword offset) throw(PacketExceptionIO*);
+    virtual dword setpos(long offset) throw(PacketExceptionIO*);
 
 protected:
 

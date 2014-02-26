@@ -75,6 +75,6 @@ char* InputFile::readString() throw(PacketExceptionIO*)
     return c;
 }
 
-dword InputFile::setpos(dword offset) throw(PacketExceptionIO*) {
+dword InputFile::setpos(long offset) throw(PacketExceptionIO*) {
 	return file->setpos(offset);
 }

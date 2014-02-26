@@ -78,11 +78,11 @@ public:
 
     ///  Sets the position into file.
     ///  \pre The file must be opened.
-    virtual dword setpos(dword offset) throw(PacketExceptionIO*);
+    virtual long setpos(long offset) throw(PacketExceptionIO*);
 
     ///  Gets the current file position.
     ///  \pre The file must be opened.
-    virtual dword getpos();
+    virtual long getpos();
 
     ///  Stores the current position
     ///  \pre The file must be opened.
@@ -96,7 +96,7 @@ public:
     virtual bool isEOF();
 
     ///  \pre The file must be opened.
-    int setFirstPos() throw(PacketExceptionIO*);
+    long setFirstPos() throw(PacketExceptionIO*);
 
     ///  Changes directory. The path is in the filename of file opened.
     ///  \pre The file name must be set.
@@ -128,9 +128,9 @@ protected:
 
     FILE* fp;
 
-    dword bookmarkPos;
+    long bookmarkPos;
 
-    dword startPosition;
+    long startPosition;
 
     char* filename;
 
