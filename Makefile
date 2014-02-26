@@ -56,11 +56,10 @@ LIB_DESTDIR = lib
 
 ####### 4) Compiler, tools and options
 
-CC       = gcc
 CXX      = g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
 #- g3
-CFLAGS   = -O2 -O0 -m64 -fPIC -g
+CFLAGS   = -O2 -m64 -fPIC -g
 #-O2 -O0 -g3
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include
@@ -131,10 +130,10 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 test/%.o : test/%.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
 
 %.o : %.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
@@ -152,14 +151,14 @@ lib: staticlib
 	
 exe: makeobjdir main.o $(OBJECTS)	
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
 	
 tests: test/runtests
 
 TESTOBJS = test/InputPacketStreamFileTest.o test/runtests.o
 
 test/runtests: $(TESTOBJS) lib
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
 
 
 staticlib: makelibdir makeobjdir $(OBJECTS)	
