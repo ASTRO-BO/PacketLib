@@ -89,7 +89,7 @@ void InputPacketStream::setInput(Input* in)
 
 
 
-Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
+Packet* InputPacketStream::readPacket(bool bDecode) throw(PacketExceptionIO*)
 {
     unsigned dimHeader = getHeaderDimension();
     unsigned dimPrefix = getPrefixDimension();
@@ -145,10 +145,20 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
             else
                 pindex = detPacketType(b0, b1, b2);
         }
-        Packet* p = packetType[pindex];
-        if(!p->setPacketValue(b0, b1, b2)) //gli stream diventano del packet
-            throw new PacketExceptionIO("it is impossible to resolve the packet.");
-        return p;
+
+		Packet* p = packetType[pindex];
+
+		if(bDecode)
+		{
+	        if(!p->setPacketValue(b0, b1, b2)) //gli stream diventano del packet
+	            throw new PacketExceptionIO("it is impossible to resolve the packet.");
+		}
+		else
+		{
+			p->setByteStreamPointers(b0, b1, b2);
+		}
+
+		return p;
     }
     catch(PacketExceptionIO* e)
     {

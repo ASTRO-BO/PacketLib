@@ -292,13 +292,18 @@ void Packet::printIdentifiers()
     }
 }
 
-
-bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
+void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
-    //cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
     ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
     memByteStream(prefix, packet);
+}
+
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
+{
+	setByteStreamPointers(prefix, packetHeader, packetDataField);
+
+    //cout << "@ " << packetDataField->getDimension() << endl;
     /// 1)
     if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
     {
