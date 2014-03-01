@@ -280,11 +280,14 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
         line=fp.getLine("[Fixed Part]");
         if(strcmp(line, "[Fixed Part]") == 0)
         {
+        	fixed.previous = previous; //AB2014
             fixed.loadFields(fp);
         }
         else
             throw new PacketExceptionFileFormat("[Fixed Part] section not found");
-    }
+    } else
+    	fixed.previous = previous;//AB2014
+
     if(type->variablePresent)
     {
         for(int i=0; i< type->numberOfRBlocks; i++)

@@ -96,6 +96,9 @@ PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStream
     byteInTheStream = (b0!=0?b0->getDimension():0) + (b1!=0?b1->getDimension():0) + (b2!=0?b2->getDimension():0);
     stream = (byte*) new byte[byteInTheStream];
     this->bigendian = (b0!=0?b0->isBigendian():(b1!=0?b1->isBigendian():(b2!=0?b2->isBigendian():false)));
+	
+	//TODO AZ: fare il memcpy
+	
     if(b0 != 0)
     {
         dim = b0->getDimension();

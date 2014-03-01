@@ -19,7 +19,7 @@
 #define _SDFRBBLOCK_H
 #include "PacketException.h"
 #include "PartOfPacket.h"
-
+#include <string>
 
 namespace PacketLib
 {
@@ -194,7 +194,7 @@ public:
     virtual void printValueStdout();
 
     /// Prints the structure of this part of packet
-    virtual string* printStructure();
+    virtual std::string* printStructure();
 
     virtual bool hasFixedPart()
     {
