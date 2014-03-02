@@ -29,6 +29,7 @@ PartOfPacket::PartOfPacket(const char* popName)
     numberOfFields = 0;
     fields = 0;
     outputstream = 0;
+	decoded = false;
     this->popName = (char*) popName;
 }
 
@@ -203,8 +204,8 @@ MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
 
 bool PartOfPacket::setByteStream(ByteStreamPtr s)
 {
-    Field* ftemp;
-
+    
+	decoded = false;
     /// If NULL is passed it exits
     if(s == NULL) return true;
 
@@ -217,10 +218,21 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
 
     /// The stream is assigned
     this->stream = s;
+	
+	//decode();
+	return true;
+}
+
+bool PartOfPacket::decode() {
+	if(decoded)
+		return true;
+	Field* ftemp;
     //this->stream->setStream(s, 0, s->getDimension() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
-    byte* stream = (byte*) s->stream;
+    byte* stream = (byte*) this->stream->stream;
+	if(stream == NULL)
+		return false;
     /// It indicates the position inside the word:
     byte posbit = 0;
     /// It indicates the word to be analyzed inside the stream
@@ -242,7 +254,7 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
         byte bl = *(stream + posword + 1);
         //word wordtemp = *(stream + posword);
         word wordtemp;
-        if (s->isBigendian())
+        if (this->stream->isBigendian())
             wordtemp = bh * 256 + bl;
         else
             wordtemp = bl * 256 + bh;
@@ -258,7 +270,7 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
             posword += 2;
             bh = *(stream + posword);
             bl = *(stream + posword + 1);
-            if (s->isBigendian())
+            if (this->stream->isBigendian())
                 wordtemp = bh * 256 + bl;
             else
                 wordtemp = bl * 256 + bh;
@@ -286,6 +298,7 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
             posbit =0;
         }
     }
+	decoded = true;
     return true;
 }
 
@@ -293,6 +306,7 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
 
 char** PartOfPacket::printValue(const char* addString)
 {
+	decode();
     //bool first = true;
     string s1, s2, s3;
     char *s = new char[1];       //importante, altrimenti non funziona
@@ -345,6 +359,7 @@ char** PartOfPacket::printValue(const char* addString)
 
 void PartOfPacket::printValueStdout()
 {
+	decode();
     //bool first = true;
     string s1, s2, s3;
     char *s = new char[1];       //importante, altrimenti non funziona

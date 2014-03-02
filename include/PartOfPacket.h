@@ -74,6 +74,7 @@ public:
     /// \param index Represent the index in the list.
     virtual  inline  Field* getFields(word index)
     {
+		decode();
         if(index < numberOfFields)
             return fields[index];
         else
@@ -84,6 +85,7 @@ public:
     /// \param index Represent the index in the list.
     virtual  inline word getFieldValue(word index)
     {
+		decode();
         if(index < numberOfFields)
             return fields[index]->value;
         else
@@ -305,6 +307,10 @@ public:
 
 protected:
 
+	bool decode();
+	
+	bool decoded;
+	
     /// Represent current stream reads from input.
     ByteStreamPtr stream;
 

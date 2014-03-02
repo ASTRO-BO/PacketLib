@@ -150,7 +150,7 @@ public:
 
     virtual ByteStreamPtr generateStream(bool bigendian);
 
-    virtual bool setByteStream(ByteStreamPtr s);
+    virtual bool setByteStream(ByteStreamPtr s, bool onlySections = false);
 
     virtual ByteStreamPtr getByteStream()
     {

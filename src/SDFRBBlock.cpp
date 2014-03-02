@@ -512,7 +512,7 @@ ByteStreamPtr SDFRBBlock::generateStream(bool bigendian)
     return outputstream;
 }
 
-bool SDFRBBlock::setByteStream(ByteStreamPtr s)
+bool SDFRBBlock::setByteStream(ByteStreamPtr s, bool onlySections)
 {
 	//cout << "bool SDFRBBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
     dword bytestart=0;
@@ -530,6 +530,8 @@ bool SDFRBBlock::setByteStream(ByteStreamPtr s)
                 return false;
         bytestart = bytestop + 1;
     }
+	if(onlySections)
+		return true;
     if(type->variablePresent)
     {
         word bi = 0;

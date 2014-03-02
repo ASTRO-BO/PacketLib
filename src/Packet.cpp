@@ -293,7 +293,7 @@ void Packet::printIdentifiers()
 }
 
 
-bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool onlySections)
 {
     //cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
@@ -324,7 +324,7 @@ bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, By
         return false;
     }
     /// 5)
-    if(!setPacketValueSourceDataField(packetDataField))
+    if(!setPacketValueSourceDataField(packetDataField, onlySections))
     {
         PRINTERROR("Error in set packet value source data field");
         return false;
@@ -341,13 +341,13 @@ bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, By
 
 
 
-bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet, bool onlySections)
 {
     dword dimHeader = header->getDimension();
     memByteStream(prefix, packet);
     tempHeader->setStream(packet, 0, dimHeader-1);
     tempDataField->setStream(packet, dimHeader, packet->getDimension());
-    return setPacketValue(prefix, tempHeader, tempDataField);
+    return setPacketValue(prefix, tempHeader, tempDataField, onlySections);
 }
 
 
@@ -596,7 +596,7 @@ bool Packet::setPacketValueDataFieldHeader(ByteStreamPtr packetDataField)
 }
 
 
-bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField)
+bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, bool onlySections)
 {
     bool b;
     dword packetLength;
@@ -624,7 +624,7 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField)
     b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
     if(b)
     {
-        bool ret = dataField->sourceDataField->setByteStream(tempPacketDataField);
+        bool ret = dataField->sourceDataField->setByteStream(tempPacketDataField, onlySections);
         //word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
         return ret;
     }
@@ -806,10 +806,10 @@ bool Packet::verifyPacketValue(byte* stream) {
 	return verifyPacketValue(prefix, packet);
 }
 
-bool Packet::setPacketValue(byte* stream) {
+bool Packet::setPacketValue(byte* stream, bool onlySections) {
 	dword dimPre = 0;
 	if(thereisprefix)
-			dimPre += dimPrefix;
+			dimPre = dimPrefix;
 	ByteStreamPtr prefix = ByteStreamPtr(new ByteStream(stream, dimPre, bigendian));
 
 	dword dim = 0;
@@ -820,6 +820,6 @@ bool Packet::setPacketValue(byte* stream) {
 	dim += header->getPacketLength() + 1;
 	ByteStreamPtr packet = ByteStreamPtr(new ByteStream(stream+dimPre, dim, bigendian));
 
-	return setPacketValue(prefix, packet);
+	return setPacketValue(prefix, packet, onlySections);
 
 }

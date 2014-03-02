@@ -70,14 +70,14 @@ public:
     /// \param packetHeader This is the header of the packet
     /// \param packetDataField This is the data field of the packet
     /// \post If return is true all the fields are set with the correct value.
-    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool onlySections = false);
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet
     /// \param packet This is the packet
     /// \post If return is true all the fields are set with the correct value.
-    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet, bool onlySections = false);
 
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
     ///	\pre The structure of the stream must be loaded.
@@ -92,7 +92,7 @@ public:
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     /// \param stream A pointer to the stream of byte, with prefix and packet
-    bool setPacketValue(byte* stream);
+    bool setPacketValue(byte* stream, bool onlySections = false);
 
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
     ///	\pre The structure of the stream must be loaded.
@@ -248,7 +248,7 @@ protected:
 
     bool setPacketValueDataFieldHeader(ByteStreamPtr packetDataField);
 
-    bool setPacketValueSourceDataField(ByteStreamPtr packetDataField);
+    bool setPacketValueSourceDataField(ByteStreamPtr packetDataField, bool onlySections = false);
 
     bool setPacketValueHeader(ByteStreamPtr header);
 

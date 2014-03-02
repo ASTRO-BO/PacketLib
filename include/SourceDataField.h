@@ -32,6 +32,9 @@ public:
     SourceDataField(const char* sdfName = 0);
 
     virtual ~SourceDataField();
+	
+	/// Sets the stream of byte. This method assigns the value of stream for each field of part of packet
+    virtual bool setByteStream(ByteStreamPtr s, bool onlySections = false) { PartOfPacket::setByteStream(s); };
 
     /// Gets the total max dimension in bytes of source data field
     virtual dword getMaxDimension() = 0;

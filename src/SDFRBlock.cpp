@@ -72,6 +72,17 @@ SDFRBBlock* SDFRBlock::getBlock(word nblock,word rBlockIndex)
     return block[0].getBlock(nblock, rBlockIndex);
 }
 
+/*
+ByteStreamPtr SDFRBlock::getVariablePart() {
+	ByteStreamPtr fixed = getFixedPart();
+	int fixedpartdim = fixed->getDimension();
+	int sdfdim = getDimension();
+    ByteStreamPtr sdfbs = getByteStream();
+	ByteStreamPtr camera = ByteStreamPtr(new ByteStream(sdfbs->stream+fixedpartdim, sdfdim-fixedpartdim, sdfbs->isBigendian()));
+	return camera;
+}
+*/
+
 dword SDFRBlock::getMaxDimension()
 {
     return block[0].getMaxDimension();
@@ -80,6 +91,11 @@ dword SDFRBlock::getMaxDimension()
 dword SDFRBlock::getDimension()
 {
     return block[0].getDimension();
+}
+
+dword SDFRBlock::getDimensionFixedPart()
+{
+    return block[0].fixed.getDimension();
 }
 
 void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
@@ -107,10 +123,10 @@ ByteStreamPtr SDFRBlock::generateStream(bool bigendian)
     return block[0].generateStream(bigendian);
 }
 
-bool SDFRBlock::setByteStream(ByteStreamPtr s)
+bool SDFRBlock::setByteStream(ByteStreamPtr s, bool onlySections)
 {
     stream = s;
-    return block[0].setByteStream(s);
+    return block[0].setByteStream(s, onlySections);
 }
 
 Field* SDFRBlock::getFields(word index)

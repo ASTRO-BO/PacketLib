@@ -49,6 +49,10 @@ public:
     /// It's possibile to pass 0 as pointer.
     /// The mamory of byte* is allocated.
     ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStreamPtr b2);
+	
+	/// Creates a new ByteStream from start to end
+	/// If end=-1 use the end of the b0
+    ByteStream(ByteStreamPtr b0, dword start, dword end=-1, bool memory_sharing=true);
 
     ~ByteStream();
 

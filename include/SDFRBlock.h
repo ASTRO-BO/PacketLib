@@ -33,6 +33,8 @@ public:
     SDFRBlock(PartOfPacket* pop = 0);
 
     virtual ~SDFRBlock();
+	
+
 
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
@@ -41,7 +43,12 @@ public:
     /// \param nblock the number of the block
     /// \param rBlockIndex the number of the rblock
     virtual SDFRBBlock* getBlock(word nblock, word rBlockIndex);
-
+	
+	///Get the fixed part of the source data field
+	virtual ByteStreamPtr getFixedPart() { return block[0].fixed.getByteStream(); };
+	
+	///Get the variable part of the source data field
+	//virtual ByteStreamPtr getVariablePart();
     
     /// Returns a pointer of a field in the fixed part of this source data field.
     /// \param index Represent the index in the list.
@@ -65,8 +72,10 @@ public:
     virtual dword getMaxDimension();
 
     virtual dword getDimension();
+	
+	virtual dword getDimensionFixedPart();
 
-    virtual bool setByteStream(ByteStreamPtr s);
+    virtual bool setByteStream(ByteStreamPtr s, bool onlySections = false);
 
     virtual bool setOutputStream(ByteStreamPtr os, dword first);
 

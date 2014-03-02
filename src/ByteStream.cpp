@@ -75,6 +75,22 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
     mem_allocation_constructor = false;
 }
 
+PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, dword start, dword end, bool memory_sharing) {
+	mem_allocation_constructor = true;
+	
+	if(end == -1)
+		end = b0->getDimension();
+	
+	byteInTheStream = end-start;
+    this->stream = b0->stream+start;
+    this->bigendian = b0->isBigendian();
+    if(!memory_sharing)
+        swapWordIfStreamIsLittleEndian();
+	
+	setMemoryAllocated(!memory_sharing);
+	mem_allocation_constructor = false;
+}
+
 
 PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStreamPtr b2)
 {
