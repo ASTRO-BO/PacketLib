@@ -1,3 +1,10 @@
+2014-03-02  Andrea Bulgarelli, Andrea Zoli <bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it>
+TAG v3.2.0
+* added (1) decoding only section (bool onlySections), (2) PartOfPacket::decode() only on demand (3) ByteStream(ByteStreamPtr b0, dword start, dword end, bool memory_sharing)
+* SDFRBBlock management of headers at different levels
+* Changes in makefile (Etienne suggestion)
+* File seek and ftell as long
+
 2014-01-14  Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v3.1.1
 * Added long File::fsize()
