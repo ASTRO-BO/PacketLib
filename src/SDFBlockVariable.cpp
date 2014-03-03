@@ -29,12 +29,12 @@ bool SDFBlockVariable::loadFields(InputText& fp) throw(PacketException*)
 {
     try
     {
-        char* line, *linesection;
+        char* line, *linesection = NULL;
         word indexOfNElement;
         unsigned addToNElements;
         word maxNumberOfElement;
         bool first1 = true, first2 = true;
-        MemoryBuffer* buffer1, *buffer2;
+        MemoryBuffer* buffer1, *buffer2 = NULL;
 
         line = fp.getLine();
         if(strcmp(line, "fixed") == 0)

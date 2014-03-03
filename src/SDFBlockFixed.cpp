@@ -264,12 +264,12 @@ dword SDFBlockFixed::getDimension(word nblock)
 dword SDFBlockFixed::getMaxDimension()
 {
 	/// Event dimension
-    dword dimOfEventBlock;        
+    dword dimOfEventBlock = 0;
     if(block != NULL)
         dimOfEventBlock = block[0].getDimension();
     else
     {
-        ;                        //TODO lanciare una eccezione
+        throw PacketException("Error on SDFBlockFixed::getMaxDimension: block is NULL");
     }
     return dimOfEventBlock * maxNumberOfBlock[0];
 }

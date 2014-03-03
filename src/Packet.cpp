@@ -402,7 +402,7 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
     for(unsigned i = 0; i< number_of_identifier; i++)
     {
         PacketIdentifier* pi = identifiers[i];
-        Field* f;
+        Field* f = NULL;
         switch(pi->type)
         {
         case 0:
@@ -416,7 +416,7 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
             f = dataField->sourceDataField->getFields(pi->fieldNumber);
             break;
         }
-        if(f->value != pi->value)
+        if(f == NULL || f->value != pi->value)
         {
             verified = false;
             break;
