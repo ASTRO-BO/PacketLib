@@ -108,49 +108,16 @@ int File::getByte()
 
 ByteStreamPtr File::getNByte(dword N)
 {
-    dword i = 0;
-    int c1, c2;
-    if(N == 0)
-        return ByteStreamPtr(new ByteStream(0, bigendian));
-    //solo un numero pari di byte
-    //if(N%2 != 0 || !fileOpened) return NULL;
+	if(N == 0)
+		return ByteStreamPtr(new ByteStream(0, bigendian));
 
-    if(closed) return NULL;
-
-    //ByteStreamPtr b = new ByteStream(N, bigendian);
     byte* stream = (byte*) new byte[N];
+	size_t result = fread(stream, 1, N, fp);
+	byte_read += result;
+	if(result != N)
+		eof = true;
 
-    for(i = 0; i<N && (c1 = getByte()) != EOI && (c2 = getByte()) != EOI; i+=2)
-    {
-        //File::byte_read += 2;
-        stream[i] = c1;
-        stream[i+1] = c2;
-        /*        if(bigendian)
-                {
-                    //se la  macchina e' bigendian, non e' necessario effettuare scambi di byte
-                    b->stream[i] = c1;
-                    b->stream[i+1] = c2;
-                }
-                else                     //little endian
-                {
-                    //se la macchina lavora in little endian, per "far tornare i conti" e' necessario
-                    //invertire i byte letti
-                    b->stream[i] = c2;
-                    b->stream[i+1] = c1;
-                }*/
-    }
-    /*if(i != N)
-    {
-        ByteStreamPtr b1 = new ByteStream(i, bigendian);
-        for(int j = 0; j<i; j++)
-            b1->stream[j] = b->stream[j];
-        delete b;
-        b = b1;
-    } */
-    //for(; i<N; i++)
-    //	b->stream[i] = 0;
-    //return b;
-    return ByteStreamPtr(new ByteStream(stream, i, bigendian, false));
+    return ByteStreamPtr(new ByteStream(stream, result, bigendian, false));
 }
 
 

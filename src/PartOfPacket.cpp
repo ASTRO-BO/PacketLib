@@ -51,7 +51,7 @@ PartOfPacket::~PartOfPacket()
 string* PartOfPacket::printStructure()
 {
     bool first = true;
-    char *s;
+    char *s = NULL;
 
     for(unsigned i=0; i< numberOfFields; i++)
     {
@@ -280,7 +280,7 @@ bool PartOfPacket::decode() {
             /*		cout << i << ": " << ftemp->value << endl;
             		cout << i << ": " << (ftemp->value << currentDimBit) << endl;
             		cout << i << ": " << wordtemp << endl;*/
-            ftemp->value = (ftemp->value) | wordtemp & pattern[dimbit];
+            ftemp->value = ftemp->value | (wordtemp & pattern[dimbit]);
             /*		cout << i << ": " << ftemp->value << endl;
             		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
         }

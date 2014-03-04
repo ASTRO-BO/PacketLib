@@ -64,6 +64,9 @@ public:
     /// correct value
     virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
 
+	/// Set the internal prefix and packet. Decode only the header.
+	virtual void setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
+
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     ///	\pre The structure of the stream must be loaded.
     /// \param prefix This is the prefix of the packet

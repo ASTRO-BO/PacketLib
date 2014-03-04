@@ -292,13 +292,18 @@ void Packet::printIdentifiers()
     }
 }
 
-
-bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool onlySections)
+void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
-    //cout << "@ " << packetDataField->getDimension() << endl;
     memByteStream(prefix, packetHeader, packetDataField);
     ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
     memByteStream(prefix, packet);
+}
+
+bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool onlySections)
+{
+	setByteStreamPointers(prefix, packetHeader, packetDataField);
+
+    //cout << "@ " << packetDataField->getDimension() << endl;
     /// 1)
     if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
     {
@@ -397,7 +402,7 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
     for(unsigned i = 0; i< number_of_identifier; i++)
     {
         PacketIdentifier* pi = identifiers[i];
-        Field* f;
+        Field* f = NULL;
         switch(pi->type)
         {
         case 0:
@@ -411,7 +416,7 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
             f = dataField->sourceDataField->getFields(pi->fieldNumber);
             break;
         }
-        if(f->value != pi->value)
+        if(f == NULL || f->value != pi->value)
         {
             verified = false;
             break;

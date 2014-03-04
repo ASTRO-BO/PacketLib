@@ -62,8 +62,9 @@ public:
 
     /// This method read a telemetry packet
     /// \pre The setInput method must be invocated
+    /// \param bDecode if true decode the method will decode the data fields.
     /// \return A pointer telemetry packet. Make attention: the object returned is one of the TM packet object of the array of this object. Don't delete it!
-    Packet* readPacket() throw(PacketExceptionIO*);
+    Packet* readPacket(bool bDecode = true) throw(PacketExceptionIO*);
 
     Packet* decodePacket(ByteStreamPtr stream);
 
