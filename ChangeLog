@@ -1,3 +1,9 @@
+2014-03-05  Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v 3.3.0
++ ByteStream use memcpy instead of a loop to copy buffers.
++ Using fread inside File::getNByte.
++ bDecode option for readPacket.
+
 2014-03-02  Andrea Bulgarelli, Andrea Zoli <bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it>
 TAG v3.2.0
 * added (1) decoding only section (bool onlySections), (2) PartOfPacket::decode() only on demand (3) ByteStream(ByteStreamPtr b0, dword start, dword end, bool memory_sharing)
