@@ -95,6 +95,7 @@ public:
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
     /// \param stream A pointer to the stream of byte, with prefix and packet
+	/// \param decode only the sections
     bool setPacketValue(byte* stream, bool onlySections = false);
 
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.

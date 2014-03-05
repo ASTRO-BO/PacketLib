@@ -38,6 +38,7 @@ PacketStream::PacketStream(const char* fileNameConfig)
     //TODO
     memset(packetType, 0, sizeof(Packet*)*100);
     pathFileNameConfig = 0;
+	dimHeader = 0;
 }
 
 
@@ -52,6 +53,7 @@ PacketStream::PacketStream()
     //TODO
     memset(packetType, 0, sizeof(Packet*)*100);
     pathFileNameConfig = 0;
+	dimHeader = 0;
 }
 
 
@@ -139,6 +141,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     throw new PacketExceptionFileFormat("No parameters in file header format");
                     return false;
                 }
+				dimHeader = headerReference->getDimension();
                 /// It creates the PACKET NOT RECOGNIZED
                 PacketNotRecognized* p = new PacketNotRecognized(bigendian);
                 if(!p->createPacketType(line, prefix, dimPrefix))
@@ -214,10 +217,7 @@ word PacketStream::getPrefixDimension() const
 
 word PacketStream::getHeaderDimension() const
 {
-    if(headerReference != 0)
-        return headerReference->getDimension();
-    else
-        return 0;
+	return dimHeader;
 }
 
 

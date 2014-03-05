@@ -86,6 +86,9 @@ protected:
 
     /// Indicates the dimension of prefix.
     word dimPrefix;
+	
+	/// The dimension of the header
+	word dimHeader;
 
 };
 

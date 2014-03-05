@@ -787,7 +787,7 @@ char* Packet::printPacketOutputStream()
     dword dim = getDimension();
     if(thereisprefix)
         dim += dimPrefix;
-    ByteStream b(packet_output->stream, dim, bigendian);
+    ByteStream b(packet_output->stream, dim, bigendian); //FIXME
     char* c = b.printStreamInHexadecimal();
     return c;
 }
