@@ -39,7 +39,6 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
 {
     try
     {
-        char* line;
         numberOfRBlocks = 1;
         rblockFilename = new char* [numberOfRBlocks];
         numberOfBlockFixed[0] = true;
@@ -56,7 +55,7 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
         block[0].loadFields(fp);
         fp.setpos(0);
         /// It gets the [Identifiers] section
-        line = fp.getLine("[Identifiers]"); 
+        fp.getLine("[Identifiers]");
         return true;
     }
     catch(PacketExceptionIO* e)

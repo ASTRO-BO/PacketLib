@@ -32,7 +32,7 @@ class SharedPtr
 	SharedPtr() : p(0), c(0) {}
 	explicit SharedPtr(T* s) : p(s), c(new unsigned(1)) {}
 
-	SharedPtr(int null) : p(0), c(0) {}
+	SharedPtr(void* null) : p(0), c(0) {}
 
 	SharedPtr(const SharedPtr& s) : p(s.p), c(s.c) { if(c) ++*c; }
 
