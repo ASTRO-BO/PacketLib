@@ -89,7 +89,7 @@ void InputPacketStream::setInput(Input* in)
 
 
 
-Packet* InputPacketStream::readPacket(bool bDecode) throw(PacketExceptionIO*)
+Packet* InputPacketStream::readPacket(int decodeType) throw(PacketExceptionIO*)
 {
     unsigned dimHeader = getHeaderDimension();
     unsigned dimPrefix = getPrefixDimension();
@@ -148,9 +148,10 @@ Packet* InputPacketStream::readPacket(bool bDecode) throw(PacketExceptionIO*)
 
 		Packet* p = packetType[pindex];
 
-		if(bDecode)
+		if(decodeType > 0)
 		{
-	        if(!p->setPacketValue(b0, b1, b2)) //gli stream diventano del packet
+			bool onlySection = decodeType==1?true:false;
+	        if(!p->setPacketValue(b0, b1, b2, onlySection)) //gli stream diventano del packet
 	            throw new PacketExceptionIO("it is impossible to resolve the packet.");
 		}
 		else
@@ -184,13 +185,24 @@ dword InputPacketStream::getPacketDimension(ByteStreamPtr stream) {
 		return dim;
 }
 
-Packet* PacketLib::InputPacketStream::decodePacket(ByteStreamPtr stream) {
+Packet* PacketLib::InputPacketStream::getPacket(ByteStreamPtr stream, int decodeType) throw(PacketException*){
 
 	int index = detPacketType(stream);
 	if(index > 0) {
 		Packet* p = getPacketType(index);
-		p->setPacketValue(stream->stream);
+		
+		if(decodeType > 0)
+		{
+			bool onlySection = decodeType==1?true:false;
+	        if(!p->setPacketValue(stream->stream, onlySection)) //gli stream diventano del packet
+	            throw new PacketExceptionIO("it is impossible to resolve the packet.");
+		}
+		else
+		{
+			p->setByteStreamPointers(0, stream);
+		}
 		return p;
+		
 	}
 	else
 		return 0;

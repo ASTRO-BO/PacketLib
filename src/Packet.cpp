@@ -299,6 +299,11 @@ void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHea
     memByteStream(prefix, packet);
 }
 
+void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packet)
+{
+    memByteStream(prefix, packet);
+}
+
 bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool onlySections)
 {
 	setByteStreamPointers(prefix, packetHeader, packetDataField);

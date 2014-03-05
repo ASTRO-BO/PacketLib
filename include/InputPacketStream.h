@@ -64,9 +64,13 @@ public:
     /// \pre The setInput method must be invocated
     /// \param bDecode if true decode the method will decode the data fields.
     /// \return A pointer telemetry packet. Make attention: the object returned is one of the TM packet object of the array of this object. Don't delete it!
-    Packet* readPacket(bool bDecode = true) throw(PacketExceptionIO*);
+    Packet* readPacket(int decodeType = 2) throw(PacketExceptionIO*);
 
-    Packet* decodePacket(ByteStreamPtr stream);
+	/// get a Packet* from a ByteStream
+	/// \pre the prefix has been removed
+	/// \param packet the stream that contains the source packet without the prefix
+	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
+    Packet* getPacket(ByteStreamPtr packet, int decodeType = 2) throw(PacketException*) throw(PacketException*);
 
 protected:
 
