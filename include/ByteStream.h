@@ -129,14 +129,6 @@ public:
     /// Pointer to the stream
     byte* stream;
 
-    static dword count_object;
-
-    static dword count_object2;
-
-    static dword count_object_deleted;
-
-    static dword count_object_deleted2;
-
 protected:
 
     /// Internal use only for memory management
