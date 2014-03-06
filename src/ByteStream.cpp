@@ -21,14 +21,6 @@
 #include "Utility.h"
 using namespace PacketLib;
 
-/// Objects that deallocate memory
-dword ByteStream::count_object = 0;
-/// Objects that do not deallocate memory
-dword ByteStream::count_object2 = 0;
-dword ByteStream::count_object_deleted = 0;
-dword ByteStream::count_object_deleted2 = 0;
-
-
 /// Returns a pointer of a field in the list of fields of this part of packet.
 /// \remarks mem_allocation = true indicates that the allocated memory must be released by the destroyer.
 /// \remarks memory_sharing=false In all methods of constructor or set type accepting byte*, it indicates that the swap is applied. 
@@ -137,15 +129,9 @@ PacketLib::ByteStream::~ByteStream()
 {
     if(mem_allocation)
     {
-        ByteStream::count_object_deleted++;
-        //cout << "ByteStream::~ByteStream() delete[] stream;" << endl;
         delete[] stream;
         stream = 0;
     }
-    else
-        ;
-    // ByteStream::count_object_deleted2++;
-    //cout <<  "ByteStream::~ByteStream()" << endl;
 }
 
 
@@ -382,46 +368,10 @@ void PacketLib::ByteStream::swapWordIfStreamIsBigEndian()
     }
 }
 
-
-
 void PacketLib::ByteStream::setMemoryAllocated(bool allocated)
 {
-
-    if(allocated)
-    {
-        if(mem_allocation_constructor)
-        {
-            ByteStream::count_object ++;
-        }
-        else
-        {
-            if(mem_allocation == false)
-            {
-                ByteStream::count_object2 --;
-                ByteStream::count_object ++;
-            }
-        }
-        mem_allocation = allocated;
-    }
-    else
-    {
-        if(mem_allocation_constructor)
-        {
-            ByteStream::count_object2 ++;
-        }
-        else
-        {
-            if(mem_allocation == true)
-            {
-                ByteStream::count_object --;
-                ByteStream::count_object2 ++;
-            }
-        }
-        mem_allocation = allocated;
-    }
+	mem_allocation = allocated;
 }
-
-
 
 void PacketLib::ByteStream::deleteStreamMemory()
 {
