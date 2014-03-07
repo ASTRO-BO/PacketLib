@@ -603,11 +603,8 @@ bool Packet::setPacketValuePrefix(ByteStreamPtr prefix)
 bool Packet::setPacketValueDataFieldHeader(ByteStreamPtr packetDataField)
 {
     bool b;
-    dword packetLength;
-    /// 4) data field header
-    packetLength = dataField->dataFieldHeader->getDimension();
     /// Reading and setting the data field header
-    b = tempDataFieldHeader->setStream(packetDataField, 0, packetLength-1);
+    b = tempDataFieldHeader->setStream(packetDataField, 0, dimPacketDataFieldHeader-1);
     /// It releases the memory from b only if it goes wrong
     if(b)
     {
@@ -835,20 +832,49 @@ bool Packet::setPacketValue(ByteStreamPtr stream, int decodeType) {
 		return true;
 	}
 	
-	dword dimPre = 0;
 	if(thereisprefix)
-		dimPre = dimPrefix;
-
-	ByteStreamPtr prefix = ByteStreamPtr(new ByteStream(stream->stream, dimPre, bigendian));
-
-	dword dim = 0;
-	dword dimHeader = header->getDimension();
-	dim += dimHeader;
-	tempHeader->setStream(stream->stream+dimPre, dimHeader, bigendian);
+		prefix = ByteStreamPtr(new ByteStream(stream->stream, dimPrefix, bigendian));
+	else
+		prefix = 0;
+	
+	tempHeader->setStream(stream->stream + dimPrefix, dimPacketHeader, bigendian);
 	header->setByteStream(tempHeader);
-	dim += header->getPacketLength() + 1;
-	ByteStreamPtr packet = ByteStreamPtr(new ByteStream(stream->stream+dimPre, dim, bigendian));
+	dword dim = dimPacketHeader + header->getPacketLength() + 1;
+	packet = ByteStreamPtr(new ByteStream(stream->stream + dimPrefix, dim, bigendian));
 
+	//return true;
+	
 	return setPacketValue(prefix, packet, decodeType);
 
+}
+
+ByteStreamPtr Packet::getBSPrefix() {
+	return prefix;
+}
+
+ByteStreamPtr Packet::getBSHeader() {
+	ByteStreamPtr header = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix, dimPacketHeader, bigendian));
+	return header;
+}
+
+ByteStreamPtr Packet::getBSDataFieldHeader() {
+	ByteStreamPtr dfh = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketHeader, dimPacketDataFieldHeader, bigendian));
+	return dfh;
+}
+
+ByteStreamPtr Packet::getBSSourceDataFieldsFixedPart() {
+	ByteStreamPtr sdff = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketHeader + dimPacketDataFieldHeader, dimPacketSourceDataFieldFixed, bigendian));
+	return sdff;
+}
+
+ByteStreamPtr Packet::getBSSourceDataFieldsVariablePart() {
+	dword dimvariablepart = packet->getDimension() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
+	ByteStreamPtr sdff = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketStartingFixedPart, dimvariablepart, bigendian));
+	return sdff;
+}
+
+ByteStreamPtr Packet::getBSTail() {
+	dword dimvariablepart = packet->getDimension() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
+	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->getDimension() - dimPacketTail, dimPacketTail, bigendian));
+	return tail;
 }

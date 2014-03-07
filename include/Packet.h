@@ -53,15 +53,13 @@ public:
     /// This method verifies if the ByteStream on argument contains the correct value
     /// in the identifiers. If this is true, the method return true and the stream
     /// contains a packet of this type. This method overloads another method.
-    /// \post A side effects of this method is that the value of fields of packet are set with
-    /// correct value.
+	/// \post the bytestream is decoded
     virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 
     /// This method verifies if the ByteStream on argument contains the correct value
     /// in the identifiers. If this is true, the method returns true and the stream
     /// contains a packet of this type. This method overloads another method.
-    /// \post A side effect of this method is that the values of fields of packet are set with
-    /// correct value
+    /// \post the bytestream is decoded
     virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
@@ -70,7 +68,7 @@ public:
     /// \param packetHeader This is the header of the packet
     /// \param packetDataField This is the data field of the packet
 	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    /// \post If return is true all the fields are set with the correct value.
+    /// \post the bytestream is decoded
     virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType);
 
     /// Sets all the fields of the packet with correct value contained into the input ByteStream.
@@ -78,7 +76,7 @@ public:
     /// \param prefix This is the prefix of the packet
     /// \param packet This is the packet
 	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    /// \post If return is true all the fields are set with the correct value.
+    /// \post the bytestream is decoded
     virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet, int decodeType);
 
     /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
@@ -105,6 +103,24 @@ public:
     /// \param packetDataField This is the data field of the packet.
     /// \return True if the ByteStream contains a packet.
     virtual bool verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
+	
+	///Get the prefix as a ByteStream
+	ByteStreamPtr getBSPrefix();
+	
+	///Get the header as a ByteStream
+	ByteStreamPtr getBSHeader();
+	
+	///Get the data field header as a ByteStream
+	ByteStreamPtr getBSDataFieldHeader();
+	
+	///Get the fixed part of the source data field as a ByteStream
+	ByteStreamPtr getBSSourceDataFieldsFixedPart();
+	
+	///Get the the variable part of the source data field as a ByteStream
+	ByteStreamPtr getBSSourceDataFieldsVariablePart();
+	
+	///Get the tail as a ByteStream
+	ByteStreamPtr getBSTail();
 
     /// Prints to stdout the value of packet data field in a formatted mode.
     virtual void printPacketValue();
