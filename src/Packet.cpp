@@ -87,6 +87,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                 if(header->loadHeader(line))
                 {
                     /// delete[] line;
+					dimPacketHeader = header->getDimension();
                     /// find the DataFieldHeader section
                     line=file.getLine("[DataFieldHeader]");
                     if(strlen(line) != 0)
@@ -95,6 +96,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                         /// section found
                         if(dataField->dataFieldHeader->loadFields(file))
                         {
+							dimPacketDataFieldHeader = dataField->dataFieldHeader->getDimension();
                             //cout << (dataField->dataFieldHeader->printStructure())->c_str();
                             line=file.getLastLineRead();
                             char *typeOfPacket = 0;
@@ -146,6 +148,9 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                 if(dataField->sourceDataField->loadFields(file))
                                 {
                                     //cout << (dataField->sourceDataField->printStructure())->c_str();
+									dimPacketSourceDataFieldFixed = dataField->sourceDataField->getDimensionFixedPart();
+									dimPacketStartingFixedPart = dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed;
+									
                                     line=file.getLastLineRead();
                                     if(strcmp(line, "[Identifiers]") == 0)
                                     {
@@ -160,7 +165,10 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                                 if(!dataField->tail->loadFields(file))
                                                 {
                                                     throw new PacketExceptionFileFormat("Error in [Tail] section");
-                                                }
+                                                } else
+												{
+													dimPacketTail = dataField->tail->getDimension();
+												}
                                             }
                                             //TODO: chiudere il file anche negli altri casi
                                             file.close();

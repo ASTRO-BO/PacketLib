@@ -52,6 +52,9 @@ public:
 
 
     virtual dword getDimension();
+	
+	
+	virtual dword getDimensionFixedPart() { return 0; };
 
 
     virtual dword getDimension(word nblock);

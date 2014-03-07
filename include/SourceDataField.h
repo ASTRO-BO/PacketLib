@@ -70,6 +70,8 @@ public:
 
     /// Gets the current dimension (in byte) of the source data field.
     virtual dword getDimension();
+	
+	virtual dword getDimensionFixedPart() = 0;
 
     /// Gets the current dimension (in byte) for a single block.
     /// \param block Number of block.

@@ -52,6 +52,8 @@ public:
 
     /// Get the number of bytes of this part of packet.
     virtual dword getDimension();
+	
+	virtual dword getDimensionFixedPart() { return 0; };
 
     /// Get the number of bytes of a block.
     virtual dword getDimension(word block);

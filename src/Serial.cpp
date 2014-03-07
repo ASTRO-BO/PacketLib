@@ -14,8 +14,7 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
- 
-using namespace std;
+
 
 #include "Serial.h"
 #include "PacketLibDemo.h"

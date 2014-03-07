@@ -138,11 +138,18 @@ public:
 
     virtual  char* printPacketOutputStream();
 
-    
-    /// Gets the dimension in byte of the current packet.
+    /// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)
     dword getDimension();
 
+	/// Get dimension in bytes of the fixed part (without tail) = dim(header) + dim(data field header) + dim(source data field fixed)
+	inline dword getDimensionFixedPart() { return dimPacketStartingFixedPart; };
     
+	/// Get dimension of the prefix
+	inline dword getDimensionPrefix() { return dimPrefix; };
+	
+	/// Get dimension of the tail
+    inline dword getDimensionTail() { return dimPacketTail; };
+	
     /// Gets the max dimension in byte of the packet.
     dword getMaxDimension();
 
@@ -262,8 +269,6 @@ protected:
 
     bool thereisprefix;
 
-    word dimPrefix;
-
     /// The name of the file .packet that contains the structure of the packet
     char* filename;
 
@@ -280,6 +285,20 @@ private:
     ByteStreamPtr tempTail;
 
     bool first_output_stream_setted;
+	
+	///dimension in byte of the fixed part - calculated during the load
+	dword dimPrefix;
+	
+	dword dimPacketHeader;
+	
+	dword dimPacketDataFieldHeader;
+	
+	dword dimPacketSourceDataFieldFixed;
+	
+	dword dimPacketTail;
+	
+	///dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed
+	dword dimPacketStartingFixedPart;
 
 };
 

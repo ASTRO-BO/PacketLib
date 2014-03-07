@@ -49,6 +49,8 @@ public:
     virtual void setFieldValue(word index, word value);
 
     virtual dword getMaxDimension();
+	
+	virtual dword getDimensionFixedPart() { return PartOfPacket::getDimension(); };
 
 };
 

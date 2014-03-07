@@ -139,7 +139,7 @@ PacketLib::ByteStream::~ByteStream()
 byte PacketLib::ByteStream::getByte( dword byteNumber)
 {
     DEMORET0;
-    if(byteNumber >= 0 && byteNumber <= byteInTheStream)
+    if(byteNumber <= byteInTheStream)
         return stream[byteNumber];
     else
         return 0;
