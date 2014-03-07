@@ -67,6 +67,82 @@ PacketStream::~PacketStream()
     free(pathFileNameConfig);
 }
 
+dword PacketStream::getPacketDimension(ByteStreamPtr stream) {
+	dword dimPre = 0;
+	if(prefix)
+		dimPre += dimPrefix;
+	//ByteStreamPtr prefix = new ByteStream(stream, dimPre, bigendian);
+	
+	dword dim = 0;
+	dword dimHeader = headerReference->getDimension();
+	dim += dimHeader;
+	ByteStreamPtr tempHeader = ByteStreamPtr(new ByteStream());
+	tempHeader->setStream(stream->stream+dimPre, dimHeader, bigendian);
+	headerReference->setByteStream(tempHeader);
+	dim += headerReference->getPacketLength();
+	return dim;
+}
+
+
+int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
+{
+    ///  Iterate through list and output each element.
+    ///  The packetType 0 is the packet not recognized
+    for (int i = 1; i<numberOfPacketType; i++)
+    {
+        Packet* p = getPacketType(i);
+        if(p->verifyPacketValue(prefix, packetHeader, packetDataField))
+            return i;
+    }
+    return 0;
+}
+
+int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet)
+{
+    /// Iterate through list and output each element.
+    /// The packetType 0 is the packet not recognized
+    for (dword i = 1; i<numberOfPacketType; i++)
+    {
+        Packet* p = getPacketType(i);
+        if(p->verifyPacketValue(prefix, packet))
+            return i;
+    }
+    return 0;
+}
+
+
+int PacketStream::detPacketType(ByteStreamPtr packet)
+{
+    /// Iterate through list and output each element.
+    /// The packetType 0 is the packet not recognized
+    for (dword i = 1; i<numberOfPacketType; i++)
+    {
+        Packet* p = getPacketType(i);
+        if(p->verifyPacketValue(packet->stream))
+            return i;
+    }
+    return 0;
+}
+
+
+
+Packet* PacketStream::getPacket(ByteStreamPtr stream, int decodeType) throw(PacketException*){
+	
+	int index = detPacketType(stream);
+	if(index > 0) {
+		Packet* p = getPacketType(index);
+		
+		if(!p->setPacketValue(stream, decodeType)) //gli stream diventano del packet
+			throw new PacketExceptionIO("it is impossible to resolve the packet.");
+		
+		return p;
+		
+	}
+	else
+		return 0;
+	
+}
+
 
 
 bool PacketStream::createStreamStructure() throw(PacketException*)

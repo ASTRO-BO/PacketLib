@@ -211,7 +211,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
         pnew->createPacketType((char*)sf.c_str(), prefix, dimPrefix);
         p = pnew;
     }
-    if(p->setPacketValue(b0, b1, b2))
+    if(p->setPacketValue(b0, b1, b2, 2))
         return p;
     else
         return NULL;

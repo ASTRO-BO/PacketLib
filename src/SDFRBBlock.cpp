@@ -512,12 +512,15 @@ ByteStreamPtr SDFRBBlock::generateStream(bool bigendian)
     return outputstream;
 }
 
-bool SDFRBBlock::setByteStream(ByteStreamPtr s, bool onlySections)
+bool SDFRBBlock::setByteStream(ByteStreamPtr s, int decodeType)
 {
 	//cout << "bool SDFRBBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
     dword bytestart=0;
     dword bytestop=0;
     this->stream->setStream(s, 0, s->getDimension() - 1);
+	
+	if(decodeType == 0)
+		return true;
 
     //ByteStreamPtr  tmpstream = new ByteStream(s->stream, s->getDimension(), s->isBigendian());
     //ByteStreamPtr s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
@@ -530,7 +533,7 @@ bool SDFRBBlock::setByteStream(ByteStreamPtr s, bool onlySections)
                 return false;
         bytestart = bytestop + 1;
     }
-	if(onlySections)
+	if(decodeType == 1)
 		return true;
     if(type->variablePresent)
     {
@@ -547,14 +550,14 @@ bool SDFRBBlock::setByteStream(ByteStreamPtr s, bool onlySections)
             	/// 1) first of all the fixed part of block[i] must be set 
             	/// before calling  block[i].getDimension(), otherwise only random values are present
                 tempBlock1->setStream(s, bytestart, s->getDimension() - 1);
-                block[i].setByteStream(tempBlock1);
+                block[i].setByteStream(tempBlock1, decodeType);
                 /// 2) Now the correct computation of the dimension can be started
                 if(bytestop != 0)
                     bytestop += block[i].getDimension();
                 else
                     bytestop += block[i].getDimension() - 1;
                 if(tempBlock1->setStream(s, bytestart, bytestop))
-                    if(!block[i].setByteStream(tempBlock1))
+                    if(!block[i].setByteStream(tempBlock1, decodeType))
                         return false;
                 bytestart = bytestop + 1;
             }

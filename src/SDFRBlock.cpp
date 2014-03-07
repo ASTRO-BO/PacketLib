@@ -122,10 +122,10 @@ ByteStreamPtr SDFRBlock::generateStream(bool bigendian)
     return block[0].generateStream(bigendian);
 }
 
-bool SDFRBlock::setByteStream(ByteStreamPtr s, bool onlySections)
+bool SDFRBlock::setByteStream(ByteStreamPtr s, int decodeType)
 {
     stream = s;
-    return block[0].setByteStream(s, onlySections);
+    return block[0].setByteStream(s, decodeType);
 }
 
 Field* SDFRBlock::getFields(word index)

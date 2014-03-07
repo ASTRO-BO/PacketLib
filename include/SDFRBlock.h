@@ -75,7 +75,8 @@ public:
 	
 	virtual dword getDimensionFixedPart();
 
-    virtual bool setByteStream(ByteStreamPtr s, bool onlySections = false);
+	//onlySections = false
+    virtual bool setByteStream(ByteStreamPtr s, int decodeType);
 
     virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
