@@ -1,0 +1,477 @@
+-- name of packet
+GRID events (LAYOUT 2)
+[PacketHeader]
+-- file in cui e' presente la descrizione dell'header
+headerESATM.header
+[DataFieldHeader]
+-- field 0
+TM_VERSION
+2
+1
+-- field 1
+Spare
+3
+0
+-- field 2: 0 NO, 1 YES
+EXT_TIME_TAG
+1
+none
+-- field 3
+Checksum flag
+2
+0
+-- field 4
+Packet Type
+4
+none
+-- field 5
+Packet subtype
+4
+none
+-- field 6
+Time Tag second (MSB)
+16
+none
+-- field 7
+Time Tag second (LSB)
+16
+none
+-- field 8
+Time Tag millisecond
+16
+none
+-- field 9
+Spare
+12
+0
+-- field 10
+Nevents
+4
+none
+[SourceDataField]
+block
+fixed
+--type of number of block: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--supposed number (or max number) of block
+7
+--index of field in the [DataFieldHeader] section wich rappresent the number of event (the number of block) of the packet
+10
+-- offset to be added to the value given by the field m of the Data Field Header in order to obtain the correct value of the number of blocks 
+0
+[SourceDataFieldBlock]
+-- field 0: OBT (preso da scheda BURST)
+TE Internal Counter (MSB)
+16
+none
+-- field 1: OBT
+TE Internal Counter (LSB)
+16
+none
+-- bar 01
+-- EXT_TIME: counter preso da scheda esterna per sincronizzazione con Acquisition System di INFN/TS
+MSB_EXT_TIME_1
+4
+none
+Bar 01 PDA PHA (12 bits)
+12
+none
+MSB_EXT_TIME_2
+4
+none
+Bar 01 PDB PHA (12 bits)
+12
+none
+-- bar 02
+LSB_EXT_TIME_1
+4
+none
+Bar 02 PDA PHA (12 bits)
+12
+none
+LSB_EXT_TIME_2
+4
+none
+Bar 02 PDB PHA (12 bits)
+12
+none
+-- bar 03
+spare
+4
+0
+Bar 03 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 03 PDB PHA (12 bits)
+12
+none
+-- bar 04
+spare
+4
+0
+Bar 04 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 04 PDB PHA (12 bits)
+12
+none
+-- bar 05
+spare
+4
+0
+Bar 05 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 05 PDB PHA (12 bits)
+12
+none
+-- bar 06
+spare
+4
+0
+Bar 06 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 06 PDB PHA (12 bits)
+12
+none
+-- bar 07
+spare
+4
+0
+Bar 07 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 07 PDB PHA (12 bits)
+12
+none
+-- bar 08
+spare
+4
+0
+Bar 08 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 08 PDB PHA (12 bits)
+12
+none
+-- bar 09
+spare
+4
+0
+Bar 09 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 09 PDB PHA (12 bits)
+12
+none
+-- bar 10
+spare
+4
+0
+Bar 10 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 10 PDB PHA (12 bits)
+12
+none
+-- bar 11
+spare
+4
+0
+Bar 11 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 11 PDB PHA (12 bits)
+12
+none
+-- bar 12
+spare
+4
+0
+Bar 12 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 12 PDB PHA (12 bits)
+12
+none
+-- bar 13
+spare
+4
+0
+Bar 13 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 13 PDB PHA (12 bits)
+12
+none
+-- bar 14
+spare
+4
+0
+Bar 14 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 14 PDB PHA (12 bits)
+12
+none
+-- bar 15
+spare
+4
+0
+Bar 15 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 15 PDB PHA (12 bits)
+12
+none
+-- bar 16
+spare
+4
+0
+Bar 16 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 16 PDB PHA (12 bits)
+12
+none
+-- bar 17
+spare
+4
+0
+Bar 17 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 17 PDB PHA (12 bits)
+12
+none
+-- bar 18
+spare
+4
+0
+Bar 18 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 18 PDB PHA (12 bits)
+12
+none
+-- bar 19
+spare
+4
+0
+Bar 19 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 19 PDB PHA (12 bits)
+12
+none
+-- bar 20
+spare
+4
+0
+Bar 20 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 20 PDB PHA (12 bits)
+12
+none
+-- bar 21
+spare
+4
+0
+Bar 21 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 21 PDB PHA (12 bits)
+12
+none
+-- bar 22
+spare
+4
+0
+Bar 22 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 22 PDB PHA (12 bits)
+12
+none
+-- bar 23
+spare
+4
+0
+Bar 23 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 23 PDB PHA (12 bits)
+12
+none
+-- bar 24
+spare
+4
+0
+Bar 24 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 24 PDB PHA (12 bits)
+12
+none
+-- bar 25
+spare
+4
+0
+Bar 25 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 25 PDB PHA (12 bits)
+12
+none
+-- bar 26
+spare
+4
+0
+Bar 26 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 26 PDB PHA (12 bits)
+12
+none
+-- bar 27
+spare
+4
+0
+Bar 27 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 27 PDB PHA (12 bits)
+12
+none
+-- bar 28
+spare
+4
+0
+Bar 28 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 28 PDB PHA (12 bits)
+12
+none
+-- bar 29
+spare
+4
+0
+Bar 29 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 29 PDB PHA (12 bits)
+12
+none
+-- bar 30
+spare
+4
+0
+Bar 30 PDA PHA (12 bits)
+12
+none
+spare
+4
+0
+Bar 30 PDB PHA (12 bits)
+12
+none
+[Identifiers]
+-- id0 APID
+-- field number
+3
+-- type (0 header, 1 data field)
+0
+-- value
+1294
+--id1 type
+4
+1
+15
+--id2 subtype
+5
+1
+1

@@ -1,0 +1,18 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no)
+no
+[Fixed Part]
+-- field 0
+Spare
+7
+0
+-- field 1
+FEB Addr.
+4
+none
+-- field 2
+Chip Addr.
+5
+none
