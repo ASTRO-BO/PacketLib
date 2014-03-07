@@ -4,6 +4,9 @@
 	0) do not decode anything
 	1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part)
 	3) decode blocks (all sections + all blocks of the source data field variable part
++ move InputPacketStream::detPacketType to PacketStream
++ move InputPacketStream::getPacketDimension to PacketStream
++ moved Packet::setByteStreamPointers into protected section
 
 2014-03-06  Andrea Bulgarelli, Andrea Zoli <bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it>
 TAG v3.4.0
