@@ -17,6 +17,7 @@ TAG v4.0.0
 + removed all the code of packet types 1, 2, and 3
 + Packet::getBSPacket()
 
+
 2014-03-06  Andrea Bulgarelli, Andrea Zoli <bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it>
 TAG v3.4.0
 + Packet* InputPacketStream::readPacket(int decodeType) and Packet* getPacket(ByteStreamPtr packet, int decodeType = 2)
