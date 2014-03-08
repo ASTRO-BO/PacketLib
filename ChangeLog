@@ -1,4 +1,5 @@
-
+2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v4.0.0
 + moved InputPacketStream::getPacket() to PacketStream
 + changed "onlySections" into decodeType:
 	0) do not decode anything
@@ -7,6 +8,14 @@
 + move InputPacketStream::detPacketType to PacketStream
 + move InputPacketStream::getPacketDimension to PacketStream
 + moved Packet::setByteStreamPointers into protected section
++ in Packet added dimPacketHeader, dimPacketDataFieldHeader, dimPacketSourceDataFieldFixed, dimPacketTail, dimPacketStartingFixedPart and related methods
++ Added Packet:: getBSPrefix(), getBSHeader(), getBSDataFieldHeader(), getBSSourceDataFieldsFixedPart(), getBSSourceDataFieldsVariablePart(), getBSTail()
++ added Packet::getPacketHeader(), getPacketDataFieldHeader(), getPacketSourceDataField(), getPacketTail()
++ all attributes of Packet and PacketDataField are protected
++ renamed SDFRBBlock in SDFBlock
++ renamed SDFRBlock in SourceDataField
++ removed all the code of packet types 1, 2, and 3
++ Packet::getBSPacket()
 
 2014-03-06  Andrea Bulgarelli, Andrea Zoli <bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it>
 TAG v3.4.0
