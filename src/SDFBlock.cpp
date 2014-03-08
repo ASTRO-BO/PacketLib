@@ -1,5 +1,5 @@
 /***************************************************************************
-                          SDFRBBlock.cpp  -  description
+                          SDFBlock.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
     copyright            : (C) 2001, 2013 by Andrea Bulgarelli
@@ -15,22 +15,22 @@
  *                                                                         *
  ***************************************************************************/
  
-#include "SDFRBBlock.h"
+#include "SDFBlock.h"
 #include "ConfigurationFile.h"
 #include "PacketExceptionFileFormat.h"
 
 using namespace PacketLib;
 
-static SDFRBBlockType** blockTypeList = 0;
+static SDFBlockType** blockTypeList = 0;
 
-long SDFRBBlock::counter = 0;
+long SDFBlock::counter = 0;
 
-SDFRBBlockType::SDFRBBlockType()
+SDFBlockType::SDFBlockType()
 {
-// 	cout << "SDFRBBlockType::SDFRBBlockType " << sizeof(SDFRBBlockType) << endl;
+// 	cout << "SDFBlockType::SDFBlockType " << sizeof(SDFBlockType) << endl;
 }
 
-bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
+bool SDFBlockType::loadType(InputText& fp) throw(PacketException*)
 {
 
     char* popName = fp.getInputTextName();
@@ -209,17 +209,17 @@ bool SDFRBBlockType::loadType(InputText& fp) throw(PacketException*)
     return true;
 }
 
-SDFRBBlock::SDFRBBlock() : block(0)
+SDFBlock::SDFBlock() : block(0)
 {
     tempBlock1 = ByteStreamPtr(new ByteStream());
     counter++;
-    //cout << counter << " " << sizeof(SDFRBBlock) << endl;
+    //cout << counter << " " << sizeof(SDFBlock) << endl;
 
     /// create BlockType list
     if(blockTypeList == 0)
     {
         dword nb = CONFIG_MAXNUMBER_OFCONFIGILES;
-        blockTypeList = (SDFRBBlockType**) new SDFRBBlockType* [nb];
+        blockTypeList = (SDFBlockType**) new SDFBlockType* [nb];
         for(dword i = 0; i<nb; i++)
             blockTypeList[i] = 0;
     }
@@ -227,13 +227,13 @@ SDFRBBlock::SDFRBBlock() : block(0)
 }
 
 
-SDFRBBlock::~SDFRBBlock()
+SDFBlock::~SDFBlock()
 {
     delete[] block;
 }
 
 
-bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
+bool SDFBlock::loadFields(InputText& fp) throw (PacketException*)
 {
 // 	cout << "0------" << endl;
     char* line;
@@ -258,7 +258,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
     if(type == 0)
     {
 //     	cout << "create the type " << popName << endl;
-        type = new SDFRBBlockType;
+        type = new SDFBlockType;
         blockTypeList[indexlist] = type;
         type->loadType(fp);
 
@@ -298,7 +298,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
     if(type->variablePresent)
     {
 // 		cout << "CP --- " << type->name << endl;
-        block = (SDFRBBlock*) new SDFRBBlock[type->nblockmax];
+        block = (SDFBlock*) new SDFBlock[type->nblockmax];
 
         int indexRBlock = 0;
         dword sumBlock = type->maxNumberOfBlock[indexRBlock];
@@ -339,7 +339,7 @@ bool SDFRBBlock::loadFields(InputText& fp) throw (PacketException*)
 }
 
 //OK
-dword SDFRBBlock::getMaxDimension()
+dword SDFBlock::getMaxDimension()
 {
 	/// for fixed part
     dword dim = fixed.getDimension(); 
@@ -352,7 +352,7 @@ dword SDFRBBlock::getMaxDimension()
     return dim;
 }
 
-dword SDFRBBlock::getDimension()
+dword SDFBlock::getDimension()
 {
 	/// for fixed part
     dword dim = fixed.getDimension(); 
@@ -371,7 +371,7 @@ dword SDFRBBlock::getDimension()
     return dim;
 }
 
-SDFRBBlock* SDFRBBlock::getBlock(word nblock, word rBlockIndex)
+SDFBlock* SDFBlock::getBlock(word nblock, word rBlockIndex)
 {
     word bi = 0;
     word rbi = 0;
@@ -386,7 +386,7 @@ SDFRBBlock* SDFRBBlock::getBlock(word nblock, word rBlockIndex)
 }
 
 
-void SDFRBBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
+void SDFBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
 {
 
 	/// In case the variable part is not present or rBlockVariable = false,
@@ -416,7 +416,7 @@ void SDFRBBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (
 }
 
 
-word SDFRBBlock::getNumberOfRealDataBlock(word rblockIndex)
+word SDFBlock::getNumberOfRealDataBlock(word rblockIndex)
 {
     if(!type->variablePresent)
         return 0;
@@ -447,7 +447,7 @@ word SDFRBBlock::getNumberOfRealDataBlock(word rblockIndex)
 }
 
 
-word SDFRBBlock::getCurrentNumberOfBlocks()
+word SDFBlock::getCurrentNumberOfBlocks()
 {
     word nblock = 0;
     for(int i=0; i< type->numberOfRBlocks; i++)
@@ -455,7 +455,7 @@ word SDFRBBlock::getCurrentNumberOfBlocks()
     return nblock;
 }
 
-bool SDFRBBlock::setOutputStream(ByteStreamPtr os, dword first)
+bool SDFBlock::setOutputStream(ByteStreamPtr os, dword first)
 {
     dword start = first;
     /// It sets the output stream for the fixed part (if present)
@@ -486,7 +486,7 @@ bool SDFRBBlock::setOutputStream(ByteStreamPtr os, dword first)
     return true;
 }
 
-ByteStreamPtr SDFRBBlock::generateStream(bool bigendian)
+ByteStreamPtr SDFBlock::generateStream(bool bigendian)
 {
     if(type->fixedPresent)
         fixed.generateStream(bigendian);
@@ -512,9 +512,9 @@ ByteStreamPtr SDFRBBlock::generateStream(bool bigendian)
     return outputstream;
 }
 
-bool SDFRBBlock::setByteStream(ByteStreamPtr s, int decodeType)
+bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
 {
-	//cout << "bool SDFRBBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
+	//cout << "bool SDFBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
     dword bytestart=0;
     dword bytestop=0;
     this->stream->setStream(s, 0, s->getDimension() - 1);
@@ -569,7 +569,7 @@ bool SDFRBBlock::setByteStream(ByteStreamPtr s, int decodeType)
 }
 
 
-char** SDFRBBlock::printValue(char* addString)
+char** SDFBlock::printValue(char* addString)
 {
     char** cc;
     char** ct;
@@ -613,7 +613,7 @@ char** SDFRBBlock::printValue(char* addString)
     return cc;
 }
 
-void SDFRBBlock::printValueStdout()
+void SDFBlock::printValueStdout()
 {
 
     if(type->fixedPresent)
@@ -641,13 +641,13 @@ void SDFRBBlock::printValueStdout()
 }
 
 
-string* SDFRBBlock::printStructure()
+string* SDFBlock::printStructure()
 {
-    return new string("string* SDFRBBlock::printStructure() - TODO");
+    return new string("string* SDFBlock::printStructure() - TODO");
 }
 
 
-word SDFRBBlock::getTotalNumberOfFields()
+word SDFBlock::getTotalNumberOfFields()
 {
 	/// for fixed part
     word dim = fixed.getNumberOfFields(); 

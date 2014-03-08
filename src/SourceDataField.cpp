@@ -1,8 +1,8 @@
 /***************************************************************************
-                          SDFRBlock.cpp  -  description
+                          SourceDataField  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
+    copyright            : (C) 2001, 2014 by Andrea Bulgarelli
     email                : bulgarelli@iasfbo.inaf.it
  ***************************************************************************/
 
@@ -15,27 +15,43 @@
  *                                                                         *
  ***************************************************************************/
  
-#include "SDFRBlock.h"
+#include "SourceDataField.h"
 
 using namespace PacketLib;
 
-SDFRBlock::SDFRBlock(PartOfPacket* pop) : SourceDataField("SDF Recoursive Block")
+SourceDataField::SourceDataField(PartOfPacket* pop) 
 {
-    isblock = false;
-    fixed = false;
     rblock = true;
     block = NULL;
     previous = pop;
+	
+	indexOfNBlock = new word(1);
+    subFromNBlock = new word(1);
+    maxNumberOfBlock = new word(1);
+    numberOfRealDataBlock = new word(1);
+    numberOfBlockFixed = new bool(1);
+    indexOfNBlock[0] = 0;
+    subFromNBlock[0] = 0;
+    maxNumberOfBlock[0] = 0;
+    numberOfRealDataBlock[0] = 0;
+    numberOfBlockFixed[0] = false;
+	
+    reset_output_stream = true;
 }
 
-SDFRBlock::~SDFRBlock()
+SourceDataField::~SourceDataField()
 {
-
+	delete indexOfNBlock;
+    delete subFromNBlock;
+    delete maxNumberOfBlock;
+    delete numberOfRealDataBlock;
+    delete numberOfBlockFixed;
+	
     delete[] block;
 
 }
 
-bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
+bool SourceDataField::loadFields(InputText& fp) throw(PacketException*)
 {
     try
     {
@@ -48,7 +64,7 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
         subFromNBlock[0] = 0;
         rblockFilename[0]= (char*)"Source Data Field";
         nblockmax = 1;
-        block = (SDFRBBlock*) new SDFRBBlock[nblockmax];
+        block = (SDFBlock*) new SDFBlock[nblockmax];
         block[0].setPreviousPop(previous);
         block[0].setRBlockType(0);
         block[0].setID(0);
@@ -66,38 +82,36 @@ bool SDFRBlock::loadFields(InputText& fp) throw(PacketException*)
     }
 }
 
-SDFRBBlock* SDFRBlock::getBlock(word nblock,word rBlockIndex)
+char* SourceDataField::printInHexadecimal()
+{
+    dword dim = getDimension();
+    ByteStream b(stream->stream, dim, true);
+    char* c = b.printStreamInHexadecimal();
+    return c;
+}
+
+SDFBlock* SourceDataField::getBlock(word nblock,word rBlockIndex)
 {
     return block[0].getBlock(nblock, rBlockIndex);
 }
 
-/*
-ByteStreamPtr SDFRBlock::getVariablePart() {
-	ByteStreamPtr fixed = getFixedPart();
-	int fixedpartdim = fixed->getDimension();
-	int sdfdim = getDimension();
-    ByteStreamPtr sdfbs = getByteStream();
-	ByteStreamPtr camera = ByteStreamPtr(new ByteStream(sdfbs->stream+fixedpartdim, sdfdim-fixedpartdim, sdfbs->isBigendian()));
-	return camera;
-}
-*/
 
-dword SDFRBlock::getMaxDimension()
+dword SourceDataField::getMaxDimension()
 {
     return block[0].getMaxDimension();
 }
 
-dword SDFRBlock::getDimension()
+dword SourceDataField::getDimension()
 {
     return block[0].getDimension();
 }
 
-dword SDFRBlock::getDimensionFixedPart()
+dword SourceDataField::getDimensionFixedPart()
 {
     return block[0].fixed.getDimension();
 }
 
-void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
+void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
 {
     /// The block[0] is the only block present
     block[0].setNumberOfRealDataBlock(number, rblockIndex);
@@ -105,62 +119,74 @@ void SDFRBlock::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (
 }
 
 
-word SDFRBlock::getNumberOfRealDataBlock(word rblockIndex)
+word SourceDataField::getNumberOfRealDataBlock(word rblockIndex)
 {
     /// The block[0] is the only block present
     return  block[0].getNumberOfRealDataBlock(rblockIndex);
 }
 
 
-bool SDFRBlock::setOutputStream(ByteStreamPtr os, dword first)
+bool SourceDataField::setOutputStream(ByteStreamPtr os, dword first)
 {
     return block[0].setOutputStream(os, first);
 }
 
-ByteStreamPtr SDFRBlock::generateStream(bool bigendian)
+ByteStreamPtr SourceDataField::generateStream(bool bigendian)
 {
     return block[0].generateStream(bigendian);
 }
 
-bool SDFRBlock::setByteStream(ByteStreamPtr s, int decodeType)
+bool SourceDataField::setByteStream(ByteStreamPtr s, int decodeType)
 {
     stream = s;
     return block[0].setByteStream(s, decodeType);
 }
 
-Field* SDFRBlock::getFields(word index)
+Field* SourceDataField::getFields(word index)
 {
     return block[0].getFields(index);
 }
 
-word SDFRBlock::getFieldValue(word index)
+word SourceDataField::getFieldValue(word index)
 {
     return block[0].getFieldValue(index);
 }
 
-void SDFRBlock::setFieldValue(word index, word value)
+void SourceDataField::setFieldValue(word index, word value)
 {
     return block[0].setFieldValue(index, value);
 }
 
-word SDFRBlock::getNumberOfFields()
+word SourceDataField::getNumberOfFields()
 {
     return block[0].getNumberOfFields();
 }
 
-char** SDFRBlock::printValue(char* addString)
+char** SourceDataField::printValue(char* addString)
 {
     return block[0].printValue(addString);
 }
 
-void SDFRBlock::printValueStdout()
+void SourceDataField::printValueStdout()
 {
     block[0].printValueStdout();
 }
 
-string* SDFRBlock::printStructure()
+string* SourceDataField::printStructure()
 {
     return block[0].printStructure();
+}
+
+bool SourceDataField::get_reset_output_stream() const
+{
+    return reset_output_stream;
+}
+
+
+
+void SourceDataField::set_reset_output_stream(bool value)
+{
+    reset_output_stream = value;
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          SDFRBlock.h  -  description
+                          SourceDataField.h  -  description
                              -------------------
     begin                : Thu Nov 29 2001
     copyright            : (C) 2001, 2013 by Andrea Bulgarelli
@@ -15,24 +15,23 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef _SDFRBLOCK_H
-#define _SDFRBLOCK_H
-#include "SourceDataField.h"
+#ifndef _SourceDataField_H
+#define _SourceDataField_H
 #include "PacketException.h"
 #include "PacketExceptionFileFormat.h"
-#include "SDFRBBlock.h"
+#include "SDFBlock.h"
 
 namespace PacketLib
 {
 
 ///	\brief Class which represents the source data field of Layout 4 (see the Interface Control Document).
-class SDFRBlock : public SourceDataField
+class SourceDataField : public PartOfPacket
 {
 public:
 
-    SDFRBlock(PartOfPacket* pop = 0);
+    SourceDataField(PartOfPacket* pop = 0);
 
-    virtual ~SDFRBlock();
+    virtual ~SourceDataField();
 	
 
 
@@ -42,7 +41,7 @@ public:
     /// with the index rBlockIndex.
     /// \param nblock the number of the block
     /// \param rBlockIndex the number of the rblock
-    virtual SDFRBBlock* getBlock(word nblock, word rBlockIndex);
+    virtual SDFBlock* getBlock(word nblock, word rBlockIndex);
 	
 	///Get the fixed part of the source data field
 	virtual ByteStreamPtr getFixedPart() { return block[0].fixed.getByteStream(); };
@@ -106,14 +105,26 @@ public:
     virtual string* printStructure();
 
     /// return the related RBBlock structure.
-    SDFRBBlock* getBBlock()
+    SDFBlock* getBBlock()
     {
         return block;
     }
+	
+	bool get_reset_output_stream() const;
+	
+    void set_reset_output_stream(bool value);
+	
+	char* printInHexadecimal();
+	
+	/// \return true if the packet is structured as a recursive block
+    virtual bool isRBlock()
+    {
+        return rblock;
+    };
 
 protected:
 
-    SDFRBBlock* block;
+    SDFBlock* block;
 
 
     
@@ -132,9 +143,35 @@ protected:
     
     /// The max number of blocks
     word nblockmax;
+	
+	/// MANAGEMENT OF BLOCKS
+	
+    /// Represents the type of number of block. If true the number of blocks
+    /// are fixed, if false the number of blocks are variable
+    bool* numberOfBlockFixed;
+	
+    /// Represents the number of blocks (if numberOfBlockFixed is true) or max
+    /// number of blocks (if numberOfBlockFixed is false) in the structure of
+    /// source data field. This variable not represent the effective number of
+    /// block into the stream of data.
+    word* maxNumberOfBlock;
+	
+    /// Real number of blocks.
+    word* numberOfRealDataBlock;
+	
+    word* indexOfNBlock;
+	
+    /// for variable block, valore da sommare per ottenere il numero di eventi (blocchi) reali.
+    word *subFromNBlock;
+	
+    bool reset_output_stream;
+
+	/// Indicates if the source data field is a recoursive block structure
+    bool rblock;
+	
 
 };
 
 }
 
-#endif /* SDFRBLOCK_H_HEADER_INCLUDED_89D3066E */
+#endif /* SourceDataField_H_HEADER_INCLUDED_89D3066E */

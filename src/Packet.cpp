@@ -94,61 +94,29 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                     {
                         /// delete[] line;
                         /// section found
-                        if(dataField->dataFieldHeader->loadFields(file))
+                        if(dataField->getPacketDataFieldHeader()->loadFields(file))
                         {
-							dimPacketDataFieldHeader = dataField->dataFieldHeader->getDimension();
+							dimPacketDataFieldHeader = dataField->getPacketDataFieldHeader()->getDimension();
                             //cout << (dataField->dataFieldHeader->printStructure())->c_str();
                             line=file.getLastLineRead();
                             char *typeOfPacket = 0;
                             if(strcmp(line, "[SourceDataField]") == 0)
                             {
-                                /// delete[] line;
                                 /// determination of the source data field type
                                 char *block = file.getLine();
                                 bool section_found = false;
-                                if(strcmp(block, "noblock") == 0)
-                                {
-                                    typeOfPacket = file.getLine();
-                                    if(strcmp(typeOfPacket, "fixed") == 0)
-                                        dataField->sourceDataField = (SDFNoBlockFixed*) new SDFNoBlockFixed();
-                                    else
-                                    {
-                                        /*if(strcmp(typeOfPacket, "variable") == 0)
-                                            dataField->sourceDataField = (SDFNoBlockVariable*) new SDFNoBlockVariable();
-                                        else*/
-                                        throw new PacketExceptionFileFormat("It's impossibile to identify the type of source data field. Expected fixed or variable keyword.");
-                                    }
-                                    section_found = true;
-                                }
-                                if(strcmp(block, "block") == 0)
-                                {
-                                    typeOfPacket = file.getLine();
-                                    if(strcmp(typeOfPacket, "fixed") == 0)
-                                        dataField->sourceDataField = (SDFBlockFixed*) new SDFBlockFixed();
-                                    else
-                                    {
-                                        if(strcmp(typeOfPacket, "variable") == 0)
-                                            dataField->sourceDataField = (SDFBlockVariable*) new SDFBlockVariable();
-                                        else
-                                            throw new PacketExceptionFileFormat("It's impossibile to identify the type of source data field. Expected fixed or variable keyword.");
-                                    }
-                                    section_found = true;
-                                }
                                 if(strcmp(block, "rblock") == 0)
                                 {
-                                    dataField->sourceDataField = (SDFRBlock*) new SDFRBlock(dataField->dataFieldHeader);
+                                    dataField->setPacketSourceDataField((SourceDataField*) new SourceDataField(dataField->getPacketDataFieldHeader()));
                                     section_found = true;
                                 }
                                 if(!section_found)
-                                    throw new PacketExceptionFileFormat("It's impossibile to identify the type of source data field. Expected block, noblock or rblock keyword.");
+                                    throw new PacketExceptionFileFormat("It's impossibile to identify the type of source data field. Expected rblock keyword.");
 
-                                //delete[] block;
-                                //delete[] typeOfPacket;
-
-                                if(dataField->sourceDataField->loadFields(file))
+                                if(dataField->getPacketSourceDataField()->loadFields(file))
                                 {
                                     //cout << (dataField->sourceDataField->printStructure())->c_str();
-									dimPacketSourceDataFieldFixed = dataField->sourceDataField->getDimensionFixedPart();
+									dimPacketSourceDataFieldFixed = dataField->getPacketSourceDataField()->getDimensionFixedPart();
 									dimPacketStartingFixedPart = dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed;
 									
                                     line=file.getLastLineRead();
@@ -162,12 +130,12 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                             /// Loading of the tail section
                                             if(strcmp(line, "[Tail]") == 0)
                                             {
-                                                if(!dataField->tail->loadFields(file))
+                                                if(!dataField->getPacketTail()->loadFields(file))
                                                 {
                                                     throw new PacketExceptionFileFormat("Error in [Tail] section");
                                                 } else
 												{
-													dimPacketTail = dataField->tail->getDimension();
+													dimPacketTail = dataField->getPacketTail()->getDimension();
 												}
                                             }
                                             //TODO: chiudere il file anche negli altri casi
@@ -426,11 +394,11 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
             f = header->getFields(pi->fieldNumber);
             break;
         case 1:
-            f = dataField->dataFieldHeader->getFields(pi->fieldNumber);
+            f = dataField->getPacketDataFieldHeader()->getFields(pi->fieldNumber);
             break;
         case 2:
 
-            f = dataField->sourceDataField->getFields(pi->fieldNumber);
+            f = dataField->getPacketSourceDataField()->getFields(pi->fieldNumber);
             break;
         }
         if(f == NULL || f->value != pi->value)
@@ -516,16 +484,16 @@ void Packet::printPacketValue()
     for(int i = 0; pr[i] != 0; i++)
         cout << pr[i] << endl;
     //delete pr;
-    pr = (char**) dataField->dataFieldHeader->printValue();
+    pr = (char**) dataField->getPacketDataFieldHeader()->printValue();
     for(int i = 0; pr[i] != 0; i++)
         cout << pr[i] << endl;
     //delete pr;
-    pr = (char**) dataField->sourceDataField->printValue();
+    pr = (char**) dataField->getPacketSourceDataField()->printValue();
     for(int i = 0; pr[i] != 0; i++)
         cout << pr[i] << endl;
-    if(dataField->tail->getDimension() != 0)
+    if(dataField->getPacketTail()->getDimension() != 0)
     {
-        pr = (char**) dataField->tail->printValue();
+        pr = (char**) dataField->getPacketTail()->printValue();
         for(int i = 0; pr[i] != 0; i++)
             cout << pr[i] << endl;
     }
@@ -558,12 +526,12 @@ void Packet::generateStream()
         first_output_stream_setted = true;
     }
     //TODO: richiamarlo quando  un block se first_output_stream_setted == true
-    if(dataField->sourceDataField->get_reset_output_stream())
+    if(dataField->getPacketSourceDataField()->get_reset_output_stream())
     {
         header->setOutputStream(packet_output, thereisprefix?dimPrefix:0);
         dataField->setOutputStream(packet_output, dimHeader + (thereisprefix?dimPrefix:0));
 
-        dataField->sourceDataField->set_reset_output_stream(false);
+        dataField->getPacketSourceDataField()->set_reset_output_stream(false);
     }
 
     /// PACKET DIMENSIONE MANAGEMENT
@@ -608,7 +576,7 @@ bool Packet::setPacketValueDataFieldHeader(ByteStreamPtr packetDataField)
     /// It releases the memory from b only if it goes wrong
     if(b)
     {
-        return dataField->dataFieldHeader->setByteStream(tempDataFieldHeader);
+        return dataField->getPacketDataFieldHeader()->setByteStream(tempDataFieldHeader);
     }
     else
         return false;
@@ -624,26 +592,28 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
     /// 5) source data field
 
     /// If necessary, it sets the number of real blocks present
+	/*
     if(dataField->sourceDataField->isBlock())
     {
         dword  nrd = dataField->getNumberOfRealDataBlock();
         dataField->sourceDataField->setNumberOfRealDataBlock(nrd);
     }
+	 /
     /*if(dataField->sourceDataField->isRBlock()) {
       word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
       dataField->sourceDataField->setNumberOfRealDataBlock(nrd);
     }*/
 
 
-    packetLength = dataField->dataFieldHeader->getDimension();
+    packetLength = dataField->getPacketDataFieldHeader()->getDimension();
     dword pl1 = header->getPacketLength();
-    dword pl3 = dataField->dataFieldHeader->getDimension();
-    dword pl4 = dataField->tail->getDimension();
+    dword pl3 = dataField->getPacketDataFieldHeader()->getDimension();
+    dword pl4 = dataField->getPacketTail()->getDimension();
     packetLength2 = pl1 - pl3 -pl4;
     b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
     if(b)
     {
-        bool ret = dataField->sourceDataField->setByteStream(tempPacketDataField, decodeType);
+        bool ret = dataField->getPacketSourceDataField()->setByteStream(tempPacketDataField, decodeType);
         //word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
         return ret;
     }
@@ -658,7 +628,7 @@ bool Packet::setPacketValueTail(ByteStreamPtr packetDataField)
 {
     bool b;
     dword s, e;
-    if(dataField->tail->getDimension() == 0)
+    if(dataField->getPacketTail()->getDimension() == 0)
         return true;
     /* NON CANCELLLARE: questo codice sotto funziona bene. Si utilizza
     l'altro solo perche' si suppone che il tail sia sempre posizionato alla fine
@@ -668,11 +638,11 @@ bool Packet::setPacketValueTail(ByteStreamPtr packetDataField)
     s = s1 + s2;
     e = s  + dataField->tail->getDimension() - 1;
     */
-    s = packetDataField->getDimension() - dataField->tail->getDimension();
+    s = packetDataField->getDimension() - dataField->getPacketTail()->getDimension();
     e = packetDataField->getDimension() - 1;
     b = tempTail->setStream(packetDataField, s, e);
     if(b)
-        return dataField->tail->setByteStream(tempTail);
+        return dataField->getPacketTail()->setByteStream(tempTail);
     else
         return false;
 }
@@ -761,36 +731,36 @@ char* Packet::printHeaderStream()
 
 char** Packet::printDataFieldHeaderValue()
 {
-    return (char**) dataField->dataFieldHeader->printValue();
+    return (char**) dataField->getPacketDataFieldHeader()->printValue();
 }
 
 char* Packet::printDataFieldHeaderStream()
 {
-    return (char*)dataField->dataFieldHeader->getByteStream()->printStreamInHexadecimal();
+    return (char*)dataField->getPacketDataFieldHeader()->getByteStream()->printStreamInHexadecimal();
 }
 
 char** Packet::printSourceDataFieldValue()
 {
-    return (char**)dataField->sourceDataField->printValue();
+    return (char**)dataField->getPacketSourceDataField()->printValue();
 }
 
 char* Packet::printSourceDataFieldStream()
 {
-    return (char*)dataField->sourceDataField->printInHexadecimal();
+    return (char*)dataField->getPacketSourceDataField()->printInHexadecimal();
 }
 
 char** Packet::printTailValue()
 {
-    if(dataField->tail->getDimension() != 0)
-        return (char**)dataField->tail->printValue();
+    if(dataField->getPacketTail()->getDimension() != 0)
+        return (char**)dataField->getPacketTail()->printValue();
     else
         return 0;
 }
 
 char* Packet::printTailStream()
 {
-    if(dataField->tail->getDimension() != 0)
-        return dataField->tail->getByteStream()->printStreamInHexadecimal();
+    if(dataField->getPacketTail()->getDimension() != 0)
+        return dataField->getPacketTail()->getByteStream()->printStreamInHexadecimal();
 
     else
         return 0;
@@ -852,6 +822,10 @@ ByteStreamPtr Packet::getBSPrefix() {
 	return prefix;
 }
 
+ByteStreamPtr Packet::getBSPacket() {
+	return packet;
+}
+
 ByteStreamPtr Packet::getBSHeader() {
 	ByteStreamPtr header = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix, dimPacketHeader, bigendian));
 	return header;
@@ -878,3 +852,25 @@ ByteStreamPtr Packet::getBSTail() {
 	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->getDimension() - dimPacketTail, dimPacketTail, bigendian));
 	return tail;
 }
+
+
+PacketHeader* Packet::getPacketHeader() {
+	return header;
+}
+
+
+DataFieldHeader* Packet::getPacketDataFieldHeader() {
+	return dataField->getPacketDataFieldHeader();
+}
+
+
+
+SourceDataField* Packet::getPacketSourceDataField() {
+	return dataField->getPacketSourceDataField();
+}
+
+
+PartOfPacket* Packet::getPacketTail() {
+	return dataField->getPacketTail();
+}
+

@@ -37,15 +37,6 @@ public:
 
     ~PacketDataField();
 
-    /// Returns the number of events data block in the source data field.
-    /// Returns 0 if there aren't blocks.
-    word getNumberOfRealDataBlock();
-
-    /// Sets the number of data block presents in the source data field.
-    /// If the number is up of the max number of data block allowed, the
-    /// number of real data blocks is set with the max number of blocks.
-    void setNumberOfRealDataBlock(word number);
-
     /// Total dimension in bytes of data field.
     dword getDimension();
 
@@ -55,9 +46,18 @@ public:
     /// Creates the outputstream ByteStream for the generation of the output stream
     virtual bool setOutputStream(ByteStreamPtr os, word first);
 
-
     virtual ByteStreamPtr generateStream(bool bigendian);
 
+	DataFieldHeader* getPacketDataFieldHeader() { return dataFieldHeader; };
+	
+	SourceDataField* getPacketSourceDataField() { return sourceDataField; };
+	
+	PartOfPacket* getPacketTail() { return tail; };
+	
+	void setPacketSourceDataField(SourceDataField* sdf) { this->sourceDataField = sdf; };
+	
+protected:
+	
     /// Represents the data field header.
     DataFieldHeader *dataFieldHeader;
 

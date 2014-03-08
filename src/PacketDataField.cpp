@@ -57,44 +57,7 @@ dword PacketDataField::getMaxDimension()
 
 
 
-word PacketDataField::getNumberOfRealDataBlock()
-{
-    /// For the packet block case, a field must be present to indicate the number 
-	/// of present blocks, if the number of fixed blocks = false
-    if(sourceDataField->isBlock())
-    {
-        if(!sourceDataField->isNumberOfBlockFixed())
-        {
-            word index = (sourceDataField)->getIndexOfNBlock();
-            Field* f = dataFieldHeader->getFields(index);
-            return (word) f->value + sourceDataField->getSubFromNBlock();
-        }
-        else
-        {
-            /// If the number of fixed blocks is true, it gets the max value
-            return sourceDataField->getMaxNumberOfBlock();
-        }
-    }
 
-    return (word) 0;
-}
-
-
-
-void PacketDataField::setNumberOfRealDataBlock(word number)
-{
-    if(number > sourceDataField->getMaxNumberOfBlock())
-        number =  sourceDataField->getMaxNumberOfBlock();
-    if(sourceDataField->isBlock())
-    {
-        //sourceDataField->getDimension();
-        word index = sourceDataField->getIndexOfNBlock();
-        //word index = dataFieldHeader->getIndexOfNBlock();
-        Field* f = dataFieldHeader->getFields(index);
-        f->value = number - sourceDataField->getSubFromNBlock();
-        sourceDataField->setNumberOfRealDataBlock(number);
-    }
-}
 
 
 

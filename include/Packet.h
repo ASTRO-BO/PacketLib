@@ -25,10 +25,7 @@
 #include "ByteStream.h"
 #include "ConfigurationFile.h"
 #include "Utility.h"
-#include "SDFBlockFixed.h"
-#include "SDFBlockVariable.h"
-#include "SDFNoBlockFixed.h"
-#include "SDFRBlock.h"
+#include "SourceDataField.h"
 #include "PacketException.h"
 #include "PacketExceptionIO.h"
 #include "PacketExceptionFileFormat.h"
@@ -107,6 +104,9 @@ public:
 	///Get the prefix as a ByteStream
 	ByteStreamPtr getBSPrefix();
 	
+	///Get the packet as a ByteStream
+	ByteStreamPtr getBSPacket();
+	
 	///Get the header as a ByteStream
 	ByteStreamPtr getBSHeader();
 	
@@ -121,6 +121,19 @@ public:
 	
 	///Get the tail as a ByteStream
 	ByteStreamPtr getBSTail();
+	
+	///
+	PacketHeader* getPacketHeader();
+	
+	///
+	DataFieldHeader* getPacketDataFieldHeader();
+	
+	///
+	SourceDataField* getPacketSourceDataField();
+	
+	///
+	PartOfPacket* getPacketTail();
+
 
     /// Prints to stdout the value of packet data field in a formatted mode.
     virtual void printPacketValue();
@@ -210,7 +223,11 @@ public:
     bool isBigendian() {
     	return bigendian;
     }
-
+    
+    /// This is the ByteStream generated with generateStream().
+    ByteStreamPtr packet_output;
+	
+protected:
     
     /// This attribute represents the packet header.
     PacketHeader *header;
@@ -226,13 +243,7 @@ public:
     
     /// The ByteStrem of the packet read
     ByteStreamPtr packet;
-
-    
-    /// This is the ByteStream generated with generateStream().
-    ByteStreamPtr packet_output;
-
-
-protected:
+	
 	
 	/// Set the internal prefix and packet.
 	virtual void setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);

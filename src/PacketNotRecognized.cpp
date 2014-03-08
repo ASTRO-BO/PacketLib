@@ -61,7 +61,7 @@ bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dim
 
 PacketNotRecognized::PacketNotRecognized(bool bigendian) : Packet(bigendian)
 {
-    dataField->sourceDataField = 0;
+    dataField->setPacketSourceDataField(0);
 }
 
 
@@ -78,7 +78,7 @@ bool PacketNotRecognized::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr pac
     if(!header->setByteStream(packetHeader))
         return false;
 
-    dataField->dataFieldHeader->memByteStream(packetDataField);
+    dataField->getPacketDataFieldHeader()->memByteStream(packetDataField);
 
     this->prefix = prefix;
 

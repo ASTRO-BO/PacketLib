@@ -9,5 +9,3 @@ true
 headerESATM.header
 [Packet Format]
 39_01.packet
-TC_start.packet
-TC_stop.packet

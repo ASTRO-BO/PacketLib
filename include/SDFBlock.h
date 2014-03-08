@@ -1,5 +1,5 @@
 /***************************************************************************
-                          SDFRBBlock.h  -  description
+                          SDFBlock.h  -  description
                              -------------------
     begin                : Thu Nov 29 2001
     copyright            : (C) 2001, 2013 by Andrea Bulgarelli
@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
  
-#ifndef _SDFRBBLOCK_H
-#define _SDFRBBLOCK_H
+#ifndef _SDFBlock_H
+#define _SDFBlock_H
 #include "PacketException.h"
 #include "PartOfPacket.h"
 #include <string>
@@ -25,12 +25,12 @@ namespace PacketLib
 {
 
 
-class SDFRBBlockType
+class SDFBlockType
 {
 
 public:
 
-    SDFRBBlockType();
+    SDFBlockType();
 
     bool loadType(InputText& fp) throw(PacketException*);
 
@@ -91,12 +91,12 @@ public:
 };
 
 ///The core of the variable packet structure
-class SDFRBBlock : public PartOfPacket
+class SDFBlock : public PartOfPacket
 {
 public:
 
-    SDFRBBlock();
-    virtual ~SDFRBBlock();
+    SDFBlock();
+    virtual ~SDFBlock();
 
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
@@ -109,7 +109,7 @@ public:
     /// with the inndex rBlockIndex.
     /// \param nblock the number of the block
     /// \param rBlockIndex the number of the rblock
-    virtual SDFRBBlock* getBlock(word nblock, word rBlockIndex);
+    virtual SDFBlock* getBlock(word nblock, word rBlockIndex);
 
     virtual dword getMaxDimension();
 
@@ -218,7 +218,7 @@ protected:
 
     virtual word getCurrentNumberOfBlocks();
 
-    SDFRBBlock* block;
+    SDFBlock* block;
 
     /// Real number of blocks.
     word* numberOfRealDataBlock;
@@ -234,7 +234,7 @@ protected:
 
     ByteStreamPtr tempBlock1;
 
-    SDFRBBlockType* type;
+    SDFBlockType* type;
 
     static long counter;
 
@@ -242,4 +242,4 @@ protected:
 
 }
 
-#endif /* SDFRBBLOCK_H_HEADER_INCLUDED_806B7DA0 */
+#endif /* SDFBlock_H_HEADER_INCLUDED_806B7DA0 */
