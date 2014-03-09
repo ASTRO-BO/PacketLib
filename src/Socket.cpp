@@ -79,7 +79,7 @@ bool Socket::send ( ByteStreamPtr b ) const throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();
     //MSG_NOSIGNAL
-    int status = ::send ( m_sock, stream, b->getDimension(),  MSG_DONTROUTE);
+    int status = ::send ( m_sock, stream, b->size(),  MSG_DONTROUTE);
     b->endOutputStream();
     if ( status == -1 )
     {
@@ -109,7 +109,7 @@ ByteStreamPtr Socket::recv (word dim, int & status ) throw(PacketExceptionIO*)
 
     /*if(!bigendian)
     {
-        word dim =  b->getDimension();
+        word dim =  b->size();
         for(word i = 0; i< dim; i+=2) {
             if((dim - i) != 1) { //per dimensioni dispari
                 byte btemp = b->stream[i];

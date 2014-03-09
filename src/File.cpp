@@ -306,7 +306,7 @@ bool File::writeString(const char* str) throw(PacketExceptionIO*)
 bool File::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {
     byte* stream = b->getOutputStream();
-    if(fwrite((void*)stream, b->getDimension(), 1, fp)<1)
+    if(fwrite((void*)stream, b->size(), 1, fp)<1)
         throw new PacketExceptionIO("Can't write stream in the file.");
     b->endOutputStream();
     return true;

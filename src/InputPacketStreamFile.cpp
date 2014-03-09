@@ -103,7 +103,7 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
     numberOfFileStreamPointer = 0;
     inputStream->setFirstPos();
     long count = 0;
-    unsigned dimHeader = headerReference->getDimension();
+    unsigned dimHeader = headerReference->size();
     while(!inputStream->isEOF())
     {
         int pindex = 0;
@@ -113,9 +113,9 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
             return true;
 
         b1 = inputStream->readHeader(dimHeader);
-        if(b1->getDimension() != dimHeader)
+        if(b1->size() != dimHeader)
         {
-            if(b1->getDimension() != 0)
+            if(b1->size() != 0)
                 pindex = 0;
             else
             {
@@ -128,7 +128,7 @@ bool InputPacketStreamFile::freeRun() throw(PacketExceptionIO*)
             headerReference->setByteStream(b1);
             pl = headerReference->getPacketLength();
             b2 = inputStream->readDataField(pl);
-            dim= b2->getDimension();
+            dim= b2->size();
             if(dim != pl)
             {
                 if(dim != 0)
@@ -190,7 +190,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
     type = it->typeOfPacket;
     pos = it->pointerStart;
     inputStream->setpos(pos);
-    int dimHeader = headerReference->getDimension();
+    int dimHeader = headerReference->size();
     b0 = inputStream->readPrefix();
     if((b1 = inputStream->readHeader(dimHeader)) == NULL)
         return NULL;
@@ -211,7 +211,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
         pnew->createPacketType((char*)sf.c_str(), prefix, dimPrefix);
         p = pnew;
     }
-    if(p->setPacketValue(b0, b1, b2, 2))
+    if(p->set(b0, b1, b2))
         return p;
     else
         return NULL;
@@ -267,7 +267,7 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
 {
     ByteStreamPtr b0, b1, b2;
     word pl, dim;
-    unsigned dimHeader = headerReference->getDimension();
+    unsigned dimHeader = headerReference->size();
 
     if(inputStream->isEOF())
         return 0;
@@ -275,13 +275,13 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
     if(inputStream->isEOF())
         return 0;
     b1 = inputStream->readHeader(dimHeader);
-    if(b1->getDimension() != dimHeader)
+    if(b1->size() != dimHeader)
         return 0;
 
     headerReference->setByteStream(b1);
     pl = headerReference->getPacketLength();
     b2 = inputStream->readDataField(pl);
-    dim = b2->getDimension();
+    dim = b2->size();
     if(dim != pl)
         return 0;
 
@@ -289,7 +289,8 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
     for (int i = 1; i<numberOfPacketType; i++)
     {
         p = getPacketType(i);
-        if(p->setAndVerifyPacketValue(b0, b1, b2))
+		p->set(b0, b1, b2);
+        if(p->verify())
         {
             return p;
         }

@@ -74,7 +74,7 @@ dword PacketStream::getPacketDimension(ByteStreamPtr stream) {
 	//ByteStreamPtr prefix = new ByteStream(stream, dimPre, bigendian);
 	
 	dword dim = 0;
-	dword dimHeader = headerReference->getDimension();
+	dword dimHeader = headerReference->size();
 	dim += dimHeader;
 	ByteStreamPtr tempHeader = ByteStreamPtr(new ByteStream());
 	tempHeader->setStream(stream->stream+dimPre, dimHeader, bigendian);
@@ -91,7 +91,8 @@ int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader
     for (int i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-        if(p->verifyPacketValue(prefix, packetHeader, packetDataField))
+		p->set(prefix, packetHeader, packetDataField);
+        if(p->verify())
             return i;
     }
     return 0;
@@ -104,7 +105,8 @@ int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet)
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-        if(p->verifyPacketValue(prefix, packet))
+		p->set(prefix, packet);
+        if(p->verify())
             return i;
     }
     return 0;
@@ -118,7 +120,8 @@ int PacketStream::detPacketType(ByteStreamPtr packet)
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-        if(p->verifyPacketValue(packet->stream))
+		p->set(packet);
+        if(p->verify())
             return i;
     }
     return 0;
@@ -126,13 +129,13 @@ int PacketStream::detPacketType(ByteStreamPtr packet)
 
 
 
-Packet* PacketStream::getPacket(ByteStreamPtr stream, int decodeType) throw(PacketException*){
+Packet* PacketStream::getPacket(ByteStreamPtr stream) throw(PacketException*){
 	
 	int index = detPacketType(stream);
 	if(index > 0) {
 		Packet* p = getPacketType(index);
 		
-		if(!p->setPacketValue(stream, decodeType)) //gli stream diventano del packet
+		if(!p->set(stream)) //gli stream diventano del packet
 			throw new PacketExceptionIO("it is impossible to resolve the packet.");
 		
 		return p;
@@ -217,7 +220,7 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                     throw new PacketExceptionFileFormat("No parameters in file header format");
                     return false;
                 }
-				dimHeader = headerReference->getDimension();
+				dimHeader = headerReference->size();
                 /// It creates the PACKET NOT RECOGNIZED
                 PacketNotRecognized* p = new PacketNotRecognized(bigendian);
                 if(!p->createPacketType(line, prefix, dimPrefix))

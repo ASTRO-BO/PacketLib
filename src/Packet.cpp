@@ -21,6 +21,7 @@
 
 using namespace PacketLib;
 
+#define DECODETYPE 2
 
 Packet::Packet(bool bigendian)
 {
@@ -87,7 +88,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                 if(header->loadHeader(line))
                 {
                     /// delete[] line;
-					dimPacketHeader = header->getDimension();
+					dimPacketHeader = header->size();
                     /// find the DataFieldHeader section
                     line=file.getLine("[DataFieldHeader]");
                     if(strlen(line) != 0)
@@ -96,7 +97,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                         /// section found
                         if(dataField->getPacketDataFieldHeader()->loadFields(file))
                         {
-							dimPacketDataFieldHeader = dataField->getPacketDataFieldHeader()->getDimension();
+							dimPacketDataFieldHeader = dataField->getPacketDataFieldHeader()->size();
                             //cout << (dataField->dataFieldHeader->printStructure())->c_str();
                             line=file.getLastLineRead();
                             char *typeOfPacket = 0;
@@ -116,7 +117,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                 if(dataField->getPacketSourceDataField()->loadFields(file))
                                 {
                                     //cout << (dataField->sourceDataField->printStructure())->c_str();
-									dimPacketSourceDataFieldFixed = dataField->getPacketSourceDataField()->getDimensionFixedPart();
+									dimPacketSourceDataFieldFixed = dataField->getPacketSourceDataField()->sizeFixedPart();
 									dimPacketStartingFixedPart = dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed;
 									
                                     line=file.getLastLineRead();
@@ -135,13 +136,21 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
                                                     throw new PacketExceptionFileFormat("Error in [Tail] section");
                                                 } else
 												{
-													dimPacketTail = dataField->getPacketTail()->getDimension();
+													dimPacketTail = dataField->getPacketTail()->size();
+													line = file.getLastLineRead();
+													if(strcmp(line, "[Algorithms]") == 0) {
+														//select CRC algorithm
+														char *crcAlg = file.getLine();
+														//select compression algorithm
+														char *compressionAlgo = file.getLine();
+														//TODO
+													}
 												}
                                             }
                                             //TODO: chiudere il file anche negli altri casi
                                             file.close();
                                             /// Memory allocation for the output stream
-                                            dword dimpo = getMaxDimension();
+                                            dword dimpo = sizeMax();
                                             dword dimpr = (isprefix?dimprefix:0);
                                             packet_output = ByteStreamPtr(new ByteStream(dimpo + dimpr, bigendian));
 
@@ -268,27 +277,16 @@ void Packet::printIdentifiers()
     }
 }
 
-void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
-{
-    memByteStream(prefix, packetHeader, packetDataField);
-    ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
-    memByteStream(prefix, packet);
-}
 
-void Packet::setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packet)
-{
-    memByteStream(prefix, packet);
-}
+
 
 bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType)
 {
 
-	setByteStreamPointers(prefix, packetHeader, packetDataField);
-
 	if(decodeType == 0)
 		return true;
 	
-    //cout << "@ " << packetDataField->getDimension() << endl;
+    //cout << "@ " << packetDataField->size() << endl;
     /// 1)
     if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
     {
@@ -331,43 +329,22 @@ bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, By
 
 
 
-bool Packet::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet, int decodeType)
-{
-    dword dimHeader = header->getDimension();
-    memByteStream(prefix, packet);
-    tempHeader->setStream(packet, 0, dimHeader-1);
-    tempDataField->setStream(packet, dimHeader, packet->getDimension());
-    return setPacketValue(prefix, tempHeader, tempDataField, decodeType);
-}
-
-
-
-bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
-{
-    dword dimHeader = header->getDimension();
-    memByteStream(prefix, packet);
-    tempHeader->setStream(packet, 0, dimHeader-1);
-    tempDataField->setStream(packet, dimHeader, packet->getDimension());
-    return verifyPacketValue(prefix, tempHeader, tempDataField);
-}
-
-
-
-bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
+bool Packet::verify()
 {
     bool verified = true;
-    memByteStream(prefix, packetHeader, packetDataField);
+	
+	ByteStreamPtr packetHeader = header->getByteStream();
+	ByteStreamPtr packetDataField = dataField->getByteStream();
+    
     if(type_of_identifier[2] == true)
     {
-        if(!setPacketValue(prefix, packetHeader, packetDataField, 2))
+        if(!setPacketValue(prefix, packetHeader, packetDataField, DECODETYPE))
         {
             return false;
         }
     }
     else
     {
-        if(!setPacketValueVerify(prefix, packetHeader, packetDataField))
-            return false;
         if(type_of_identifier[1] == true)
         {
             if(!setPacketValueDataFieldHeader(packetDataField))
@@ -376,30 +353,30 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
         if(type_of_identifier[0] == true)
             if(!setPacketValueHeader(packetHeader))
                 return false;
-
+		
         if(!setPacketValuePrefix(prefix))
             return false;
-
-
+		
+		
     }
     ///  Iterate through list and verify each element.
-
+	
     for(unsigned i = 0; i< number_of_identifier; i++)
     {
         PacketIdentifier* pi = identifiers[i];
         Field* f = NULL;
         switch(pi->type)
         {
-        case 0:
-            f = header->getFields(pi->fieldNumber);
-            break;
-        case 1:
-            f = dataField->getPacketDataFieldHeader()->getFields(pi->fieldNumber);
-            break;
-        case 2:
-
-            f = dataField->getPacketSourceDataField()->getFields(pi->fieldNumber);
-            break;
+			case 0:
+				f = header->getFields(pi->fieldNumber);
+				break;
+			case 1:
+				f = dataField->getPacketDataFieldHeader()->getFields(pi->fieldNumber);
+				break;
+			case 2:
+				
+				f = dataField->getPacketSourceDataField()->getFields(pi->fieldNumber);
+				break;
         }
         if(f == NULL || f->value != pi->value)
         {
@@ -407,72 +384,7 @@ bool Packet::verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader,
             break;
         }
     }
-    if(verified==false)
-        return false;
-    else
-        return true;
-}
-
-
-bool Packet::setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet)
-{
-    dword dimHeader = header->getDimension();
-    memByteStream(prefix, packet);
-    tempHeader->setStream(packet, 0, dimHeader-1);
-    tempDataField->setStream(packet, dimHeader, packet->getDimension());
-    return setAndVerifyPacketValue(prefix, tempHeader, tempDataField);
-}
-
-
-bool Packet::setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
-{
-    memByteStream(prefix, packetHeader, packetDataField);
-    ByteStreamPtr packet = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
-    memByteStream(prefix, packet);
-    if(verifyPacketValue(prefix, packetHeader, packetDataField)==false)
-    {
-        PRINTERROR("Error in verify packet value");
-        return false;
-    }
-    // se arrivo qui, allora devo settare il resto
-    if(type_of_identifier[2] == false)
-    {
-
-        if(type_of_identifier[0] == false)
-        {
-            if(!setPacketValueHeader(packetHeader))
-            {
-                PRINTERROR("Error in set packet value header");
-                return false;
-            }
-        }
-
-
-
-        if(type_of_identifier[1] == false)
-        {
-            if(!setPacketValueDataFieldHeader(packetDataField))
-            {
-                PRINTERROR("Error in set packet value data field header");
-                return false;
-            }
-        }
-
-        if(!setPacketValueSourceDataField(packetDataField, 2))
-        {
-            PRINTERROR("Error in set packet value source data field");
-            return false;
-        }
-
-        if(!setPacketValueTail(packetDataField))
-        {
-            PRINTERROR("Error in set packet value tail");
-            return false;
-        }
-
-    }
-    return true;
-
+	return verified;
 }
 
 
@@ -491,7 +403,7 @@ void Packet::printPacketValue()
     pr = (char**) dataField->getPacketSourceDataField()->printValue();
     for(int i = 0; pr[i] != 0; i++)
         cout << pr[i] << endl;
-    if(dataField->getPacketTail()->getDimension() != 0)
+    if(dataField->getPacketTail()->size() != 0)
     {
         pr = (char**) dataField->getPacketTail()->printValue();
         for(int i = 0; pr[i] != 0; i++)
@@ -502,23 +414,27 @@ void Packet::printPacketValue()
 
 
 
-dword Packet::getDimension()
+dword Packet::size()
 {
-    return header->getDimension() + dataField->getDimension();
+	if(!decodedPacketHeader) {
+		setPacketValueHeader(getBSHeader());
+		decodedPacketHeader = true;
+	}
+	return dimPacketHeader + header->getPacketLength();
 }
 
 
-dword Packet::getMaxDimension()
+dword Packet::sizeMax()
 {
-    dword dimh = header->getDimension();
-    dword dimdf = dataField->getMaxDimension();
+    dword dimh = dimPacketHeader;
+    dword dimdf = dataField->sizeMax();
     return dimh + dimdf;
 }
 
 
 void Packet::generateStream()
 {
-    word dimHeader = header->getDimension();
+    word dimHeader = header->size();
 
     if(first_output_stream_setted == false)
     {
@@ -535,9 +451,9 @@ void Packet::generateStream()
     }
 
     /// PACKET DIMENSIONE MANAGEMENT
-    header->setPacketLength(dataField->getDimension());
+    header->setPacketLength(dataField->size());
     //Field* f = header->getFieldWithPacketDimension();
-    //f->value = dataField->getDimension() - 1;
+    //f->value = dataField->size() - 1;
 
     header->generateStream(bigendian);
     dataField->generateStream(bigendian);
@@ -552,7 +468,7 @@ bool Packet::setPacketValueVerify(ByteStreamPtr prefix, ByteStreamPtr packetHead
     if(packetHeader == NULL || packetDataField == NULL)
         return false;
     /// Second check: dimension control
-    if(header->getDimension() != packetHeader->getDimension())
+    if(header->size() != packetHeader->size())
         return false;
     return true;
 }
@@ -605,10 +521,10 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
     }*/
 
 
-    packetLength = dataField->getPacketDataFieldHeader()->getDimension();
+    packetLength = dataField->getPacketDataFieldHeader()->size();
     dword pl1 = header->getPacketLength();
-    dword pl3 = dataField->getPacketDataFieldHeader()->getDimension();
-    dword pl4 = dataField->getPacketTail()->getDimension();
+    dword pl3 = dataField->getPacketDataFieldHeader()->size();
+    dword pl4 = dataField->getPacketTail()->size();
     packetLength2 = pl1 - pl3 -pl4;
     b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
     if(b)
@@ -628,18 +544,18 @@ bool Packet::setPacketValueTail(ByteStreamPtr packetDataField)
 {
     bool b;
     dword s, e;
-    if(dataField->getPacketTail()->getDimension() == 0)
+    if(dataField->getPacketTail()->size() == 0)
         return true;
     /* NON CANCELLLARE: questo codice sotto funziona bene. Si utilizza
     l'altro solo perche' si suppone che il tail sia sempre posizionato alla fine
     del packet
-    word s1 = dataField->dataFieldHeader->getDimension();
-    word s2 = dataField->sourceDataField->getDimension();
+    word s1 = dataField->dataFieldHeader->size();
+    word s2 = dataField->sourceDataField->size();
     s = s1 + s2;
-    e = s  + dataField->tail->getDimension() - 1;
+    e = s  + dataField->tail->size() - 1;
     */
-    s = packetDataField->getDimension() - dataField->getPacketTail()->getDimension();
-    e = packetDataField->getDimension() - 1;
+    s = packetDataField->size() - dataField->getPacketTail()->size();
+    e = packetDataField->size() - 1;
     b = tempTail->setStream(packetDataField, s, e);
     if(b)
         return dataField->getPacketTail()->setByteStream(tempTail);
@@ -660,35 +576,20 @@ bool Packet::setPacketValueHeader(ByteStreamPtr packetHeader)
         return true;
 }
 
-void Packet::memByteStream(ByteStreamPtr prefix, ByteStreamPtr packet)
-{
-    this->prefix = prefix;
-    this->packet = packet;
-}
 
-
-
-void Packet::memByteStream(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
-{
-    this->prefix = prefix;
-    //this->packet = 0;
-    this->header->memByteStream(packetHeader);
-    this->dataField->memByteStream(packetDataField);
-}
 
 
 
 ByteStreamPtr Packet::getOutputStream()
 {
+	//TODO: check
     generateStream();
-    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, getDimension() + (thereisprefix?dimPrefix:0), bigendian));
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, size() + (thereisprefix?dimPrefix:0), bigendian));
     return b;
 }
 
 ByteStreamPtr Packet::getInputStream()
 {
-    if(packet == 0)
-        packet = ByteStreamPtr(new ByteStream(header->getByteStream(), dataField->getByteStream(), 0));
     return packet;
 }
 
@@ -751,7 +652,7 @@ char* Packet::printSourceDataFieldStream()
 
 char** Packet::printTailValue()
 {
-    if(dataField->getPacketTail()->getDimension() != 0)
+    if(dataField->getPacketTail()->size() != 0)
         return (char**)dataField->getPacketTail()->printValue();
     else
         return 0;
@@ -759,7 +660,7 @@ char** Packet::printTailValue()
 
 char* Packet::printTailStream()
 {
-    if(dataField->getPacketTail()->getDimension() != 0)
+    if(dataField->getPacketTail()->size() != 0)
         return dataField->getPacketTail()->getByteStream()->printStreamInHexadecimal();
 
     else
@@ -768,7 +669,7 @@ char* Packet::printTailStream()
 
 char* Packet::printPacketOutputStream()
 {
-    dword dim = getDimension();
+    dword dim = size();
     if(thereisprefix)
         dim += dimPrefix;
     ByteStream b(packet_output->stream, dim, bigendian); //FIXME
@@ -776,47 +677,107 @@ char* Packet::printPacketOutputStream()
     return c;
 }
 
-bool Packet::verifyPacketValue(byte* stream) {
 
 
-	dword dimPre = 0;
-	if(thereisprefix)
-	        dimPre += dimPrefix;
-	ByteStreamPtr prefix = ByteStreamPtr(new ByteStream(stream, dimPre, bigendian));
+bool Packet::set(ByteStreamPtr stream, bool checkPacketLength) {
 
-	dword dim = 0;
-	dword dimHeader = header->getDimension();
-	dim += dimHeader;
-	tempHeader->setStream(stream+dimPre, dimHeader, bigendian);
-	header->setByteStream(tempHeader);
-	dim += header->getDimensionOfPacketLength() + 1;
-	ByteStreamPtr packet = ByteStreamPtr(new ByteStream(stream+dimPre, dim, bigendian));
-
-	return verifyPacketValue(prefix, packet);
-}
-
-bool Packet::setPacketValue(ByteStreamPtr stream, int decodeType) {
+	//save a pointer to the current stream to avoid shareptr deallocation
+	this->stream = stream;
+	decodedPacketHeader = false;
+	decodedPacketDataFieldHeader = false;
+	decodedPacketSourceDataField = false;
+	decodedPacketTail = false;
 	
-	if(decodeType == 0 && !thereisprefix) {
-		setByteStreamPointers(0, stream);
-		return true;
+	if(!checkPacketLength)
+	{
+		
+		if(thereisprefix) {
+			prefix = ByteStreamPtr(new ByteStream(stream->stream, dimPrefix, bigendian));
+			packet = ByteStreamPtr(new ByteStream(stream->stream + dimPrefix, stream->size() - dimPrefix, bigendian));
+			//return true;
+		}
+		else
+		{
+			prefix = 0;
+			packet = stream;
+			//return true;
+		}
 	}
-	
-	if(thereisprefix)
-		prefix = ByteStreamPtr(new ByteStream(stream->stream, dimPrefix, bigendian));
 	else
-		prefix = 0;
-	
-	tempHeader->setStream(stream->stream + dimPrefix, dimPacketHeader, bigendian);
-	header->setByteStream(tempHeader);
-	dword dim = dimPacketHeader + header->getPacketLength() + 1;
-	packet = ByteStreamPtr(new ByteStream(stream->stream + dimPrefix, dim, bigendian));
-
-	//return true;
-	
-	return setPacketValue(prefix, packet, decodeType);
+	{
+		if(thereisprefix)
+			prefix = ByteStreamPtr(new ByteStream(stream->stream, dimPrefix, bigendian));
+		else
+			prefix = 0;
+		
+		tempHeader->setStream(stream->stream + dimPrefix, dimPacketHeader, bigendian);
+		header->setByteStream(tempHeader);
+		dword dim = dimPacketHeader + header->getPacketLength();
+		if(dimPrefix + dim > stream->size()) {
+			this->packet = 0;
+			throw new PacketException("Packet::set - the ByteStream is too small for the packet lenght of this packet");
+		}
+		
+		packet = ByteStreamPtr(new ByteStream(stream->stream + dimPrefix, dim, bigendian));
+	}
+	//TODO OPTIMIZATION: set the followin method only when is needed
+	setByteStreamSections(); //10 per cent of time loss but safer
+	return true;
 
 }
+
+bool Packet::set(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLength) {
+	
+	this->stream = 0;
+	decodedPacketHeader = false;
+	decodedPacketDataFieldHeader = false;
+	decodedPacketSourceDataField = false;
+	decodedPacketTail = false;
+	
+	if(!checkPacketLength)
+	{
+		this->prefix = prefix;
+		this->packet = packet;
+	}
+	else
+	{
+		this->prefix = prefix;
+		tempHeader->setStream(packet->stream + dimPrefix, dimPacketHeader, bigendian);
+		header->setByteStream(tempHeader);
+		dword dim = dimPacketHeader + header->getPacketLength();
+		if(dimPrefix + dim > packet->size()) {
+			this->packet = 0;
+			throw new PacketException("Packet::set - the ByteStream is too small for the packet lenght of this packet");
+		}
+		this->packet = packet;
+	}
+	//TODO OPTIMIZATION: set the following method only when is needed
+	setByteStreamSections(); //10 per cent of time loss but safer
+	return true;
+	
+}
+
+
+
+bool Packet::set(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght) {
+	//merge packetHeader and packetDataField
+	ByteStreamPtr tmpPacket = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
+	return set(prefix, tmpPacket, checkPacketLenght);
+	
+}
+
+
+void Packet::setByteStreamSections()
+{
+
+	//ByteStreamPtr tempHeader = ByteStreamPtr(new ByteStream(packet, 0, dimPacketHeader-1));
+	//ByteStreamPtr tempDataField = ByteStreamPtr(new ByteStream(packet, dimPacketHeader, packet->size()));
+	tempHeader->setStream(packet, 0, dimPacketHeader-1);
+    tempDataField->setStream(packet, dimPacketHeader, packet->size());
+    this->header->memByteStream(tempHeader);
+    this->dataField->memByteStream(tempDataField);
+}
+
 
 ByteStreamPtr Packet::getBSPrefix() {
 	return prefix;
@@ -842,35 +803,51 @@ ByteStreamPtr Packet::getBSSourceDataFieldsFixedPart() {
 }
 
 ByteStreamPtr Packet::getBSSourceDataFieldsVariablePart() {
-	dword dimvariablepart = packet->getDimension() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
+	dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
 	ByteStreamPtr sdff = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketStartingFixedPart, dimvariablepart, bigendian));
 	return sdff;
 }
 
 ByteStreamPtr Packet::getBSTail() {
-	dword dimvariablepart = packet->getDimension() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
-	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->getDimension() - dimPacketTail, dimPacketTail, bigendian));
+	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
+	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
 	return tail;
 }
 
 
 PacketHeader* Packet::getPacketHeader() {
+	if(!decodedPacketHeader) {
+		setPacketValueHeader(getBSHeader());
+		decodedPacketHeader = true;
+	}
 	return header;
 }
 
 
 DataFieldHeader* Packet::getPacketDataFieldHeader() {
+	if(!decodedPacketDataFieldHeader) {
+		setPacketValueDataFieldHeader(dataField->getByteStream());
+		decodedPacketDataFieldHeader = true;
+	}
 	return dataField->getPacketDataFieldHeader();
 }
 
 
 
 SourceDataField* Packet::getPacketSourceDataField() {
+	if(!decodedPacketSourceDataField) {
+		setPacketValueSourceDataField(dataField->getByteStream(), DECODETYPE);
+		decodedPacketSourceDataField = true;
+	}
 	return dataField->getPacketSourceDataField();
 }
 
 
 PartOfPacket* Packet::getPacketTail() {
+	if(!decodedPacketTail) {
+		setPacketValueTail(getBSTail());
+		decodedPacketTail = true;
+	}
 	return dataField->getPacketTail();
 }
 

@@ -71,7 +71,7 @@ PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, dword start, dword end, bool
 	mem_allocation_constructor = true;
 	
 	if(end == -1)
-		end = b0->getDimension();
+		end = b0->size();
 	
 	byteInTheStream = end-start;
     this->stream = b0->stream+start;
@@ -100,24 +100,24 @@ PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStream
         mem_allocation_constructor = false;
         return;
     }
-    byteInTheStream = (b0!=0?b0->getDimension():0) + (b1!=0?b1->getDimension():0) + (b2!=0?b2->getDimension():0);
+    byteInTheStream = (b0!=0?b0->size():0) + (b1!=0?b1->size():0) + (b2!=0?b2->size():0);
     stream = (byte*) new byte[byteInTheStream];
     this->bigendian = (b0!=0?b0->isBigendian():(b1!=0?b1->isBigendian():(b2!=0?b2->isBigendian():false)));
 
 	if(b0 != 0)
 	{
-		memcpy(stream, b0->stream, b0->getDimension());
-		dim += b0->getDimension();
+		memcpy(stream, b0->stream, b0->size());
+		dim += b0->size();
 	}
 	if(b1 != 0)
 	{
-		memcpy(stream+dim, b1->stream, b1->getDimension());
-		dim += b1->getDimension();
+		memcpy(stream+dim, b1->stream, b1->size());
+		dim += b1->size();
 	}
 	if(b2 != 0)
 	{
-		memcpy(stream+dim, b2->stream, b2->getDimension());
-		dim += b2->getDimension();
+		memcpy(stream+dim, b2->stream, b2->size());
+		dim += b2->size();
 	}
     setMemoryAllocated(true);
     mem_allocation_constructor = false;
@@ -240,7 +240,7 @@ void PacketLib::ByteStream::endOutputStream()
 }
 
 
-dword PacketLib::ByteStream::getDimension()
+dword PacketLib::ByteStream::size()
 {
     return byteInTheStream;
 }
@@ -286,7 +286,7 @@ bool PacketLib::ByteStream::setStream(ByteStreamPtr b, dword first, dword last)
 {
     if(first > last)
         return false;
-    if(last > b->getDimension())
+    if(last > b->size())
         return false;
 
     deleteStreamMemory();

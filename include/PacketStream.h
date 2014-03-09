@@ -41,7 +41,7 @@ public:
 	/// \pre the prefix has been removed
 	/// \param packet the stream that contains the source packet without the prefix
 	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    Packet* getPacket(ByteStreamPtr packet, int decodeType = 2) throw(PacketException*);
+    Packet* getPacket(ByteStreamPtr stream) throw(PacketException*);
 	
 	/// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).

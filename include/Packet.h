@@ -30,6 +30,15 @@
 #include "PacketExceptionIO.h"
 #include "PacketExceptionFileFormat.h"
 
+//Packet::size()
+//stream = prefix + packet
+//Packet::set(ByteStreamPtr stream)
+//Packet::set(ByteStreamPtr prefix, ByteStream packet)
+//Packet::set(ByteStreamPtr prefix, ByteStreamPtr header, ByteStreamPtr dataField)
+//check if the stream
+//bool Packet::verify()
+//char** Packet::printFields()
+//char* Packet::printStream();
 
 namespace PacketLib
 {
@@ -46,61 +55,29 @@ public:
     virtual ~Packet();
 
     virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
-
-    /// This method verifies if the ByteStream on argument contains the correct value
-    /// in the identifiers. If this is true, the method return true and the stream
-    /// contains a packet of this type. This method overloads another method.
-	/// \post the bytestream is decoded
-    virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
-
-    /// This method verifies if the ByteStream on argument contains the correct value
-    /// in the identifiers. If this is true, the method returns true and the stream
-    /// contains a packet of this type. This method overloads another method.
-    /// \post the bytestream is decoded
-    virtual bool setAndVerifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
-
-    /// Sets all the fields of the packet with correct value contained into the input ByteStream.
-    ///	\pre The structure of the stream must be loaded.
-    /// \param prefix This is the prefix of the packet
-    /// \param packetHeader This is the header of the packet
-    /// \param packetDataField This is the data field of the packet
-	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    /// \post the bytestream is decoded
-    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType);
-
-    /// Sets all the fields of the packet with correct value contained into the input ByteStream.
-    ///	\pre The structure of the stream must be loaded.
-    /// \param prefix This is the prefix of the packet
-    /// \param packet This is the packet
-	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    /// \post the bytestream is decoded
-    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet, int decodeType);
-
-    /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
-    ///	\pre The structure of the stream must be loaded.
-    /// \param prefix This is the prefix of the packet
-    /// \param packet This is the packet
-    /// \return True if the ByteStream contains a packet
-    virtual bool verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packet);
-
-    /// Verifies if within the byte* stream passed with arguments it's present a correct packet. The stream* contains also the prefix (if present)
-    /// \param stream A pointer to the stream of byte, with prefix and packet
-    virtual bool verifyPacketValue(byte* stream);
-
-    /// Sets all the fields of the packet with correct value contained into the input ByteStream.
-    /// \param stream A pointer to the stream of byte, with prefix and packet
-	/// \param decode only the sections
-	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
-    virtual bool setPacketValue(ByteStreamPtr stream, int decodeType);
-
-    /// Verifies if within the ByteStream passed with arguments it's present a correct packet.
-    ///	\pre The structure of the stream must be loaded.
-    /// \param prefix This is the prefix of the packet.
-    /// \param packetHeader This is the header of the packet.
-    /// \param packetDataField This is the data field of the packet.
-    /// \return True if the ByteStream contains a packet.
-    virtual bool verifyPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 	
+	/// Sets the ByteStream.
+    /// \param stream A pointer to the stream of byte, with prefix and packet
+	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
+    virtual bool set(ByteStreamPtr stream, bool checkPacketLenght = false);
+	
+	/// Sets the ByteStream.
+    /// \param prefix A pointer to the stream of byte, with the prefix
+	/// \param packet A pointer to the stream of byte, with the packet
+	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
+    virtual bool set(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false);
+	
+	/// Sets the ByteStream.
+    /// \param prefix A pointer to the stream of byte, with the prefix
+	/// \param packetHeader A pointer to the stream of byte, with the packet header
+	/// \param packetHeader A pointer to the stream of byte, with the packet data field
+	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
+    virtual bool set(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
+	
+	///return true is the packet contained into the stream is recognized using identifiers.
+	///\pre the ByteStream is set with one of set(ByteStream) methods
+	virtual bool verify();
+		
 	///Get the prefix as a ByteStream
 	ByteStreamPtr getBSPrefix();
 	
@@ -168,19 +145,19 @@ public:
     virtual  char* printPacketOutputStream();
 
     /// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)
-    dword getDimension();
+    dword size();
 
 	/// Get dimension in bytes of the fixed part (without tail) = dim(header) + dim(data field header) + dim(source data field fixed)
-	inline dword getDimensionFixedPart() { return dimPacketStartingFixedPart; };
+	inline dword sizeFixedPart() { return dimPacketStartingFixedPart; };
     
 	/// Get dimension of the prefix
-	inline dword getDimensionPrefix() { return dimPrefix; };
+	inline dword sizePrefix() { return dimPrefix; };
 	
 	/// Get dimension of the tail
-    inline dword getDimensionTail() { return dimPacketTail; };
+    inline dword sizeTail() { return dimPacketTail; };
 	
     /// Gets the max dimension in byte of the packet.
-    dword getMaxDimension();
+    dword sizeMax();
 
     
     /// Gets the ByteStream received as input
@@ -228,6 +205,16 @@ public:
     ByteStreamPtr packet_output;
 	
 protected:
+	
+	/// Sets all the fields of the packet with correct value contained into the input ByteStream.
+    ///	\pre The structure of the stream must be loaded.
+    /// \param prefix This is the prefix of the packet
+    /// \param packetHeader This is the header of the packet
+    /// \param packetDataField This is the data field of the packet
+	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
+    /// \post the bytestream is decoded
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType);
+
     
     /// This attribute represents the packet header.
     PacketHeader *header;
@@ -244,12 +231,12 @@ protected:
     /// The ByteStrem of the packet read
     ByteStreamPtr packet;
 	
+	/// The ByteStrem of the packet read
+    ByteStreamPtr stream;
 	
-	/// Set the internal prefix and packet.
-	virtual void setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 	
-	/// Set the internal prefix and packet.
-	virtual void setByteStreamPointers(ByteStreamPtr prefix, ByteStreamPtr packet);
+	void setByteStreamSections();
+
     
     /// Generates the stream for output.
     /// \pre the number of block and the number of element for each block
@@ -288,10 +275,6 @@ protected:
 
     bool setPacketValueTail(ByteStreamPtr packetDataField);
 
-    void memByteStream(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
-
-    void memByteStream(ByteStreamPtr prefix, ByteStreamPtr packet);
-
     bool bigendian;
 
     bool thereisprefix;
@@ -326,6 +309,14 @@ private:
 	
 	///dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed
 	dword dimPacketStartingFixedPart;
+	
+	bool decodedPacketHeader;
+	
+	bool decodedPacketDataFieldHeader;
+	
+	bool decodedPacketSourceDataField;
+	
+	bool decodedPacketTail;
 
 };
 

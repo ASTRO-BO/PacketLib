@@ -50,7 +50,7 @@ public:
 
     Field * getFieldWithPacketDimension();
 
-    inline word getDimensionOfPacketLength()
+    inline word sizeOfPacketLength()
     {
         return dimensionOfPacketLength;
     };

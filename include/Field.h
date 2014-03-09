@@ -59,7 +59,7 @@ public:
     word value;
 
     /// Dimension of field in bit.
-    inline dword getDimension()
+    inline dword size()
     {
         return type->dimension;
     };

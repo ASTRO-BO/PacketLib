@@ -48,7 +48,7 @@ void InputPacketStream::setInput(Input* in)
 
 
 
-Packet* InputPacketStream::readPacket(int decodeType) throw(PacketExceptionIO*)
+Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
 {
     unsigned dimHeader = getHeaderDimension();
     unsigned dimPrefix = getPrefixDimension();
@@ -74,9 +74,9 @@ Packet* InputPacketStream::readPacket(int decodeType) throw(PacketExceptionIO*)
             else
                 return 0;
         }
-        if(b1->getDimension() != dimHeader)
+        if(b1->size() != dimHeader)
         {
-            if(b1->getDimension() != 0)
+            if(b1->size() != 0)
                 pindex = 0;
             else
                 throw new PacketExceptionIO("it is impossible to read the full header.");
@@ -93,7 +93,7 @@ Packet* InputPacketStream::readPacket(int decodeType) throw(PacketExceptionIO*)
                 else
                     return 0;
             }
-            dim= b2->getDimension();
+            dim= b2->size();
             if(dim != pl)
             {
                 if(dim != 0)
@@ -108,7 +108,7 @@ Packet* InputPacketStream::readPacket(int decodeType) throw(PacketExceptionIO*)
 		Packet* p = packetType[pindex];
 
 
-		if(!p->setPacketValue(b0, b1, b2, decodeType)) //gli stream diventano del packet
+		if(!p->set(b0, b1, b2)) //gli stream diventano del packet
 			throw new PacketExceptionIO("it is impossible to resolve the packet.");
 
 		return p;

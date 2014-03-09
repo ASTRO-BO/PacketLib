@@ -38,10 +38,10 @@ public:
     ~PacketDataField();
 
     /// Total dimension in bytes of data field.
-    dword getDimension();
+    dword size();
 
     /// Total max dimension in bytes of data field.
-    dword getMaxDimension();
+    dword sizeMax();
 
     /// Creates the outputstream ByteStream for the generation of the output stream
     virtual bool setOutputStream(ByteStreamPtr os, word first);

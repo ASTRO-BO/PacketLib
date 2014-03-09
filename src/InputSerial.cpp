@@ -84,7 +84,7 @@ ByteStreamPtr InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
     //for(int i=0; i<n_byte; i++)
     //printf("%d: %x\n", i, buff[i]);
 
-    if(bs->getDimension() == 0)
+    if(bs->size() == 0)
         return 0;
     return bs;
 }

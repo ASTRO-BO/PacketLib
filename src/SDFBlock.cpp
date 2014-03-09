@@ -339,23 +339,23 @@ bool SDFBlock::loadFields(InputText& fp) throw (PacketException*)
 }
 
 //OK
-dword SDFBlock::getMaxDimension()
+dword SDFBlock::sizeMax()
 {
 	/// for fixed part
-    dword dim = fixed.getDimension(); 
+    dword dim = fixed.size(); 
     ///variable part
 
     for(dword i=0; i < type->nblockmax; i++)
     {
-        dim += block[i].getMaxDimension();
+        dim += block[i].sizeMax();
     }
     return dim;
 }
 
-dword SDFBlock::getDimension()
+dword SDFBlock::size()
 {
 	/// for fixed part
-    dword dim = fixed.getDimension(); 
+    dword dim = fixed.size(); 
     word bi = 0;
     word rbi = 0;
     for(int i=0; i < type->nblockmax; i++)
@@ -364,7 +364,7 @@ dword SDFBlock::getDimension()
         rbi = block[i].getRBlockType();
         word nrdb = getNumberOfRealDataBlock(rbi);
         if(bi < nrdb)
-            dim += block[i].getDimension();
+            dim += block[i].size();
         else
             i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
     }
@@ -462,8 +462,8 @@ bool SDFBlock::setOutputStream(ByteStreamPtr os, dword first)
     if(type->fixedPresent)
     {
         fixed.setOutputStream(os, start);
-        outputstream = ByteStreamPtr(new ByteStream((os->stream + start), getDimension(), os->isBigendian()));
-        start += fixed.getDimension();
+        outputstream = ByteStreamPtr(new ByteStream((os->stream + start), size(), os->isBigendian()));
+        start += fixed.size();
     }
     if(type->variablePresent)
     {
@@ -477,7 +477,7 @@ bool SDFBlock::setOutputStream(ByteStreamPtr os, dword first)
             {
                 /// Only for valid blocks
                 block[i].setOutputStream(os, start);
-                start += block[i].getDimension();
+                start += block[i].size();
             }
             else
                 i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
@@ -517,17 +517,17 @@ bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
 	//cout << "bool SDFBlock::setByteStream(ByteStreamPtr s)" << " " << s << endl; //AB
     dword bytestart=0;
     dword bytestop=0;
-    this->stream->setStream(s, 0, s->getDimension() - 1);
+    this->stream->setStream(s, 0, s->size() - 1);
 	
 	if(decodeType == 0)
 		return true;
 
-    //ByteStreamPtr  tmpstream = new ByteStream(s->stream, s->getDimension(), s->isBigendian());
-    //ByteStreamPtr s = new ByteStream(k->stream, k->getDimension(), k->isBigendian());
+    //ByteStreamPtr  tmpstream = new ByteStream(s->stream, s->size(), s->isBigendian());
+    //ByteStreamPtr s = new ByteStream(k->stream, k->size(), k->isBigendian());
     // It sets the output stream for the fixed part (if present)
     if(type->fixedPresent)
     {
-        bytestop += fixed.getDimension() - 1;
+        bytestop += fixed.size() - 1;
         if(tempBlock1->setStream(s, bytestart, bytestop))
             if(!fixed.setByteStream(tempBlock1))
                 return false;
@@ -548,14 +548,14 @@ bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
             {
                 /// Only for valid blocks
             	/// 1) first of all the fixed part of block[i] must be set 
-            	/// before calling  block[i].getDimension(), otherwise only random values are present
-                tempBlock1->setStream(s, bytestart, s->getDimension() - 1);
+            	/// before calling  block[i].size(), otherwise only random values are present
+                tempBlock1->setStream(s, bytestart, s->size() - 1);
                 block[i].setByteStream(tempBlock1, decodeType);
                 /// 2) Now the correct computation of the dimension can be started
                 if(bytestop != 0)
-                    bytestop += block[i].getDimension();
+                    bytestop += block[i].size();
                 else
-                    bytestop += block[i].getDimension() - 1;
+                    bytestop += block[i].size() - 1;
                 if(tempBlock1->setStream(s, bytestart, bytestop))
                     if(!block[i].setByteStream(tempBlock1, decodeType))
                         return false;

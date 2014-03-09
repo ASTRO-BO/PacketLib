@@ -100,7 +100,7 @@ public:
     long getValue(dword start, word dim);
 
     /// Gets the dimension of the stream
-    dword getDimension();
+    dword size();
 
     char* printStreamInHexadecimal();
 

@@ -115,7 +115,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
         dimension = fp.getLine();
         value = fp.getLine();
         Field* f = new Field(name, dimension, value, numberOfFields);
-        fieldsDimension += f->getDimension();
+        fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
         name = fp.getLine();
@@ -154,7 +154,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
         dimension = buffer->getbuffer();
         value = buffer->getbuffer();
         Field* f = new Field(name, dimension, value, numberOfFields);
-        fieldsDimension += f->getDimension();
+        fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
         name = buffer->getbuffer();
@@ -209,12 +209,12 @@ bool PartOfPacket::setByteStream(ByteStreamPtr s)
     /// If NULL is passed it exits
     if(s == NULL) return true;
 
-    if(getDimension() > s->getDimension())
+    if(size() > s->size())
         return false;
 
 
     if(!s->getMemAllocation())
-        stream->setStream(s->stream, s->getDimension(), s->isBigendian());
+        stream->setStream(s->stream, s->size(), s->isBigendian());
 
     /// The stream is assigned
     this->stream = s;
@@ -227,7 +227,7 @@ bool PartOfPacket::decode() {
 	if(decoded)
 		return true;
 	Field* ftemp;
-    //this->stream->setStream(s, 0, s->getDimension() - 1);
+    //this->stream->setStream(s, 0, s->size() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
     byte* stream = (byte*) this->stream->stream;
@@ -248,7 +248,7 @@ bool PartOfPacket::decode() {
     for(word i=0; i<nof; i++)
     {
         ftemp =  fields[i];
-        dimbit = ftemp->getDimension();
+        dimbit = ftemp->size();
         /// Temporary word to be modified for the elaboration
         byte bh = *(stream + posword);
         byte bl = *(stream + posword + 1);
@@ -334,7 +334,7 @@ char** PartOfPacket::printValue(const char* addString)
         s1 = "";
         s2 = f->getName();
         s2 += " (";
-        s2 += Utility::integerToString(f->getDimension());
+        s2 += Utility::integerToString(f->size());
         s2 +=  ") - ";
         s2 += "Value: ";
         s2 += s;
@@ -374,7 +374,7 @@ void PartOfPacket::printValueStdout()
         s1 = "";
         s2 = f->getName();
         s2 += " (";
-        s2 += Utility::integerToString(f->getDimension());
+        s2 += Utility::integerToString(f->size());
         s2 +=  ") - ";
         s2 += "Value: ";
         s2 += s;
@@ -408,14 +408,14 @@ ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
     /// Dimension of the current field
     byte dimbit = 0;
     if(outputstream == 0)
-        outputstream = ByteStreamPtr(new ByteStream(getDimension(), bigendian));
+        outputstream = ByteStreamPtr(new ByteStream(size(), bigendian));
     for(unsigned i = 0; i<numberOfFields; i++)
     {
         if(!fields[i]->thereIsPredefinedValue())
             wtemp = fields[i]->value;
         else
             wtemp = fields[i]->value =  fields[i]->getPredefinedValue();
-        dimbit = fields[i]->getDimension();
+        dimbit = fields[i]->size();
         shift = 16 - dimbit - posbit;
         if(shift < 0)
         {
@@ -437,7 +437,7 @@ ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
             wtemp = (wtemp << shift);
             w = w | wtemp;
             //cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
-            posbit += fields[i]->getDimension();
+            posbit += fields[i]->size();
         }
         if(posbit == 16)
         {
@@ -463,14 +463,14 @@ ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
 
 bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
 {
-    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), size(), os->isBigendian()));
     return true;
 }
 
 void PartOfPacket::setFieldValue(word index, word value)
 {
     if(index < numberOfFields)
-        fields[index]->value = (value & pattern[fields[index]->getDimension()]);
+        fields[index]->value = (value & pattern[fields[index]->size()]);
 }
 
 float PartOfPacket::getFieldValue_5_1(word index)

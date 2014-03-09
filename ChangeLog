@@ -1,4 +1,13 @@
 2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
++ size() instead of getDimension
++ sizeMax()
++ removed decodeTupe
++ Packet::verify()
++ Packet::set()
+
+
+
+2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.0
 + moved InputPacketStream::getPacket() to PacketStream
 + changed "onlySections" into decodeType:

@@ -68,11 +68,11 @@ public:
     /// Returns the number of fields.
     virtual word getNumberOfFields();
 
-    virtual dword getMaxDimension();
+    virtual dword sizeMax();
 
-    virtual dword getDimension();
+    virtual dword size();
 	
-	virtual dword getDimensionFixedPart();
+	virtual dword sizeFixedPart();
 
 	//onlySections = false
     virtual bool setByteStream(ByteStreamPtr s, int decodeType);

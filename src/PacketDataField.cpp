@@ -37,22 +37,22 @@ PacketDataField::~PacketDataField()
 
 
 
-dword PacketDataField::getDimension()
+dword PacketDataField::size()
 {
     if(sourceDataField != 0)
-        return dataFieldHeader->getDimension() + sourceDataField->getDimension() + tail->getDimension();
+        return dataFieldHeader->size() + sourceDataField->size() + tail->size();
     else
-        return dataFieldHeader->getDimension() + tail->getDimension();
+        return dataFieldHeader->size() + tail->size();
 }
 
 
 
-dword PacketDataField::getMaxDimension()
+dword PacketDataField::sizeMax()
 {
     if(sourceDataField != 0)
-        return dataFieldHeader->getDimension() + sourceDataField->getMaxDimension() + tail->getDimension();
+        return dataFieldHeader->size() + sourceDataField->sizeMax() + tail->size();
     else
-        return dataFieldHeader->getDimension() + tail->getDimension();
+        return dataFieldHeader->size() + tail->size();
 }
 
 
@@ -63,14 +63,14 @@ dword PacketDataField::getMaxDimension()
 
 bool PacketDataField::setOutputStream(ByteStreamPtr os, word first)
 {
-    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), getDimension(), os->isBigendian()));
+    outputstream = ByteStreamPtr(new ByteStream((os->stream + first), size(), os->isBigendian()));
     dataFieldHeader->setOutputStream(os, first);
-    word sdfstart = first + dataFieldHeader->getDimension();
+    word sdfstart = first + dataFieldHeader->size();
     sourceDataField->setOutputStream(os, sdfstart);
     word tailstart = sdfstart;
     if(sourceDataField != 0)
-        tailstart += sourceDataField->getDimension();
-    if(tail->getDimension() != 0)
+        tailstart += sourceDataField->size();
+    if(tail->size() != 0)
         tail->setOutputStream(os, tailstart);
     return true;
 }

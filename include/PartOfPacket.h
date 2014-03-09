@@ -65,7 +65,7 @@ public:
     virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
 
     /// Returns the dimension (in byte) of this part of packet.
-    virtual  inline dword getDimension()
+    virtual  inline dword size()
     {
         return fieldsDimension / 8;
     };

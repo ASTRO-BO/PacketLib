@@ -56,7 +56,7 @@ bool OutputSerial::open(char** parameters) throw(PacketExceptionIO*)
 bool OutputSerial::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {
     byte* buff = b->getStream();
-    unsigned n_byte = b->getDimension();
+    unsigned n_byte = b->size();
 
     if(!isclosed)
         if( serial->write( buff, n_byte ) > 0 )

@@ -58,7 +58,7 @@ ByteStreamPtr InputFile::readByteStream(dword n_byte) throw(PacketExceptionIO*)
         return 0;
     closed = file->isClosed();
     eof = file->isEOF();
-    if(bs->getDimension() == 0) return 0;
+    if(bs->size() == 0) return 0;
     return bs;
 }
 

@@ -44,7 +44,7 @@ public:
     /// \pre The setInput method must be invocated
     /// \param bDecode if true decode the method will decode the data fields.
     /// \return A pointer telemetry packet. Make attention: the object returned is one of the TM packet object of the array of this object. Don't delete it!
-    Packet* readPacket(int decodeType = 2) throw(PacketExceptionIO*);
+    Packet* readPacket() throw(PacketExceptionIO*);
 
 
 

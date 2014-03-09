@@ -111,9 +111,9 @@ public:
     /// \param rBlockIndex the number of the rblock
     virtual SDFBlock* getBlock(word nblock, word rBlockIndex);
 
-    virtual dword getMaxDimension();
+    virtual dword sizeMax();
 
-    virtual dword getDimension();
+    virtual dword size();
 
     /// Set the number of blocks (the number of times that a block of a
     /// determinated type is repeated) for each type of rblock present.

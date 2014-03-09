@@ -84,7 +84,7 @@ bool SourceDataField::loadFields(InputText& fp) throw(PacketException*)
 
 char* SourceDataField::printInHexadecimal()
 {
-    dword dim = getDimension();
+    dword dim = size();
     ByteStream b(stream->stream, dim, true);
     char* c = b.printStreamInHexadecimal();
     return c;
@@ -96,19 +96,19 @@ SDFBlock* SourceDataField::getBlock(word nblock,word rBlockIndex)
 }
 
 
-dword SourceDataField::getMaxDimension()
+dword SourceDataField::sizeMax()
 {
-    return block[0].getMaxDimension();
+    return block[0].sizeMax();
 }
 
-dword SourceDataField::getDimension()
+dword SourceDataField::size()
 {
-    return block[0].getDimension();
+    return block[0].size();
 }
 
-dword SourceDataField::getDimensionFixedPart()
+dword SourceDataField::sizeFixedPart()
 {
-    return block[0].fixed.getDimension();
+    return block[0].fixed.size();
 }
 
 void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
