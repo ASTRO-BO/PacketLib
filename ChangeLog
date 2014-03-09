@@ -1,4 +1,5 @@
 2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+TAG v4.0.1
 + size() instead of getDimension
 + sizeMax()
 + removed decodeTupe
