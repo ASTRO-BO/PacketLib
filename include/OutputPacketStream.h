@@ -34,8 +34,11 @@ public:
 
     OutputPacketStream(const char* fileNameConfig);
 
-    /// Generate the output ByteStream and send it to the output.
-    bool writePacket(Packet* p) throw(PacketExceptionIO*);
+    /// Generate the output ByteStream and write to the output.
+    void writePacket(Packet* p) throw(PacketExceptionIO*);
+
+    /// Write a ByteStream to the output.
+    void writePacket(ByteStreamPtr bs) throw(PacketExceptionIO*);
 
     void setOutput(Output* out);
 
