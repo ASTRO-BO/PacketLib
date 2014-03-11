@@ -25,12 +25,12 @@ PacketBufferV::PacketBufferV(const string& configFile, const string& inputFile)
 	_ips = new InputPacketStream(configFile.c_str());
 	_ips->createStreamStructure();
 	_in = (Input*) new InputFile(_ips->isBigEndian());
-	char** param = new char*[2];
+	char** param = (char**) new char*[2];
 	param[0] = (char*) inputFile.c_str();
 	param[1] = 0;
 	_in->open(param);
 	_ips->setInput(_in);
-	delete param;
+//	delete param;
 }
 
 PacketBufferV::~PacketBufferV()
@@ -39,12 +39,15 @@ PacketBufferV::~PacketBufferV()
 
 void PacketBufferV::load()
 {
-	ByteStreamPtr packetPtr = _ips->readPacket();
-	int counter=0;
-	while(packetPtr != 0)
+	int counter = 0;
+
+	Packet* p = _ips->readPacket();
+	while(p != 0)
 	{
+		ByteStreamPtr packetPtr = p->getInputStream();
 		vec.push_back(packetPtr);
-		packetPtr = _ips->readPacket();
+
+		p = _ips->readPacket();
 		counter++;
 	}
 }
@@ -52,24 +55,23 @@ void PacketBufferV::load()
 void PacketBufferV::load(int first, int last)
 {
 	int counter = 0;
-	ByteStreamPtr packetPtr;
 
 	// skip elements preceeding first
-	while(counter < first) {
-		packetPtr = _ips->readPacket();
-		if(packetPtr == 0) break;
+	Packet* p = _ips->readPacket();
+	while(p && counter < first) {
+		p = _ips->readPacket();
 		counter++;
 	}
 	
-
 	// envec elements from first to last
-	do {
-		packetPtr = _ips->readPacket();
-		if(packetPtr == 0) break;
+	while(p && counter <= last)
+	{
+		ByteStreamPtr packetPtr = p->getInputStream();
 		vec.push_back(packetPtr);
+
+		p = _ips->readPacket();
 		counter++;
 	}
-	while(counter <= last);
 }
 
 ByteStreamPtr PacketBufferV::getNext()

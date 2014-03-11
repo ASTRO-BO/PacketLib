@@ -43,12 +43,15 @@ PacketBufferQ::~PacketBufferQ()
 
 void PacketBufferQ::load()
 {
-	ByteStreamPtr packetPtr = _ips->readPacket();
-	int counter=0;
-	while(packetPtr != 0)
+	int counter = 0;
+
+	Packet* p = _ips->readPacket();
+	while(p != 0)
 	{
+		ByteStreamPtr packetPtr = p->getInputStream();
 		push(packetPtr);
-		packetPtr = _ips->readPacket();
+
+		p = _ips->readPacket();
 		counter++;
 	}
 }
@@ -56,23 +59,23 @@ void PacketBufferQ::load()
 void PacketBufferQ::load(int first, int last)
 {
 	int counter = 0;
-	ByteStreamPtr packetPtr;
 
 	// skip elements preceeding first
-	while(counter < first) {
-		packetPtr = _ips->readPacket();
-		if(packetPtr == 0) break;
+	Packet* p = _ips->readPacket();
+	while(p && counter < first) {
+		p = _ips->readPacket();
 		counter++;
 	}
 
-	// enqueue elements from first to last
-	do {
-		packetPtr = _ips->readPacket();
-		if(packetPtr == 0) break;
-		queue.push(packetPtr);
+	// envec elements from first to last
+	while(p && counter <= last)
+	{
+		ByteStreamPtr packetPtr = p->getInputStream();
+		push(packetPtr);
+
+		p = _ips->readPacket();
 		counter++;
 	}
-	while(counter <= last);
 }
 
 }
