@@ -816,7 +816,7 @@ ByteStreamPtr Packet::getBSTail() {
 
 
 PacketHeader* Packet::getPacketHeader() {
-	if(!decodedPacketHeader) {
+	if(packet && !decodedPacketHeader) {
 		setPacketValueHeader(getBSHeader());
 		decodedPacketHeader = true;
 	}
