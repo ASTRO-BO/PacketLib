@@ -1,3 +1,6 @@
+2014-03-19 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
++ fix PacketHeader* Packet::getPacketHeader()
+
 2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.1
 + size() instead of getDimension
