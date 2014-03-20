@@ -416,7 +416,7 @@ void Packet::printPacketValue()
 
 dword Packet::size()
 {
-	if(!decodedPacketHeader) {
+	if(packet && !decodedPacketHeader) {
 		setPacketValueHeader(getBSHeader());
 		decodedPacketHeader = true;
 	}
