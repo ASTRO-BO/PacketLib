@@ -419,8 +419,11 @@ dword Packet::size()
 	if(packet && !decodedPacketHeader) {
 		setPacketValueHeader(getBSHeader());
 		decodedPacketHeader = true;
+		return dimPacketHeader + header->getPacketLength();
 	}
-	return dimPacketHeader + header->getPacketLength();
+	//return dimPacketHeader + header->getPacketLength();
+	//else
+	return header->size() + dataField->size();
 }
 
 
