@@ -1,5 +1,13 @@
-2014-03-19 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
+2014-04-14 Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli
+<bulgarelli@iasfbo.inaf.it>
+TAG v4.0.2
++ Add build files to .gitignore.
++ dword Packet::size() alternative flows without packet member
++ Check for nullptr in Packet::size().
 + fix PacketHeader* Packet::getPacketHeader()
++ Add eclipse project files.
++ Add PacketBufferQ and PacketBufferV classes.
++ Add OutputPacketStream::writePacket(ByteStreamPtr bs)
 
 2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.1
@@ -8,8 +16,6 @@ TAG v4.0.1
 + removed decodeTupe
 + Packet::verify()
 + Packet::set()
-
-
 
 2014-03-09 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.0
