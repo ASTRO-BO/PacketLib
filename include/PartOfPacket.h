@@ -58,10 +58,12 @@ public:
     /// be in the first line that describes the fields.
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
+#ifdef USEPHYSICALFIELDS
     /// This method loads the field present into the MemoryBuffer (passed with the
     /// parameter).
     virtual bool loadFields(MemoryBuffer* mb) throw(PacketException*);
-
+#endif
+	
     virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
 
     /// Returns the dimension (in byte) of this part of packet.
@@ -101,9 +103,9 @@ public:
     /// ---------------------------------
     /// -	float first 16 bits	-	the index + 1
     /// ---------------------------------
-    /// This corresponds with the PTC=5, PFC = 1.
+    /// This corresponds with the PTC=5, PFC = 1 <=> float or 32f
     /// \param index Represent the index of the field.
-    virtual float getFieldValue_5_1(word index);
+    virtual float getFieldValue_32f(word index);
     
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a real double precision (IEEE 754).
@@ -118,9 +120,9 @@ public:
     /// ---------------------------------
     /// -	float first 16 bits	-	the index + 1
     /// ---------------------------------
-    /// This corresponds with the PTC=5, PFC = 2.
+    /// This corresponds with the PTC=5, PFC = 2. <=> double or 64f
     /// \param index Represent the index of the field.
-    virtual double getFieldValue_5_2(word index);
+    virtual double getFieldValue_64f(word index);
 
     /// Set the value of a field. The value is interpreted as a real single
     /// precision (IEEE 754).
@@ -135,7 +137,7 @@ public:
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param index Represent the index of the field.
     /// \param value The real single precision value
-    virtual void setFieldValue_5_1(word index, float value);
+    virtual void setFieldValue_32f(word index, float value);
     
     /// Set the value of a field. The value is interpreted as a real double
     /// precision (IEEE 754).
@@ -154,7 +156,7 @@ public:
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param index Represent the index of the field.
     /// \param value The real double precision value
-    virtual void setFieldValue_5_2(word index, double value);
+    virtual void setFieldValue_64f(word index, double value);
 
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 32 bit signed integer.
@@ -167,7 +169,7 @@ public:
     ///	---------------------------------
     /// This corresponds with the PTC=4, PFC = 14.
     /// \param index Represent the index of the field.
-    virtual signed long getFieldValue_4_14(word index);
+    virtual signed long getFieldValue_32i(word index);
 
     /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -181,8 +183,9 @@ public:
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param index Represent the index of the field.
     /// \param value The 32 bit signed integer value.
-    virtual void setFieldValue_4_14(word index, signed long value);
+    virtual void setFieldValue_32i(word index, signed long value);
 
+#ifdef USEPHYSICALFIELDS
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 24 bit signed integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -195,7 +198,7 @@ public:
     /// This corresponds with the PTC=4, PFC = 13.
     /// \param index Represent the index of the field.
     /// \return the 24 bit signed data converted in a long 32 bit
-    virtual signed long getFieldValue_4_13(word index);
+    virtual signed long getFieldValue_24i(word index);
 
     /// Sets the value of a field. The value is interpreted as a 24 bit signed integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -210,8 +213,9 @@ public:
     /// \param index Represent the index of the field.
     /// \param value The 24 bit signed integer value. The long value is converted in a
     /// 24 bit data format (bit0 with the sign became 24 bit)
-    virtual void setFieldValue_4_13(word index, signed long value) throw(PacketException*);
-
+    virtual void setFieldValue_24i(word index, signed long value) throw(PacketException*);
+#endif
+	
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 32 bit unsigned integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -223,7 +227,7 @@ public:
     ///	---------------------------------
     /// This corresponds with the PTC=3, PFC = 14.
     /// \param index Represent the index of the field.
-    virtual unsigned long getFieldValue_3_14(word index);
+    virtual unsigned long getFieldValue_32ui(word index);
 
     /// Sets the value of a field. The value is interpreted as a 32 bit unsigned integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -237,8 +241,9 @@ public:
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param index Represent the index of the field.
     /// \param value The 32 bit unsigned integer value.
-    virtual void setFieldValue_3_14(word index, unsigned long value);
+    virtual void setFieldValue_32ui(word index, unsigned long value);
 
+#ifdef USEPHYSICALFIELDS
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 24 bit unsigned integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -250,7 +255,7 @@ public:
     ///	---------------------------------
     /// This corresponds with the PTC=3, PFC = 13.
     /// \param index Represent the index of the field.
-    virtual unsigned long getFieldValue_3_13(word index);
+    virtual unsigned long getFieldValue_24ui(word index);
 
     /// Sets the value of a field. The value is interpreted as a 24 bit unsigned integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -264,8 +269,9 @@ public:
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param index Represent the index of the field.
     /// \param value The 24 bit unsigned integer value.
-    virtual void setFieldValue_3_13(word index, unsigned long value) throw(PacketException*);
-
+    virtual void setFieldValue_24ui(word index, unsigned long value) throw(PacketException*);
+#endif
+	
     ///Documentation
     /// Sets the value of a field in the list of fields of this part of packet. Remember that
     /// if a predefined value is specified in the .stream, this method has not effect and the
@@ -314,14 +320,20 @@ protected:
     /// Represent current stream reads from input.
     ByteStreamPtr stream;
 
-    /// List of field of part of packet.
+    /// List of (physical) fields of a part of packet.
     Field** fields;
+	
+	/// List of logical fields of a part of packet.
+    LogicalField** logicalFields;
 
     /// Dimension in bit of fields.
     word fieldsDimension;
 
     /// Number of fields.
     word numberOfFields;
+	
+	/// Number of logical fields.
+    word numberOfLogicalFields;
 
 private:
 

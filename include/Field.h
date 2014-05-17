@@ -22,6 +22,8 @@
 
 namespace PacketLib
 {
+	
+enum LogicalFieldDataType { UNKNOWN, UINT1, UINT2, UINT3, UINT4, UINT5, UINT6, UINT7, UINT8, UINT9, UINT10, UINT11, UINT12, UINT13, UINT14, UINT15, UINT16, INT16, UINT24, INT24, UINT32, INT32, UINT64, INT64, FLOAT, DOUBLE, BYTEARRAY };
 
 
 class FieldType
@@ -41,6 +43,31 @@ public:
     /// Name of the field.
     char* name;
 };
+	
+class LogicalFieldType
+{
+	
+public:
+	
+	/// Logical type
+	enum LogicalFieldDataType type;
+	
+	///the number of physical fields equivalent to this logical field
+	int outtypenfields;
+	
+	///the number of bits of each single field
+	int outputfieldsbitsize;
+	
+	/// It indicates that there's a predefined value for this field.
+	bool thereIsPredefinedValue;
+	
+	/// Predefined value of the logical field (for the generation of packet).
+	double predefinedValue;
+	
+	/// Name of the field.
+	char* name;
+
+};
 
 
 
@@ -50,12 +77,12 @@ class Field
 public:
 
     /// Constructor of class.
-    Field(char* name, char* dimension, char* predefinedValue, int progressiv);
+    Field(char* name, word dimension, char* predefinedValue, int progressiv);
 
     /// Destructor of class.
     ~Field();
 
-    /// Value reads from stream of byte (from packet).
+    /// Value reads from stream of byte (from packet). 16 bits max
     word value;
 
     /// Dimension of field in bit.
@@ -86,6 +113,7 @@ public:
     {
         return progressiv;
     };
+	
 
 protected:
 
@@ -94,6 +122,87 @@ protected:
 
     FieldType * type;
 
+};
+	
+	
+class LogicalField
+{
+public:
+	LogicalField(char* name, char* type, char* predefinedValue, int progressiv);
+	
+	/// Destructor of class.
+    ~LogicalField();
+	
+	/// Get a description of the type (e.g. int32, 16, etc) and the number of bits of each single field
+	///\param type (input) the type read from configuration file
+	///\param outtype (output) the type as enum
+	///\param outtypenfields (output) the number of physical fields equivalent to this logical field
+	///\param outputfieldsbitsize (output) the number of bits of each single field
+	static void getType(char* type, enum LogicalFieldDataType &outtype, int &outtypenfields, int &outputfieldsbitsize);
+	
+	/// Dimension of field in bit.
+    enum LogicalFieldDataType type()
+    {
+        return logicaltype->type;
+    };
+	
+    /// It indicates that there's a predefined value for this field.
+    inline bool thereIsPredefinedValue()
+    {
+        return logicaltype->thereIsPredefinedValue;
+    };
+	
+    /// Predefined value of field (for the generation of packet).
+    inline double getPredefinedValue()
+    {
+        return logicaltype->predefinedValue;
+    };
+	
+    /// Name of the field.
+    inline char* getName()
+    {
+        return logicaltype->name;
+    };
+	
+    inline int getProgressiv()
+    {
+        return progressiv;
+    };
+	
+	
+	inline enum LogicalFieldDataType getType()
+	{
+		return logicaltype->type;
+	};
+	
+	inline int getOutTypeNfields() {
+		return logicaltype->outtypenfields;
+	};
+	
+	///the number of bits of each single field
+	inline int getOutputFieldsBitSize() {
+		return logicaltype->outputfieldsbitsize;
+	};
+	
+	inline void setIndexOfPhysicalField(int progressivph) {
+		progressivPhysical = progressivph;
+	}
+	
+	inline int getIndexOfPhysicalField() {
+		return progressivPhysical;
+	}
+	
+protected:
+	
+    /// Index of field in the list of logical fields.
+    int progressiv;
+	
+	/// Index of field in the list of physical fields
+	int progressivPhysical;
+	
+	/// Logical field type
+    LogicalFieldType * logicaltype;
+	
 };
 
 }

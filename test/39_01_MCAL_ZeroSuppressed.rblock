@@ -7,7 +7,7 @@ no
 -- field 0
 Spare
 3
-0
+none
 -- field 1
 Bar ID (0-29)
 5
@@ -24,4 +24,3 @@ none
 Energy Side A
 12
 none
-

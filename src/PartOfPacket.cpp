@@ -37,13 +37,6 @@ PartOfPacket::PartOfPacket(const char* popName)
 PartOfPacket::~PartOfPacket()
 {
     deleteFields();
-    /// delete stream;
-    /// Don't deletes the extern ByteStream. The responsibility of this isn't of Packet class;
-    /// But deletes the internal ByteStream
-//     if(stream !=0) AB27Aug2005
-//         if(!stream->getMemAllocation()) {
-//             delete stream; stream = 0;
-// 	}
 }
 
 
@@ -68,20 +61,7 @@ string* PartOfPacket::printStructure()
     return sr;
 }
 
-/*
-// OLD VERSION
-bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
-{
-    bool ret;
-    MemoryBuffer* buffer = loadFieldsInBuffer(fp);
-    if(buffer==0)
-        return false;
-    ret = loadFields(buffer);
-    //buffer->freebuffer(); TODO
-    //delete buffer; TODO
-    return ret;
-}
-*/
+#ifdef USEPHYSICALFIELDS
 
 bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 {
@@ -102,19 +82,19 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     } while(strlen(name) !=  0);
     fp.setpos(pos);
     fields = new Field* [count/3];
-
+	
     name = fp.getLine();
     if(strlen(name) == 0)
     {
         return false;
     }
-
+	
     while(strlen(name) != 0)
     {
-
+		
         dimension = fp.getLine();
         value = fp.getLine();
-        Field* f = new Field(name, dimension, value, numberOfFields);
+        Field* f = new Field(name, atoi(dimension), value, numberOfFields);
         fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
@@ -128,10 +108,112 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     return true;
 }
 
+#endif
 
+#ifdef USELOGICALFIELDS
+
+bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
+{
+    char* name, *type, *value;
+    /// It calls the function that releases the memory
+    deleteFields();
+    int count = 0;
+	int countlogicalfields = 0;
+    /// count the number of fields
+    long pos = fp.getpos();
+    do {
+        name = fp.getLine();
+		if(strlen(name) == 0 || name[0] == '[')
+        {
+            count--;
+			countlogicalfields--;
+            break;
+        }
+		countlogicalfields++;
+		type = fp.getLine();
+		if(strlen(name) == 0 || type[0] == '[')
+        {
+            break;
+        }
+		/// Logical type
+		enum LogicalFieldDataType outtype;
+		///the number of physical fields equivalent to this logical field
+		int outtypenfields;
+		///the number of bits of each single field
+		int outputfieldsbitsize;
+		LogicalField::getType(type, outtype, outtypenfields, outputfieldsbitsize);
+		count += outtypenfields;
+		//cout << outtype << endl;
+		//TODO HERE
+		if(outtype == UNKNOWN)
+			throw new PacketException("PartOfPacket::loadFields(): wrong type for a field specified in the configuration file");
+		
+		value = fp.getLine();
+		if(strlen(name) == 0 || value[0] == '[')
+        {
+            break;
+        }
+		
+        
+    } while(strlen(name) !=  0);
+	
+    fields = new Field* [count];
+	logicalFields = new LogicalField* [countlogicalfields];
+	
+	fp.setpos(pos);
+    name = fp.getLine();
+    if(strlen(name) == 0)
+    {
+        return false;
+    }
+
+    while(strlen(name) != 0)
+    {
+
+        type = fp.getLine();
+        value = fp.getLine();
+		
+		LogicalField* lf = new LogicalField(name, type, value, numberOfLogicalFields );
+		logicalFields[numberOfLogicalFields] = lf;
+		numberOfLogicalFields++;
+		//cout << name << " " << type << " " << value << " " << lf->getOutTypeNfields() << endl;
+		
+		if(lf->getOutTypeNfields() > 1) {
+			for(int i=0; i<lf->getOutTypeNfields(); i++) {
+				cout << "!!!!!!!!!" << endl;
+				//it should be useful to change the name of the field TODO
+				//the predefined value is only valid for types <= 16 bit - it should be possible to call the appropriate set methods here TODO
+				Field* f = new Field(name, lf->getOutputFieldsBitSize(), 0, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				if(i==0) lf->setIndexOfPhysicalField(numberOfFields);
+				numberOfFields++;
+			}
+		} else {
+			Field* f = new Field(name, lf->getOutputFieldsBitSize(), value, numberOfFields);
+			fieldsDimension += f->size();
+			fields[numberOfFields] = f;
+			lf->setIndexOfPhysicalField(numberOfFields);
+			numberOfFields++;
+		}
+		
+        name = fp.getLine();
+        /// It reads until the buffer ends
+        if(name[0] == '[')
+        {
+            break;
+        }
+    }
+    return true;
+}
+
+#endif
+
+#ifdef USEPHYSICALFIELDS
 
 bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
 {
+	return false;
     char* name;
     char* dimension;
     char* value;
@@ -153,7 +235,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
     {
         dimension = buffer->getbuffer();
         value = buffer->getbuffer();
-        Field* f = new Field(name, dimension, value, numberOfFields);
+        Field* f = new Field(name, atoi(dimension), value, numberOfFields);
         fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
@@ -167,10 +249,12 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
     return true;
 }
 
+#endif
 
 
 MemoryBuffer* PartOfPacket::loadFieldsInBuffer(InputText & fp)
 {
+	return 0;
     char* name, *dimension, *value;
     MemoryBuffer* buffer = 0;
     int count = 0;
@@ -469,12 +553,24 @@ bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
 
 void PartOfPacket::setFieldValue(word index, word value)
 {
+	
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+		index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     if(index < numberOfFields)
         fields[index]->value = (value & pattern[fields[index]->size()]);
 }
 
-float PartOfPacket::getFieldValue_5_1(word index)
+float PartOfPacket::getFieldValue_32f(word index)
 {
+	
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     union u_tag
     {
     	/// 32 bit
@@ -486,12 +582,17 @@ float PartOfPacket::getFieldValue_5_1(word index)
     return u.f;
 }
 
-double PartOfPacket::getFieldValue_5_2(word index)
+double PartOfPacket::getFieldValue_64f(word index)
 {
+
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
 	if(sizeof(unsigned long) == 4) {
 		//TODO
-		cout << "this does not work in a 32 bit system" << endl;
-		exit(0);
+		throw new PacketException("PartOfPacket::getFieldValue_64f() does not work in a 32 bit system");
 	}
 		
     union u_tag
@@ -505,8 +606,14 @@ double PartOfPacket::getFieldValue_5_2(word index)
     return u.d;
 }
 
-void PartOfPacket::setFieldValue_5_1(word index, float value)
+void PartOfPacket::setFieldValue_32f(word index, float value)
 {
+
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+
     union u_tag
     {
     	/// 32 bit
@@ -522,12 +629,17 @@ void PartOfPacket::setFieldValue_5_1(word index, float value)
     setFieldValue(index + 1, w);
 }
 
-void PartOfPacket::setFieldValue_5_2(word index, double value)
+void PartOfPacket::setFieldValue_64f(word index, double value)
 {
+	
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+
     if(sizeof(unsigned long) == 4) {
 		//TODO
-		cout << "this does not work in a 32 bit system" << endl;
-		exit(0);
+		throw new PacketException("PartOfPacket::setFieldValue_64f() does not work in a 32 bit system");
 	}
 		
     union u_tag
@@ -550,15 +662,25 @@ void PartOfPacket::setFieldValue_5_2(word index, double value)
     setFieldValue(index + 3, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_14(word index)
+signed long PartOfPacket::getFieldValue_32i(word index)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     long l;
     l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
     return l;
 }
 
-void PartOfPacket::setFieldValue_4_14(word index, signed long value)
+void PartOfPacket::setFieldValue_32i(word index, signed long value)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     word w;
     w = (word)(value >> 16);
     setFieldValue(index, w);
@@ -566,15 +688,25 @@ void PartOfPacket::setFieldValue_4_14(word index, signed long value)
     setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_14(word index)
+unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     dword l;
     l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
     return l;
 }
 
-void PartOfPacket::setFieldValue_3_14(word index, unsigned long value)
+void PartOfPacket::setFieldValue_32ui(word index, unsigned long value)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     word w;
     w = (word)(value >> 16);
     setFieldValue(index, w);
@@ -582,34 +714,52 @@ void PartOfPacket::setFieldValue_3_14(word index, unsigned long value)
     setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_13(word index)
+#ifdef USEPHYSICALFIELDS
+
+unsigned long PartOfPacket::getFieldValue_24ui(word index)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     word wh, wl;
     wh = getFieldValue(index);
     wl = getFieldValue(index + 1);
     return (dword)(wh << 8) | (dword)(wl & 0xFF);
 }
 
-void PartOfPacket::setFieldValue_3_13(word index, unsigned long value) throw(PacketException*)
+void PartOfPacket::setFieldValue_24ui(word index, unsigned long value) throw(PacketException*)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     word w;
     if(value > U24BITINTGEGERUNSIGNED_MAX)
-        throw new PacketException("setFieldValue_3_13(): the max value of 24 bit unsigned integer should be 16777215");
+        throw new PacketException("setFieldValue_24ui(): the max value of 24 bit unsigned integer should be 16777215");
     w = (word)(value >> 8);
     setFieldValue(index, w);
     w = (word) (0xFF & value);
     setFieldValue(index + 1, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_13(word index)
+
+signed long PartOfPacket::getFieldValue_24i(word index)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
     union u_tag
     {
     	/// 32 bit
         unsigned long u;		
         signed long s;
     } us;
-    us.u = getFieldValue_3_14(index);
+    us.u = getFieldValue_32ui(index);
     /// get the sign
     unsigned long sign = (us.u  >> 23); 
     unsigned long wh = us.u & 0x007FFFFF;
@@ -621,9 +771,12 @@ signed long PartOfPacket::getFieldValue_4_13(word index)
     return us.s;
 }
 
-
-void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(PacketException*)
+void PartOfPacket::setFieldValue_24i(word index, signed long value) throw(PacketException*)
 {
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+	index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
     union u_tag
     {
     	/// 32 bit
@@ -631,17 +784,19 @@ void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(Packe
         signed long s;
     } us;
     if(value > U24BITINTGEGERSIGNED_MAX)
-        throw new PacketException("setFieldValue_4_13(): the max value of 24 bit signed integer should be 8388607");
+        throw new PacketException("setFieldValue_24i(): the max value of 24 bit signed integer should be 8388607");
     if(value < U24BITINTGEGERSIGNED_MIN)
-        throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
+        throw new PacketException("setFieldValue_24i(): the min value of 24 bit signed integer should be -8388607");
     us.s = value;
     unsigned long sign = (us.u >> 31);
     /// 23 bit
     unsigned long wh = us.u & 0x007FFFFF;
     unsigned long value2 = 0;
     value2 = wh + (sign << 23);
-    setFieldValue_3_14(index, value2);
+    setFieldValue_32ui(index, value2);
 }
+
+#endif
 
 void PacketLib::PartOfPacket::memByteStream(ByteStreamPtr stream) {
 	this->stream = stream;
