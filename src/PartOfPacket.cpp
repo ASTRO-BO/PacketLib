@@ -734,13 +734,14 @@ void PartOfPacket::setFieldValue_32i(word index, signed long value)
 unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
 #ifdef USELOGICALFIELDS
-	cout << "logical " << index
+	cout << "logical " << index;
 	if(index < numberOfLogicalFields)
 		index = logicalFields[index]->getIndexOfPhysicalField();
 	
 	cout << " physical " << index << endl;
 #endif
-	
+	cout << (getFieldValuePhysical(index) << 16) << endl;
+	cout << getFieldValuePhysical(index + 1) << endl;
     dword l;
     l = ((dword)getFieldValuePhysical(index) << 16) | (dword)getFieldValuePhysical(index + 1);
     return l;
