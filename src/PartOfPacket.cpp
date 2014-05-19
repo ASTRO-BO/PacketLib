@@ -27,6 +27,7 @@ PartOfPacket::PartOfPacket(const char* popName)
     fieldsDimension = 0;
     stream = ByteStreamPtr(new ByteStream());
     numberOfFields = 0;
+	numberOfLogicalFields = 0;
     fields = 0;
     outputstream = 0;
 	decoded = false;
@@ -95,6 +96,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
         dimension = fp.getLine();
         value = fp.getLine();
         Field* f = new Field(name, atoi(dimension), value, numberOfFields);
+		cout << name << " " << dimension << " " << value << endl;
         fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
@@ -121,6 +123,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 	int countlogicalfields = 0;
     /// count the number of fields
     long pos = fp.getpos();
+	
     do {
         name = fp.getLine();
 		if(strlen(name) == 0 || name[0] == '[')
@@ -174,13 +177,16 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
         value = fp.getLine();
 		
 		LogicalField* lf = new LogicalField(name, type, value, numberOfLogicalFields );
+		
+		//cout << name << " " << type << " " << value << " " << lf->getName() << " " << lf->getOutTypeNfields() << endl;
 		logicalFields[numberOfLogicalFields] = lf;
 		numberOfLogicalFields++;
-		//cout << name << " " << type << " " << value << " " << lf->getOutTypeNfields() << endl;
 		
 		if(lf->getOutTypeNfields() > 1) {
+			if(lf->getOutTypeNfields() > 4)
+				throw new PacketException("It is not possible to have more than 4 physical fields for a logical field");
 			for(int i=0; i<lf->getOutTypeNfields(); i++) {
-				cout << "!!!!!!!!!" << endl;
+				//cout << "A!!!!!!!!!" << endl;
 				//it should be useful to change the name of the field TODO
 				//the predefined value is only valid for types <= 16 bit - it should be possible to call the appropriate set methods here TODO
 				Field* f = new Field(name, lf->getOutputFieldsBitSize(), 0, numberOfFields);
@@ -551,6 +557,33 @@ bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
     return true;
 }
 
+word PartOfPacket::getFieldValuePhysical(word index)
+{
+	decode();
+	if(index < numberOfFields)
+		return fields[index]->value;
+	else
+		return 0;
+};
+
+word PartOfPacket::getFieldValue(word index)
+{
+#ifdef USELOGICALFIELDS
+	if(index < numberOfLogicalFields)
+		index = logicalFields[index]->getIndexOfPhysicalField();
+#endif
+	
+	return getFieldValuePhysical(index);
+	
+	/*
+	decode();
+	if(index < numberOfFields)
+		return fields[index]->value;
+	else
+		return 0;
+	*/
+}
+
 void PartOfPacket::setFieldValue(word index, word value)
 {
 	
@@ -559,8 +592,18 @@ void PartOfPacket::setFieldValue(word index, word value)
 		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
+	setFieldValuePhysical(index, value);
+	
+    /*
+	if(index < numberOfFields)
+		fields[index]->value = (value & pattern[fields[index]->size()]);
+	*/
+}
+
+void PartOfPacket::setFieldValuePhysical(word index, word value)
+{
     if(index < numberOfFields)
-        fields[index]->value = (value & pattern[fields[index]->size()]);
+		fields[index]->value = (value & pattern[fields[index]->size()]);
 }
 
 float PartOfPacket::getFieldValue_32f(word index)
@@ -568,7 +611,7 @@ float PartOfPacket::getFieldValue_32f(word index)
 	
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     union u_tag
@@ -578,7 +621,7 @@ float PartOfPacket::getFieldValue_32f(word index)
         /// 32 bit single precision
         float f;	
     } u;
-    u.i =  ( (dword) getFieldValue(index) << 16) | ( (dword) getFieldValue(index + 1) );
+    u.i =  ( (dword) getFieldValuePhysical(index) << 16) | ( (dword) getFieldValuePhysical(index + 1) );
     return u.f;
 }
 
@@ -602,7 +645,7 @@ double PartOfPacket::getFieldValue_64f(word index)
         /// 64 bit double precision
         double d;	
     } u;
-    u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+    u.i = (unsigned long) ( (unsigned long)  getFieldValuePhysical(index) << (48)) | ( (unsigned long) getFieldValuePhysical(index + 1) << (32)) | ( (unsigned long) getFieldValuePhysical(index + 2) << (16)) | ( (unsigned long) getFieldValuePhysical(index + 3) );
     return u.d;
 }
 
@@ -611,7 +654,7 @@ void PartOfPacket::setFieldValue_32f(word index, float value)
 
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 
     union u_tag
@@ -626,7 +669,7 @@ void PartOfPacket::setFieldValue_32f(word index, float value)
     w = (word)(u.i >> 16);
     setFieldValue(index, w);
     w = (word)(0xFFFF & u.i);
-    setFieldValue(index + 1, w);
+    setFieldValuePhysical(index + 1, w);
 }
 
 void PartOfPacket::setFieldValue_64f(word index, double value)
@@ -634,7 +677,7 @@ void PartOfPacket::setFieldValue_64f(word index, double value)
 	
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 
     if(sizeof(unsigned long) == 4) {
@@ -653,24 +696,24 @@ void PartOfPacket::setFieldValue_64f(word index, double value)
     word w;
     u.d = value;
     w = (word)( (u.i >> 48) );
-    setFieldValue(index, w);
+    setFieldValuePhysical(index, w);
     w = (word)( 0xFFFF &  (u.i >> 32) );
-    setFieldValue(index + 1, w);
+    setFieldValuePhysical(index + 1, w);
     w = (word)( 0xFFFF &  (u.i >> 16) );
-    setFieldValue(index + 2, w);
+    setFieldValuePhysical(index + 2, w);
     w = (word)(0xFFFF & u.i);
-    setFieldValue(index + 3, w);
+    setFieldValuePhysical(index + 3, w);
 }
 
 signed long PartOfPacket::getFieldValue_32i(word index)
 {
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     long l;
-    l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
+    l = (long)(getFieldValuePhysical(index) << 16) | (long)getFieldValuePhysical(index + 1);
     return l;
 }
 
@@ -678,25 +721,25 @@ void PartOfPacket::setFieldValue_32i(word index, signed long value)
 {
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     word w;
     w = (word)(value >> 16);
-    setFieldValue(index, w);
+    setFieldValuePhysical(index, w);
     w = (word) (0xFFFF & value);
-    setFieldValue(index + 1, w);
+    setFieldValuePhysical(index + 1, w);
 }
 
 unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     dword l;
-    l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
+    l = (dword)(getFieldValuePhysical(index) << 16) | (dword)getFieldValuePhysical(index + 1);
     return l;
 }
 
@@ -709,9 +752,9 @@ void PartOfPacket::setFieldValue_32ui(word index, unsigned long value)
 	
     word w;
     w = (word)(value >> 16);
-    setFieldValue(index, w);
+    setFieldValuePhysical(index, w);
     w = (word) (0xFFFF & value);
-    setFieldValue(index + 1, w);
+    setFieldValuePhysical(index + 1, w);
 }
 
 #ifdef USEPHYSICALFIELDS
@@ -720,12 +763,12 @@ unsigned long PartOfPacket::getFieldValue_24ui(word index)
 {
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     word wh, wl;
-    wh = getFieldValue(index);
-    wl = getFieldValue(index + 1);
+    wh = getFieldValuePhysical(index);
+    wl = getFieldValuePhysical(index + 1);
     return (dword)(wh << 8) | (dword)(wl & 0xFF);
 }
 
@@ -733,25 +776,21 @@ void PartOfPacket::setFieldValue_24ui(word index, unsigned long value) throw(Pac
 {
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
+		index = logicalFields[index]->getIndexOfPhysicalField();
 #endif
 	
     word w;
     if(value > U24BITINTGEGERUNSIGNED_MAX)
         throw new PacketException("setFieldValue_24ui(): the max value of 24 bit unsigned integer should be 16777215");
     w = (word)(value >> 8);
-    setFieldValue(index, w);
+    setFieldValuePhysical(index, w);
     w = (word) (0xFF & value);
-    setFieldValue(index + 1, w);
+    setFieldValuePhysical(index + 1, w);
 }
 
 
 signed long PartOfPacket::getFieldValue_24i(word index)
 {
-#ifdef USELOGICALFIELDS
-	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
-#endif
 	
     union u_tag
     {
@@ -773,10 +812,6 @@ signed long PartOfPacket::getFieldValue_24i(word index)
 
 void PartOfPacket::setFieldValue_24i(word index, signed long value) throw(PacketException*)
 {
-#ifdef USELOGICALFIELDS
-	if(index < numberOfLogicalFields)
-	index = logicalFields[index]->getIndexOfPhysicalField();
-#endif
     union u_tag
     {
     	/// 32 bit

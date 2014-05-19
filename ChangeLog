@@ -1,3 +1,8 @@
+2014-05-17 Andrea Bulgarelli
++ Added logical fields
++ Renamed the PartOfPacket::get/setFieldValue_X_Y in a more clear specification of the data type
++ Added USEPHYSICALFIELDS and USELOGICALFIELDS pre-processor variables. Use USELOGICALFIELDS to compile with the logical fields option enabeld. If you use only physical fields, onlu 1..16 <=> uint1..uint16 data types are allowed in the definition of the packet
+
 2014-04-14 Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.2

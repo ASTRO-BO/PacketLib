@@ -100,13 +100,15 @@ LogicalField::LogicalField(char* n, char* type, char* prVal, int count) : progre
 	
     while(logicalFieldTypeList[i] != 0)
     {
-		/* TODO non funziona la test unit se lascio attivo il meccanismo di caching qui sotto
-      if(logicalFieldTypeList[i]->name == n)
+		// TODO non funziona la test unit se lascio attivo il meccanismo di caching qui sotto
+		
+		if(logicalFieldTypeList[i]->name == n)
         {
             logicaltype = logicalFieldTypeList[i];
+			//cout << "FOUUND " << n << endl;
             break;
         }
-        else*/
+        else
 			i++;
     }
     if(logicaltype == 0)
@@ -147,6 +149,7 @@ LogicalField::~LogicalField()
 void LogicalField::getType(char* type, enum LogicalFieldDataType &outtype, int &outtypenfields, int &outputfieldsbitsize) {
 	outtype = UNKNOWN;
 	outputfieldsbitsize = 0;
+	outtypenfields = 0;
 	int dim = atoi(type);
 	if(dim == 0) {
 		//>= 16bit

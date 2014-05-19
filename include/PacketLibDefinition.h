@@ -39,7 +39,7 @@
 
 /// define NOFIELDSNAME
 
-/// physical field regards the definition of the fields as telemetry standards (each field max 16 bits)
+/// physical field (the NATIVE MODE) regards the definition of the fields as telemetry standards (each field max 16 bits)
 /// logical fields are of type UINT3, INT32, FLOAT, DOUBLE
 ///#define USEPHYSICALFIELDS 1
 #define USELOGICALFIELDS 1

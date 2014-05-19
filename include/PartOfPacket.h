@@ -85,14 +85,7 @@ public:
 
     /// Returns the value of a field in the list of fields of this part of packet.
     /// \param index Represent the index in the list.
-    virtual  inline word getFieldValue(word index)
-    {
-		decode();
-        if(index < numberOfFields)
-            return fields[index]->value;
-        else
-            return 0;
-    };
+    virtual  inline word getFieldValue(word index);
 
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a real single precision (IEEE 754).
@@ -312,6 +305,10 @@ public:
     char* popName;
 
 protected:
+	
+	word getFieldValuePhysical(word index);
+	
+	void setFieldValuePhysical(word index, word value);
 
 	bool decode();
 	
