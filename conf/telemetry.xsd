@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://iasfbo.inaf.it/telemetry" targetNamespace="http://iasfbo.inaf.it/telemetry">
+  <xs:element name="stream">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="1" ref="header" />
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="packet" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:Name" />
+      <xs:attribute name="bigendian" type="xs:boolean" default="false" />
+      <xs:attribute name="prefix" type="xs:boolean" />
+      <xs:attribute name="prefixsize" type="xs:integer" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="header">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="field" />
+      </xs:sequence>
+      <xs:attribute name="name" type="xs:Name" />
+      <xs:attribute name="description" />
+      <xs:attribute name="idref" type="xs:IDREF" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="packet">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="1" ref="datafieldheader" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="sourcedatafield" />
+        <xs:element minOccurs="0" maxOccurs="1" ref="tail" />
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:Name" />
+      <xs:attribute name="description" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="datafieldheader">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="field" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="sourcedatafield">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="field" />
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="rblock" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="rblock">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="field" />
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="rblock" />
+      </xs:sequence>
+      <xs:attribute name="name" use="required" type="xs:Name" />
+      <xs:attribute name="maxnumberofblocks" use="required" type="xs:integer" /> <!-- max number of blocks for each rblock -->
+      <xs:attribute name="idref" type="xs:IDREF" />
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="tail">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="field" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="field">
+    <xs:complexType>
+      <xs:attribute name="name" use="required" />
+      <xs:attribute name="type" use="required" />
+      <xs:attribute name="id" type="xs:ID" />
+      <xs:attribute name="numberofblocksoffset" type="xs:integer" default="0" />
+      <xs:attribute name="packetid" />
+      <xs:attribute name="default" />
+      <xs:attribute name="description" />
+    </xs:complexType>
+  </xs:element>
+
+</xs:schema>
