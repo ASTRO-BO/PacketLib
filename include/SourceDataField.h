@@ -33,8 +33,6 @@ public:
 
     virtual ~SourceDataField();
 	
-
-
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
      /// Get a block of number nblock of the group of blocks of the rblock
@@ -53,16 +51,76 @@ public:
     /// \param index Represent the index in the list.
     virtual Field* getFields(word index);
 
-    
     /// Returns the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket for documentation
     /// \param index Represent the index in the list.
     virtual word getFieldValue(word index);
-
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	virtual signed short getFieldValue_16i(word index);
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	virtual word getFieldValue_16ui(word index);
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	virtual signed long getFieldValue_32i(word index);
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	unsigned long getFieldValue_32ui(word index);
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	virtual float getFieldValue_32f(word index);
+	
+	/// See PartOfPacket for documentation
+	/// \param index Represent the index in the list.
+	virtual double getFieldValue_64f(word index);
     
     /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
     /// \param index Represent the index in the list.
     /// \param value The value must be set.
     virtual void setFieldValue(word index, word value);
+	
+	/// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+	virtual void setFieldValue_16i(word index, signed short value);
+	
+    /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+	virtual void setFieldValue_16ui(word index, word value);
+	
+    /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32i(word index, signed long value);
+	
+    /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32ui(word index, unsigned long value);
+	
+    /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32f(word index, float value);
+    
+    /// Sets the value of a field in the fixed part of this source data field.
+	/// See PartOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_64f(word index, double value);
 
     
     /// Returns the number of fields.

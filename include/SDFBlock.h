@@ -165,13 +165,61 @@ public:
     };
 
     /// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
     /// \param index Represent the index in the list.
     virtual  inline word getFieldValue(word index)
     {
         return fixed.getFieldValue(index);
     };
+	
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline signed short getFieldValue_16i(word index)
+	{
+		return fixed.getFieldValue_16i(index);
+	}
+	
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline word getFieldValue_16ui(word index) {
+		return fixed.getFieldValue_16ui(index);
+	}
+	
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline signed long getFieldValue_32i(word index) {
+		return fixed.getFieldValue_32i(index);
+	}
 
-    /// Sets the value of a field in the list of fields of the fixed part.
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline unsigned long getFieldValue_32ui(word index)
+	{
+		return fixed.getFieldValue_32ui(index);
+	}
+	
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline float getFieldValue_32f(word index)
+	{
+		return fixed.getFieldValue_32f(index);
+	}
+	
+	/// Returns the value of a field in the list of fields of the fixed part.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+	virtual inline double getFieldValue_64f(word index)
+	{
+		return fixed.getFieldValue_64f(index);
+	}
+
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
     /// \param index Represent the index in the list.
     /// \param value The value must be set.
     virtual  inline void setFieldValue(word index, word value)
@@ -179,6 +227,60 @@ public:
         fixed.setFieldValue(index, value);
     };
 
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+	virtual void setFieldValue_16i(word index, signed short value)
+	{
+        fixed.setFieldValue_16i(index, value);
+    };
+	
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+	virtual void setFieldValue_16ui(word index, word value)
+	{
+        fixed.setFieldValue_16ui(index, value);
+    };
+	
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32i(word index, signed long value)
+	{
+        fixed.setFieldValue_32i(index, value);
+    };
+	
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32ui(word index, unsigned long value)
+	{
+        fixed.setFieldValue_32ui(index, value);
+    };
+	
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_32f(word index, float value)
+    {
+        fixed.setFieldValue_32f(index, value);
+    };
+	
+    /// Sets the value of a field in the list of fields of the fixed part of this block.
+	/// See ParfOfPacket doc for more details
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue_64f(word index, double value)
+	{
+        fixed.setFieldValue_64f(index, value);
+    };
+	
     /// Returns the number of fields of this block (fixed and variable part).
     virtual inline word getNumberOfFields()
     {
