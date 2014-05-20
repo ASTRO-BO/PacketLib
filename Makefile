@@ -129,7 +129,7 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 
 ####### 9) Pattern rules
 
-test/%.o : test/%.cpp
+test2/%.o : test2/%.cpp
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
 
 %.o : %.cpp
@@ -153,11 +153,11 @@ exe: makeobjdir main.o $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
 		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
 	
-tests: test/runtests
+tests: test2/runtests
 
-TESTOBJS = test/InputPacketStreamFileTest.o test/runtests.o
+TESTOBJS = test2/InputPacketStreamFileTest.o test2/runtests.o
 
-test/runtests: $(TESTOBJS) lib
+test2/runtests: $(TESTOBJS) lib
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
 
 
@@ -186,7 +186,7 @@ makelibdir:
 
 #clean: delete all files from the current directory that are normally created by building the program. 
 clean:
-	$(DEL_FILE) $(OBJECTS_DIR)/*.o test/*.o
+	$(DEL_FILE) $(OBJECTS_DIR)/*.o test2/*.o
 	$(DEL_FILE) *~ core *.core
 	$(DEL_FILE) $(LIB_DESTDIR)/*.a
 	$(DEL_FILE) $(LIB_DESTDIR)/*.so*

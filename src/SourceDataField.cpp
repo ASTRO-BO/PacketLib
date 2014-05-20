@@ -154,7 +154,39 @@ word SourceDataField::getFieldValue(word index)
 
 void SourceDataField::setFieldValue(word index, word value)
 {
-    return block[0].setFieldValue(index, value);
+    block[0].setFieldValue(index, value);
+}
+
+
+void SourceDataField::setFieldValue_16i(word index, signed short value)
+{
+    block[0].setFieldValue_16i(index, value);
+}
+
+void SourceDataField::setFieldValue_16ui(word index, word value)
+{
+    block[0].setFieldValue_16ui(index, value);
+}
+
+
+void SourceDataField::setFieldValue_32i(word index, signed long value)
+{
+    block[0].setFieldValue_32i(index, value);
+}
+
+void SourceDataField::setFieldValue_32ui(word index, unsigned long value)
+{
+    block[0].setFieldValue_32ui(index, value);
+}
+
+void SourceDataField::setFieldValue_32f(word index, float value)
+{
+    block[0].setFieldValue_32f(index, value);
+}
+
+void SourceDataField::setFieldValue_64f(word index, double value)
+{
+    block[0].setFieldValue_64f(index, value);
 }
 
 word SourceDataField::getNumberOfFields()
@@ -187,6 +219,31 @@ bool SourceDataField::get_reset_output_stream() const
 void SourceDataField::set_reset_output_stream(bool value)
 {
     reset_output_stream = value;
+}
+
+signed short SourceDataField::getFieldValue_16i(word index){
+	return block[0].getFieldValue_16i(index);
+}
+
+word SourceDataField::getFieldValue_16ui(word index){
+	return block[0].getFieldValue_16ui(index);
+}
+
+signed long SourceDataField::getFieldValue_32i(word index){
+	return block[0].getFieldValue_32i(index);
+}
+
+
+unsigned long SourceDataField::getFieldValue_32ui(word index) {
+	return block[0].getFieldValue_32ui(index);
+}
+
+float SourceDataField::getFieldValue_32f(word index) {
+	return block[0].getFieldValue_32f(index);
+}
+
+double SourceDataField::getFieldValue_64f(word index) {
+	return block[0].getFieldValue_64f(index);
 }
 
 

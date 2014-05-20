@@ -460,6 +460,10 @@ void Packet::generateStream()
 
     header->generateStream(bigendian);
     dataField->generateStream(bigendian);
+	
+	//add compression here of the datafield
+	//TODO
+	//dataField->compress();
 }
 
 

@@ -84,8 +84,46 @@ public:
     };
 
     /// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a unsigned integer of less of equal 16 bits dimension
+	/// (depends by the size of the field in bits)
     /// \param index Represent the index in the list.
     virtual  inline word getFieldValue(word index);
+		
+	/// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a 16 bit signed integer.
+	/// \param index Represent the index of the field.
+	virtual signed short getFieldValue_16i(word index);
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a 16 bit unsigned integer.
+	/// \param index Represent the index of the field.
+	virtual word getFieldValue_16ui(word index);
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a 32 bit signed integer.
+    /// The index of the argument is the first 16 bit field of the 2 fields that compound
+    /// the 32 bit signed integer. The layout foreseen is the following:
+    ///	---------------------------------
+    ///	-	32 bit int MSB 16 bits	- the index passed as argument
+    ///	---------------------------------
+    ///	-	32 bit int LSB 16 bits	- the index + 1
+    ///	---------------------------------
+    /// This corresponds with the PTC=4, PFC = 14.
+    /// \param index Represent the index of the field.
+    virtual signed long getFieldValue_32i(word index);
+	
+    /// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a 32 bit unsigned integer.
+    /// The index of the argument is the first 16 bit field of the 2 fields that compound
+    /// the 32 bit unsigned long. The layout foreseen is the following:
+    ///	---------------------------------
+    ///	-	32 bit int MSB 16 bits	- the index passed as argument
+    ///	---------------------------------
+    ///	-	32 bit int LSB 16 bits	- the index + 1
+    ///	---------------------------------
+    /// This corresponds with the PTC=3, PFC = 14.
+    /// \param index Represent the index of the field.
+    virtual unsigned long getFieldValue_32ui(word index);
 
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a real single precision (IEEE 754).
@@ -116,8 +154,54 @@ public:
     /// This corresponds with the PTC=5, PFC = 2. <=> double or 64f
     /// \param index Represent the index of the field.
     virtual double getFieldValue_64f(word index);
+	
+	///Documentation
+    /// Sets the value of a field in the list of fields of this part of packet. Remember that
+    /// if a predefined value is specified in the .stream, this method has not effect and the
+    /// value contained in the .stream is used.
+    /// \param index Represent the index in the list.
+    /// \param value The value must be set.
+    virtual void setFieldValue(word index, word value);
+	
+	/// Sets the value of a field. The value is interpreted as a 16 bit signed integer.
+	/// \param index Represent the index of the field.
+    /// \param value The 16 bit signed integer value.
+	virtual void setFieldValue_16i(word index, signed short value);
+	
+	/// Sets the value of a field. The value is interpreted as a 16 bit unsigned integer (word).
+	/// \param index Represent the index of the field.
+    /// \param value The 16 bit unsigned integer value.
+	virtual void setFieldValue_16ui(word index, word value);
+	
+    /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
+    /// The index of the argument is the first 16 bit field of the 2 fields that compound
+    /// the 32 bit signed integer. The layout foreseen is the following:
+    ///	---------------------------------
+    ///	-	32 bit int MSB 16 bits	- 	the index passed as argument
+    ///	---------------------------------
+    ///	-	32 bit int LSB 16 bits	- 	the index + 1
+    ///	---------------------------------
+    /// This corresponds with the PTC=4, PFC = 14.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param index Represent the index of the field.
+    /// \param value The 32 bit signed integer value.
+    virtual void setFieldValue_32i(word index, signed long value);
 
-    /// Set the value of a field. The value is interpreted as a real single
+    /// Sets the value of a field. The value is interpreted as a 32 bit unsigned integer.
+    /// The index of the argument is the first 16 bit field of the 2 fields that compound
+    /// the 32 bit unsigned long. The layout foreseen is the following:
+    ///	---------------------------------
+    ///	-	32 bit int MSB 16 bits	- 	the index passed as argument
+    ///	---------------------------------
+    ///	-	32 bit int LSB 16 bits	- 	the index + 1
+    ///	---------------------------------
+    /// This corresponds with the PTC=3, PFC = 14.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param index Represent the index of the field.
+    /// \param value The 32 bit unsigned integer value.
+    virtual void setFieldValue_32ui(word index, unsigned long value);
+	
+	/// Set the value of a field. The value is interpreted as a real single
     /// precision (IEEE 754).
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
     /// the 32 bit real single precision. The layout foreseen is the following:
@@ -151,33 +235,7 @@ public:
     /// \param value The real double precision value
     virtual void setFieldValue_64f(word index, double value);
 
-    /// Returns the value of a field in the list of fields of this part of packet.
-    /// The value returned is interpreted as a 32 bit signed integer.
-    /// The index of the argument is the first 16 bit field of the 2 fields that compound
-    /// the 32 bit signed integer. The layout foreseen is the following:
-    ///	---------------------------------
-    ///	-	32 bit int MSB 16 bits	- the index passed as argument
-    ///	---------------------------------
-    ///	-	32 bit int LSB 16 bits	- the index + 1
-    ///	---------------------------------
-    /// This corresponds with the PTC=4, PFC = 14.
-    /// \param index Represent the index of the field.
-    virtual signed long getFieldValue_32i(word index);
-
-    /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
-    /// The index of the argument is the first 16 bit field of the 2 fields that compound
-    /// the 32 bit signed integer. The layout foreseen is the following:
-    ///	---------------------------------
-    ///	-	32 bit int MSB 16 bits	- 	the index passed as argument
-    ///	---------------------------------
-    ///	-	32 bit int LSB 16 bits	- 	the index + 1
-    ///	---------------------------------
-    /// This corresponds with the PTC=4, PFC = 14.
-    /// See setFieldValue(word index, word value) for general considerations.
-    /// \param index Represent the index of the field.
-    /// \param value The 32 bit signed integer value.
-    virtual void setFieldValue_32i(word index, signed long value);
-
+	
 #ifdef USEPHYSICALFIELDS
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 24 bit signed integer.
@@ -192,7 +250,7 @@ public:
     /// \param index Represent the index of the field.
     /// \return the 24 bit signed data converted in a long 32 bit
     virtual signed long getFieldValue_24i(word index);
-
+	
     /// Sets the value of a field. The value is interpreted as a 24 bit signed integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
     /// the 24 bit signed integer. The layout foreseen is the following:
@@ -207,36 +265,7 @@ public:
     /// \param value The 24 bit signed integer value. The long value is converted in a
     /// 24 bit data format (bit0 with the sign became 24 bit)
     virtual void setFieldValue_24i(word index, signed long value) throw(PacketException*);
-#endif
 	
-    /// Returns the value of a field in the list of fields of this part of packet.
-    /// The value returned is interpreted as a 32 bit unsigned integer.
-    /// The index of the argument is the first 16 bit field of the 2 fields that compound
-    /// the 32 bit unsigned long. The layout foreseen is the following:
-    ///	---------------------------------
-    ///	-	32 bit int MSB 16 bits	- the index passed as argument
-    ///	---------------------------------
-    ///	-	32 bit int LSB 16 bits	- the index + 1
-    ///	---------------------------------
-    /// This corresponds with the PTC=3, PFC = 14.
-    /// \param index Represent the index of the field.
-    virtual unsigned long getFieldValue_32ui(word index);
-
-    /// Sets the value of a field. The value is interpreted as a 32 bit unsigned integer.
-    /// The index of the argument is the first 16 bit field of the 2 fields that compound
-    /// the 32 bit unsigned long. The layout foreseen is the following:
-    ///	---------------------------------
-    ///	-	32 bit int MSB 16 bits	- 	the index passed as argument
-    ///	---------------------------------
-    ///	-	32 bit int LSB 16 bits	- 	the index + 1
-    ///	---------------------------------
-    /// This corresponds with the PTC=3, PFC = 14.
-    /// See setFieldValue(word index, word value) for general considerations.
-    /// \param index Represent the index of the field.
-    /// \param value The 32 bit unsigned integer value.
-    virtual void setFieldValue_32ui(word index, unsigned long value);
-
-#ifdef USEPHYSICALFIELDS
     /// Returns the value of a field in the list of fields of this part of packet.
     /// The value returned is interpreted as a 24 bit unsigned integer.
     /// The index of the argument is the first 16 bit field of the 2 fields that compound
@@ -264,14 +293,7 @@ public:
     /// \param value The 24 bit unsigned integer value.
     virtual void setFieldValue_24ui(word index, unsigned long value) throw(PacketException*);
 #endif
-	
-    ///Documentation
-    /// Sets the value of a field in the list of fields of this part of packet. Remember that
-    /// if a predefined value is specified in the .stream, this method has not effect and the
-    /// value contained in the .stream is used.
-    /// \param index Represent the index in the list.
-    /// \param value The value must be set.
-    virtual void setFieldValue(word index, word value);
+
 
     /// Returns the number of fields.
     virtual  inline word getNumberOfFields()
@@ -303,12 +325,14 @@ public:
     PartOfPacket* previous;
 
     char* popName;
+	
+	void printLogicalFields();
 
 protected:
 	
-	word getFieldValuePhysical(word index);
+	virtual word getFieldValuePhysical(word index);
 	
-	void setFieldValuePhysical(word index, word value);
+	virtual void setFieldValuePhysical(word index, word value);
 
 	bool decode();
 	
