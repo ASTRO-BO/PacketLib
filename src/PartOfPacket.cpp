@@ -159,10 +159,10 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 		
         
     } while(strlen(name) !=  0);
-	
-    fields = new Field* [count];
-	logicalFields = new LogicalField* [countlogicalfields];
-	
+
+    fields = new Field* [count+1];
+	logicalFields = new LogicalField* [countlogicalfields+1];
+
 	fp.setpos(pos);
     name = fp.getLine();
     if(strlen(name) == 0)
