@@ -1,9 +1,10 @@
 /***************************************************************************
-                          ConfigurationFile.cpp  -  description
-                             -------------------
+                          ConfigurationFile.cpp
+                          -------------------
     begin                : Thu Nov 29 2001
     copyright            : (C) 2001, 2013 by Andrea Bulgarelli
-    email                : bulgarelli@iasfbo.inaf.it
+                           (C) 2014 by Andrea Zoli
+    email                : bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -17,7 +18,9 @@
 
 #include "ConfigurationFile.h"
 #include "InputTextFile.h"
+#include "XmlConfig.h"
 #include <unistd.h>
+#include <string>
 
 using namespace PacketLib;
 
@@ -39,7 +42,18 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 
     bool ret;
     currentpwd = getcwd(NULL, 512L);
-    ret = InputTextFile::open(parameters);
+
+	if(std::string(parameters[0]).find(".xml") != std::string::npos)
+	{
+		XmlConfig config;
+		std::string streamfile = config.convert(parameters[0]);
+		int size = streamfile.size();
+		parameters[0] = new char[size];
+		memcpy(parameters[0], streamfile.c_str(), size);
+		parameters[0][size] = 0;
+	}
+	
+	ret = InputTextFile::open(parameters);
     if(!closed)
         fchdir();
     return ret;
