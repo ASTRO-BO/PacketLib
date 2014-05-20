@@ -473,7 +473,7 @@ void PartOfPacket::setFieldValue(word index, word value)
         fields[index]->value = (value & pattern[fields[index]->size()]);
 }
 
-float PartOfPacket::getFieldValue_5_1(word index)
+float PartOfPacket::getFieldValue_32f(word index)
 {
     union u_tag
     {
@@ -486,12 +486,11 @@ float PartOfPacket::getFieldValue_5_1(word index)
     return u.f;
 }
 
-double PartOfPacket::getFieldValue_5_2(word index)
+double PartOfPacket::getFieldValue_64f(word index)
 {
 	if(sizeof(unsigned long) == 4) {
 		//TODO
-		cout << "this does not work in a 32 bit system" << endl;
-		exit(0);
+		throw new PacketException("The getFieldValue_64f() does not work in a 32 bit operating system");
 	}
 		
     union u_tag
@@ -505,7 +504,7 @@ double PartOfPacket::getFieldValue_5_2(word index)
     return u.d;
 }
 
-void PartOfPacket::setFieldValue_5_1(word index, float value)
+void PartOfPacket::setFieldValue_32f(word index, float value)
 {
     union u_tag
     {
@@ -522,12 +521,11 @@ void PartOfPacket::setFieldValue_5_1(word index, float value)
     setFieldValue(index + 1, w);
 }
 
-void PartOfPacket::setFieldValue_5_2(word index, double value)
+void PartOfPacket::setFieldValue_64f(word index, double value)
 {
     if(sizeof(unsigned long) == 4) {
 		//TODO
-		cout << "this does not work in a 32 bit system" << endl;
-		exit(0);
+		throw new PacketException("The getFieldValue_64f() does not work in a 32 bit operating system");
 	}
 		
     union u_tag
@@ -550,14 +548,14 @@ void PartOfPacket::setFieldValue_5_2(word index, double value)
     setFieldValue(index + 3, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_14(word index)
+signed long PartOfPacket::getFieldValue_32i(word index)
 {
     long l;
     l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
     return l;
 }
 
-void PartOfPacket::setFieldValue_4_14(word index, signed long value)
+void PartOfPacket::setFieldValue_32i(word index, signed long value)
 {
     word w;
     w = (word)(value >> 16);
@@ -566,14 +564,14 @@ void PartOfPacket::setFieldValue_4_14(word index, signed long value)
     setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_14(word index)
+unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
     dword l;
     l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
     return l;
 }
 
-void PartOfPacket::setFieldValue_3_14(word index, unsigned long value)
+void PartOfPacket::setFieldValue_32ui(word index, unsigned long value)
 {
     word w;
     w = (word)(value >> 16);
@@ -582,66 +580,30 @@ void PartOfPacket::setFieldValue_3_14(word index, unsigned long value)
     setFieldValue(index + 1, w);
 }
 
-unsigned long PartOfPacket::getFieldValue_3_13(word index)
+word PartOfPacket::getFieldValue_16ui(word index)
 {
-    word wh, wl;
-    wh = getFieldValue(index);
-    wl = getFieldValue(index + 1);
-    return (dword)(wh << 8) | (dword)(wl & 0xFF);
+	return getFieldValue(index);
 }
 
-void PartOfPacket::setFieldValue_3_13(word index, unsigned long value) throw(PacketException*)
+signed short PartOfPacket::getFieldValue_16i(word index)
+{
+    signed short l;
+    l = (signed short)getFieldValue(index);
+    return l;
+}
+
+void PartOfPacket::setFieldValue_16i(word index, signed short value)
 {
     word w;
-    if(value > U24BITINTGEGERUNSIGNED_MAX)
-        throw new PacketException("setFieldValue_3_13(): the max value of 24 bit unsigned integer should be 16777215");
-    w = (word)(value >> 8);
+    w = (word)value;
     setFieldValue(index, w);
-    w = (word) (0xFF & value);
-    setFieldValue(index + 1, w);
 }
 
-signed long PartOfPacket::getFieldValue_4_13(word index)
+void PartOfPacket::setFieldValue_16ui(word index, word value)
 {
-    union u_tag
-    {
-    	/// 32 bit
-        unsigned long u;		
-        signed long s;
-    } us;
-    us.u = getFieldValue_3_14(index);
-    /// get the sign
-    unsigned long sign = (us.u  >> 23); 
-    unsigned long wh = us.u & 0x007FFFFF;
-    /// get a long 32 bit
-    if(sign == 1)
-        us.u = 0x7F800000 + wh + (sign << 31);
-    else
-        us.u = wh + (sign << 31);
-    return us.s;
+    setFieldValue(index, value);
 }
 
-
-void PartOfPacket::setFieldValue_4_13(word index, signed long value) throw(PacketException*)
-{
-    union u_tag
-    {
-    	/// 32 bit
-        unsigned long u;		
-        signed long s;
-    } us;
-    if(value > U24BITINTGEGERSIGNED_MAX)
-        throw new PacketException("setFieldValue_4_13(): the max value of 24 bit signed integer should be 8388607");
-    if(value < U24BITINTGEGERSIGNED_MIN)
-        throw new PacketException("setFieldValue_4_13(): the min value of 24 bit signed integer should be -8388607");
-    us.s = value;
-    unsigned long sign = (us.u >> 31);
-    /// 23 bit
-    unsigned long wh = us.u & 0x007FFFFF;
-    unsigned long value2 = 0;
-    value2 = wh + (sign << 23);
-    setFieldValue_3_14(index, value2);
-}
 
 void PacketLib::PartOfPacket::memByteStream(ByteStreamPtr stream) {
 	this->stream = stream;

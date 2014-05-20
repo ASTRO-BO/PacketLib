@@ -22,6 +22,9 @@
 
 namespace PacketLib
 {
+	
+enum LogicalFieldDataType { UNKNOWN, UINT1, UINT2, UINT3, UINT4, UINT5, UINT6, UINT7, UINT8, UINT9, UINT10, UINT11, UINT12, UINT13, UINT14, UINT15, UINT16, INT16, UINT24, INT24, UINT32, INT32, UINT64, INT64, FLOAT, DOUBLE, BYTEARRAY };
+
 
 
 class FieldType
@@ -40,6 +43,9 @@ public:
 
     /// Name of the field.
     char* name;
+	
+	/// Logical type - NOT USED FOR NOW
+	enum LogicalFieldDataType type;
 };
 
 
@@ -86,6 +92,16 @@ public:
     {
         return progressiv;
     };
+	
+	void print();
+	
+	/// Get a description of the type (e.g. int32, 16, etc) and the number of bits of each single field
+	///\param type (input) the type read from configuration file
+	///\param outtype (output) the type as enum
+	///\param outtypenfields (output) the number of physical fields equivalent to this logical field
+	///\param outputfieldsbitsize (output) the number of bits of each single field
+	static void getType(char* type, enum LogicalFieldDataType &outtype, int &outtypenfields, int &outputfieldsbitsize);
+
 
 protected:
 
