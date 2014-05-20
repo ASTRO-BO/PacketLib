@@ -82,6 +82,10 @@ Field::~Field()
 
 }
 
+void Field::print() {
+	cout << progressiv << " " << getName() << " " << size() << endl;
+}
+
 LogicalField::LogicalField(char* n, char* type, char* prVal, int count) : progressiv(count)
 {
 	

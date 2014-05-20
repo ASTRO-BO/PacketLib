@@ -114,6 +114,8 @@ public:
         return progressiv;
     };
 	
+	void print();
+	
 
 protected:
 

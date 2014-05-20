@@ -117,6 +117,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 {
 
+	cout << "PPPPPP" << endl;
     char* name, *type, *value;
     /// It calls the function that releases the memory
     deleteFields();
@@ -196,11 +197,13 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 				Field* f = new Field(name, lf->getOutputFieldsBitSize(), "none", numberOfFields);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
+				f->print();
 				if(i==0) lf->setIndexOfPhysicalField(numberOfFields);
 				numberOfFields++;
 			}
 		} else {
 			Field* f = new Field(name, lf->getOutputFieldsBitSize(), value, numberOfFields);
+			f->print();
 			fieldsDimension += f->size();
 			fields[numberOfFields] = f;
 			lf->setIndexOfPhysicalField(numberOfFields);
@@ -594,6 +597,13 @@ word PartOfPacket::getFieldValue(word index)
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
 		index = logicalFields[index]->getIndexOfPhysicalField();
+	else {
+		string err = "PartOfPacket::getFieldValue(";
+		err += (int)index;
+		err += ") is out of range: max index is ";
+		err += (int)numberOfLogicalFields;
+		throw new PacketException(err.c_str());
+	}
 #endif
 	  
 	return getFieldValuePhysical(index);
@@ -784,28 +794,24 @@ void PartOfPacket::setFieldValue_16ui(word index, word value)
 
 unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
-	cout << "PartOfPacket::getFieldValue_32ui logical " << index << endl;
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
 		index = logicalFields[index]->getIndexOfPhysicalField();
-	cout << "PartOfPacket::getFieldValue_32ui physica " << index << endl;
 #endif
 	//TODO con getFieldValue funziona, con getFieldValuePhysical() non funziona
+
+	dword l;
 	
+#ifdef DEBUG
 	cout << "---" << endl;
 	cout << "A getFieldValue" << endl;
 	//cout << "getFieldValue_32ui res: " << (unsigned long ) getFieldValue(index)  << endl;
 	//cout << (unsigned long ) getFieldValue(index + 1) << endl;
-	
 	cout << "B getFieldValuePhysical " << endl;
-	
 	unsigned long tmp = getFieldValuePhysical(index);
 	cout << "---" << tmp << endl;
-	
-	
-	
 	cout << "----" << endl;
-    dword l;
+    
 	cout << getFieldValuePhysical(index) << endl;
 	l = getFieldValuePhysical(index);
 	cout << l << endl;
@@ -815,6 +821,7 @@ unsigned long PartOfPacket::getFieldValue_32ui(word index)
 	l = l | getFieldValuePhysical(index + 1);
 	cout << l << endl;
 	cout << "----" << endl;
+#endif
     l = (dword) (getFieldValuePhysical(index) << 16) | (dword) getFieldValuePhysical(index + 1);
     return l;
 }
