@@ -95,7 +95,7 @@ dword PacketHeader::getPacketLength()
     }
     else
     {
-        return getFieldValue_4_14(numberOfFieldWithPacketDimension) + 1;
+        return getFieldValue_32i(numberOfFieldWithPacketDimension) + 1;
     }
 }
 
@@ -109,7 +109,7 @@ void PacketHeader::setPacketLength(dword dim)
     }
     else
     {
-        setFieldValue_4_14(numberOfFieldWithPacketDimension, dim-1);
+        setFieldValue_32i(numberOfFieldWithPacketDimension, dim-1);
     }
 }
 
