@@ -87,7 +87,7 @@ public:
 	/// The value returned is interpreted as a unsigned integer of less of equal 16 bits dimension
 	/// (depends by the size of the field in bits)
     /// \param index Represent the index in the list.
-    virtual  inline word getFieldValue(word index);
+    virtual word getFieldValue(word index);
 		
 	/// Returns the value of a field in the list of fields of this part of packet.
 	/// The value returned is interpreted as a 16 bit signed integer.

@@ -177,30 +177,26 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 
         type = fp.getLine();
         value = fp.getLine();
-		
-		cout << "numberOfLogicalFields " << numberOfLogicalFields << endl;
 		LogicalField* lf = new LogicalField(name, type, value, numberOfLogicalFields );
-		
-		//cout << name << " " << type << " " << value << " " << lf->getType() << " " << lf->getOutTypeNfields() << " " << numberOfLogicalFields << endl;
+
+#ifdef DEBUG
+		cout << "name: '" << name << "'" << endl;
+		cout << "numberoflogicalfields: " << numberOfLogicalFields << endl;
+		cout << "numberOfFields: " << numberOfFields << endl;
+#endif
 		logicalFields[numberOfLogicalFields] = lf;
 		numberOfLogicalFields++;
-		
+
 		if(lf->getOutTypeNfields() > 1) {
 			if(lf->getOutTypeNfields() > 4)
 				throw new PacketException("It is not possible to have more than 4 physical fields for a logical field");
 			for(int i=0; i<lf->getOutTypeNfields(); i++) {
-				cout << "A!!!!!!!!! " << i << endl;
 				//it should be useful to change the name of the field TODO
 				//the predefined value is only valid for types <= 16 bit - it should be possible to call the appropriate set methods here TODO
-				cout << "numberOfFields " << numberOfFields << endl;
-				
 				Field* f = new Field(name, lf->getOutputFieldsBitSize(), "none", numberOfFields);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
-				cout << lf->getIndexOfPhysicalField() << endl;
 				if(i==0) lf->setIndexOfPhysicalField(numberOfFields);
-				cout << lf->getIndexOfPhysicalField() << endl;
-				
 				numberOfFields++;
 			}
 		} else {
@@ -210,7 +206,6 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 			lf->setIndexOfPhysicalField(numberOfFields);
 			numberOfFields++;
 		}
-		
         name = fp.getLine();
         /// It reads until the buffer ends
         if(name[0] == '[')
@@ -218,8 +213,9 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
             break;
         }
     }
-	cout << "numberOfLogicalFields-numberOfLogicalFields" <<  numberOfLogicalFields << endl;
+#ifdef DEBUG
 	printLogicalFields();
+#endif
     return true;
 }
 
@@ -495,7 +491,7 @@ void PartOfPacket::printLogicalFields()
 	cout << "numberOfLogicalFields: " << numberOfLogicalFields << endl;
 	for(int i=0; i<numberOfLogicalFields; i++) {
 		LogicalField* lf = logicalFields[i];
-		cout << lf->getProgressiv() << " " << lf->getIndexOfPhysicalField() << " " << lf->getName() << endl;
+		cout << lf->getName() << " " << lf->getProgressiv() << " " << lf->getIndexOfPhysicalField() << endl;
 	}
 }
 
@@ -578,11 +574,15 @@ bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
 
 word PartOfPacket::getFieldValuePhysical(word index)
 {
-	cout << "PartOfPacket::getFieldValuePhysical " << endl;
 	decode();
-	cout << "getFieldValuePhysical index: " << index << " numberOfFields: " << numberOfFields << " " << endl;
+
+#ifdef DEBUG
+	cout << "PartOfPacket::getFieldValuePhysical index: " << index << " numberOfFields: " << numberOfFields << " " << endl;
+#endif
 	if(index < numberOfFields) {
+#ifdef DEBUG
 		cout << "value: " << fields[index]->value << endl;
+#endif
 		return fields[index]->value;
 	}
 	else
@@ -784,8 +784,6 @@ void PartOfPacket::setFieldValue_16ui(word index, word value)
 
 unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
-	printLogicalFields();
-	exit(0);
 	cout << "PartOfPacket::getFieldValue_32ui logical " << index << endl;
 #ifdef USELOGICALFIELDS
 	if(index < numberOfLogicalFields)
