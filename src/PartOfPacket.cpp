@@ -467,6 +467,15 @@ bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
     return true;
 }
 
+word PartOfPacket::getFieldValue(word index)
+{
+	decode();
+	if(index < numberOfFields)
+		return fields[index]->value;
+	else
+		return 0;
+};
+
 void PartOfPacket::setFieldValue(word index, word value)
 {
     if(index < numberOfFields)
