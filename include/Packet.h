@@ -96,6 +96,9 @@ public:
 	///Get the the variable part of the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataFieldsVariablePart();
 	
+	///Get the the source data field as a ByteStream
+	ByteStreamPtr getBSSourceDataField();
+	
 	///Get the tail as a ByteStream
 	ByteStreamPtr getBSTail();
 	

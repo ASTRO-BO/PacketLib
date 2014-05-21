@@ -815,6 +815,12 @@ ByteStreamPtr Packet::getBSSourceDataFieldsVariablePart() {
 	return sdff;
 }
 
+ByteStreamPtr Packet::getBSSourceDataField() {
+	dword dimvariablepart = packet->size() - dimPrefix - (dimPacketStartingFixedPart - dimPacketSourceDataFieldFixed) - dimPacketTail;
+	ByteStreamPtr sdff = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketStartingFixedPart - dimPacketSourceDataFieldFixed, dimvariablepart, bigendian));
+	return sdff;
+}
+
 ByteStreamPtr Packet::getBSTail() {
 	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
 	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
