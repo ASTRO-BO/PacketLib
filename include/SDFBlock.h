@@ -286,6 +286,95 @@ public:
     {
         return getTotalNumberOfFields();
     };
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a unsigned integer of less of equal 16 bits dimension
+	/// (depends by the size of the field in bits)
+    /// \param fieldname Represent the name of the field.
+    virtual word getFieldValue(string fieldname);
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a 16 bit signed integer.
+    /// \param fieldname Represent the name of the field.
+	virtual signed short getFieldValue_16i(string fieldname);
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+	/// The value returned is interpreted as a 16 bit unsigned integer.
+    /// \param fieldname Represent the name of the field.
+	virtual word getFieldValue_16ui(string fieldname);
+	
+	/// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a 32 bit signed integer.
+    /// This corresponds with the PTC=4, PFC = 14.
+    /// \param fieldname Represent the name of the field.
+    virtual signed long getFieldValue_32i(string fieldname);
+	
+    /// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a 32 bit unsigned integer.
+    /// This corresponds with the PTC=3, PFC = 14.
+    /// \param fieldname Represent the name of the field.
+    virtual unsigned long getFieldValue_32ui(string fieldname);
+	
+    /// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a real single precision (IEEE 754).
+    /// This corresponds with the PTC=5, PFC = 1 <=> float or 32f
+    /// \param fieldname Represent the name of the field.
+    virtual float getFieldValue_32f(string fieldname);
+    
+    /// Returns the value of a field in the list of fields of this part of packet.
+    /// The value returned is interpreted as a real double precision (IEEE 754).
+    /// This corresponds with the PTC=5, PFC = 2. <=> double or 64f
+    /// \param fieldname Represent the name of the field.
+    virtual double getFieldValue_64f(string fieldname);
+	
+	///Documentation
+    /// Sets the value of a field in the list of fields of this part of packet. Remember that
+    /// if a predefined value is specified in the .stream, this method has not effect and the
+    /// value contained in the .stream is used.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The value must be set.
+    virtual void setFieldValue(string fieldname, word value);
+	
+	/// Sets the value of a field. The value is interpreted as a 16 bit signed integer.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The 16 bit signed integer value.
+	virtual void setFieldValue_16i(string fieldname, signed short value);
+	
+	/// Sets the value of a field. The value is interpreted as a 16 bit unsigned integer (word).
+    /// \param fieldname Represent the name of the field.
+    /// \param value The 16 bit unsigned integer value.
+	virtual void setFieldValue_16ui(string fieldname, word value);
+	
+    /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
+    ///	---------------------------------
+    /// This corresponds with the PTC=4, PFC = 14.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The 32 bit signed integer value.
+    virtual void setFieldValue_32i(string fieldname, signed long value);
+	
+    /// Sets the value of a field. The value is interpreted as a 32 bit unsigned integer.
+    /// This corresponds with the PTC=3, PFC = 14.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The 32 bit unsigned integer value.
+    virtual void setFieldValue_32ui(string fieldname, unsigned long value);
+	
+	/// Set the value of a field. The value is interpreted as a real single
+    /// precision (IEEE 754).
+    /// This corresponds with the PTC=5, PFC = 1.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The real single precision value
+    virtual void setFieldValue_32f(string fieldname, float value);
+    
+    /// Set the value of a field. The value is interpreted as a real double
+    /// precision (IEEE 754).
+    /// This corresponds with the PTC=5, PFC = 2.
+    /// See setFieldValue(word index, word value) for general considerations.
+    /// \param fieldname Represent the name of the field.
+    /// \param value The real double precision value
+    virtual void setFieldValue_64f(string fieldname, double value);
 
     /// Returns the number of fields of the overall block
     virtual word getTotalNumberOfFields();

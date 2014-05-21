@@ -666,4 +666,99 @@ word SDFBlock::getTotalNumberOfFields()
     return dim;
 }
 
+word SDFBlock::getFieldValue(string fieldname) {
+	return fixed.getFieldValue(fieldname);
+	
+}
+
+
+signed short SDFBlock::getFieldValue_16i(string fieldname) {
+	return fixed.getFieldValue_16i(fieldname);
+	
+}
+
+
+
+word SDFBlock::getFieldValue_16ui(string fieldname) {
+	return fixed.getFieldValue_16ui(fieldname);
+	
+}
+
+
+
+signed long SDFBlock::getFieldValue_32i(string fieldname){
+	return fixed.getFieldValue_32i(fieldname);
+	
+}
+
+
+
+unsigned long SDFBlock::getFieldValue_32ui(string fieldname){
+	return fixed.getFieldValue_32ui(fieldname);
+	
+}
+
+
+
+float SDFBlock::getFieldValue_32f(string fieldname){
+	return fixed.getFieldValue_32f(fieldname);
+	
+}
+
+
+
+double SDFBlock::getFieldValue_64f(string fieldname){
+	return fixed.getFieldValue_64f(fieldname);
+	
+}
+
+
+
+void SDFBlock::setFieldValue(string fieldname, word value){
+	fixed.setFieldValue(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_16i(string fieldname, signed short value){
+	fixed.setFieldValue_16i(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_16ui(string fieldname, word value){
+	fixed.setFieldValue_16ui(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_32i(string fieldname, signed long value){
+	fixed.setFieldValue_32i(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_32ui(string fieldname, unsigned long value){
+	fixed.setFieldValue_32ui(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_32f(string fieldname, float value){
+	fixed.setFieldValue_32f(fieldname, value);
+	
+}
+
+
+
+void SDFBlock::setFieldValue_64f(string fieldname, double value){
+	fixed.setFieldValue_64f(fieldname, value);
+	
+}
+
 

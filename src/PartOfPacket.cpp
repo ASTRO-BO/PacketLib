@@ -472,14 +472,19 @@ word PartOfPacket::getFieldValue(word index)
 	decode();
 	if(index < numberOfFields)
 		return fields[index]->value;
-	else
-		return 0;
+	else {
+		throw new PacketException("getFieldValue(index) error: index out of range");
+	}
+	return 0;
+		
 };
 
 void PartOfPacket::setFieldValue(word index, word value)
 {
     if(index < numberOfFields)
         fields[index]->value = (value & pattern[fields[index]->size()]);
+	else
+		throw new PacketException("setFieldValue(index, value) error: index out of range");
 }
 
 float PartOfPacket::getFieldValue_32f(word index)
@@ -617,3 +622,114 @@ void PartOfPacket::setFieldValue_16ui(word index, word value)
 void PacketLib::PartOfPacket::memByteStream(ByteStreamPtr stream) {
 	this->stream = stream;
 }
+
+
+
+word PartOfPacket::getFieldValue(string fieldname) {
+	word index = getFieldIndex(fieldname);
+	return getFieldValue(index);
+}
+
+
+signed short PartOfPacket::getFieldValue_16i(string fieldname) {
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_16i(index);
+}
+
+
+
+word PartOfPacket::getFieldValue_16ui(string fieldname) {
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_16ui(index);
+}
+
+
+
+signed long PartOfPacket::getFieldValue_32i(string fieldname){
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_32i(index);
+}
+
+
+
+unsigned long PartOfPacket::getFieldValue_32ui(string fieldname){
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_32ui(index);
+}
+
+
+
+float PartOfPacket::getFieldValue_32f(string fieldname){
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_32f(index);
+}
+
+
+
+double PartOfPacket::getFieldValue_64f(string fieldname){
+	word index = getFieldIndex(fieldname);
+	return getFieldValue_64f(index);
+}
+
+
+
+void PartOfPacket::setFieldValue(string fieldname, word value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue(index, value);
+}
+
+
+
+void PartOfPacket::setFieldValue_16i(string fieldname, signed short value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_16i(index, value);
+}
+
+
+
+void PartOfPacket::setFieldValue_16ui(string fieldname, word value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_16ui(index, value);
+}
+
+
+
+void PartOfPacket::setFieldValue_32i(string fieldname, signed long value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_32i(index, value);
+}
+
+
+
+void PartOfPacket::setFieldValue_32ui(string fieldname, unsigned long value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_32ui(index, value);
+	
+}
+
+
+
+void PartOfPacket::setFieldValue_32f(string fieldname, float value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_32f(index, value);
+}
+
+
+
+void PartOfPacket::setFieldValue_64f(string fieldname, double value){
+	word index = getFieldIndex(fieldname);
+	setFieldValue_64f(index, value);
+}
+
+word PartOfPacket::getFieldIndex(string fieldname) {
+	word index = 0;
+	for(word i=0; i<numberOfFields; i++) {
+		Field* f = fields[i];
+		string fname = f->getName();
+		if(fieldname == fname)
+			return i;
+	}
+	throw new PacketException("getFieldIndex(fieldname) error: no field found in this section");
+	return index;
+}
+

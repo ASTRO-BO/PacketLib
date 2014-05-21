@@ -246,4 +246,100 @@ double SourceDataField::getFieldValue_64f(word index) {
 	return block[0].getFieldValue_64f(index);
 }
 
+word SourceDataField::getFieldValue(string fieldname) {
+		return block[0].getFieldValue(fieldname);
+	
+}
+
+
+signed short SourceDataField::getFieldValue_16i(string fieldname) {
+		return block[0].getFieldValue_16i(fieldname);
+	
+}
+
+
+
+word SourceDataField::getFieldValue_16ui(string fieldname) {
+		return block[0].getFieldValue_16ui(fieldname);
+	
+}
+
+
+
+signed long SourceDataField::getFieldValue_32i(string fieldname){
+		return block[0].getFieldValue_32i(fieldname);
+	
+}
+
+
+
+unsigned long SourceDataField::getFieldValue_32ui(string fieldname){
+		return block[0].getFieldValue_32ui(fieldname);
+	
+}
+
+
+
+float SourceDataField::getFieldValue_32f(string fieldname){
+		return block[0].getFieldValue_32f(fieldname);
+	
+}
+
+
+
+double SourceDataField::getFieldValue_64f(string fieldname){
+		return block[0].getFieldValue_64f(fieldname);
+	
+}
+
+
+
+void SourceDataField::setFieldValue(string fieldname, word value){
+		block[0].setFieldValue(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_16i(string fieldname, signed short value){
+		block[0].setFieldValue_16i(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_16ui(string fieldname, word value){
+		block[0].setFieldValue_16ui(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_32i(string fieldname, signed long value){
+		block[0].setFieldValue_32i(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_32ui(string fieldname, unsigned long value){
+	block[0].setFieldValue_32ui(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_32f(string fieldname, float value){
+		block[0].setFieldValue_32f(fieldname, value);
+	
+}
+
+
+
+void SourceDataField::setFieldValue_64f(string fieldname, double value){
+		block[0].setFieldValue_64f(fieldname, value);
+	
+}
+
+
 
