@@ -108,7 +108,7 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
 		Packet* p = packetType[pindex];
 
 
-		if(!p->set(b0, b1, b2)) //gli stream diventano del packet
+		if(!p->decode(b0, b1, b2)) //gli stream diventano del packet
 			throw new PacketExceptionIO("it is impossible to resolve the packet.");
 
 		return p;

@@ -72,6 +72,9 @@ public:
 
     /// Return a packet of index passed as parameters.
     Packet* getPacketType(int index);
+	
+	/// Return a packet of name passed as parameters.
+	Packet* getPacketType(string name);
 
     static char* packetLibVersion()
     {

@@ -597,7 +597,7 @@ bool Packet::setPacketValueHeader(ByteStreamPtr packetHeader)
 
 
 
-ByteStreamPtr Packet::getOutputStream()
+ByteStreamPtr Packet::encode()
 {
 	//TODO: check
     generateStream();
@@ -701,7 +701,7 @@ char* Packet::printPacketOutputStream()
 
 
 
-bool Packet::set(ByteStreamPtr stream, bool checkPacketLength) {
+bool Packet::decode(ByteStreamPtr stream, bool checkPacketLength) {
 
 	//save a pointer to the current stream to avoid shareptr deallocation
 	this->stream = stream;
@@ -748,7 +748,7 @@ bool Packet::set(ByteStreamPtr stream, bool checkPacketLength) {
 
 }
 
-bool Packet::set(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLength) {
+bool Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLength) {
 	
 	this->stream = 0;
 	decodedPacketHeader = false;
@@ -781,10 +781,10 @@ bool Packet::set(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLen
 
 
 
-bool Packet::set(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght) {
+bool Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght) {
 	//merge packetHeader and packetDataField
 	ByteStreamPtr tmpPacket = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
-	return set(prefix, tmpPacket, checkPacketLenght);
+	return decode(prefix, tmpPacket, checkPacketLenght);
 	
 }
 
@@ -899,7 +899,7 @@ void Packet::decompress() {
 	//3) rebuild a new "newstream" bytestream, taking into account the prefix, (if any) and the tail
 	//4) change the size of the packet into the header (manually)
 	//5) change the field the indicate if the packet is compressed = 0
-	//5) call set(newstream)
+	//5) call decode(newstream)
 
 }
 

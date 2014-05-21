@@ -91,7 +91,7 @@ int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader
     for (int i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-		p->set(prefix, packetHeader, packetDataField);
+		p->decode(prefix, packetHeader, packetDataField);
         if(p->verify())
             return i;
     }
@@ -105,7 +105,7 @@ int PacketStream::detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet)
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-		p->set(prefix, packet);
+		p->decode(prefix, packet);
         if(p->verify())
             return i;
     }
@@ -120,7 +120,7 @@ int PacketStream::detPacketType(ByteStreamPtr packet)
     for (dword i = 1; i<numberOfPacketType; i++)
     {
         Packet* p = getPacketType(i);
-		p->set(packet);
+		p->decode(packet);
         if(p->verify())
             return i;
     }
@@ -135,7 +135,7 @@ Packet* PacketStream::getPacket(ByteStreamPtr stream) throw(PacketException*){
 	if(index > 0) {
 		Packet* p = getPacketType(index);
 		
-		if(!p->set(stream)) //gli stream diventano del packet
+		if(!p->decode(stream)) //gli stream diventano del packet
 			throw new PacketExceptionIO("it is impossible to resolve the packet.");
 		
 		return p;
@@ -311,7 +311,14 @@ Packet* PacketStream::getPacketType(int index)
     return packetType[index];
 }
 
-
+Packet* PacketStream::getPacketType(string name) {
+	for(int i=1; i<numberOfPacketType; i++) {
+		string pname = packetType[i]->getName();
+		if(pname == name)
+			return packetType[i];
+	}
+	throw new PacketException("Packet type not found in the PacketStream");
+}
 
 bool PacketStream::isBigEndian()
 {

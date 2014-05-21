@@ -211,7 +211,7 @@ Packet* InputPacketStreamFile::getPacketFromFileStreamPointer(int index, bool ne
         pnew->createPacketType((char*)sf.c_str(), prefix, dimPrefix);
         p = pnew;
     }
-    if(p->set(b0, b1, b2))
+    if(p->decode(b0, b1, b2))
         return p;
     else
         return NULL;
@@ -289,7 +289,7 @@ Packet* InputPacketStreamFile::getPacketFromStream() throw (PacketExceptionIO * 
     for (int i = 1; i<numberOfPacketType; i++)
     {
         p = getPacketType(i);
-		p->set(b0, b1, b2);
+		p->decode(b0, b1, b2);
         if(p->verify())
         {
             return p;

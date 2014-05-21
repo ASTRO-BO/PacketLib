@@ -226,7 +226,7 @@ byte* PacketLib::ByteStream::getStream()
 
 
 
-byte* PacketLib::ByteStream::getOutputStream()
+byte* PacketLib::ByteStream::encode()
 {
     swapWordIfStreamIsLittleEndian();
     return stream;

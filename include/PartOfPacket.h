@@ -44,25 +44,11 @@ public:
     /// Virtual destructor
     virtual ~PartOfPacket();
 
-    /// Prints the structure of this part of packet.
-    virtual string* printStructure();
-
-    /// Prints the value of each field of this part of packet.
-    virtual char** printValue(const char* addString = "");
-
-    virtual void printValueStdout();
-
     /// This method loads the field present into the InputText (passed with the
     /// parameter).
     /// The InputText must be open and the internal pointer of the file must
     /// be in the first line that describes the fields.
     virtual bool loadFields(InputText& fp) throw(PacketException*);
-
-    /// This method loads the field present into the MemoryBuffer (passed with the
-    /// parameter).
-    virtual bool loadFields(MemoryBuffer* mb) throw(PacketException*);
-
-    virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
 
     /// Returns the dimension (in byte) of this part of packet.
     virtual  inline dword size()
@@ -359,8 +345,25 @@ public:
     PartOfPacket* previous;
 
     char* popName;
+	
+	/// Prints the structure of this part of packet.
+    virtual string* printStructure();
+	
+    /// Prints the value of each field of this part of packet.
+    virtual char** printValue(const char* addString = "");
+	
+    virtual void printValueStdout();
+
 
 protected:
+	
+	
+    /// This method loads the field present into the MemoryBuffer (passed with the
+    /// parameter).
+    virtual bool loadFields(MemoryBuffer* mb) throw(PacketException*);
+	
+    virtual MemoryBuffer* loadFieldsInBuffer(InputText & fp);
+
 
 	bool decode();
 	

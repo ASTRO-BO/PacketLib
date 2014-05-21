@@ -61,7 +61,7 @@ public:
     /// Returns a pointer of the stream for output purpose. If there is problems return NULL
     /// \remarks In little endian architecture it is necessary to call endOutputStream()
     /// after the use of the byte* stream in output operations.
-    byte* getOutputStream();
+    byte* encode();
 
     // This method must be called after the output operation.
     void endOutputStream();

@@ -59,20 +59,20 @@ public:
 	/// Sets the ByteStream.
     /// \param stream A pointer to the stream of byte, with prefix and packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual bool set(ByteStreamPtr stream, bool checkPacketLenght = false);
+    virtual bool decode(ByteStreamPtr stream, bool checkPacketLenght = false);
 	
 	/// Sets the ByteStream.
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packet A pointer to the stream of byte, with the packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual bool set(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false);
+    virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false);
 	
 	/// Sets the ByteStream.
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packetHeader A pointer to the stream of byte, with the packet header
 	/// \param packetHeader A pointer to the stream of byte, with the packet data field
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual bool set(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
+    virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
 	
 	///return true is the packet contained into the stream is recognized using identifiers.
 	///\pre the ByteStream is set with one of set(ByteStream) methods
@@ -103,14 +103,14 @@ public:
 	
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
+		
+	///Get the tail as a ByteStream
+	ByteStreamPtr getBSTail();
 	
 	///Copy an array of bytes into the source data field. The size must be the same.
 	///It is necessary to set the number of blocks of each rblocks before.
 	void copyBSSourceDataField(byte* bytestream, dword size);
-	
-	///Get the tail as a ByteStream
-	ByteStreamPtr getBSTail();
-	
+
 	///
 	PacketHeader* getPacketHeader();
 	
@@ -122,43 +122,10 @@ public:
 	
 	///
 	PartOfPacket* getPacketTail();
-
-
-    /// Prints to stdout the value of packet data field in a formatted mode.
-    virtual void printPacketValue();
-
-    /// Prints the hexadecimal dump of the prefix.
-    virtual  char* printPrefixStream();
-
-    /// Prints the header values.
-    virtual  char** printHeaderValue();
-
-    /// Prints the hexadecimal dump of the header.
-    virtual  char* printHeaderStream();
-
-    /// Prints the data field header values.
-    virtual  char** printDataFieldHeaderValue();
-
-    /// Prints the hexadecimal dump of the data field header.
-    virtual  char* printDataFieldHeaderStream();
-    
-    /// Prints the source data field values.
-    virtual  char** printSourceDataFieldValue();
-
-    /// Prints the hexadecimal dump of the source data field.
-    virtual  char* printSourceDataFieldStream();
-    
-    /// Prints the tail values
-    virtual  char** printTailValue();
-
-    /// Print he hexadecimal dump of the tail.
-    virtual  char* printTailStream();
-
-    virtual  char* printPacketOutputStream();
-
-    /// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)
+	
+	/// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)
     dword size();
-
+	
 	/// Get dimension in bytes of the fixed part (without tail) = dim(header) + dim(data field header) + dim(source data field fixed)
 	inline dword sizeFixedPart() { return dimPacketStartingFixedPart; };
     
@@ -170,15 +137,14 @@ public:
 	
     /// Gets the max dimension in byte of the packet.
     dword sizeMax();
-
     
     /// Gets the ByteStream received as input
     ByteStreamPtr getInputStream();
 
     
-    /// Gets the packet generated with the generateStream() method. The output
+    /// Gets the encoded method. The output
     /// packet is generated during this call.
-    ByteStreamPtr getOutputStream();
+    ByteStreamPtr encode();
 
     
     /// Gets the name of packet.
@@ -216,6 +182,40 @@ public:
 	bool isCompressed() {
 		return iscompressed;
 	}
+	
+	
+	
+    /// Prints to stdout the value of packet data field in a formatted mode.
+    virtual void printPacketValue();
+	
+    /// Prints the hexadecimal dump of the prefix.
+    virtual  char* printPrefixStream();
+	
+    /// Prints the header values.
+    virtual  char** printHeaderValue();
+	
+    /// Prints the hexadecimal dump of the header.
+    virtual  char* printHeaderStream();
+	
+    /// Prints the data field header values.
+    virtual  char** printDataFieldHeaderValue();
+	
+    /// Prints the hexadecimal dump of the data field header.
+    virtual  char* printDataFieldHeaderStream();
+    
+    /// Prints the source data field values.
+    virtual  char** printSourceDataFieldValue();
+	
+    /// Prints the hexadecimal dump of the source data field.
+    virtual  char* printSourceDataFieldStream();
+    
+    /// Prints the tail values
+    virtual  char** printTailValue();
+	
+    /// Print he hexadecimal dump of the tail.
+    virtual  char* printTailStream();
+	
+    virtual  char* printPacketOutputStream();
 	
 protected:
 	

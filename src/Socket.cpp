@@ -77,7 +77,7 @@ bool Socket::close() throw(PacketExceptionIO*)
 
 bool Socket::send ( ByteStreamPtr b ) const throw(PacketExceptionIO*)
 {
-    byte* stream = b->getOutputStream();
+    byte* stream = b->encode();
     //MSG_NOSIGNAL
     int status = ::send ( m_sock, stream, b->size(),  MSG_DONTROUTE);
     b->endOutputStream();
