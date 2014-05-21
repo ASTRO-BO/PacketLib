@@ -821,6 +821,14 @@ ByteStreamPtr Packet::getBSSourceDataField() {
 	return sdff;
 }
 
+void Packet::copyBSSourceDataField(byte* bytestream, dword size) {
+	ByteStreamPtr sdfbs = getBSSourceDataField();
+	if(sdfbs->size() != size)
+		throw new PacketException("Packet::copyBSSourceDataField(): size of the data is wrong");
+	byte* sdfbsp = sdfbs->getStream();
+	memcpy(sdfbsp, bytestream, size*sizeof(byte));
+}
+
 ByteStreamPtr Packet::getBSTail() {
 	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
 	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));

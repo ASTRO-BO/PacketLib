@@ -99,6 +99,8 @@ public:
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
 	
+	void copyBSSourceDataField(byte* bytestream, dword size);
+	
 	///Get the tail as a ByteStream
 	ByteStreamPtr getBSTail();
 	
