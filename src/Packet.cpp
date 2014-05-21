@@ -829,6 +829,10 @@ void Packet::copyBSSourceDataField(byte* bytestream, dword size) {
 	memcpy(sdfbsp, bytestream, size*sizeof(byte));
 }
 
+void Packet::compress() {
+		ByteStreamPtr sdfbs = getBSSourceDataField();
+}
+
 ByteStreamPtr Packet::getBSTail() {
 	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
 	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));

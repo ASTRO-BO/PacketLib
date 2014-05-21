@@ -162,7 +162,6 @@ public:
     /// \param fieldname Represent the name of the field.
     virtual double getFieldValue_64f(string fieldname);
 	
-	///Documentation
     /// Sets the value of a field in the list of fields of this part of packet. Remember that
     /// if a predefined value is specified in the .stream, this method has not effect and the
     /// value contained in the .stream is used.
@@ -181,7 +180,6 @@ public:
 	virtual void setFieldValue_16ui(string fieldname, word value);
 	
     /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
-    ///	---------------------------------
     /// This corresponds with the PTC=4, PFC = 14.
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param fieldname Represent the name of the field.
@@ -273,12 +271,9 @@ protected:
 
     SDFBlock* block;
 
-
-    
     /// The number of rblock
     int numberOfRBlocks;
 
-    
     /// for variable block, number of level of headers in which is present the field
     /// with the number of blocks of the variable part
     word* headerLevelOfNBlockIndex;

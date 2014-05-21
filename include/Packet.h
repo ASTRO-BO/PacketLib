@@ -115,6 +115,8 @@ public:
 	
 	///
 	PartOfPacket* getPacketTail();
+	
+	void compress();
 
 
     /// Prints to stdout the value of packet data field in a formatted mode.
