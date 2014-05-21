@@ -39,6 +39,7 @@ Packet::Packet(bool bigendian)
     tempPacketDataField = ByteStreamPtr(new ByteStream);
     tempTail = ByteStreamPtr(new ByteStream);
     first_output_stream_setted = false;
+	iscompressed = false;
 
 }
 
@@ -461,9 +462,6 @@ void Packet::generateStream()
     header->generateStream(bigendian);
     dataField->generateStream(bigendian);
 	
-	//add compression here of the datafield
-	//TODO
-	//dataField->compress();
 }
 
 
@@ -511,7 +509,7 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
     bool b;
     dword packetLength;
     dword packetLength2;
-
+	
     /// 5) source data field
 
     /// If necessary, it sets the number of real blocks present
@@ -536,6 +534,18 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
     b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
     if(b)
     {
+		if(isCompressed()) {
+			decompress();
+			//6) generate a new tempPacketDataField
+			packetLength = dataField->getPacketDataFieldHeader()->size();
+			dword pl1 = header->getPacketLength();
+			dword pl3 = dataField->getPacketDataFieldHeader()->size();
+			dword pl4 = dataField->getPacketTail()->size();
+			packetLength2 = pl1 - pl3 -pl4;
+			b = tempPacketDataField->setStream(packetDataField, packetLength, packetLength+packetLength2-1);
+		}
+		
+		decodedPacketSourceDataField = true;
         bool ret = dataField->getPacketSourceDataField()->setByteStream(tempPacketDataField, decodeType);
         //word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
         return ret;
@@ -592,6 +602,11 @@ ByteStreamPtr Packet::getOutputStream()
 	//TODO: check
     generateStream();
     ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, size() + (thereisprefix?dimPrefix:0), bigendian));
+	
+	//COMPRESSION HERE
+	//add compression algorithm here of the variable part of the source data field and do not use size() of packet
+	//TODO
+	
     return b;
 }
 
@@ -827,10 +842,11 @@ void Packet::copyBSSourceDataField(byte* bytestream, dword size) {
 		throw new PacketException("Packet::copyBSSourceDataField(): size of the data is wrong");
 	byte* sdfbsp = sdfbs->getStream();
 	memcpy(sdfbsp, bytestream, size*sizeof(byte));
+	decodedPacketSourceDataField = false;
 }
 
 void Packet::compress() {
-		ByteStreamPtr sdfbs = getBSSourceDataField();
+		
 }
 
 ByteStreamPtr Packet::getBSTail() {
@@ -874,5 +890,16 @@ PartOfPacket* Packet::getPacketTail() {
 		decodedPacketTail = true;
 	}
 	return dataField->getPacketTail();
+}
+
+void Packet::decompress() {
+	//decompression algorithm here
+	//1) get the fixed and variable part of the source data field, get the tail
+	//2) decompress the variable part of the source data field into a new ByteStream
+	//3) rebuild a new "newstream" bytestream, taking into account the prefix, (if any) and the tail
+	//4) change the size of the packet into the header (manually)
+	//5) change the field the indicate if the packet is compressed = 0
+	//5) call set(newstream)
+
 }
 

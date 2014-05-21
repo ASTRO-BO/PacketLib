@@ -37,6 +37,8 @@
 
 #define ARCH_BIGENDIAN 0
 
+enum CompressionAlgorithms  { NONE, LZH };
+
 /// define NOFIELDSNAME
 
 ///define PRINTDEBUG(strprint) if(DEBUGMODE) cout << strprint << endl;

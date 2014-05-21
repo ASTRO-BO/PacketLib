@@ -250,10 +250,12 @@ public:
     virtual string* printStructure();
 
     /// return the related RBBlock structure.
-    SDFBlock* getBBlock()
+    /*
+	SDFBlock* getBBlock()
     {
         return block;
     }
+	 */
 	
 	bool get_reset_output_stream() const;
 	

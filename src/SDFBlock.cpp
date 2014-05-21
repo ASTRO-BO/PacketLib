@@ -355,7 +355,8 @@ dword SDFBlock::sizeMax()
 dword SDFBlock::size()
 {
 	/// for fixed part
-    dword dim = fixed.size(); 
+    dword dim = fixed.size();
+	///variable part
     word bi = 0;
     word rbi = 0;
     for(int i=0; i < type->nblockmax; i++)

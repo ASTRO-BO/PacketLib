@@ -77,6 +77,11 @@ public:
 	///return true is the packet contained into the stream is recognized using identifiers.
 	///\pre the ByteStream is set with one of set(ByteStream) methods
 	virtual bool verify();
+	
+	
+	virtual void compress();
+	
+	virtual void decompress();
 		
 	///Get the prefix as a ByteStream
 	ByteStreamPtr getBSPrefix();
@@ -99,6 +104,8 @@ public:
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
 	
+	///Copy an array of bytes into the source data field. The size must be the same.
+	///It is necessary to set the number of blocks of each rblocks before.
 	void copyBSSourceDataField(byte* bytestream, dword size);
 	
 	///Get the tail as a ByteStream
@@ -115,8 +122,6 @@ public:
 	
 	///
 	PartOfPacket* getPacketTail();
-	
-	void compress();
 
 
     /// Prints to stdout the value of packet data field in a formatted mode.
@@ -207,11 +212,15 @@ public:
     bool isBigendian() {
     	return bigendian;
     }
-    
-    /// This is the ByteStream generated with generateStream().
-    ByteStreamPtr packet_output;
+	
+	bool isCompressed() {
+		return iscompressed;
+	}
 	
 protected:
+	
+	/// This is the ByteStream generated with generateStream().
+    ByteStreamPtr packet_output;
 	
 	/// Sets all the fields of the packet with correct value contained into the input ByteStream.
     ///	\pre The structure of the stream must be loaded.
@@ -324,6 +333,8 @@ private:
 	bool decodedPacketSourceDataField;
 	
 	bool decodedPacketTail;
+	
+	bool iscompressed;
 
 };
 
