@@ -104,8 +104,9 @@
            but it could also be referenced using idrefs. -->
       <xs:attribute name="id" type="xs:ID" />
       <xs:attribute name="numberofblocksoffset" type="xs:integer" default="0" />
-      <xs:attribute name="default" />
       <xs:attribute name="description" />
+      <!-- Use constvalue to defined the field as a constant -->
+      <xs:attribute name="constvalue" />
     </xs:complexType>
   </xs:element>
 
