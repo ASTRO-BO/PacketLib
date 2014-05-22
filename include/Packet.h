@@ -79,7 +79,11 @@ public:
 	virtual bool verify();
 	
 	
-	virtual void compress();
+	virtual void compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
+	
+	virtual word getCompressionAlgorithm();
+	
+	virtual word getCompressionLevel();
 	
 	virtual void decompress();
 		
@@ -100,6 +104,9 @@ public:
 	
 	///Get the the variable part of the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataFieldsVariablePart();
+	
+	///Get the the variable part of the source data field as a ByteStream that contains the data
+	ByteStreamPtr getBSData();
 	
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
@@ -141,7 +148,11 @@ public:
     /// Encode the packet before write. The output packet is generated during this call.
 	/// \param sourceDataVariable Is a ByteStream that is copied in the source data field fixed part
 	/// \return the encoded stream
-    ByteStreamPtr encode(ByteStreamPtr sourceDataVariable = 0);
+    ByteStreamPtr encodeAndSetData(ByteStreamPtr sourceDataVariable);
+	
+	/// Encode the packet before write. The output packet is generated during this call.
+	/// \return the encoded stream
+    ByteStreamPtr encode();
 
 	/// Get the ByteStream of the encoded/compressed packet
     ByteStreamPtr getOutputStream();
@@ -332,6 +343,14 @@ private:
 	bool decodedPacketTail;
 	
 	bool iscompressed;
+	
+	int compressionAlgorithmsSection;
+	
+	int compressionAlgorithmsIndex;
+	
+	int compressionLevelSection;
+	
+	int compressionLevelIndex;
 
 };
 

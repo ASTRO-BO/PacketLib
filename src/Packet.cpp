@@ -139,11 +139,12 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
 												{
 													dimPacketTail = dataField->getPacketTail()->size();
 													line = file.getLastLineRead();
-													if(strcmp(line, "[Algorithms]") == 0) {
-														//select CRC algorithm
-														char *crcAlg = file.getLine();
-														//select compression algorithm
-														char *compressionAlgo = file.getLine();
+													if(strcmp(line, "[Compression]") == 0) {
+														
+														compressionAlgorithmsSection = atoi(file.getLine());
+														compressionAlgorithmsIndex = atoi(file.getLine());
+														compressionLevelSection = atoi(file.getLine());
+														compressionLevelIndex = atoi(file.getLine());
 														//TODO
 													}
 												}
@@ -465,7 +466,6 @@ void Packet::generateStream()
 }
 
 
-
 bool Packet::setPacketValueVerify(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
     /// 1) Checking
@@ -597,7 +597,7 @@ bool Packet::setPacketValueHeader(ByteStreamPtr packetHeader)
 
 
 
-ByteStreamPtr Packet::encode(ByteStreamPtr sourceDataVariable)
+ByteStreamPtr Packet::encodeAndSetData(ByteStreamPtr sourceDataVariable)
 {
 	//TODO: check
     generateStream();
@@ -620,6 +620,18 @@ ByteStreamPtr Packet::encode(ByteStreamPtr sourceDataVariable)
 	//COMPRESSION HERE
 	//add compression algorithm here of the variable part of the source data field and do not use size() of packet
 	//TODO
+	
+    return b;
+}
+
+ByteStreamPtr Packet::encode()
+{
+	//TODO: check
+    generateStream();
+	
+	dword dimpacket = dimPacketHeader + header->getPacketLength();
+	
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
 	
     return b;
 }
@@ -852,6 +864,10 @@ ByteStreamPtr Packet::getBSSourceDataFieldsVariablePart() {
 	return sdff;
 }
 
+ByteStreamPtr Packet::getBSData() {
+	return getBSSourceDataFieldsVariablePart();
+}
+
 ByteStreamPtr Packet::getBSSourceDataField() {
 	dword dimvariablepart = packet->size() - dimPrefix - (dimPacketStartingFixedPart - dimPacketSourceDataFieldFixed) - dimPacketTail;
 	ByteStreamPtr sdff = ByteStreamPtr(new ByteStream(packet->stream + dimPrefix + dimPacketStartingFixedPart - dimPacketSourceDataFieldFixed, dimvariablepart, bigendian));
@@ -859,7 +875,83 @@ ByteStreamPtr Packet::getBSSourceDataField() {
 }
 
 
-void Packet::compress() {
+word Packet::getCompressionAlgorithm() {
+	switch(compressionAlgorithmsSection)
+	{
+		case 0:
+			return header->getFieldValue(compressionAlgorithmsIndex);
+			break;
+		case 1:
+			return dataField->getPacketDataFieldHeader()->getFieldValue(compressionAlgorithmsIndex);
+			break;
+		default:
+			throw new PacketException("Error in the compression algorithm section field specification");
+	}
+}
+
+word Packet::getCompressionLevel() {
+	switch(compressionLevelSection)
+	{
+		case 0:
+			return header->getFieldValue(compressionLevelIndex);
+			break;
+		case 1:
+			return dataField->getPacketDataFieldHeader()->getFieldValue(compressionLevelIndex);
+			break;
+		default:
+			throw new PacketException("Error in the compression level section field specification");
+	}
+}
+
+void Packet::compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel) {
+	
+	
+	//set the algorithm
+	switch(compressionAlgorithmsSection)
+	{
+		case 0:
+			header->setFieldValue(compressionAlgorithmsIndex, compressionAlgorithm);
+			header->generateStream(bigendian);
+			break;
+		/*
+		 TODO
+		case 1:
+			dataField->getPacketDataFieldHeader()->setFieldValue(compressionAlgorithmsIndex, compressionAlgorithm);
+			dataField->getPacketDataFieldHeader()->generateStream(bigendian);
+			break;
+		case 2:
+			dataField->getPacketSourceDataField()->setFieldValue(compressionAlgorithmsIndex, compressionAlgorithm);
+			break;
+		 */
+		default:
+			throw new PacketException("Error in the compression algorithm section field specification");
+	}
+	switch(compressionLevelSection)
+	{
+		case 0:
+			header->setFieldValue(compressionLevelIndex, compressionLevel);
+			header->generateStream(bigendian);
+			break;
+		/*
+		 TODO
+		case 1:
+			dataField->getPacketDataFieldHeader()->setFieldValue(compressionLevelIndex, compressionLevel);
+			dataField->getPacketDataFieldHeader()->generateStream(bigendian);
+			break;
+		case 2:
+			 dataField->getPacketSourceDataField()->setFieldValue(compressionAlgorithmsIndex, compressionAlgorithm);
+			 break;
+			 */
+		default:
+			throw new PacketException("Error in the compression level section field specification");
+	}
+	//cout << compressionAlgorithmsSection << " " << compressionAlgorithmsIndex << " " << compressionAlgorithm << " - " << compressionLevelSection << " " << compressionLevelIndex << " " << (int)compressionLevel << endl;
+	
+	ByteStreamPtr original = getBSSourceDataFieldsVariablePart();
+	ByteStreamPtr compressed = original->compress(compressionAlgorithm, compressionLevel);
+	cout << "original: " << original->size() << " compressed: " << compressed->size() << endl;
+	
+	
 		
 }
 
