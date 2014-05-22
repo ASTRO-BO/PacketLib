@@ -729,7 +729,8 @@ word PartOfPacket::getFieldIndex(string fieldname) {
 		if(fieldname == fname)
 			return i;
 	}
-	throw new PacketException("getFieldIndex(fieldname) error: no field found in this section");
+	string errorStr = "getFieldIndex("+fieldname+") error: no field found in section '"+popName+"'";
+	throw new PacketException(errorStr.c_str());
 	return index;
 }
 
