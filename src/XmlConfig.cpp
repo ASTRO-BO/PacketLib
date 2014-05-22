@@ -278,6 +278,9 @@ std::string XmlConfig::convert(const std::string& filename)
 	hfs << nbits << endl;
 	hfs << "[Field]" << endl;
 	_writeFields(header, hfs);
+	// query for compression algorithm / compression level
+	xpath_node_set compression_algorithm = header.select_nodes("field[@id=\"packetlib:compression_algorithm\"]");
+	xpath_node_set compression_level = header.select_nodes("field[@id=\"packetlib:compression_level\"]");
 
 	/// Write packet files
 	vector<string> packetFilenames;
@@ -334,6 +337,43 @@ std::string XmlConfig::convert(const std::string& filename)
 		pfs << "[Tail]" << endl;
 		xml_node tail = packet.child("tail");
 		_writeFields(tail, pfs);
+
+		// if not defined in the header find in datafieldheader
+		int algindex = 0;
+		if(compression_algorithm.empty())
+		{
+			compression_algorithm = datafieldheader.select_nodes("field[@id=\"packetlib:compression_algorithm\"]");
+			algindex = 1;
+		}
+		// and sourcedatafield
+		if(compression_algorithm.empty())
+		{
+			algindex = 2;
+			compression_algorithm = sourcedatafield.select_nodes("@field[id=\"packetlib:compression_algorithm\"]");
+		}
+
+		// if not defined in the header find in datafieldheader
+		int lvlindex = 0;
+		if(compression_level.empty())
+		{
+			compression_level = datafieldheader.select_nodes("field[@id=\"packetlib:compression_level\"]");
+			lvlindex = 1;
+		}
+		// and sourcedatafield
+		if(compression_level.empty())
+		{
+			lvlindex = 2;
+			compression_level = sourcedatafield.select_nodes("@field[id=\"packetlib:compression_level\"]");
+		}
+
+		if(!compression_algorithm.empty() && !compression_level.empty())
+		{
+			pfs << "[Compression]" << endl;
+			pfs << _physicalIndex[compression_algorithm[0].node()] << endl;
+			pfs << algindex << endl;
+			pfs << _physicalIndex[compression_level[0].node()] << endl;
+			pfs << lvlindex << endl;
+		}
 
 		packet=packet.next_sibling();
 	}
