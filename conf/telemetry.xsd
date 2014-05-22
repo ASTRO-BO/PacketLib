@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://iasfbo.inaf.it/telemetry" targetNamespace="http://iasfbo.inaf.it/telemetry">
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns="http://iasfbo.inaf.it/telemetry"
+           targetNamespace="http://iasfbo.inaf.it/telemetry">
+
   <xs:element name="stream">
     <xs:complexType>
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="1" ref="header" />
         <xs:element minOccurs="1" maxOccurs="unbounded" ref="packet" />
       </xs:sequence>
-      <xs:attribute name="name" type="xs:Name" />
+      <xs:attribute name="name" type="xs:Name" use="required" />
       <xs:attribute name="bigendian" type="xs:boolean" default="false" />
-      <xs:attribute name="prefix" type="xs:boolean" />
-      <xs:attribute name="prefixsize" type="xs:integer" />
+      <xs:attribute name="prefix" type="xs:boolean" default="false" />
+      <xs:attribute name="prefixsize" type="xs:integer" default="0" />
     </xs:complexType>
   </xs:element>
 
@@ -18,9 +21,10 @@
       <xs:sequence>
         <xs:element minOccurs="1" maxOccurs="unbounded" ref="field" />
       </xs:sequence>
-      <xs:attribute name="name" type="xs:Name" />
+      <xs:attribute name="name" type="xs:Name" use="required" />
+      <!-- idref refers to the field which store the packet length -->
+      <xs:attribute name="idref" type="xs:IDREF" use="required" />
       <xs:attribute name="description" />
-      <xs:attribute name="idref" type="xs:IDREF" />
     </xs:complexType>
   </xs:element>
 
@@ -30,8 +34,9 @@
         <xs:element minOccurs="0" maxOccurs="1" ref="datafieldheader" />
         <xs:element minOccurs="0" maxOccurs="1" ref="sourcedatafield" />
         <xs:element minOccurs="0" maxOccurs="1" ref="tail" />
+        <xs:element minOccurs="1" maxOccurs="1" ref="identifiers" />
       </xs:sequence>
-      <xs:attribute name="name" use="required" type="xs:Name" />
+      <xs:attribute name="name" type="xs:Name" use="required" />
       <xs:attribute name="description" />
     </xs:complexType>
   </xs:element>
@@ -59,8 +64,11 @@
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="field" />
         <xs:element minOccurs="0" maxOccurs="unbounded" ref="rblock" />
       </xs:sequence>
-      <xs:attribute name="name" use="required" type="xs:Name" />
-      <xs:attribute name="maxnumberofblocks" use="required" type="xs:integer" /> <!-- max number of blocks for each rblock -->
+      <xs:attribute name="name" type="xs:Name" use="required" />
+      <!-- maxnumberofblocks is the max number of blocks only if idref attribute
+           is specified. Otherwise it represents the fixed number of blocks -->
+      <xs:attribute name="maxnumberofblocks" type="xs:integer" use="required" />
+      <!-- idref refers to the field which contains the number of blocks -->
       <xs:attribute name="idref" type="xs:IDREF" />
     </xs:complexType>
   </xs:element>
@@ -73,13 +81,29 @@
     </xs:complexType>
   </xs:element>
 
+  <xs:element name="identifiers">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="identifier" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <xs:element name="identifier">
+    <xs:complexType>
+      <xs:attribute name="idref" type="xs:IDREF" use="required" />
+      <xs:attribute name="value" use="required" />
+    </xs:complexType>
+  </xs:element>
+
   <xs:element name="field">
     <xs:complexType>
       <xs:attribute name="name" use="required" />
       <xs:attribute name="type" use="required" />
+      <!-- The id can be used simply to mark a field with an unique identifier,
+           but it could also be referenced using idrefs. -->
       <xs:attribute name="id" type="xs:ID" />
       <xs:attribute name="numberofblocksoffset" type="xs:integer" default="0" />
-      <xs:attribute name="packetid" />
       <xs:attribute name="default" />
       <xs:attribute name="description" />
     </xs:complexType>
