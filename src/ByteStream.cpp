@@ -135,6 +135,14 @@ PacketLib::ByteStream::~ByteStream()
 }
 
 
+ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms, byte compressionLevel) {
+
+}
+
+ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms, byte compressionLevel) {
+	
+}
+
 
 byte PacketLib::ByteStream::getByte( dword byteNumber)
 {
