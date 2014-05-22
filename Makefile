@@ -135,6 +135,9 @@ test/%.o : test/%.cpp
 %.o : %.cpp
 	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
+%.o : %.c
+	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
 	cp  $<  $@

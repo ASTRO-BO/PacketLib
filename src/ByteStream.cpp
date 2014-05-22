@@ -19,6 +19,8 @@
 #include "ByteStream.h"
 #include "PacketLibDemo.h"
 #include "Utility.h"
+#include "lz4.h"
+#include "lz4hc.h"
 using namespace PacketLib;
 
 /// Returns a pointer of a field in the list of fields of this part of packet.
@@ -135,14 +137,36 @@ PacketLib::ByteStream::~ByteStream()
 }
 
 
-ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms, byte compressionLevel) {
-	ByteStreamPtr b = ByteStreamPtr( new ByteStream(stream, size()/2, bigendian)  );
+ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorithmType, byte compressionLevel) {
+	ByteStreamPtr b;
+
+	switch(algorithmType)
+	{
+		case LZH:
+		{
+			char* buff = new char[LZ4_compressBound(size())];
+			int buffsize = LZ4_compressHC2((const char*)stream, buff, size(), compressionLevel);
+			b = ByteStreamPtr(new ByteStream(buff, buffsize, bigendian));
+			break;
+		}
+		case NONE:
+		{
+			b = ByteStreamPtr(new ByteStream(stream, size(), bigendian));
+		}
+		default:
+		{
+			return 0;
+		}
+	}
+#ifdef DEBUG
+	cout << "Buffer Size: " << size() << endl;
+	cout << "Buffer Compressed Size: " << b->size() << endl;
+#endif
 	return b;
-	
 }
 
 ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms, byte compressionLevel) {
-	
+// TODO
 }
 
 
