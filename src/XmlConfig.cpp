@@ -148,12 +148,12 @@ void XmlConfig::_writeFields(xml_node parent, fstream& fs)
 		int nbits = atoi(typeStr.substr(spos, epos+1).c_str());
 		fs << nbits << endl;
 
-		xml_attribute defaultt = it->attribute("default");
-		if(!defaultt)
+		xml_attribute constvalue = it->attribute("constvalue");
+		if(!constvalue)
 			fs << "none" << endl;
 		else
 		{
-			bitset<64> x(atoi(defaultt.value()));
+			bitset<64> x(atoi(constvalue.value()));
 			fs << "0b" << x.to_string().substr(64-nbits, 64) << endl;
 		}
 		index++;
