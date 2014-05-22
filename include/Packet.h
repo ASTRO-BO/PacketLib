@@ -78,14 +78,27 @@ public:
 	///\pre the ByteStream is set with one of set(ByteStream) methods
 	virtual bool verify();
 	
-	///\return compress the data section (the variable part or the "data" part)
-	virtual ByteStreamPtr compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
+	///\return compress the data section and change the packet (the variable part of the "source data field")
+	///\post the variable part of the "source data field" is compressed and should be sent or stored
+	virtual ByteStreamPtr compressData(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
 	
-	virtual word getCompressionAlgorithm();
+	///\return decompress the data section without changing the packet  (the variable part of the "source data field")
+	virtual ByteStreamPtr decompressData();
+	
+	virtual enum CompressionAlgorithms getCompressionAlgorithm();
 	
 	virtual word getCompressionLevel();
 	
-	virtual void decompress();
+	bool isCompressed() {
+		if(compressible && getCompressionAlgorithm() != NONE)
+			return true;
+		else
+			return false;
+	}
+	
+	bool isCompressible() {
+		return compressible;
+	}
 		
 	///Get the prefix as a ByteStream
 	ByteStreamPtr getBSPrefix();
@@ -106,7 +119,7 @@ public:
 	ByteStreamPtr getBSSourceDataFieldsVariablePart();
 	
 	///Get the the variable part of the source data field as a ByteStream that contains the data
-	ByteStreamPtr getBSData();
+	ByteStreamPtr getData();
 	
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
@@ -188,10 +201,6 @@ public:
     bool isBigendian() {
     	return bigendian;
     }
-	
-	bool isCompressed() {
-		return iscompressed;
-	}
 	
     /// Prints to stdout the value of packet data field in a formatted mode.
     virtual void printPacketValue();
@@ -351,6 +360,8 @@ private:
 	int compressionLevelSection;
 	
 	int compressionLevelIndex;
+	
+	bool compressible;
 
 };
 
