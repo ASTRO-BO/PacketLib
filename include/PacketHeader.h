@@ -45,7 +45,8 @@ public:
     /// Returns the total lenght of packet data field (data field header plus source data field)
     dword getPacketLength();
 
-    //set the length of the packet in the 'packet lenght' field (the data field dimension - 1)
+    //set the length of the packet in the 'packet lenght' field (the data field dimension)
+	//It is encoded as "data field dimension - 1
     void setPacketLength(dword dim);
 
     Field * getFieldWithPacketDimension();

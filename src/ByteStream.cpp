@@ -136,7 +136,9 @@ PacketLib::ByteStream::~ByteStream()
 
 
 ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms, byte compressionLevel) {
-
+	ByteStreamPtr b = ByteStreamPtr( new ByteStream(stream, size()/2, bigendian)  );
+	return b;
+	
 }
 
 ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms, byte compressionLevel) {

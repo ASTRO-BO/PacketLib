@@ -140,12 +140,10 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
 													dimPacketTail = dataField->getPacketTail()->size();
 													line = file.getLastLineRead();
 													if(strcmp(line, "[Compression]") == 0) {
-														
-														compressionAlgorithmsSection = atoi(file.getLine());
 														compressionAlgorithmsIndex = atoi(file.getLine());
-														compressionLevelSection = atoi(file.getLine());
+														compressionAlgorithmsSection = atoi(file.getLine());
 														compressionLevelIndex = atoi(file.getLine());
-														//TODO
+														compressionLevelSection = atoi(file.getLine());
 													}
 												}
                                             }
@@ -613,13 +611,9 @@ ByteStreamPtr Packet::encodeAndSetData(ByteStreamPtr sourceDataVariable)
 		
 		if(sourceDataVariable->size() != size() - dimPacketStartingFixedPart - dimPacketTail)
 			throw new PacketException("the size of the sourceDataVariable is wrong");
-		memcpy( packet_output->stream + dimPacketStartingFixedPart, sourceDataVariable->stream, sourceDataVariable->size());
+		memcpy( packet_output->stream + (thereisprefix?dimPrefix:0) + dimPacketStartingFixedPart, sourceDataVariable->stream, sourceDataVariable->size());
 		b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
 	}
-	
-	//COMPRESSION HERE
-	//add compression algorithm here of the variable part of the source data field and do not use size() of packet
-	//TODO
 	
     return b;
 }
@@ -903,7 +897,7 @@ word Packet::getCompressionLevel() {
 	}
 }
 
-void Packet::compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel) {
+ByteStreamPtr Packet::compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel) {
 	
 	
 	//set the algorithm
@@ -950,14 +944,34 @@ void Packet::compress(enum CompressionAlgorithms compressionAlgorithm, byte comp
 	ByteStreamPtr original = getBSSourceDataFieldsVariablePart();
 	ByteStreamPtr compressed = original->compress(compressionAlgorithm, compressionLevel);
 	cout << "original: " << original->size() << " compressed: " << compressed->size() << endl;
+	ByteStreamPtr tail = getBSTail();
+	ByteStreamPtr b;
 	
-	
+	if(compressed != 0) {
+		//the variable part of the sourcedatafield
+		//cout << "packet size " << size() << " " << dimpacket << " " << dimPacketStartingFixedPart << " " << sourceDataVariable->size() << endl;
+
+		memcpy( packet_output->stream + (thereisprefix?dimPrefix:0) + dimPacketStartingFixedPart, compressed->stream, compressed->size());
+		dword dimpacket = dimPacketStartingFixedPart + compressed->size() + dimPacketTail;
+		if(dimPacketTail != 0)
+			memcpy( packet_output->stream + (thereisprefix?dimPrefix:0) + dimpacket - dimPacketTail, tail->stream, tail->size());
 		
+		//set packet length
+		dword dimDataField = dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed + dimPacketTail + compressed->size();
+		header->setPacketLength(dimDataField);
+		header->generateStream(bigendian);
+		
+		b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
+	}
+	
+	return compressed;
 }
 
 ByteStreamPtr Packet::getBSTail() {
 	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
-	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
+	ByteStreamPtr tail = 0;
+	if(dimPacketTail > 0)
+		ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
 	return tail;
 }
 

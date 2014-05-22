@@ -74,12 +74,12 @@ public:
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
     virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
 	
-	///return true is the packet contained into the stream is recognized using identifiers.
+	///\return true is the packet contained into the stream is recognized using identifiers.
 	///\pre the ByteStream is set with one of set(ByteStream) methods
 	virtual bool verify();
 	
-	
-	virtual void compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
+	///\return compress the data section (the variable part or the "data" part)
+	virtual ByteStreamPtr compress(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
 	
 	virtual word getCompressionAlgorithm();
 	
