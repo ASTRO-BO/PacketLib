@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include <cstdlib>
-#include <bitset>
 #include <vector>
 
 namespace PacketLib
@@ -152,10 +151,7 @@ void XmlConfig::_writeFields(xml_node parent, fstream& fs)
 		if(!constvalue)
 			fs << "none" << endl;
 		else
-		{
-			bitset<64> x(atoi(constvalue.value()));
-			fs << "0b" << x.to_string().substr(64-nbits, 64) << endl;
-		}
+			fs << constvalue.value() << endl;
 		index++;
 	}
 }
