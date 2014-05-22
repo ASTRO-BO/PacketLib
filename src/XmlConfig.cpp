@@ -25,8 +25,6 @@ namespace PacketLib
 using namespace pugi;
 using namespace std;
 
-#define DEBUG 1
-
 const std::string XmlConfig::_fixed32[] = { "uint32", "int32", "float" };
 const std::string XmlConfig::_fixed64[] = { "uint64", "int64", "double" };
 
