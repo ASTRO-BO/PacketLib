@@ -39,7 +39,7 @@ public:
     /// with the index rBlockIndex.
     /// \param nblock the number of the block
     /// \param rBlockIndex the number of the rblock
-    virtual SDFBlock* getBlock(word nblock, word rBlockIndex);
+    virtual SDFBlock* getBlock(word nblock, word rBlockIndex=0);
 	
 	///Get the fixed part of the source data field
 	virtual ByteStreamPtr getFixedPart() { return block[0].fixed.getByteStream(); };
@@ -50,6 +50,8 @@ public:
     /// Returns a pointer of a field in the fixed part of this source data field.
     /// \param index Represent the index in the list.
     virtual Field* getFields(word index);
+	
+	virtual word getFieldIndex(string fieldname);
 
     /// Returns the value of a field in the fixed part of this source data field.
 	/// See PartOfPacket for documentation
@@ -231,13 +233,13 @@ public:
     /// determinated type is repeated) for each type of rblock present.
     /// \param number The number of blocks
     /// \param rBlockIndex The number of rblock
-    void setNumberOfRealDataBlock(word number, word rblockIndex = 0) throw (PacketException*);
+    void setNumberOfBlocks(word number, word rblockIndex = 0) throw (PacketException*);
 
     
     /// Get the number of blocks (the number of times that a block of a
     /// determinated type is repeated) for each type of rblock present.
     /// \param rBlockIndex The number of rblock
-    word getNumberOfRealDataBlock(word rblockIndex = 0);
+    word getNumberOfBlocks(word rblockIndex = 0);
 
     
     /// Prints the value of each field of this part of packet

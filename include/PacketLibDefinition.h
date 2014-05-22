@@ -33,6 +33,7 @@
 #define DEBUGMODE 0
 #define ERRORMODE 1
 #define EXCEPTION_ENABLED 1
+#define PACKETNOTRECOGNIZED 0
 /// define NULL 0
 
 #define ARCH_BIGENDIAN 0

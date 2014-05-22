@@ -63,6 +63,7 @@ Field::Field(char* n, char* dim, char* prVal, int count) : progressiv(count)
         {
             type->thereIsPredefinedValue = true;
             type->predefinedValue = Utility::convertToInteger(prVal);
+			value = type->predefinedValue; //AB
         }
         else
         {

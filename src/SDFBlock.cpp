@@ -363,11 +363,11 @@ dword SDFBlock::size()
     {
         bi = block[i].getID();
         rbi = block[i].getRBlockType();
-        word nrdb = getNumberOfRealDataBlock(rbi);
+        word nrdb = getNumberOfBlocks(rbi);
         if(bi < nrdb)
             dim += block[i].size();
         else
-            i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+            i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
     }
     return dim;
 }
@@ -387,19 +387,19 @@ SDFBlock* SDFBlock::getBlock(word nblock, word rBlockIndex)
 }
 
 
-void SDFBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (PacketException*)
+void SDFBlock::setNumberOfBlocks(word number, word rblockIndex) throw (PacketException*)
 {
 
 	/// In case the variable part is not present or rBlockVariable = false,
 	/// the field where to save the value is not present. The dimension is fixed.
     if(!type->variablePresent || !type->rBlockVariable[rblockIndex])
     {
-        throw new PacketException("It is not possible to set setNumberOfRealDataBlock for this rBlock: variable part not present");
+        throw new PacketException("It is not possible to set setNumberOfBlocks for this rBlock: variable part not present");
         return;
     }
     PartOfPacket* pop = &fixed;
     if(number > type->maxNumberOfBlock[rblockIndex])
-        throw new PacketException("It is not possible to set setNumberOfRealDataBlock: too much blocks");
+        throw new PacketException("It is not possible to set setNumberOfBlocks: too much blocks");
     numberOfRealDataBlock[rblockIndex] = number;
     for(int i=0; i< type->headerLevelOfNBlockIndex[rblockIndex]; i++)
         pop = pop->previous;
@@ -417,7 +417,7 @@ void SDFBlock::setNumberOfRealDataBlock(word number, word rblockIndex) throw (Pa
 }
 
 
-word SDFBlock::getNumberOfRealDataBlock(word rblockIndex)
+word SDFBlock::getNumberOfBlocks(word rblockIndex)
 {
     if(!type->variablePresent)
         return 0;
@@ -452,7 +452,7 @@ word SDFBlock::getCurrentNumberOfBlocks()
 {
     word nblock = 0;
     for(int i=0; i< type->numberOfRBlocks; i++)
-        nblock = getNumberOfRealDataBlock(i);
+        nblock = getNumberOfBlocks(i);
     return nblock;
 }
 
@@ -474,14 +474,14 @@ bool SDFBlock::setOutputStream(ByteStreamPtr os, dword first)
         {
             bi = block[i].getID();
             rbi = block[i].getRBlockType();
-            if(bi < getNumberOfRealDataBlock(rbi))
+            if(bi < getNumberOfBlocks(rbi))
             {
                 /// Only for valid blocks
                 block[i].setOutputStream(os, start);
                 start += block[i].size();
             }
             else
-                i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+                i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
     return true;
@@ -500,13 +500,13 @@ ByteStreamPtr SDFBlock::generateStream(bool bigendian)
         {
             bi = block[i].getID();
             rbi = block[i].getRBlockType();
-            if(bi < getNumberOfRealDataBlock(rbi))
+            if(bi < getNumberOfBlocks(rbi))
             {
                 /// Only for valid blocks
                 block[i].generateStream(bigendian);
             }
             else
-                i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+                i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
 
@@ -544,7 +544,7 @@ bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
         {
             bi = block[i].getID();
             rbi = block[i].getRBlockType();
-            word nrdb = getNumberOfRealDataBlock(rbi);
+            word nrdb = getNumberOfBlocks(rbi);
             if(bi < nrdb)
             {
                 /// Only for valid blocks
@@ -563,7 +563,7 @@ bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
                 bytestart = bytestop + 1;
             }
             else
-                i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+                i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
     return true;
@@ -596,7 +596,7 @@ char** SDFBlock::printValue(char* addString)
         {
             bi = block[i].getID();
             rbi = block[i].getRBlockType();
-            if(bi < getNumberOfRealDataBlock(rbi))
+            if(bi < getNumberOfBlocks(rbi))
             {
                 /// Only for valid blocks
                 ct = block[i].printValue(addString);
@@ -607,7 +607,7 @@ char** SDFBlock::printValue(char* addString)
                 }
             }
             else
-                i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+                i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
     cc[index] = '\0';
@@ -630,13 +630,13 @@ void SDFBlock::printValueStdout()
         {
             bi = block[i].getID();
             rbi = block[i].getRBlockType();
-            if(bi < getNumberOfRealDataBlock(rbi))
+            if(bi < getNumberOfBlocks(rbi))
             {
                 /// Only for valid blocks
                 block[i].printValueStdout();
             }
             else
-                i += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+                i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
 }
@@ -659,10 +659,10 @@ word SDFBlock::getTotalNumberOfFields()
     {
         bi = block[j].getID();
         rbi = block[j].getRBlockType();
-        if(bi < getNumberOfRealDataBlock(rbi))
+        if(bi < getNumberOfBlocks(rbi))
             dim += block[j].getNumberOfFields();
         else
-            j += type->maxNumberOfBlock[rbi] - getNumberOfRealDataBlock(rbi) - 1;
+            j += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
     }
     return dim;
 }

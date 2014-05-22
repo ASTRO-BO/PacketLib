@@ -35,7 +35,7 @@ OutputPacketStream::OutputPacketStream(const char* fileNameConfig) : PacketStrea
 
 void OutputPacketStream::writePacket(Packet* p) throw(PacketExceptionIO*)
 {
-	writePacket(p->encode());
+	writePacket(p->getOutputStream());
 }
 
 void OutputPacketStream::writePacket(ByteStreamPtr bs) throw(PacketExceptionIO*)

@@ -111,18 +111,18 @@ dword SourceDataField::sizeFixedPart()
     return block[0].fixed.size();
 }
 
-void SourceDataField::setNumberOfRealDataBlock(word number, word rblockIndex)  throw (PacketException*)
+void SourceDataField::setNumberOfBlocks(word number, word rblockIndex)  throw (PacketException*)
 {
     /// The block[0] is the only block present
-    block[0].setNumberOfRealDataBlock(number, rblockIndex);
+    block[0].setNumberOfBlocks(number, rblockIndex);
     reset_output_stream = true;
 }
 
 
-word SourceDataField::getNumberOfRealDataBlock(word rblockIndex)
+word SourceDataField::getNumberOfBlocks(word rblockIndex)
 {
     /// The block[0] is the only block present
-    return  block[0].getNumberOfRealDataBlock(rblockIndex);
+    return  block[0].getNumberOfBlocks(rblockIndex);
 }
 
 
@@ -150,6 +150,10 @@ Field* SourceDataField::getFields(word index)
 word SourceDataField::getFieldValue(word index)
 {
     return block[0].getFieldValue(index);
+}
+
+word SourceDataField::getFieldIndex(string fieldname) {
+	return block[0].getFieldIndex(fieldname);
 }
 
 void SourceDataField::setFieldValue(word index, word value)

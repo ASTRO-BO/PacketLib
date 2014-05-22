@@ -107,10 +107,6 @@ public:
 	///Get the tail as a ByteStream
 	ByteStreamPtr getBSTail();
 	
-	///Copy an array of bytes into the source data field. The size must be the same.
-	///It is necessary to set the number of blocks of each rblocks before.
-	void copyBSSourceDataField(byte* bytestream, dword size);
-
 	///
 	PacketHeader* getPacketHeader();
 	
@@ -142,11 +138,14 @@ public:
     ByteStreamPtr getInputStream();
 
     
-    /// Gets the encoded method. The output
-    /// packet is generated during this call.
-    ByteStreamPtr encode();
+    /// Encode the packet before write. The output packet is generated during this call.
+	/// \param sourceDataVariable Is a ByteStream that is copied in the source data field fixed part
+	/// \return the encoded stream
+    ByteStreamPtr encode(ByteStreamPtr sourceDataVariable = 0);
 
-    
+	/// Get the ByteStream of the encoded/compressed packet
+    ByteStreamPtr getOutputStream();
+	
     /// Gets the name of packet.
     virtual char* getName()
     {
@@ -182,8 +181,6 @@ public:
 	bool isCompressed() {
 		return iscompressed;
 	}
-	
-	
 	
     /// Prints to stdout the value of packet data field in a formatted mode.
     virtual void printPacketValue();

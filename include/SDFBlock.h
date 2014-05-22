@@ -119,12 +119,12 @@ public:
     /// determinated type is repeated) for each type of rblock present.
     /// \param number The number of blocks
     /// \param rBlockIndex The number of rblock
-    virtual void setNumberOfRealDataBlock(word number, word rblockIndex = 0) throw (PacketException*);
+    virtual void setNumberOfBlocks(word number, word rblockIndex = 0) throw (PacketException*);
 
     /// Get the number of blocks (the number of times that a block of a
     /// determinate type is repeated) for each type of rblock present.
     /// \param rBlockIndex The number of rblock
-    virtual word getNumberOfRealDataBlock(word rblockIndex = 0);
+    virtual word getNumberOfBlocks(word rblockIndex = 0);
 
     virtual void setRBlockType(word rb)
     {
@@ -163,6 +163,10 @@ public:
     {
         return fixed.getFields(index);
     };
+	
+	virtual word getFieldIndex(string fieldname) {
+		return fixed.getFieldIndex(fieldname);
+	}
 
     /// Returns the value of a field in the list of fields of the fixed part.
 	/// See ParfOfPacket doc for more details

@@ -517,12 +517,12 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
     if(dataField->sourceDataField->isBlock())
     {
         dword  nrd = dataField->getNumberOfRealDataBlock();
-        dataField->sourceDataField->setNumberOfRealDataBlock(nrd);
+        dataField->sourceDataField->setNumberOfBlocks(nrd);
     }
 	 /
     /*if(dataField->sourceDataField->isRBlock()) {
       word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
-      dataField->sourceDataField->setNumberOfRealDataBlock(nrd);
+      dataField->sourceDataField->setNumberOfBlocks(nrd);
     }*/
 
 
@@ -597,17 +597,39 @@ bool Packet::setPacketValueHeader(ByteStreamPtr packetHeader)
 
 
 
-ByteStreamPtr Packet::encode()
+ByteStreamPtr Packet::encode(ByteStreamPtr sourceDataVariable)
 {
 	//TODO: check
     generateStream();
-    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, size() + (thereisprefix?dimPrefix:0), bigendian));
+	
+	dword dimpacket = dimPacketHeader + header->getPacketLength();
+	
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
+	
+	//copy the sourceDataVariable
+	if(sourceDataVariable != 0) {
+		//the variable part of the sourcedatafield
+		//cout << "packet size " << size() << " " << dimpacket << " " << dimPacketStartingFixedPart << " " << sourceDataVariable->size() << endl;
+		
+		if(sourceDataVariable->size() != size() - dimPacketStartingFixedPart - dimPacketTail)
+			throw new PacketException("the size of the sourceDataVariable is wrong");
+		memcpy( packet_output->stream + dimPacketStartingFixedPart, sourceDataVariable->stream, sourceDataVariable->size());
+		b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
+	}
 	
 	//COMPRESSION HERE
 	//add compression algorithm here of the variable part of the source data field and do not use size() of packet
 	//TODO
 	
     return b;
+}
+
+ByteStreamPtr Packet::getOutputStream() {
+	dword dimpacket = dimPacketHeader + header->getPacketLength();
+	
+    ByteStreamPtr b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
+
+	return b;
 }
 
 ByteStreamPtr Packet::getInputStream()
@@ -836,14 +858,6 @@ ByteStreamPtr Packet::getBSSourceDataField() {
 	return sdff;
 }
 
-void Packet::copyBSSourceDataField(byte* bytestream, dword size) {
-	ByteStreamPtr sdfbs = getBSSourceDataField();
-	if(sdfbs->size() != size)
-		throw new PacketException("Packet::copyBSSourceDataField(): size of the data is wrong");
-	byte* sdfbsp = sdfbs->getStream();
-	memcpy(sdfbsp, bytestream, size*sizeof(byte));
-	decodedPacketSourceDataField = false;
-}
 
 void Packet::compress() {
 		
