@@ -165,8 +165,8 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 		}
 	}
 #ifdef DEBUG
-	cout << "Buffer Size: " << size() << endl;
-	cout << "Buffer Compressed Size: " << b->size() << endl;
+	cout << "Buffer decompressed size: " << size() << endl;
+	cout << "Buffer compressed size: " << b->size() << endl;
 #endif
 	return b;
 }
@@ -201,6 +201,12 @@ ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algor
 			return 0;
 		}
 	}
+
+#ifdef DEBUG
+	cout << "dmax: " << dmax << endl;
+	cout << "Buffer compressed size: " << size() << endl;
+	cout << "Buffer decompressed size: " << b->size() << endl;
+#endif
 
 	return b;
 }
