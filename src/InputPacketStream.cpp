@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "InputPacketStream.h"
+#include <iomanip>
 
 using namespace PacketLib;
 
@@ -67,6 +68,15 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
                 return 0;
         }
         b1 = in->readByteStream(dimHeader);
+
+#ifdef DEBUG
+		std::cout << "b1 size: " << dimHeader << endl;
+		std::cout << "b1 (header): " << endl;
+		std::cout << std::internal << std::setfill('0');
+		for(unsigned int i=0; i<dimHeader; i++)
+			std::cout << std::hex << std::setw(2) << (int)b1->stream[i] << " ";
+		std::cout << std::dec << std::endl;
+#endif
         if(b1 == 0)
         {
             if(!in->isEOF())
@@ -86,6 +96,14 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
             headerReference->setByteStream(b1);
             pl = headerReference->getPacketLength();
             b2 = in->readByteStream(pl);
+#ifdef DEBUG
+			std::cout << "b2 size: " << pl << endl;
+			std::cout << "b2 (packet): " << endl;
+			std::cout << std::internal << std::setfill('0');
+			for(unsigned int i=0; i<pl; i++)
+				std::cout << std::hex << std::setw(2) << (int)b2->stream[i] << " ";
+			std::cout << std::dec << std::endl;
+#endif
             if(b2 == 0)
             {
                 if(!in->isEOF())
