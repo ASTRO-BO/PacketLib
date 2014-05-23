@@ -136,7 +136,6 @@ PacketLib::ByteStream::~ByteStream()
     }
 }
 
-
 ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorithmType, byte compressionLevel) {
 	ByteStreamPtr b;
 
@@ -192,6 +191,7 @@ ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algor
 				return 0;
 			}
 			byte* decompbuff = new byte[buffsize];
+			memcpy(decompbuff, tmpbuff, buffsize);
 			b = ByteStreamPtr(new ByteStream(decompbuff, buffsize, bigendian));
 			delete tmpbuff;
 			break;
