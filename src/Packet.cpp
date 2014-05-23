@@ -1044,7 +1044,7 @@ ByteStreamPtr Packet::decompressData() {
 	if(!isCompressed())
 		return getData();
 	ByteStreamPtr compressed = getData();
-	ByteStreamPtr decompressed = compressed->decompress(getCompressionAlgorithm(), getCompressionLevel());
+	ByteStreamPtr decompressed = compressed->decompress(getCompressionAlgorithm(), getCompressionLevel(), sizeMax());
 
 	return decompressed;
 	

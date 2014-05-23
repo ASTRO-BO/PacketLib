@@ -144,9 +144,14 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 	{
 		case LZH:
 		{
-			char* buff = new char[LZ4_compressBound(size())];
-			int buffsize = LZ4_compressHC2((const char*)stream, buff, size(), compressionLevel);
-			b = ByteStreamPtr(new ByteStream(buff, buffsize, bigendian));
+			byte* buff = new byte[LZ4_compressBound(size())];
+			int buffsize = LZ4_compressHC2((const char*)stream, (char*)buff, size(), compressionLevel);
+			if(!buffsize)
+			{
+				cout << "LZ4 compression error" << endl;
+				return 0;
+			}
+			b = ByteStreamPtr(new ByteStream((byte*)buff, buffsize, bigendian));
 			break;
 		}
 		case NONE:
@@ -166,8 +171,38 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 	return b;
 }
 
-ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms, byte compressionLevel) {
-// TODO
+ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algorithmType, byte compressionLevel, dword dmax) {
+	ByteStreamPtr b;
+
+	switch(algorithmType)
+	{
+		case NONE:
+		{
+			b = stream;
+			break;
+		}
+		case LZH:
+		{
+			byte* tmpbuff = new byte[dmax];
+			int buffsize = LZ4_decompress_safe((const char*)stream, (char*)tmpbuff, size(), dmax);
+			if(!buffsize)
+			{
+				cout << "LZ4 decompression error" << endl;
+				delete tmpbuff;
+				return 0;
+			}
+			byte* decompbuff = new byte[buffsize];
+			b = ByteStreamPtr(new ByteStream(decompbuff, buffsize, bigendian));
+			delete tmpbuff;
+			break;
+		}
+		default:
+		{
+			return 0;
+		}
+	}
+
+	return b;
 }
 
 

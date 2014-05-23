@@ -58,9 +58,9 @@ public:
 
     byte* getStream();
 	
-	ByteStreamPtr compress(enum CompressionAlgorithms, byte compressionLevel);
+	ByteStreamPtr compress(enum CompressionAlgorithms algorithmType, byte compressionLevel);
 	
-	ByteStreamPtr decompress(enum CompressionAlgorithms, byte compressionLevel);
+	ByteStreamPtr decompress(enum CompressionAlgorithms algorithmType, byte compressionLevel, dword dmax);
 
     /// Returns a pointer of the stream for output purpose. If there is problems return NULL
     /// \remarks In little endian architecture it is necessary to call endOutputStream()
