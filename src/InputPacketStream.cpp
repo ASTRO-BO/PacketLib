@@ -59,7 +59,11 @@ Packet* InputPacketStream::readPacket() throw(PacketExceptionIO*)
     {
         if(in == 0)
             throw new PacketExceptionIO("no input set.");
-        b0 = in->readByteStream(dimPrefix);
+
+		if(dimPrefix)
+	        b0 = in->readByteStream(dimPrefix);
+		else
+			b0 = 0;
         if(b0 == 0 && dimPrefix != 0)
         {
             if(!in->isEOF())
