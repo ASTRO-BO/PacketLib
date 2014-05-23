@@ -36,6 +36,8 @@
 #define PACKETNOTRECOGNIZED 0
 /// define NULL 0
 
+//0 for x86
+//1 for motorola
 #define ARCH_BIGENDIAN 0
 
 enum CompressionAlgorithms  { NONE, LZH };

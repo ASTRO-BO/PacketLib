@@ -1,0 +1,663 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DDB3B8DE18CA2FBF00918955 /* PacketLib_doc.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = DDB3B8DD18CA2FBF00918955 /* PacketLib_doc.1 */; };
+		DDB3B8E218CA2FE000918955 /* ByteStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A218CA2F9100918955 /* ByteStream.cpp */; };
+		DDB3B8E318CA2FE000918955 /* ConfigurationFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A318CA2F9100918955 /* ConfigurationFile.cpp */; };
+		DDB3B8E418CA2FE000918955 /* DataFieldHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A418CA2F9100918955 /* DataFieldHeader.cpp */; };
+		DDB3B8E518CA2FE000918955 /* Device.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A518CA2F9100918955 /* Device.cpp */; };
+		DDB3B8E618CA2FE000918955 /* Field.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A618CA2F9100918955 /* Field.cpp */; };
+		DDB3B8E718CA2FE000918955 /* File.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A718CA2F9100918955 /* File.cpp */; };
+		DDB3B8E818CA2FE000918955 /* FileStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A818CA2F9100918955 /* FileStream.cpp */; };
+		DDB3B8E918CA2FE000918955 /* FileStreamPointer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A918CA2F9100918955 /* FileStreamPointer.cpp */; };
+		DDB3B8EA18CA2FE000918955 /* Input.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AA18CA2F9100918955 /* Input.cpp */; };
+		DDB3B8EB18CA2FE000918955 /* InputFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AB18CA2F9100918955 /* InputFile.cpp */; };
+		DDB3B8EC18CA2FE000918955 /* InputPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AC18CA2F9100918955 /* InputPacketStream.cpp */; };
+		DDB3B8ED18CA2FE000918955 /* InputPacketStreamFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AD18CA2F9100918955 /* InputPacketStreamFile.cpp */; };
+		DDB3B8EE18CA2FE000918955 /* InputSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AE18CA2F9100918955 /* InputSerial.cpp */; };
+		DDB3B8EF18CA2FE000918955 /* InputSocketServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8AF18CA2F9100918955 /* InputSocketServer.cpp */; };
+		DDB3B8F018CA2FE000918955 /* InputText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B018CA2F9100918955 /* InputText.cpp */; };
+		DDB3B8F118CA2FE000918955 /* InputTextFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B118CA2F9100918955 /* InputTextFile.cpp */; };
+		DDB3B8F218CA2FE000918955 /* MemoryBuffer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B218CA2F9100918955 /* MemoryBuffer.cpp */; };
+		DDB3B8F318CA2FE000918955 /* MSGQ.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B318CA2F9100918955 /* MSGQ.cpp */; };
+		DDB3B8F418CA2FE000918955 /* Output.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B418CA2F9100918955 /* Output.cpp */; };
+		DDB3B8F518CA2FE000918955 /* OutputFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B518CA2F9100918955 /* OutputFile.cpp */; };
+		DDB3B8F618CA2FE000918955 /* OutputPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B618CA2F9100918955 /* OutputPacketStream.cpp */; };
+		DDB3B8F718CA2FE000918955 /* OutputSerial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B718CA2F9100918955 /* OutputSerial.cpp */; };
+		DDB3B8F818CA2FE000918955 /* OutputSocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B818CA2F9100918955 /* OutputSocketClient.cpp */; };
+		DDB3B8F918CA2FE000918955 /* Packet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8B918CA2F9100918955 /* Packet.cpp */; };
+		DDB3B8FA18CA2FE000918955 /* PacketDataField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BA18CA2F9100918955 /* PacketDataField.cpp */; };
+		DDB3B8FB18CA2FE000918955 /* PacketException.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BB18CA2F9100918955 /* PacketException.cpp */; };
+		DDB3B8FC18CA2FE000918955 /* PacketExceptionFileFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BC18CA2F9100918955 /* PacketExceptionFileFormat.cpp */; };
+		DDB3B8FD18CA2FE000918955 /* PacketExceptionIO.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BD18CA2F9100918955 /* PacketExceptionIO.cpp */; };
+		DDB3B8FE18CA2FE000918955 /* PacketHeader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BE18CA2F9100918955 /* PacketHeader.cpp */; };
+		DDB3B8FF18CA2FE000918955 /* PacketIdentifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8BF18CA2F9100918955 /* PacketIdentifier.cpp */; };
+		DDB3B90018CA2FE000918955 /* PacketNotRecognized.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8C018CA2F9100918955 /* PacketNotRecognized.cpp */; };
+		DDB3B90118CA2FE000918955 /* PacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8C118CA2F9100918955 /* PacketStream.cpp */; };
+		DDB3B90218CA2FE000918955 /* PartOfPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8C218CA2F9100918955 /* PartOfPacket.cpp */; };
+		DDB3B90318CA2FE000918955 /* README in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8C318CA2F9100918955 /* README */; };
+		DDB3B90B18CA2FE000918955 /* SDFBlock.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8CB18CA2F9100918955 /* SDFBlock.cpp */; };
+		DDB3B90C18CA2FE000918955 /* SourceDataField.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8CC18CA2F9100918955 /* SourceDataField.cpp */; };
+		DDB3B90D18CA2FE000918955 /* Serial.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8CD18CA2F9100918955 /* Serial.cpp */; };
+		DDB3B90E18CA2FE000918955 /* SHM.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8CE18CA2F9100918955 /* SHM.cpp */; };
+		DDB3B90F18CA2FE000918955 /* Socket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8CF18CA2F9100918955 /* Socket.cpp */; };
+		DDB3B91018CA2FE000918955 /* SocketClient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8D018CA2F9100918955 /* SocketClient.cpp */; };
+		DDB3B91118CA2FE000918955 /* SocketServer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8D118CA2F9100918955 /* SocketServer.cpp */; };
+		DDB3B91318CA2FE000918955 /* Utility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8D318CA2F9100918955 /* Utility.cpp */; };
+		DDB3B91418CA2FE000918955 /* ByteStream.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B86B18CA2F8700918955 /* ByteStream.h */; };
+		DDB3B91518CA2FE000918955 /* ConfigurationFile.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B86C18CA2F8700918955 /* ConfigurationFile.h */; };
+		DDB3B91618CA2FE000918955 /* DataFieldHeader.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B86D18CA2F8700918955 /* DataFieldHeader.h */; };
+		DDB3B91718CA2FE000918955 /* Device.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B86E18CA2F8700918955 /* Device.h */; };
+		DDB3B91818CA2FE000918955 /* Field.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B86F18CA2F8700918955 /* Field.h */; };
+		DDB3B91918CA2FE000918955 /* File.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87018CA2F8700918955 /* File.h */; };
+		DDB3B91A18CA2FE000918955 /* FileStream.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87118CA2F8700918955 /* FileStream.h */; };
+		DDB3B91B18CA2FE000918955 /* FileStreamPointer.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87218CA2F8700918955 /* FileStreamPointer.h */; };
+		DDB3B91C18CA2FE000918955 /* Input.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87318CA2F8700918955 /* Input.h */; };
+		DDB3B91D18CA2FE000918955 /* InputFile.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87418CA2F8700918955 /* InputFile.h */; };
+		DDB3B91E18CA2FE000918955 /* InputPacketStream.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87518CA2F8700918955 /* InputPacketStream.h */; };
+		DDB3B91F18CA2FE000918955 /* InputPacketStreamFile.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87618CA2F8700918955 /* InputPacketStreamFile.h */; };
+		DDB3B92018CA2FE000918955 /* InputSerial.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87718CA2F8700918955 /* InputSerial.h */; };
+		DDB3B92118CA2FE000918955 /* InputSocketServer.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87818CA2F8700918955 /* InputSocketServer.h */; };
+		DDB3B92218CA2FE000918955 /* InputText.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87918CA2F8700918955 /* InputText.h */; };
+		DDB3B92318CA2FE000918955 /* InputTextFile.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87A18CA2F8700918955 /* InputTextFile.h */; };
+		DDB3B92418CA2FE000918955 /* MemoryBuffer.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87B18CA2F8700918955 /* MemoryBuffer.h */; };
+		DDB3B92518CA2FE000918955 /* MSGQ.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87C18CA2F8700918955 /* MSGQ.h */; };
+		DDB3B92618CA2FE000918955 /* Output.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87D18CA2F8700918955 /* Output.h */; };
+		DDB3B92718CA2FE000918955 /* OutputFile.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87E18CA2F8700918955 /* OutputFile.h */; };
+		DDB3B92818CA2FE000918955 /* OutputPacketStream.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B87F18CA2F8700918955 /* OutputPacketStream.h */; };
+		DDB3B92918CA2FE000918955 /* OutputSerial.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88018CA2F8700918955 /* OutputSerial.h */; };
+		DDB3B92A18CA2FE000918955 /* OutputSocketClient.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88118CA2F8700918955 /* OutputSocketClient.h */; };
+		DDB3B92B18CA2FE000918955 /* Packet.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88218CA2F8700918955 /* Packet.h */; };
+		DDB3B92C18CA2FE000918955 /* PacketDataField.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88318CA2F8700918955 /* PacketDataField.h */; };
+		DDB3B92D18CA2FE000918955 /* PacketException.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88418CA2F8700918955 /* PacketException.h */; };
+		DDB3B92E18CA2FE000918955 /* PacketExceptionFileFormat.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88518CA2F8700918955 /* PacketExceptionFileFormat.h */; };
+		DDB3B92F18CA2FE000918955 /* PacketExceptionIO.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88618CA2F8700918955 /* PacketExceptionIO.h */; };
+		DDB3B93018CA2FE000918955 /* PacketHeader.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88718CA2F8700918955 /* PacketHeader.h */; };
+		DDB3B93118CA2FE000918955 /* PacketIdentifier.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88818CA2F8700918955 /* PacketIdentifier.h */; };
+		DDB3B93218CA2FE000918955 /* PacketLibDefinition.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88918CA2F8700918955 /* PacketLibDefinition.h */; };
+		DDB3B93318CA2FE000918955 /* PacketLibDemo.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88A18CA2F8700918955 /* PacketLibDemo.h */; };
+		DDB3B93418CA2FE000918955 /* PacketNotRecognized.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88B18CA2F8700918955 /* PacketNotRecognized.h */; };
+		DDB3B93518CA2FE000918955 /* PacketStream.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88C18CA2F8700918955 /* PacketStream.h */; };
+		DDB3B93618CA2FE000918955 /* PartOfPacket.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88D18CA2F8700918955 /* PartOfPacket.h */; };
+		DDB3B93718CA2FE000918955 /* PlVersion.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88E18CA2F8700918955 /* PlVersion.h */; };
+		DDB3B93818CA2FE000918955 /* README in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B88F18CA2F8700918955 /* README */; };
+		DDB3B94018CA2FE000918955 /* SDFBlock.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89718CA2F8700918955 /* SDFBlock.h */; };
+		DDB3B94118CA2FE000918955 /* SourceDataField.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89818CA2F8700918955 /* SourceDataField.h */; };
+		DDB3B94218CA2FE000918955 /* Serial.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89918CA2F8700918955 /* Serial.h */; };
+		DDB3B94318CA2FE000918955 /* SharedPtr.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89A18CA2F8700918955 /* SharedPtr.h */; };
+		DDB3B94418CA2FE000918955 /* SHM.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89B18CA2F8700918955 /* SHM.h */; };
+		DDB3B94518CA2FE000918955 /* Socket.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89C18CA2F8700918955 /* Socket.h */; };
+		DDB3B94618CA2FE000918955 /* SocketClient.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89D18CA2F8700918955 /* SocketClient.h */; };
+		DDB3B94718CA2FE000918955 /* SocketServer.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B89E18CA2F8700918955 /* SocketServer.h */; };
+		DDB3B94918CA2FE000918955 /* Utility.h in Sources */ = {isa = PBXBuildFile; fileRef = DDB3B8A018CA2F8700918955 /* Utility.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DDB3B8D618CA2FBF00918955 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				DDB3B8DE18CA2FBF00918955 /* PacketLib_doc.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DD6C793419255A5500406949 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		DD6C793519255A5E00406949 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
+		DD6C793619255A6A00406949 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		DD7468B118CF00D10028146F /* PacketBufferQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketBufferQ.h; sourceTree = "<group>"; };
+		DD7468B218CF00D10028146F /* PacketBufferV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketBufferV.h; sourceTree = "<group>"; };
+		DD7468B318CF00E30028146F /* PacketBufferQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketBufferQ.cpp; sourceTree = "<group>"; };
+		DD7468B418CF00E30028146F /* PacketBufferV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketBufferV.cpp; sourceTree = "<group>"; };
+		DDB3B86B18CA2F8700918955 /* ByteStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteStream.h; sourceTree = "<group>"; };
+		DDB3B86C18CA2F8700918955 /* ConfigurationFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationFile.h; sourceTree = "<group>"; };
+		DDB3B86D18CA2F8700918955 /* DataFieldHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFieldHeader.h; sourceTree = "<group>"; };
+		DDB3B86E18CA2F8700918955 /* Device.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Device.h; sourceTree = "<group>"; };
+		DDB3B86F18CA2F8700918955 /* Field.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Field.h; sourceTree = "<group>"; };
+		DDB3B87018CA2F8700918955 /* File.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = File.h; sourceTree = "<group>"; };
+		DDB3B87118CA2F8700918955 /* FileStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStream.h; sourceTree = "<group>"; };
+		DDB3B87218CA2F8700918955 /* FileStreamPointer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileStreamPointer.h; sourceTree = "<group>"; };
+		DDB3B87318CA2F8700918955 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
+		DDB3B87418CA2F8700918955 /* InputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputFile.h; sourceTree = "<group>"; };
+		DDB3B87518CA2F8700918955 /* InputPacketStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputPacketStream.h; sourceTree = "<group>"; };
+		DDB3B87618CA2F8700918955 /* InputPacketStreamFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputPacketStreamFile.h; sourceTree = "<group>"; };
+		DDB3B87718CA2F8700918955 /* InputSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSerial.h; sourceTree = "<group>"; };
+		DDB3B87818CA2F8700918955 /* InputSocketServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputSocketServer.h; sourceTree = "<group>"; };
+		DDB3B87918CA2F8700918955 /* InputText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputText.h; sourceTree = "<group>"; };
+		DDB3B87A18CA2F8700918955 /* InputTextFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InputTextFile.h; sourceTree = "<group>"; };
+		DDB3B87B18CA2F8700918955 /* MemoryBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MemoryBuffer.h; sourceTree = "<group>"; };
+		DDB3B87C18CA2F8700918955 /* MSGQ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MSGQ.h; sourceTree = "<group>"; };
+		DDB3B87D18CA2F8700918955 /* Output.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Output.h; sourceTree = "<group>"; };
+		DDB3B87E18CA2F8700918955 /* OutputFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputFile.h; sourceTree = "<group>"; };
+		DDB3B87F18CA2F8700918955 /* OutputPacketStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputPacketStream.h; sourceTree = "<group>"; };
+		DDB3B88018CA2F8700918955 /* OutputSerial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputSerial.h; sourceTree = "<group>"; };
+		DDB3B88118CA2F8700918955 /* OutputSocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OutputSocketClient.h; sourceTree = "<group>"; };
+		DDB3B88218CA2F8700918955 /* Packet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Packet.h; sourceTree = "<group>"; };
+		DDB3B88318CA2F8700918955 /* PacketDataField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketDataField.h; sourceTree = "<group>"; };
+		DDB3B88418CA2F8700918955 /* PacketException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketException.h; sourceTree = "<group>"; };
+		DDB3B88518CA2F8700918955 /* PacketExceptionFileFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketExceptionFileFormat.h; sourceTree = "<group>"; };
+		DDB3B88618CA2F8700918955 /* PacketExceptionIO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketExceptionIO.h; sourceTree = "<group>"; };
+		DDB3B88718CA2F8700918955 /* PacketHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketHeader.h; sourceTree = "<group>"; };
+		DDB3B88818CA2F8700918955 /* PacketIdentifier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketIdentifier.h; sourceTree = "<group>"; };
+		DDB3B88918CA2F8700918955 /* PacketLibDefinition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketLibDefinition.h; sourceTree = "<group>"; };
+		DDB3B88A18CA2F8700918955 /* PacketLibDemo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketLibDemo.h; sourceTree = "<group>"; };
+		DDB3B88B18CA2F8700918955 /* PacketNotRecognized.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketNotRecognized.h; sourceTree = "<group>"; };
+		DDB3B88C18CA2F8700918955 /* PacketStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketStream.h; sourceTree = "<group>"; };
+		DDB3B88D18CA2F8700918955 /* PartOfPacket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PartOfPacket.h; sourceTree = "<group>"; };
+		DDB3B88E18CA2F8700918955 /* PlVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlVersion.h; sourceTree = "<group>"; };
+		DDB3B88F18CA2F8700918955 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		DDB3B89718CA2F8700918955 /* SDFBlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDFBlock.h; sourceTree = "<group>"; };
+		DDB3B89818CA2F8700918955 /* SourceDataField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceDataField.h; sourceTree = "<group>"; };
+		DDB3B89918CA2F8700918955 /* Serial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Serial.h; sourceTree = "<group>"; };
+		DDB3B89A18CA2F8700918955 /* SharedPtr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SharedPtr.h; sourceTree = "<group>"; };
+		DDB3B89B18CA2F8700918955 /* SHM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SHM.h; sourceTree = "<group>"; };
+		DDB3B89C18CA2F8700918955 /* Socket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Socket.h; sourceTree = "<group>"; };
+		DDB3B89D18CA2F8700918955 /* SocketClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketClient.h; sourceTree = "<group>"; };
+		DDB3B89E18CA2F8700918955 /* SocketServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SocketServer.h; sourceTree = "<group>"; };
+		DDB3B8A018CA2F8700918955 /* Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utility.h; sourceTree = "<group>"; };
+		DDB3B8A218CA2F9100918955 /* ByteStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ByteStream.cpp; sourceTree = "<group>"; };
+		DDB3B8A318CA2F9100918955 /* ConfigurationFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ConfigurationFile.cpp; sourceTree = "<group>"; };
+		DDB3B8A418CA2F9100918955 /* DataFieldHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DataFieldHeader.cpp; sourceTree = "<group>"; };
+		DDB3B8A518CA2F9100918955 /* Device.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Device.cpp; sourceTree = "<group>"; };
+		DDB3B8A618CA2F9100918955 /* Field.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Field.cpp; sourceTree = "<group>"; };
+		DDB3B8A718CA2F9100918955 /* File.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = File.cpp; sourceTree = "<group>"; };
+		DDB3B8A818CA2F9100918955 /* FileStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileStream.cpp; sourceTree = "<group>"; };
+		DDB3B8A918CA2F9100918955 /* FileStreamPointer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FileStreamPointer.cpp; sourceTree = "<group>"; };
+		DDB3B8AA18CA2F9100918955 /* Input.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Input.cpp; sourceTree = "<group>"; };
+		DDB3B8AB18CA2F9100918955 /* InputFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputFile.cpp; sourceTree = "<group>"; };
+		DDB3B8AC18CA2F9100918955 /* InputPacketStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputPacketStream.cpp; sourceTree = "<group>"; };
+		DDB3B8AD18CA2F9100918955 /* InputPacketStreamFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputPacketStreamFile.cpp; sourceTree = "<group>"; };
+		DDB3B8AE18CA2F9100918955 /* InputSerial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSerial.cpp; sourceTree = "<group>"; };
+		DDB3B8AF18CA2F9100918955 /* InputSocketServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputSocketServer.cpp; sourceTree = "<group>"; };
+		DDB3B8B018CA2F9100918955 /* InputText.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputText.cpp; sourceTree = "<group>"; };
+		DDB3B8B118CA2F9100918955 /* InputTextFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = InputTextFile.cpp; sourceTree = "<group>"; };
+		DDB3B8B218CA2F9100918955 /* MemoryBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MemoryBuffer.cpp; sourceTree = "<group>"; };
+		DDB3B8B318CA2F9100918955 /* MSGQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MSGQ.cpp; sourceTree = "<group>"; };
+		DDB3B8B418CA2F9100918955 /* Output.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Output.cpp; sourceTree = "<group>"; };
+		DDB3B8B518CA2F9100918955 /* OutputFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputFile.cpp; sourceTree = "<group>"; };
+		DDB3B8B618CA2F9100918955 /* OutputPacketStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputPacketStream.cpp; sourceTree = "<group>"; };
+		DDB3B8B718CA2F9100918955 /* OutputSerial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputSerial.cpp; sourceTree = "<group>"; };
+		DDB3B8B818CA2F9100918955 /* OutputSocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OutputSocketClient.cpp; sourceTree = "<group>"; };
+		DDB3B8B918CA2F9100918955 /* Packet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Packet.cpp; sourceTree = "<group>"; };
+		DDB3B8BA18CA2F9100918955 /* PacketDataField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketDataField.cpp; sourceTree = "<group>"; };
+		DDB3B8BB18CA2F9100918955 /* PacketException.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketException.cpp; sourceTree = "<group>"; };
+		DDB3B8BC18CA2F9100918955 /* PacketExceptionFileFormat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketExceptionFileFormat.cpp; sourceTree = "<group>"; };
+		DDB3B8BD18CA2F9100918955 /* PacketExceptionIO.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketExceptionIO.cpp; sourceTree = "<group>"; };
+		DDB3B8BE18CA2F9100918955 /* PacketHeader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketHeader.cpp; sourceTree = "<group>"; };
+		DDB3B8BF18CA2F9100918955 /* PacketIdentifier.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketIdentifier.cpp; sourceTree = "<group>"; };
+		DDB3B8C018CA2F9100918955 /* PacketNotRecognized.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketNotRecognized.cpp; sourceTree = "<group>"; };
+		DDB3B8C118CA2F9100918955 /* PacketStream.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketStream.cpp; sourceTree = "<group>"; };
+		DDB3B8C218CA2F9100918955 /* PartOfPacket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PartOfPacket.cpp; sourceTree = "<group>"; };
+		DDB3B8C318CA2F9100918955 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		DDB3B8CB18CA2F9100918955 /* SDFBlock.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SDFBlock.cpp; sourceTree = "<group>"; };
+		DDB3B8CC18CA2F9100918955 /* SourceDataField.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SourceDataField.cpp; sourceTree = "<group>"; };
+		DDB3B8CD18CA2F9100918955 /* Serial.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Serial.cpp; sourceTree = "<group>"; };
+		DDB3B8CE18CA2F9100918955 /* SHM.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SHM.cpp; sourceTree = "<group>"; };
+		DDB3B8CF18CA2F9100918955 /* Socket.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Socket.cpp; sourceTree = "<group>"; };
+		DDB3B8D018CA2F9100918955 /* SocketClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketClient.cpp; sourceTree = "<group>"; };
+		DDB3B8D118CA2F9100918955 /* SocketServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SocketServer.cpp; sourceTree = "<group>"; };
+		DDB3B8D318CA2F9100918955 /* Utility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Utility.cpp; sourceTree = "<group>"; };
+		DDB3B8D818CA2FBF00918955 /* PacketLib-doc */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "PacketLib-doc"; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDB3B8DD18CA2FBF00918955 /* PacketLib_doc.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = PacketLib_doc.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DDB3B8D518CA2FBF00918955 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DDB3B85F18CA2F5C00918955 = {
+			isa = PBXGroup;
+			children = (
+				DD6C793619255A6A00406949 /* README */,
+				DD6C793519255A5E00406949 /* Doxyfile */,
+				DD6C793419255A5500406949 /* ChangeLog */,
+				DDB3B8A118CA2F9100918955 /* src */,
+				DDB3B86A18CA2F8700918955 /* include */,
+				DDB3B8DA18CA2FBF00918955 /* PacketLib-doc */,
+				DDB3B8D918CA2FBF00918955 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DDB3B86A18CA2F8700918955 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				DDB3B86B18CA2F8700918955 /* ByteStream.h */,
+				DDB3B86C18CA2F8700918955 /* ConfigurationFile.h */,
+				DDB3B86D18CA2F8700918955 /* DataFieldHeader.h */,
+				DDB3B86E18CA2F8700918955 /* Device.h */,
+				DDB3B86F18CA2F8700918955 /* Field.h */,
+				DDB3B87018CA2F8700918955 /* File.h */,
+				DDB3B87118CA2F8700918955 /* FileStream.h */,
+				DDB3B87218CA2F8700918955 /* FileStreamPointer.h */,
+				DDB3B87318CA2F8700918955 /* Input.h */,
+				DDB3B87418CA2F8700918955 /* InputFile.h */,
+				DDB3B87518CA2F8700918955 /* InputPacketStream.h */,
+				DDB3B87618CA2F8700918955 /* InputPacketStreamFile.h */,
+				DDB3B87718CA2F8700918955 /* InputSerial.h */,
+				DDB3B87818CA2F8700918955 /* InputSocketServer.h */,
+				DDB3B87918CA2F8700918955 /* InputText.h */,
+				DDB3B87A18CA2F8700918955 /* InputTextFile.h */,
+				DDB3B87B18CA2F8700918955 /* MemoryBuffer.h */,
+				DDB3B87C18CA2F8700918955 /* MSGQ.h */,
+				DDB3B87D18CA2F8700918955 /* Output.h */,
+				DDB3B87E18CA2F8700918955 /* OutputFile.h */,
+				DDB3B87F18CA2F8700918955 /* OutputPacketStream.h */,
+				DDB3B88018CA2F8700918955 /* OutputSerial.h */,
+				DDB3B88118CA2F8700918955 /* OutputSocketClient.h */,
+				DDB3B88218CA2F8700918955 /* Packet.h */,
+				DD7468B118CF00D10028146F /* PacketBufferQ.h */,
+				DD7468B218CF00D10028146F /* PacketBufferV.h */,
+				DDB3B88318CA2F8700918955 /* PacketDataField.h */,
+				DDB3B88418CA2F8700918955 /* PacketException.h */,
+				DDB3B88518CA2F8700918955 /* PacketExceptionFileFormat.h */,
+				DDB3B88618CA2F8700918955 /* PacketExceptionIO.h */,
+				DDB3B88718CA2F8700918955 /* PacketHeader.h */,
+				DDB3B88818CA2F8700918955 /* PacketIdentifier.h */,
+				DDB3B88918CA2F8700918955 /* PacketLibDefinition.h */,
+				DDB3B88A18CA2F8700918955 /* PacketLibDemo.h */,
+				DDB3B88B18CA2F8700918955 /* PacketNotRecognized.h */,
+				DDB3B88C18CA2F8700918955 /* PacketStream.h */,
+				DDB3B88D18CA2F8700918955 /* PartOfPacket.h */,
+				DDB3B88E18CA2F8700918955 /* PlVersion.h */,
+				DDB3B88F18CA2F8700918955 /* README */,
+				DDB3B89718CA2F8700918955 /* SDFBlock.h */,
+				DDB3B89918CA2F8700918955 /* Serial.h */,
+				DDB3B89A18CA2F8700918955 /* SharedPtr.h */,
+				DDB3B89B18CA2F8700918955 /* SHM.h */,
+				DDB3B89C18CA2F8700918955 /* Socket.h */,
+				DDB3B89D18CA2F8700918955 /* SocketClient.h */,
+				DDB3B89E18CA2F8700918955 /* SocketServer.h */,
+				DDB3B89818CA2F8700918955 /* SourceDataField.h */,
+				DDB3B8A018CA2F8700918955 /* Utility.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		DDB3B8A118CA2F9100918955 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				DDB3B8A218CA2F9100918955 /* ByteStream.cpp */,
+				DDB3B8A318CA2F9100918955 /* ConfigurationFile.cpp */,
+				DDB3B8A418CA2F9100918955 /* DataFieldHeader.cpp */,
+				DDB3B8A518CA2F9100918955 /* Device.cpp */,
+				DDB3B8A618CA2F9100918955 /* Field.cpp */,
+				DDB3B8A718CA2F9100918955 /* File.cpp */,
+				DDB3B8A818CA2F9100918955 /* FileStream.cpp */,
+				DDB3B8A918CA2F9100918955 /* FileStreamPointer.cpp */,
+				DDB3B8AA18CA2F9100918955 /* Input.cpp */,
+				DDB3B8AB18CA2F9100918955 /* InputFile.cpp */,
+				DDB3B8AC18CA2F9100918955 /* InputPacketStream.cpp */,
+				DDB3B8AD18CA2F9100918955 /* InputPacketStreamFile.cpp */,
+				DDB3B8AE18CA2F9100918955 /* InputSerial.cpp */,
+				DDB3B8AF18CA2F9100918955 /* InputSocketServer.cpp */,
+				DDB3B8B018CA2F9100918955 /* InputText.cpp */,
+				DDB3B8B118CA2F9100918955 /* InputTextFile.cpp */,
+				DDB3B8B218CA2F9100918955 /* MemoryBuffer.cpp */,
+				DDB3B8B318CA2F9100918955 /* MSGQ.cpp */,
+				DDB3B8B418CA2F9100918955 /* Output.cpp */,
+				DDB3B8B518CA2F9100918955 /* OutputFile.cpp */,
+				DDB3B8B618CA2F9100918955 /* OutputPacketStream.cpp */,
+				DDB3B8B718CA2F9100918955 /* OutputSerial.cpp */,
+				DDB3B8B818CA2F9100918955 /* OutputSocketClient.cpp */,
+				DDB3B8B918CA2F9100918955 /* Packet.cpp */,
+				DD7468B318CF00E30028146F /* PacketBufferQ.cpp */,
+				DD7468B418CF00E30028146F /* PacketBufferV.cpp */,
+				DDB3B8BA18CA2F9100918955 /* PacketDataField.cpp */,
+				DDB3B8BB18CA2F9100918955 /* PacketException.cpp */,
+				DDB3B8BC18CA2F9100918955 /* PacketExceptionFileFormat.cpp */,
+				DDB3B8BD18CA2F9100918955 /* PacketExceptionIO.cpp */,
+				DDB3B8BE18CA2F9100918955 /* PacketHeader.cpp */,
+				DDB3B8BF18CA2F9100918955 /* PacketIdentifier.cpp */,
+				DDB3B8C018CA2F9100918955 /* PacketNotRecognized.cpp */,
+				DDB3B8C118CA2F9100918955 /* PacketStream.cpp */,
+				DDB3B8C218CA2F9100918955 /* PartOfPacket.cpp */,
+				DDB3B8C318CA2F9100918955 /* README */,
+				DDB3B8CB18CA2F9100918955 /* SDFBlock.cpp */,
+				DDB3B8CD18CA2F9100918955 /* Serial.cpp */,
+				DDB3B8CE18CA2F9100918955 /* SHM.cpp */,
+				DDB3B8CF18CA2F9100918955 /* Socket.cpp */,
+				DDB3B8D018CA2F9100918955 /* SocketClient.cpp */,
+				DDB3B8D118CA2F9100918955 /* SocketServer.cpp */,
+				DDB3B8CC18CA2F9100918955 /* SourceDataField.cpp */,
+				DDB3B8D318CA2F9100918955 /* Utility.cpp */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		DDB3B8D918CA2FBF00918955 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDB3B8D818CA2FBF00918955 /* PacketLib-doc */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DDB3B8DA18CA2FBF00918955 /* PacketLib-doc */ = {
+			isa = PBXGroup;
+			children = (
+				DDB3B8DD18CA2FBF00918955 /* PacketLib_doc.1 */,
+			);
+			path = "PacketLib-doc";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		DDB3B86418CA2F5C00918955 /* PacketLib */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = DDB3B86718CA2F5C00918955 /* Build configuration list for PBXLegacyTarget "PacketLib" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = PacketLib;
+			passBuildSettingsInEnvironment = 1;
+			productName = PacketLib;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		DDB3B8D718CA2FBF00918955 /* PacketLib-doc */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DDB3B8DF18CA2FBF00918955 /* Build configuration list for PBXNativeTarget "PacketLib-doc" */;
+			buildPhases = (
+				DDB3B8D418CA2FBF00918955 /* Sources */,
+				DDB3B8D518CA2FBF00918955 /* Frameworks */,
+				DDB3B8D618CA2FBF00918955 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "PacketLib-doc";
+			productName = "PacketLib-doc";
+			productReference = DDB3B8D818CA2FBF00918955 /* PacketLib-doc */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DDB3B86018CA2F5C00918955 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Andrea Bulgarelli";
+			};
+			buildConfigurationList = DDB3B86318CA2F5C00918955 /* Build configuration list for PBXProject "PacketLib" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = DDB3B85F18CA2F5C00918955;
+			productRefGroup = DDB3B8D918CA2FBF00918955 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DDB3B86418CA2F5C00918955 /* PacketLib */,
+				DDB3B8D718CA2FBF00918955 /* PacketLib-doc */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DDB3B8D418CA2FBF00918955 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DDB3B8E218CA2FE000918955 /* ByteStream.cpp in Sources */,
+				DDB3B8E318CA2FE000918955 /* ConfigurationFile.cpp in Sources */,
+				DDB3B8E418CA2FE000918955 /* DataFieldHeader.cpp in Sources */,
+				DDB3B8E518CA2FE000918955 /* Device.cpp in Sources */,
+				DDB3B8E618CA2FE000918955 /* Field.cpp in Sources */,
+				DDB3B8E718CA2FE000918955 /* File.cpp in Sources */,
+				DDB3B8E818CA2FE000918955 /* FileStream.cpp in Sources */,
+				DDB3B8E918CA2FE000918955 /* FileStreamPointer.cpp in Sources */,
+				DDB3B8EA18CA2FE000918955 /* Input.cpp in Sources */,
+				DDB3B8EB18CA2FE000918955 /* InputFile.cpp in Sources */,
+				DDB3B8EC18CA2FE000918955 /* InputPacketStream.cpp in Sources */,
+				DDB3B8ED18CA2FE000918955 /* InputPacketStreamFile.cpp in Sources */,
+				DDB3B8EE18CA2FE000918955 /* InputSerial.cpp in Sources */,
+				DDB3B8EF18CA2FE000918955 /* InputSocketServer.cpp in Sources */,
+				DDB3B8F018CA2FE000918955 /* InputText.cpp in Sources */,
+				DDB3B8F118CA2FE000918955 /* InputTextFile.cpp in Sources */,
+				DDB3B8F218CA2FE000918955 /* MemoryBuffer.cpp in Sources */,
+				DDB3B8F318CA2FE000918955 /* MSGQ.cpp in Sources */,
+				DDB3B8F418CA2FE000918955 /* Output.cpp in Sources */,
+				DDB3B8F518CA2FE000918955 /* OutputFile.cpp in Sources */,
+				DDB3B8F618CA2FE000918955 /* OutputPacketStream.cpp in Sources */,
+				DDB3B8F718CA2FE000918955 /* OutputSerial.cpp in Sources */,
+				DDB3B8F818CA2FE000918955 /* OutputSocketClient.cpp in Sources */,
+				DDB3B8F918CA2FE000918955 /* Packet.cpp in Sources */,
+				DDB3B8FA18CA2FE000918955 /* PacketDataField.cpp in Sources */,
+				DDB3B8FB18CA2FE000918955 /* PacketException.cpp in Sources */,
+				DDB3B8FC18CA2FE000918955 /* PacketExceptionFileFormat.cpp in Sources */,
+				DDB3B8FD18CA2FE000918955 /* PacketExceptionIO.cpp in Sources */,
+				DDB3B8FE18CA2FE000918955 /* PacketHeader.cpp in Sources */,
+				DDB3B8FF18CA2FE000918955 /* PacketIdentifier.cpp in Sources */,
+				DDB3B90018CA2FE000918955 /* PacketNotRecognized.cpp in Sources */,
+				DDB3B90118CA2FE000918955 /* PacketStream.cpp in Sources */,
+				DDB3B90218CA2FE000918955 /* PartOfPacket.cpp in Sources */,
+				DDB3B90318CA2FE000918955 /* README in Sources */,
+				DDB3B90B18CA2FE000918955 /* SDFBlock.cpp in Sources */,
+				DDB3B90C18CA2FE000918955 /* SourceDataField.cpp in Sources */,
+				DDB3B90D18CA2FE000918955 /* Serial.cpp in Sources */,
+				DDB3B90E18CA2FE000918955 /* SHM.cpp in Sources */,
+				DDB3B90F18CA2FE000918955 /* Socket.cpp in Sources */,
+				DDB3B91018CA2FE000918955 /* SocketClient.cpp in Sources */,
+				DDB3B91118CA2FE000918955 /* SocketServer.cpp in Sources */,
+				DDB3B91318CA2FE000918955 /* Utility.cpp in Sources */,
+				DDB3B91418CA2FE000918955 /* ByteStream.h in Sources */,
+				DDB3B91518CA2FE000918955 /* ConfigurationFile.h in Sources */,
+				DDB3B91618CA2FE000918955 /* DataFieldHeader.h in Sources */,
+				DDB3B91718CA2FE000918955 /* Device.h in Sources */,
+				DDB3B91818CA2FE000918955 /* Field.h in Sources */,
+				DDB3B91918CA2FE000918955 /* File.h in Sources */,
+				DDB3B91A18CA2FE000918955 /* FileStream.h in Sources */,
+				DDB3B91B18CA2FE000918955 /* FileStreamPointer.h in Sources */,
+				DDB3B91C18CA2FE000918955 /* Input.h in Sources */,
+				DDB3B91D18CA2FE000918955 /* InputFile.h in Sources */,
+				DDB3B91E18CA2FE000918955 /* InputPacketStream.h in Sources */,
+				DDB3B91F18CA2FE000918955 /* InputPacketStreamFile.h in Sources */,
+				DDB3B92018CA2FE000918955 /* InputSerial.h in Sources */,
+				DDB3B92118CA2FE000918955 /* InputSocketServer.h in Sources */,
+				DDB3B92218CA2FE000918955 /* InputText.h in Sources */,
+				DDB3B92318CA2FE000918955 /* InputTextFile.h in Sources */,
+				DDB3B92418CA2FE000918955 /* MemoryBuffer.h in Sources */,
+				DDB3B92518CA2FE000918955 /* MSGQ.h in Sources */,
+				DDB3B92618CA2FE000918955 /* Output.h in Sources */,
+				DDB3B92718CA2FE000918955 /* OutputFile.h in Sources */,
+				DDB3B92818CA2FE000918955 /* OutputPacketStream.h in Sources */,
+				DDB3B92918CA2FE000918955 /* OutputSerial.h in Sources */,
+				DDB3B92A18CA2FE000918955 /* OutputSocketClient.h in Sources */,
+				DDB3B92B18CA2FE000918955 /* Packet.h in Sources */,
+				DDB3B92C18CA2FE000918955 /* PacketDataField.h in Sources */,
+				DDB3B92D18CA2FE000918955 /* PacketException.h in Sources */,
+				DDB3B92E18CA2FE000918955 /* PacketExceptionFileFormat.h in Sources */,
+				DDB3B92F18CA2FE000918955 /* PacketExceptionIO.h in Sources */,
+				DDB3B93018CA2FE000918955 /* PacketHeader.h in Sources */,
+				DDB3B93118CA2FE000918955 /* PacketIdentifier.h in Sources */,
+				DDB3B93218CA2FE000918955 /* PacketLibDefinition.h in Sources */,
+				DDB3B93318CA2FE000918955 /* PacketLibDemo.h in Sources */,
+				DDB3B93418CA2FE000918955 /* PacketNotRecognized.h in Sources */,
+				DDB3B93518CA2FE000918955 /* PacketStream.h in Sources */,
+				DDB3B93618CA2FE000918955 /* PartOfPacket.h in Sources */,
+				DDB3B93718CA2FE000918955 /* PlVersion.h in Sources */,
+				DDB3B93818CA2FE000918955 /* README in Sources */,
+				DDB3B94018CA2FE000918955 /* SDFBlock.h in Sources */,
+				DDB3B94118CA2FE000918955 /* SourceDataField.h in Sources */,
+				DDB3B94218CA2FE000918955 /* Serial.h in Sources */,
+				DDB3B94318CA2FE000918955 /* SharedPtr.h in Sources */,
+				DDB3B94418CA2FE000918955 /* SHM.h in Sources */,
+				DDB3B94518CA2FE000918955 /* Socket.h in Sources */,
+				DDB3B94618CA2FE000918955 /* SocketClient.h in Sources */,
+				DDB3B94718CA2FE000918955 /* SocketServer.h in Sources */,
+				DDB3B94918CA2FE000918955 /* Utility.h in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		DDB3B86518CA2F5C00918955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		DDB3B86618CA2F5C00918955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		DDB3B86818CA2F5C00918955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DDB3B86918CA2F5C00918955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		DDB3B8E018CA2FBF00918955 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		DDB3B8E118CA2FBF00918955 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DDB3B86318CA2F5C00918955 /* Build configuration list for PBXProject "PacketLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB3B86518CA2F5C00918955 /* Debug */,
+				DDB3B86618CA2F5C00918955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DDB3B86718CA2F5C00918955 /* Build configuration list for PBXLegacyTarget "PacketLib" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB3B86818CA2F5C00918955 /* Debug */,
+				DDB3B86918CA2F5C00918955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DDB3B8DF18CA2FBF00918955 /* Build configuration list for PBXNativeTarget "PacketLib-doc" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DDB3B8E018CA2FBF00918955 /* Debug */,
+				DDB3B8E118CA2FBF00918955 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DDB3B86018CA2F5C00918955 /* Project object */;
+}

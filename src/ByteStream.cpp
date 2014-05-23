@@ -62,8 +62,8 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
     byteInTheStream = dim;
     this->stream = stream;
     this->bigendian = bigendian;
-    if(!memory_sharing)
-        swapWordIfStreamIsLittleEndian();
+    //if(!memory_sharing)
+    //    swapWordIfStreamIsLittleEndian();
     /// \remarks memory_sharing == false means that the object is responsible for the memory
     setMemoryAllocated(!memory_sharing);
     mem_allocation_constructor = false;
@@ -78,8 +78,8 @@ PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, dword start, dword end, bool
 	byteInTheStream = end-start;
     this->stream = b0->stream+start;
     this->bigendian = b0->isBigendian();
-    if(!memory_sharing)
-        swapWordIfStreamIsLittleEndian();
+    //if(!memory_sharing)
+    //    swapWordIfStreamIsLittleEndian();
 	
 	setMemoryAllocated(!memory_sharing);
 	mem_allocation_constructor = false;
@@ -152,6 +152,7 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 		case NONE:
 		{
 			b = ByteStreamPtr(new ByteStream(stream, size(), bigendian));
+			break;
 		}
 		default:
 		{
@@ -262,7 +263,7 @@ byte* PacketLib::ByteStream::getStream()
 
 byte* PacketLib::ByteStream::encode()
 {
-    swapWordIfStreamIsLittleEndian();
+    //swapWordIfStreamIsLittleEndian();
     return stream;
 }
 
@@ -270,7 +271,7 @@ byte* PacketLib::ByteStream::encode()
 
 void PacketLib::ByteStream::endOutputStream()
 {
-    swapWordIfStreamIsLittleEndian();
+    //swapWordIfStreamIsLittleEndian();
 }
 
 
@@ -295,7 +296,7 @@ void PacketLib::ByteStream::setStreamCopy(byte* b, dword dim)
     stream = (byte*) new byte[dim];
     for(dword i=0; i<dim; i++)
         stream[i] = b[i];
-    swapWordIfStreamIsLittleEndian();
+    //swapWordIfStreamIsLittleEndian();
     setMemoryAllocated(true);
 }
 
@@ -309,7 +310,7 @@ bool PacketLib::ByteStream::setStream(byte* b, dword dim, bool bigendian, bool m
     this->bigendian = bigendian;
     this->stream = b;
 
-    if(!memory_sharing) swapWordIfStreamIsLittleEndian();
+    //if(!memory_sharing) swapWordIfStreamIsLittleEndian();
     setMemoryAllocated(!memory_sharing);
     return true;
 }
@@ -368,7 +369,46 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
     /// \param LSByte
     b1 = (byte) value;           
     /// \param MSByte
-    b2 = (byte) (value >> 8);    
+    b2 = (byte) (value >> 8);
+	
+	if(bigendian)
+	{
+        /// Swap
+        stream[start] = b2;
+        stream[start+1] = b1;
+    } else {
+		/// no Swap
+        stream[start] = b1;
+        stream[start+1] = b2;
+	}
+	
+	/*
+	if(!ARCH_BIGENDIAN && !bigendian )
+	{
+		//noswap
+        stream[start] = b1;
+        stream[start+1] = b2;
+    }
+	if(ARCH_BIGENDIAN && bigendian )
+	{
+		//noswap
+        stream[start] = b1;
+        stream[start+1] = b2;
+    }
+	if(!ARCH_BIGENDIAN && bigendian )
+	{
+        /// Swap
+        stream[start] = b2;
+        stream[start+1] = b1;
+    }
+	if(ARCH_BIGENDIAN && !bigendian )
+	{
+        /// Swap
+        stream[start] = b2;
+        stream[start+1] = b1;
+    }
+	 */
+	   /*
     if((bigendian && !ARCH_BIGENDIAN) || (!bigendian && ARCH_BIGENDIAN))
     {
         /// Swap
@@ -381,6 +421,7 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
         stream[start] = b1;
         stream[start+1] = b2;
     }
+		*/
     return true;
 
 }

@@ -614,7 +614,14 @@ ByteStreamPtr Packet::encodeAndSetData(ByteStreamPtr sourceDataVariable)
 		
 		if(sourceDataVariable->size() != size() - dimPacketStartingFixedPart - dimPacketTail)
 			throw new PacketException("the size of the sourceDataVariable is wrong");
+		bool swapped = false;
+		if(!ARCH_BIGENDIAN && bigendian || ARCH_BIGENDIAN && !bigendian) {
+			sourceDataVariable->swapWord();
+			swapped = true;
+		}
 		memcpy( packet_output->stream + (thereisprefix?dimPrefix:0) + dimPacketStartingFixedPart, sourceDataVariable->stream, sourceDataVariable->size());
+		if(swapped)
+			sourceDataVariable->swapWord();
 		b = ByteStreamPtr(new ByteStream(packet_output->stream, dimpacket + (thereisprefix?dimPrefix:0), bigendian));
 	}
 	
