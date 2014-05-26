@@ -40,7 +40,7 @@
 //1 for motorola
 #define ARCH_BIGENDIAN 0
 
-enum CompressionAlgorithms  { NONE, LZH };
+enum CompressionAlgorithms  { NONE, LZ4 };
 
 /// define NOFIELDSNAME
 
