@@ -1,3 +1,14 @@
+2014-04-26 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.1.0
++ Add support for xml config files.
++ Added get/setFieldValueTYPE methods on SDFBlock, PartOfPacket and SourceDataField.
++ Add lz4 compression.
++ Refactor from Packet::set to Packet::decode; PacketStream::getPacketType(string
+name); from Packet::getOutputStream() to Packet::encode().
++ dword Packet::size() alternative flows without packet member.
++ Added Packet::getBSSourceDataField(), Packet::copyBSSourceDataField(byte* bytestream, dword size) methods.
++ Endianity fix.
+
 2014-04-14 Andrea Zoli <zoli@iasfbo.inaf.it>, Andrea Bulgarelli
 <bulgarelli@iasfbo.inaf.it>
 TAG v4.0.2
