@@ -141,7 +141,7 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 
 	switch(algorithmType)
 	{
-		case LZH:
+		case LZ4:
 		{
 			byte* buff = new byte[LZ4_compressBound(size())];
 			int buffsize = LZ4_compressHC2((const char*)stream, (char*)buff, size(), compressionLevel);
@@ -180,7 +180,7 @@ ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algor
 			b = stream;
 			break;
 		}
-		case LZH:
+		case LZ4:
 		{
 			byte* tmpbuff = new byte[dmax];
 			int buffsize = LZ4_decompress_safe((const char*)stream, (char*)tmpbuff, size(), dmax);
