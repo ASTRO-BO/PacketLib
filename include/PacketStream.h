@@ -37,27 +37,28 @@ public:
 
     ~PacketStream();
 	
-	/// get a Packet* from a ByteStream
-	/// \pre the prefix has been removed
-	/// \param packet the stream that contains the source packet without the prefix
-	/// \param decodeType (0) do not decode anything (1) decode only sections (prefix, header, data field header, source data field fixed part, source data field variable part) (2) decode blocks (all sections + all blocks of the ‘source data field variable part’)
+	/// Get a Packet* from a ByteStream
+	/// \param stream the stream that contains the source packet with the prefix
     Packet* getPacket(ByteStreamPtr stream) throw(PacketException*);
 	
+	/// Decode a packet and return its pointer
 	/// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packetHeader A ByteStream that contains the packet header.
     /// \param packetDataField A ByteStream that contains the packet data field.
     int detPacketType(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
 	
+	/// Decode a packet and return its pointer
     /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
     /// \param prefix A ByteStream that contains the prefix of packet (if present).
     /// \param packet A ByteStream that contains the packet.
     int detPacketType(ByteStreamPtr prefix, ByteStreamPtr packet);
 	
-    ///It returns the index of the packet type contained in the stream. The stream* contains also the prefix (if present)
+	/// Decode a packet and return its pointer
+    /// It returns the index of the packet type contained in the stream. The stream* contains also the prefix (if present)
     /// \return The index of packet type if it's recognized. 0 if packet isn't recognized.
-    /// \param packet A ByteStream pointer that contains the packet.
-    int detPacketType(ByteStreamPtr packet);
+    /// \param stream A ByteStream pointer that contains the packet + prefix.
+    int detPacketType(ByteStreamPtr stream);
 	
 	///It returns the total dimension of the packet contained in the stream (without prefix). The stream* contains also the prefix (if present)
 	///\param The stream with the prefix (if present)

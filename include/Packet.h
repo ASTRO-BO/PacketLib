@@ -56,26 +56,27 @@ public:
 
     virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
 	
-	/// Sets the ByteStream.
+	/// Decode the packet
     /// \param stream A pointer to the stream of byte, with prefix and packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
     virtual bool decode(ByteStreamPtr stream, bool checkPacketLenght = false);
 	
-	/// Sets the ByteStream.
+	/// Decode the packet
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packet A pointer to the stream of byte, with the packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
     virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false);
 	
-	/// Sets the ByteStream.
+	/// Decode the packet
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packetHeader A pointer to the stream of byte, with the packet header
 	/// \param packetHeader A pointer to the stream of byte, with the packet data field
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
     virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
 	
+	/// Verify the content of the packet (after the decode)
 	///\return true is the packet contained into the stream is recognized using identifiers.
-	///\pre the ByteStream is set with one of set(ByteStream) methods
+	///\pre the ByteStream is set with one of decode(ByteStream) methods
 	virtual bool verify();
 	
 	///\return compress the data section and change the packet (the variable part of the "source data field")
@@ -85,10 +86,13 @@ public:
 	///\return decompress the data section without changing the packet  (the variable part of the "source data field")
 	virtual ByteStreamPtr decompressData();
 	
+	///Get the compression algorithm used for this packet
 	virtual enum CompressionAlgorithms getCompressionAlgorithm();
 	
+	///Get the compression level used for this packet
 	virtual word getCompressionLevel();
 	
+	///\return true if the packet is compressed
 	bool isCompressed() {
 		if(compressible && getCompressionAlgorithm() != NONE)
 			return true;
@@ -96,6 +100,7 @@ public:
 			return false;
 	}
 	
+	///\return true is the packet is compressible, i.e. there are the useful fields that can store the information of the compression
 	bool isCompressible() {
 		return compressible;
 	}
@@ -127,16 +132,16 @@ public:
 	///Get the tail as a ByteStream
 	ByteStreamPtr getBSTail();
 	
-	///
+	///Get the header
 	PacketHeader* getPacketHeader();
 	
-	///
+	///Get the data field header
 	DataFieldHeader* getPacketDataFieldHeader();
 	
-	///
+	///Get the source data field
 	SourceDataField* getPacketSourceDataField();
 	
-	///
+	///Get the tail
 	PartOfPacket* getPacketTail();
 	
 	/// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)

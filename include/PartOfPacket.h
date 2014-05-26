@@ -219,8 +219,6 @@ public:
     /// \param value The real double precision value
     virtual void setFieldValue_64f(word index, double value);
 	
-	//--------------------------------
-	
 	/// Returns the value of a field in the list of fields of this part of packet.
 	/// The value returned is interpreted as a unsigned integer of less of equal 16 bits dimension
 	/// (depends by the size of the field in bits)
@@ -280,7 +278,6 @@ public:
 	virtual void setFieldValue_16ui(string fieldname, word value);
 	
     /// Sets the value of a field. The value is interpreted as a 32 bit signed integer.
-    ///	---------------------------------
     /// This corresponds with the PTC=4, PFC = 14.
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param fieldname Represent the name of the field.
@@ -310,6 +307,7 @@ public:
     /// \param value The real double precision value
     virtual void setFieldValue_64f(string fieldname, double value);
 	
+	/// Return the physical index of a field
 	virtual word getFieldIndex(string fieldname);
 
 	
