@@ -21,6 +21,7 @@
 #include "XmlConfig.h"
 #include <unistd.h>
 #include <string>
+#include <algorithm>
 
 using namespace PacketLib;
 
@@ -45,12 +46,16 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 
 	if(std::string(parameters[0]).find(".xml") != std::string::npos)
 	{
+		std::string confdir(parameters[0]);
+		confdir.erase(std::find(confdir.rbegin(), confdir.rend(), '/').base(), confdir.end());
+		chdir(confdir.c_str());
 		XmlConfig config;
-		std::string streamfile = config.convert(parameters[0]);
+		std::string streamfile = confdir + config.convert(parameters[0]);
 		int size = streamfile.size();
 		parameters[0] = new char[size];
 		memcpy(parameters[0], streamfile.c_str(), size);
 		parameters[0][size] = 0;
+		chdir(currentpwd);
 	}
 	
 	ret = InputTextFile::open(parameters);
