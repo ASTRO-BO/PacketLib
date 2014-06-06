@@ -364,9 +364,12 @@ std::string XmlConfig::convert(const std::string& filename)
 
 			counter++;
 		}
-		pfs << "[Tail]" << endl;
 		xml_node tail = packet.child("tail");
-		_writeFields(tail, pfs);
+		if(tail)
+		{
+			pfs << "[Tail]" << endl;
+			_writeFields(tail, pfs);
+		}
 
 		// if not defined in the header find in datafieldheader
 		int algindex = 0;
