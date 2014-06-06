@@ -204,15 +204,47 @@ void XmlConfig::_writeRBlock(xml_node rblock, fstream& fs, xml_document& doc)
 				fs << "0" << endl;
 			else
 			{
+#ifdef DEBUG
+				cout << "rblock name='" << rblocks[i].attribute("name").value() << "' idref='" << rblocks[i].attribute("idref").value() << "' ";
+#endif
 				string query = string("//field[@id=\"")+idref.value()+"\"]";
 				xml_node numberofblocksid = doc.select_nodes(query.c_str())[0].node();
 				xml_node nodetmp = rblocks[i];
 				unsigned int level = 0;
+
 				while(nodetmp.parent() != numberofblocksid.parent())
 				{
+					// if the parent is a packet means that the id is not in the fixed part of the
+					// recursive rblocks nor the sourcedatafield. So test the datafieldheader
+					// and header, otherwise complain.
+					if(string(nodetmp.parent().name()).compare("packet") == 0)
+					{
+						string idparentnodename = numberofblocksid.parent().name();
+						if(idparentnodename.compare("datafieldheader") == 0)
+						{
+							// we have already add 1 level because nodetmp in this case is
+							// the sourcedatafield node
+						}
+						else if(idparentnodename.compare("header") == 0)
+						{
+							// we add just one level for the same reason above
+							level++;
+						}
+						else
+						{
+							cerr << "Error on id association. Id '" << idref.value() << "' doesn't exists. ";
+							cerr << "idref defined by rblock '" << rblocks[i].attribute("name").value() << "'." << endl;
+							exit(0);
+						}
+
+						break;
+					}
 					level++;
 					nodetmp = nodetmp.parent();
 				}
+#ifdef DEBUG
+				cout << "levels=" << level << endl;
+#endif
 				fs << level << endl;
 				fs << "-- for variable block, index of field of the header which rappresent the number of events (the number of blocks) of the packet" << endl;
 				fs << _physicalIndex[numberofblocksid] << endl;
@@ -407,6 +439,9 @@ std::string XmlConfig::convert(const std::string& filename)
 	for(unsigned int i=0; i<packetFilenames.size(); i++)
 		sfs << packetFilenames[i] << endl;
 
+#ifdef DEBUG
+	cout << "Conversion complete." << endl;
+#endif
 	return streamFilename;
 }
 
