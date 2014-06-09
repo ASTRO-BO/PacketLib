@@ -325,8 +325,8 @@ std::string XmlConfig::convert(const std::string& filename)
 #ifdef DEBUG
 	    cout << "Writing " << packetFilename << " .." << endl;
 #endif
-		pfs << "-- name of packet" << endl;
-		pfs << packet.attribute("description").value() << endl;
+		pfs << "-- name of packet - " << packet.attribute("description").value() << endl;
+		pfs << packet.attribute("name").value() << endl;
 		pfs << "[PacketHeader]" << endl;
 		pfs << "-- file that contains the description of the header" << endl;
 		pfs << headerFilename << endl;
