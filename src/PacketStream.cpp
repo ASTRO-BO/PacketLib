@@ -34,9 +34,9 @@ PacketStream::PacketStream(const char* fileNameConfig)
     numberOfPacketType = 0;
     headerReference = 0;
     //TODO
-    packetType = new Packet* [100];
+    packetType = new Packet* [255];
     //TODO
-    memset(packetType, 0, sizeof(Packet*)*100);
+    memset(packetType, 0, sizeof(Packet*)*255);
     pathFileNameConfig = 0;
 	dimHeader = 0;
 }
@@ -49,9 +49,9 @@ PacketStream::PacketStream()
     numberOfPacketType = 0;
     headerReference = 0;
     //TODO
-    packetType =  new Packet* [100];
+    packetType =  new Packet* [255];
     //TODO
-    memset(packetType, 0, sizeof(Packet*)*100);
+    memset(packetType, 0, sizeof(Packet*)*255);
     pathFileNameConfig = 0;
 	dimHeader = 0;
 }

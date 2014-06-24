@@ -226,8 +226,12 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
 {
     DEMORET0;
     byte b1, b2;
+	
+	if(start >= byteInTheStream)
+		throw new PacketException("PacketLib::ByteStream::getValue() start greater than the size of the ByteStream");
+	
     /// only 1 or 2 bytes
-    if(dim <=0 || dim > 2)
+    if(dim == 0 || dim > 2)
     	/// error
         return -1;               
     if(bigendian)
@@ -258,8 +262,10 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
             }
             else
             {
-                b1 = (start-1)<0?0:stream[start-1];
-                b2 = (start+2)>byteInTheStream?0:stream[start+2];
+                //b1 = (start-1)<0?0:stream[start-1];
+                //b2 = (start+2)>byteInTheStream?0:stream[start+2];
+				b1=(start+1)>=byteInTheStream?0:stream[start+1];
+                b2=stream[start];
             }
         }
     }

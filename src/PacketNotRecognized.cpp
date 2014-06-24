@@ -23,6 +23,7 @@ using namespace PacketLib;
 
 bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*)
 {
+	packetID = 0;
     if(header->loadHeader(fileName))
     {
         name = new char [22];

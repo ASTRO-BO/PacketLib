@@ -100,7 +100,7 @@ public:
 
     /// Get the value in the stream starting from position start and of dim dimension
     /// \param start Start position in the stream of byte
-    /// \param dim number of byte (1 oe 2)
+    /// \param dim number of byte (1 or 2)
     long getValue(dword start, word dim);
 
     /// Gets the dimension of the stream

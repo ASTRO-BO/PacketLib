@@ -112,6 +112,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DD3AB43119459AFB00498F60 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		DD6C793419255A5500406949 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		DD6C793519255A5E00406949 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		DD6C793619255A6A00406949 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -225,6 +226,7 @@
 		DDB3B85F18CA2F5C00918955 = {
 			isa = PBXGroup;
 			children = (
+				DD3AB43119459AFB00498F60 /* Makefile */,
 				DD6C793619255A6A00406949 /* README */,
 				DD6C793519255A5E00406949 /* Doxyfile */,
 				DD6C793419255A5500406949 /* ChangeLog */,
