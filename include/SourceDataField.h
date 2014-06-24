@@ -221,6 +221,8 @@ public:
 	
 	virtual dword sizeFixedPart();
 
+	using PartOfPacket::setByteStream;
+
 	//onlySections = false
     virtual bool setByteStream(ByteStreamPtr s, int decodeType);
 
@@ -243,7 +245,7 @@ public:
 
     
     /// Prints the value of each field of this part of packet
-    virtual char** printValue(char* addString = "");
+    virtual char** printValue(const char* addString = "");
 
     virtual void printValueStdout();
 

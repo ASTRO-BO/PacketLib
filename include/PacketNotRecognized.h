@@ -35,7 +35,7 @@ public:
 
     virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
 
-    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField);
+    virtual bool setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType);
 };
 
 }

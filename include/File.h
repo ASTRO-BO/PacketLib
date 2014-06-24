@@ -71,7 +71,7 @@ public:
     virtual void close( ) throw(PacketExceptionIO*);
 
     ///  \return true if file is closed, false if file is opened.
-    virtual bool isClosed();
+    virtual bool isClosed() const;
 
     ///  \return Returns last line read from file.
     char* getLastLineRead();
@@ -93,7 +93,7 @@ public:
     virtual bool setLastBookmarkPos();
 
     ///  \return Returns true is the position into file is at end of file
-    virtual bool isEOF();
+    virtual bool isEOF() const;
 
     ///  \pre The file must be opened.
     long setFirstPos() throw(PacketExceptionIO*);

@@ -52,7 +52,7 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 		XmlConfig config;
 		std::string streamfile = confdir + config.convert(parameters[0]);
 		int size = streamfile.size();
-		parameters[0] = new char[size];
+		parameters[0] = new char[size+1];
 		memcpy(parameters[0], streamfile.c_str(), size);
 		parameters[0][size] = 0;
 		chdir(currentpwd);

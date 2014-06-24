@@ -44,7 +44,7 @@ public:
     dword sizeMax();
 
     /// Creates the outputstream ByteStream for the generation of the output stream
-    virtual bool setOutputStream(ByteStreamPtr os, word first);
+    virtual bool setOutputStream(ByteStreamPtr os, dword first);
 
     virtual ByteStreamPtr generateStream(bool bigendian);
 

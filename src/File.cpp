@@ -188,7 +188,7 @@ void File::close( )  throw(PacketExceptionIO*)
 }
 
 
-bool File::isClosed()
+bool File::isClosed() const
 {
     return closed;
 }
@@ -240,7 +240,7 @@ bool File::setLastBookmarkPos()
 
 
 
-bool File::isEOF()
+bool File::isEOF() const
 {
     if(!closed)
         return eof;

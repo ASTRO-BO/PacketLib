@@ -570,7 +570,7 @@ bool SDFBlock::setByteStream(ByteStreamPtr s, int decodeType)
 }
 
 
-char** SDFBlock::printValue(char* addString)
+char** SDFBlock::printValue(const char* addString)
 {
     char** cc;
     char** ct;
@@ -610,7 +610,7 @@ char** SDFBlock::printValue(char* addString)
                 i += type->maxNumberOfBlock[rbi] - getNumberOfBlocks(rbi) - 1;
         }
     }
-    cc[index] = '\0';
+    cc[index] = 0;
     return cc;
 }
 

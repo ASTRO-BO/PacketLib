@@ -24,6 +24,7 @@ using namespace PacketLib;
 #define DECODETYPE 2
 
 Packet::Packet(bool bigendian)
+	: decodedPacketDataFieldHeader(false)
 {
     header = (PacketHeader*) new PacketHeader();
     dataField = (PacketDataField*) new PacketDataField();
@@ -101,7 +102,6 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
 							dimPacketDataFieldHeader = dataField->getPacketDataFieldHeader()->size();
                             //cout << (dataField->dataFieldHeader->printStructure())->c_str();
                             line=file.getLastLineRead();
-                            char *typeOfPacket = 0;
                             if(strcmp(line, "[SourceDataField]") == 0)
                             {
                                 /// determination of the source data field type
@@ -518,7 +518,7 @@ bool Packet::setPacketValueSourceDataField(ByteStreamPtr packetDataField, int de
         dword  nrd = dataField->getNumberOfRealDataBlock();
         dataField->sourceDataField->setNumberOfBlocks(nrd);
     }
-	 /
+	 */
     /*if(dataField->sourceDataField->isRBlock()) {
       word nrd = dataField->sourceDataField->getNumberOfRealDataBlock();
       dataField->sourceDataField->setNumberOfBlocks(nrd);
@@ -615,7 +615,7 @@ ByteStreamPtr Packet::encodeAndSetData(ByteStreamPtr sourceDataVariable)
 		if(sourceDataVariable->size() != size() - dimPacketStartingFixedPart - dimPacketTail)
 			throw new PacketException("the size of the sourceDataVariable is wrong");
 		bool swapped = false;
-		if(!ARCH_BIGENDIAN && bigendian || ARCH_BIGENDIAN && !bigendian) {
+		if((!ARCH_BIGENDIAN && bigendian) || (ARCH_BIGENDIAN && !bigendian)) {
 			sourceDataVariable->swapWord();
 			swapped = true;
 		}

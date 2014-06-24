@@ -198,7 +198,7 @@ word SourceDataField::getNumberOfFields()
     return block[0].getNumberOfFields();
 }
 
-char** SourceDataField::printValue(char* addString)
+char** SourceDataField::printValue(const char* addString)
 {
     return block[0].printValue(addString);
 }

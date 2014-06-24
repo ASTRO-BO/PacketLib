@@ -73,7 +73,7 @@ PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool 
 PacketLib::ByteStream::ByteStream(ByteStreamPtr b0, dword start, dword end, bool memory_sharing) {
 	mem_allocation_constructor = true;
 	
-	if(end == -1)
+	if(end == (dword)-1)
 		end = b0->size();
 	
 	byteInTheStream = end-start;

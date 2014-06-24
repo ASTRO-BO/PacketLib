@@ -56,12 +56,12 @@ void InputSerial::close()  throw(PacketExceptionIO*)
 
 
 
-ByteStreamPtr InputSerial::readByteStream(int n_byte) throw(PacketExceptionIO*)
+ByteStreamPtr InputSerial::readByteStream(dword n_byte) throw(PacketExceptionIO*)
 {
     //cout << "waiting " << n_byte << endl;
     ByteStreamPtr bs;
     byte* buff = new byte[n_byte];
-    int current = 0;
+    dword current = 0;
     if(!closed)
     {
         while(current != n_byte)

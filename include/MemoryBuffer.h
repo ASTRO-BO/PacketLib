@@ -88,8 +88,6 @@ private:
 
     dword indexread;
 
-    char* currentpwd;
-
     char* bufferName;
 
     bool eof;

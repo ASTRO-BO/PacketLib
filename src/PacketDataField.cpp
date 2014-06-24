@@ -61,7 +61,7 @@ dword PacketDataField::sizeMax()
 
 
 
-bool PacketDataField::setOutputStream(ByteStreamPtr os, word first)
+bool PacketDataField::setOutputStream(ByteStreamPtr os, dword first)
 {
     outputstream = ByteStreamPtr(new ByteStream((os->stream + first), size(), os->isBigendian()));
     dataFieldHeader->setOutputStream(os, first);

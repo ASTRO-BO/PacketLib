@@ -356,8 +356,6 @@ private:
 	
 	bool decodedPacketTail;
 	
-	bool iscompressed;
-	
 	int compressionAlgorithmsSection;
 	
 	int compressionAlgorithmsIndex;

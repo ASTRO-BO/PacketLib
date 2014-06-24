@@ -150,6 +150,8 @@ public:
 
     virtual ByteStreamPtr generateStream(bool bigendian);
 
+	using PartOfPacket::setByteStream;
+
     virtual bool setByteStream(ByteStreamPtr s, int decodeType);
 
     virtual ByteStreamPtr getByteStream()
@@ -384,7 +386,7 @@ public:
     virtual word getTotalNumberOfFields();
 
     /// Prints the value of each field of this part of packet
-    virtual char** printValue(char* addString = "");
+    virtual char** printValue(const char* addString = "");
 
     virtual void printValueStdout();
 
