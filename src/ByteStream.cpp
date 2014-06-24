@@ -18,6 +18,7 @@
 
 #include "ByteStream.h"
 #include "PacketLibDemo.h"
+#include "PacketException.h"
 #include "Utility.h"
 #include "lz4.h"
 #include "lz4hc.h"
@@ -228,7 +229,7 @@ long PacketLib::ByteStream::getValue(dword start, word dim)
     byte b1, b2;
 	
 	if(start >= byteInTheStream)
-		throw new PacketException("PacketLib::ByteStream::getValue() start greater than the size of the ByteStream");
+		throw PacketException("PacketLib::ByteStream::getValue() start greater than the size of the ByteStream", 0);
 	
     /// only 1 or 2 bytes
     if(dim == 0 || dim > 2)
