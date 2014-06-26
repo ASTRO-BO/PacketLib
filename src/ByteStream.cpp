@@ -2,8 +2,9 @@
                           ByteStream.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-   copyright            : (C) 2001, 2013 by Andrea Bulgarelli
-    email                : bulgarelli@iasfbo.inaf.it
+    copyright            : (C) 2001-2013 by Andrea Bulgarelli
+                               2013-2914 by Andrea Bulgarelli, Andrea Zoli
+    email                : bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it
  ***************************************************************************/
  
 /***************************************************************************
@@ -30,39 +31,28 @@ using namespace PacketLib;
 /// In all methods of constructor or set type accepting ByteStreamPtr the swap is never applied.
 
 PacketLib::ByteStream::ByteStream(bool bigendian)
+	: stream(0), byteInTheStream(0), bigendian(bigendian)
 {
     mem_allocation_constructor = true;
-
-    byteInTheStream = 0;
-    this->stream = 0;
-    this->bigendian = bigendian;
-
     setMemoryAllocated(false);
     mem_allocation_constructor = false;
 }
 
 
 PacketLib::ByteStream::ByteStream(dword dim, bool bigendian)
+	: byteInTheStream(dim), bigendian(bigendian)
 {
     mem_allocation_constructor = true;
-
-    byteInTheStream = dim;
     stream = (byte*) new byte[dim];
-    /// memset(stream, 0, dim); ok
-    this->bigendian = bigendian;
-
     setMemoryAllocated(true);
     mem_allocation_constructor = false;
 }
 
 
 PacketLib::ByteStream::ByteStream(byte* stream, dword dim, bool bigendian, bool memory_sharing)
+	: stream(stream), byteInTheStream(dim), bigendian(bigendian)
 {
     mem_allocation_constructor = true;
-
-    byteInTheStream = dim;
-    this->stream = stream;
-    this->bigendian = bigendian;
     //if(!memory_sharing)
     //    swapWordIfStreamIsLittleEndian();
     /// \remarks memory_sharing == false means that the object is responsible for the memory

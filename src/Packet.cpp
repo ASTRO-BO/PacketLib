@@ -2,8 +2,9 @@
                           Packet.cpp  -  description
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
-    email                : bulgarelli@iasfbo.inaf.it
+    copyright            : (C) 2001-2013 by Andrea Bulgarelli
+                               2013-2014 by Andrea Bulgarelli, Andrea Zoli
+    email                : bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
@@ -24,24 +25,24 @@ using namespace PacketLib;
 #define DECODETYPE 2
 
 Packet::Packet(bool bigendian)
-	: decodedPacketDataFieldHeader(false)
+	: prefix(0), packet(0), stream(0), packetID(0), name(0), identifiers(0),
+      number_of_identifiers(0), bigendian(bigendian), thereisprefix(false),
+      filename(0), first_output_stream_setted(false), dimPrefix(0),
+      dimPacketHeader(0), dimPacketDataFieldHeader(0),
+      dimPacketSourceDataFieldFixed(0), dimPacketTail(0),
+      dimPacketStartingFixedPart(0), decodedPacketHeader(false),
+      decodedPacketDataFieldHeader(false), decodedPacketSourceDataField(false),
+      decodedPacketTail(false), compressionAlgorithmsSection(0),
+      compressionAlgorithmsIndex(0), compressionLevelSection(0),
+      compressionLevelIndex(0), compressible(false)
 {
     header = (PacketHeader*) new PacketHeader();
     dataField = (PacketDataField*) new PacketDataField();
-    name = 0;
-//    tail = new PartOfPacket();
-    number_of_identifier = 0;
-    identifiers = 0;
-    this->bigendian = bigendian;
-    /// temp
     tempHeader = ByteStreamPtr(new ByteStream);
     tempDataField = ByteStreamPtr(new ByteStream);
     tempDataFieldHeader = ByteStreamPtr(new ByteStream);
     tempPacketDataField = ByteStreamPtr(new ByteStream);
     tempTail = ByteStreamPtr(new ByteStream);
-    first_output_stream_setted = false;
-	compressible = false;
-
 }
 
 

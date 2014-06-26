@@ -2,8 +2,9 @@
                           ByteStream.h  
                              -------------------
     begin                : Thu Nov 29 2001
-    copyright            : (C) 2001, 2013 by Andrea Bulgarelli
-    email                : bulgarelli@iasfbo.inaf.it
+    copyright            : (C) 2001-2013 by Andrea Bulgarelli
+                               2013-2014 by Andrea Bulgarelli, Andrea Zoli
+    email                : bulgarelli@iasfbo.inaf.it, zoli@iasfbo.inaf.it
  ***************************************************************************/
 
 /***************************************************************************
