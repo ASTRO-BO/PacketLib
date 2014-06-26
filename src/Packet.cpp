@@ -25,8 +25,8 @@ using namespace PacketLib;
 #define DECODETYPE 2
 
 Packet::Packet(bool bigendian)
-	: prefix(0), packet(0), stream(0), packetID(0), name(0), identifiers(0),
-      number_of_identifiers(0), bigendian(bigendian), thereisprefix(false),
+	: packetID(0), name(0), identifiers(0),
+      number_of_identifier(0), bigendian(bigendian), thereisprefix(false),
       filename(0), first_output_stream_setted(false), dimPrefix(0),
       dimPacketHeader(0), dimPacketDataFieldHeader(0),
       dimPacketSourceDataFieldFixed(0), dimPacketTail(0),
