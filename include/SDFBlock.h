@@ -408,6 +408,15 @@ public:
 	{
 		return type->numberOfRBlocks;
 	}
+	
+	/// Returns the number of blocks for each rblock (for each data type) (if numberOfBlockFixed is true) or max number of blocks (if numberOfBlockFixed is false) in the structure of source data field.
+    /// This value is read from .packet configuration file.
+    /// This variable not represent the effective number of
+    /// block into the stream of data.
+    virtual word getMaxNumberOfBlocks(word rblockIndex = 0)
+	{
+		return type->maxNumberOfBlock[rblockIndex];
+	}
 
     PartOfPacket fixed;
 

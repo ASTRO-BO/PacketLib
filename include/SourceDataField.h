@@ -35,16 +35,15 @@ public:
 	
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
-     /// Get a block of number nblock of the group of blocks of the rblock
-    /// with the index rBlockIndex.
+	/// Get a block of number nblock of the group of blocks of the rblock with the index rBlockIndex.
     /// \param nblock the number of the block
     /// \param rBlockIndex the number of the rblock
     virtual SDFBlock* getBlock(word nblock, word rBlockIndex=0);
 	
-	///Get the fixed part of the source data field
+	///Get the fixed part of the source data field.
 	virtual ByteStreamPtr getFixedPart() { return block[0].fixed.getByteStream(); };
 	
-	///Get the variable part of the source data field
+	///Get the variable part of the source data field.
 	//virtual ByteStreamPtr getVariablePart();
     
     /// Returns a pointer of a field in the fixed part of this source data field.
@@ -58,27 +57,27 @@ public:
     /// \param index Represent the index in the list.
     virtual word getFieldValue(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	virtual signed short getFieldValue_16i(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	virtual word getFieldValue_16ui(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	virtual signed long getFieldValue_32i(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	unsigned long getFieldValue_32ui(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	virtual float getFieldValue_32f(word index);
 	
-	/// See PartOfPacket for documentation
+	/// See PartOfPacket for documentation.
 	/// \param index Represent the index in the list.
 	virtual double getFieldValue_64f(word index);
     
@@ -164,7 +163,8 @@ public:
     /// \param fieldname Represent the name of the field.
     virtual double getFieldValue_64f(string fieldname);
 	
-    /// Sets the value of a field in the list of fields of this part of packet. Remember that
+    /// Sets the value of a field in the list of fields of this part of packet.
+	/// Remember that
     /// if a predefined value is specified in the .stream, this method has not effect and the
     /// value contained in the .stream is used.
     /// \param fieldname Represent the name of the field.
@@ -195,16 +195,14 @@ public:
     /// \param value The 32 bit unsigned integer value.
     virtual void setFieldValue_32ui(string fieldname, unsigned long value);
 	
-	/// Set the value of a field. The value is interpreted as a real single
-    /// precision (IEEE 754).
+	/// Set the value of a field. The value is interpreted as a real single precision (IEEE 754).
     /// This corresponds with the PTC=5, PFC = 1.
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param fieldname Represent the name of the field.
     /// \param value The real single precision value
     virtual void setFieldValue_32f(string fieldname, float value);
     
-    /// Set the value of a field. The value is interpreted as a real double
-    /// precision (IEEE 754).
+    /// Set the value of a field. The value is interpreted as a real double precision (IEEE 754).
     /// This corresponds with the PTC=5, PFC = 2.
     /// See setFieldValue(word index, word value) for general considerations.
     /// \param fieldname Represent the name of the field.
@@ -215,10 +213,13 @@ public:
     /// Returns the number of fields.
     virtual word getNumberOfFields();
 
+	/// The max dimension of the SDF in bytes (dependes by the logical model described in the configuration files).
     virtual dword sizeMax();
 
+	/// Dimension of the SDF in bytes.
     virtual dword size();
 	
+	/// Dimension of the SDF fixed part in bytes.
 	virtual dword sizeFixedPart();
 
 	using PartOfPacket::setByteStream;
