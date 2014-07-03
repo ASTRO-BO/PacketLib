@@ -740,7 +740,7 @@ char* Packet::printPacketOutputStream()
 
 
 
-void Packet::decode(ByteStreamPtr stream, bool checkPacketLength) throw(PacketException*) {
+bool Packet::decode(ByteStreamPtr stream, bool checkPacketLength) {
 
 	//save a pointer to the current stream to avoid shareptr deallocation
 	this->stream = stream;
@@ -783,11 +783,11 @@ void Packet::decode(ByteStreamPtr stream, bool checkPacketLength) throw(PacketEx
 	}
 	//TODO OPTIMIZATION: set the followin method only when is needed
 	setByteStreamSections(); //10 per cent of time loss but safer
-	//return true;
+	return true;
 
 }
 
-void Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLength) throw(PacketException*) {
+bool Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLength) {
 	
 	this->stream = 0;
 	decodedPacketHeader = false;
@@ -814,16 +814,16 @@ void Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacket
 	}
 	//TODO OPTIMIZATION: set the following method only when is needed
 	setByteStreamSections(); //10 per cent of time loss but safer
-	//return true;
+	return true;
 	
 }
 
 
 
-void Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght) throw(PacketException*) {
+bool Packet::decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght) {
 	//merge packetHeader and packetDataField
 	ByteStreamPtr tmpPacket = ByteStreamPtr(new ByteStream(packetHeader, packetDataField, 0));
-	decode(prefix, tmpPacket, checkPacketLenght);
+	return decode(prefix, tmpPacket, checkPacketLenght);
 	
 }
 

@@ -60,20 +60,20 @@ public:
 	/// Decode the packet
     /// \param stream A pointer to the stream of byte, with prefix and packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual void decode(ByteStreamPtr stream, bool checkPacketLenght = false) throw(PacketException*);
+    virtual bool decode(ByteStreamPtr stream, bool checkPacketLenght = false);
 	
 	/// Decode the packet
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packet A pointer to the stream of byte, with the packet
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual void decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false) throw(PacketException*);
+    virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packet, bool checkPacketLenght = false);
 	
 	/// Decode the packet
     /// \param prefix A pointer to the stream of byte, with the prefix
 	/// \param packetHeader A pointer to the stream of byte, with the packet header
 	/// \param packetHeader A pointer to the stream of byte, with the packet data field
 	/// \param checkPacketLenght if true check the packet lenght and set the packet stream, if false do not check the packet lenght
-    virtual void decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false) throw(PacketException*);
+    virtual bool decode(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, bool checkPacketLenght = false);
 	
 	/// Verify the content of the packet (after the decode)
 	///\return true is the packet contained into the stream is recognized using identifiers.
