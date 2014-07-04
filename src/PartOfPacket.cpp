@@ -726,7 +726,7 @@ word PartOfPacket::getFieldIndex(string fieldname) {
 	for(word i=0; i<numberOfFields; i++) {
 		Field* f = fields[i];
 		string fname = f->getName();
-		if(fieldname == fname)
+		if(fieldname.compare(fname) == 0)
 			return i;
 	}
 	string errorStr = "getFieldIndex("+fieldname+") error: no field found in section '"+popName+"'";
