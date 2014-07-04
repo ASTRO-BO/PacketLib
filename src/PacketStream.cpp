@@ -200,7 +200,10 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
                 /// dimensione of prefix
                 //delete[] line;
                 line = config.getLine();
-                dimPrefix = atoi(line);
+				if(prefix == false)
+					dimPrefix = 0;
+				else
+					dimPrefix = atoi(line);
             }
             else
                 throw new PacketExceptionFileFormat("No [Configuration] section found.");
