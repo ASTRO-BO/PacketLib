@@ -1,3 +1,20 @@
+2014-07-14 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.2.0
++ Generating stream file in the same path of the xml
++ Fix loop on rblock idref/id resolution during xml parsing
++ Fix Tail element parsing, handle it as optional
++ Fix packet name xml loading
++ long PacketLib::ByteStream::getValue() and bool PacketNotRecognized::createPacketType()
++ Fix throw on ByteStream::GetValue()
++ Fix compiler warnings
++ Add -Werror
++ Fix ByteStream and Packet initialization
++ Fix some initialization
++ added word SDFBlock::getMaxNumberOfBlocks(word rblockIndex = 0)
++ word PartOfPacket::getFieldIndex(string fieldname) compare on strings issue
++ if prefix==false set dimPrefix=0
+
+
 2014-04-26 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v4.1.0
 + Add support for xml config files.
