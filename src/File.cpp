@@ -222,7 +222,7 @@ long File::getpos()
 
 bool File::memBookmarkPos()
 {
-    if((bookmarkPos =  ftell(fp)) != (dword) -1)
+    if((bookmarkPos =  ftell(fp)) != -1)
         return true;
     else
         return false;

@@ -506,7 +506,7 @@ double PartOfPacket::getFieldValue_64f(word index)
 		//TODO
 		throw new PacketException("The getFieldValue_64f() does not work in a 32 bit operating system");
 	}
-		
+
     union u_tag
     {
     	/// 64 bit for 64 bit os)
@@ -514,7 +514,11 @@ double PartOfPacket::getFieldValue_64f(word index)
         /// 64 bit double precision
         double d;	
     } u;
+
+#ifdef __x86_64__
     u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+#endif
+
     return u.d;
 }
 
@@ -541,7 +545,8 @@ void PartOfPacket::setFieldValue_64f(word index, double value)
 		//TODO
 		throw new PacketException("The getFieldValue_64f() does not work in a 32 bit operating system");
 	}
-		
+
+#if __x86_64__
     union u_tag
     {
     	/// 64 bit for 64 bit os)
@@ -560,6 +565,7 @@ void PartOfPacket::setFieldValue_64f(word index, double value)
     setFieldValue(index + 2, w);
     w = (word)(0xFFFF & u.i);
     setFieldValue(index + 3, w);
+#endif
 }
 
 signed long PartOfPacket::getFieldValue_32i(word index)
