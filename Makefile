@@ -59,7 +59,7 @@ LIB_DESTDIR = lib
 CXX      = g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
 #- g3
-CFLAGS   = -O2 -m64 -fPIC -g 
+CFLAGS   = -O2 -fPIC -g 
 #-O2 -O0 -g3
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include
