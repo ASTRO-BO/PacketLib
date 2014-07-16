@@ -869,7 +869,7 @@ ByteStreamPtr Packet::getBSSourceDataFieldsVariablePart() {
 	return sdff;
 }
 
-ByteStreamPtr Packet::getData() {
+ByteStreamPtr Packet::getBSData() {
 	return getBSSourceDataFieldsVariablePart();
 }
 
@@ -1031,7 +1031,7 @@ PartOfPacket* Packet::getPacketTail() {
 	return dataField->getPacketTail();
 }
 
-ByteStreamPtr Packet::decompressData() {
+ByteStreamPtr Packet::getData() {
 	//ALGORITHM FOR AUTOMATIC DECOMPRESSION: NOT IMPLEMENTED NOW. TODO
 	//decompression algorithm here
 	//1) get the fixed and variable part of the source data field, get the tail
@@ -1043,8 +1043,8 @@ ByteStreamPtr Packet::decompressData() {
 	
 	//DECOMPRESS ONLY THE DATA
 	if(!isCompressed())
-		return getData();
-	ByteStreamPtr compressed = getData();
+		return getBSData();
+	ByteStreamPtr compressed = getBSData();
 	ByteStreamPtr decompressed = compressed->decompress(getCompressionAlgorithm(), getCompressionLevel(), sizeMax());
 
 	return decompressed;

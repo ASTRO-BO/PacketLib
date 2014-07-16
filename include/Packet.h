@@ -84,8 +84,8 @@ public:
 	///\post the variable part of the "source data field" is compressed and should be sent or stored
 	virtual ByteStreamPtr compressData(enum CompressionAlgorithms compressionAlgorithm, byte compressionLevel);
 	
-	///\return decompress the data section without changing the packet  (the variable part of the "source data field")
-	virtual ByteStreamPtr decompressData();
+	///\return Get the the variable part of the source data field as a ByteStream that contains the data and decompress (if compressed) them without changing the packet  (the variable part of the "source data field")
+	virtual ByteStreamPtr getData();
 	
 	///Get the compression algorithm used for this packet
 	virtual enum CompressionAlgorithms getCompressionAlgorithm();
@@ -123,9 +123,6 @@ public:
 	
 	///Get the the variable part of the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataFieldsVariablePart();
-	
-	///Get the the variable part of the source data field as a ByteStream that contains the data
-	ByteStreamPtr getData();
 	
 	///Get the the source data field as a ByteStream
 	ByteStreamPtr getBSSourceDataField();
@@ -241,6 +238,9 @@ public:
     virtual  char* printPacketOutputStream();
 	
 protected:
+	
+	///Get the the variable part of the source data field as a ByteStream that contains the data
+	ByteStreamPtr getBSData();
 	
 	/// This is the ByteStream generated with generateStream().
     ByteStreamPtr packet_output;
