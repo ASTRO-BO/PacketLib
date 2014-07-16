@@ -177,9 +177,13 @@ ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algor
 			int buffsize = LZ4_decompress_safe((const char*)stream, (char*)tmpbuff, size(), dmax);
 			if(!buffsize)
 			{
-				cout << "LZ4 decompression error" << endl;
 				delete tmpbuff;
+				throw new PacketException("LZ4 decompression error");
 				return 0;
+			}
+			if(buffsize < 0) {
+				delete tmpbuff;
+				throw new PacketException("LZ4 decompression error: the source stream is malformed");
 			}
 			byte* decompbuff = new byte[buffsize];
 			memcpy(decompbuff, tmpbuff, buffsize);
