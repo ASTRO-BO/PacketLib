@@ -20,6 +20,8 @@
 
 #include "PacketExceptionIO.h"
 #include "ByteStream.h"
+#include <vector>
+#include <string>
 
 namespace PacketLib
 {
@@ -34,6 +36,8 @@ public:
     virtual ~Input();
 
     virtual bool open( char** parameters ) throw(PacketExceptionIO*) = 0;
+
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*) = 0;
 
     virtual ByteStreamPtr readByteStream(dword n_byte) throw(PacketExceptionIO*) = 0;
 

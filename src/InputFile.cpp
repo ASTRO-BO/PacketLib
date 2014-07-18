@@ -41,6 +41,13 @@ bool InputFile::open( char** parameters ) throw(PacketExceptionIO*)
     return true;
 }
 
+void InputFile::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+    file->open(parameters[0].c_str(), (char*) "r");
+    filename = parameters[0];
+    closed = false;
+    eof = file->isEOF();
+}
 
 void InputFile::close()  throw(PacketExceptionIO*)
 {

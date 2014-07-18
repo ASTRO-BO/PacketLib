@@ -16,14 +16,14 @@
  ***************************************************************************/
 
 #include "OutputSocketClient.h"
+#include <sstream>
 
 using namespace PacketLib;
 
 
-OutputSocketClient::OutputSocketClient(bool bigendian) : Output(bigendian)
+OutputSocketClient::OutputSocketClient(bool bigendian) : Output(bigendian), host("")
 {
     socketclient = 0;
-    host = 0;
 }
 
 
@@ -31,7 +31,6 @@ OutputSocketClient::OutputSocketClient(bool bigendian) : Output(bigendian)
 OutputSocketClient::~OutputSocketClient()
 {
     delete socketclient;
-    delete host;
 }
 
 
@@ -50,7 +49,14 @@ bool OutputSocketClient::open(char** argv) throw(PacketExceptionIO*)
     return true;
 }
 
-
+void OutputSocketClient::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+    host = parameters[0];
+	std::istringstream ss(parameters[1]);
+	ss >> port;
+    socketclient = new SocketClient(bigendian, host, port);
+    isclosed = false;
+}
 
 bool OutputSocketClient::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {

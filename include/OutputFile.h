@@ -40,6 +40,10 @@ public:
 	///second parameter: fopen modes: w, r, a (optional)
     virtual bool open(char** parameters) throw(PacketExceptionIO*);
 
+	/// parameters[0] = filename
+	/// parameters[1] = modes: w, a (default w)
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*);
+
     virtual bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*);
 
     virtual bool writeString(const char* str) throw(PacketExceptionIO*);
@@ -53,7 +57,7 @@ protected:
 
     File* file;
 
-    char* filename;
+    std::string filename;
 
 };
 

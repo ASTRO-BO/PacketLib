@@ -21,6 +21,8 @@
 #include "PacketLibDefinition.h"
 #include "ByteStream.h"
 #include "PacketExceptionIO.h"
+#include <vector>
+#include <string>
 
 namespace PacketLib
 {
@@ -34,6 +36,8 @@ public:
     virtual void close() throw(PacketExceptionIO*) = 0;
 
     virtual bool open(char** parameters) throw(PacketExceptionIO*) = 0;
+
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*) = 0;
 
     virtual bool isClosed();
 

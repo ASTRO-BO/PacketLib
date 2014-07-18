@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "InputSerial.h"
+#include <sstream>
 
 using namespace PacketLib;
 
@@ -38,14 +39,27 @@ bool InputSerial::open( char** parameters ) throw(PacketExceptionIO*)
     flag   = atoi( parameters[1] );
     device = parameters[0];
     //cout << "SSSSS: " << O_NONBLOCK << endl;
-    serial->open( device, O_NONBLOCK);
+    serial->open((char*)device.c_str(), O_NONBLOCK);
     serial->dump();
     serial->close();
-    serial->open( device, flag );
+    serial->open((char*)device.c_str(), flag);
     closed = false;
     return true;
 }
 
+void InputSerial::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+	std::istringstream ss(parameters[1]);
+	ss >> flag;
+    device = parameters[0];
+
+    serial->open((char*)device.c_str(), O_NONBLOCK);
+    serial->dump();
+    serial->close();
+    serial->open((char*)device.c_str(), flag);
+
+    closed = false;
+}
 
 
 void InputSerial::close()  throw(PacketExceptionIO*)

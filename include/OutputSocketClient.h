@@ -37,6 +37,8 @@ public:
 
     virtual bool open(char** parameters) throw(PacketExceptionIO*);
 
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*);
+
     virtual bool writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*);
 
     virtual bool writeString(const char* str) throw(PacketExceptionIO*);
@@ -50,7 +52,7 @@ protected:
 
     SocketClient* socketclient;
 
-    char* host;
+    std::string host;
 
     int port;
 };

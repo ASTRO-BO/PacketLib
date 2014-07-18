@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "InputSocketServer.h"
+#include <sstream>
 
 using namespace PacketLib;
 
@@ -46,7 +47,17 @@ bool InputSocketServer::open( char** parameters ) throw(PacketExceptionIO*)
     return true;
 }
 
+void InputSocketServer::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+	std::istringstream ss(parameters[0]);
+	ss >> port;
+    socketserver = new SocketServer(bigendian, port);
 
+    new_sock = new SocketServer(bigendian);
+    accepted = false;
+
+    closed = false;
+}
 
 void InputSocketServer::close() throw(PacketExceptionIO*)
 {

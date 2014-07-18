@@ -35,6 +35,9 @@ public:
 
     virtual bool open( char** parameters ) throw(PacketExceptionIO*);
 
+	/// parameters[0] = filename
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*);
+
     virtual void close() throw(PacketExceptionIO*);
 
     virtual ByteStreamPtr readByteStream(dword n_byte) throw(PacketExceptionIO*);
@@ -52,7 +55,7 @@ protected:
 
     File* file;
 
-    char* filename;
+    std::string filename;
 
 };
 }

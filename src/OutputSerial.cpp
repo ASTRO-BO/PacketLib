@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "OutputSerial.h"
+#include <sstream>
 
 using namespace PacketLib;
 
@@ -46,12 +47,19 @@ bool OutputSerial::open(char** parameters) throw(PacketExceptionIO*)
 {
     flag   = atoi( parameters[1] );
     device = parameters[0];
-    serial->open( device, flag );
+    serial->open((char*)device.c_str(), flag);
     isclosed = false;
     return true;
 }
 
-
+void OutputSerial::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+    device = parameters[0];
+	std::istringstream ss(parameters[1]);
+	ss >> flag;
+    serial->open((char*)device.c_str(), flag);
+    isclosed = false;
+}
 
 bool OutputSerial::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 {

@@ -35,6 +35,8 @@ public:
 
     virtual bool open( char** parameters ) throw(PacketExceptionIO*);
 
+    virtual void openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*);
+
     virtual void close() throw(PacketExceptionIO*);
 
     virtual ByteStreamPtr readByteStream(dword n_byte) throw(PacketExceptionIO*);

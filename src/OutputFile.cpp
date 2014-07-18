@@ -55,6 +55,18 @@ bool OutputFile::open(char** parameters) throw(PacketExceptionIO*)
     return true;
 }
 
+void OutputFile::openDevice(const std::vector<std::string>& parameters) throw(PacketExceptionIO*)
+{
+	std::string mode = "w";
+
+	if(parameters.size() > 1)
+		mode = parameters[2];
+
+	file->open(parameters[0].c_str(), mode.c_str());
+
+    filename = parameters[0];
+    isclosed = false;
+}
 
 
 bool OutputFile::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
