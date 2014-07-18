@@ -19,6 +19,7 @@
 #define _UTILITY_H
 
 #include "PacketLibDefinition.h"
+#include "ByteStream.h"
 
 namespace PacketLib
 {
@@ -78,6 +79,8 @@ public:
     static int getchildpid(int startpid, char* procname, int maxsearch=1000);
 
     static bool getchildpidlive(int pid);
+	
+	static ByteStreamPtr getByteStream(byte* data, dword size, bool bigendian );
 };
 
 }

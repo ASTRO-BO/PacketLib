@@ -22,6 +22,10 @@
 
 using namespace PacketLib;
 
+ByteStreamPtr Utility::getByteStream(byte* data, dword size, bool bigendian ) {
+	return ByteStreamPtr(new ByteStream((byte*) data, size, bigendian));
+}
+
 int Utility::convertToInteger(string bin)
 {
     string::size_type pos;
