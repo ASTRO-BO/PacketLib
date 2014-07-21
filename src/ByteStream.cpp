@@ -496,6 +496,42 @@ void PacketLib::ByteStream::deleteStreamMemory()
         delete[] stream;
 }
 
+ByteStreamPtr PacketLib::ByteStream::getPaddedCopy(dword chunkSize, dword padSize)
+{
+	if(byteInTheStream % chunkSize != 0)
+		throw new PacketException("getPadCopy() error. Chunk size must be a divisor of ByteStream::size().");
+
+	dword nChunks = byteInTheStream / chunkSize;
+	dword newChunkSize = chunkSize + padSize;
+
+	ByteStreamPtr sPtr = ByteStreamPtr(new ByteStream(nChunks*(newChunkSize), bigendian));
+	byte* raw = sPtr->getStream();
+
+	for(dword i=0; i<nChunks; i++)
+		memcpy(raw+i*newChunkSize, stream+i*chunkSize, chunkSize);
+
+	return sPtr;
+}
+
+ByteStreamPtr PacketLib::ByteStream::getUnpaddedCopy(dword chunkSize, dword padSize)
+{
+	if(byteInTheStream % chunkSize != 0)
+		throw new PacketException("getUnpadCopy() error. Chunk size must be a divisor of ByteStream::size().");
+	if(chunkSize - padSize <= 0)
+		throw new PacketException("getUnpadCopy() error. Chunk size - pad size gives a value <= 0.");
+
+	dword nChunks = byteInTheStream / chunkSize;
+	dword newChunkSize = chunkSize - padSize;
+
+	ByteStreamPtr sPtr = ByteStreamPtr(new ByteStream(nChunks*(newChunkSize), bigendian));
+	byte* raw = sPtr->getStream();
+
+	for(dword i=0; i<nChunks; i++)
+		memcpy(raw+i*newChunkSize, stream+i*chunkSize, newChunkSize);
+
+	return sPtr;
+}
+
 void PacketLib::ByteStream::swapWord() {
 	dword dim =  byteInTheStream;
 	for(dword i = 0; i< dim; i+=2)
