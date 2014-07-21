@@ -119,6 +119,20 @@ public:
     /// \param dim number of byte (1 or 2)
     long getValue(dword start, word dim);
 
+	/// Create a copy of the stream with some additional padding. The stream is divided into chunks
+	/// with numberOfChunks = size() / chunkSize.
+	/// \param chunkSize the size of a chunk without padding.
+	/// \param padSize Size of the padding.
+	/// \return The padded copy of this byte stream.
+	ByteStreamPtr getPaddedCopy(dword chunkSize, dword padSize);
+
+	/// Create a copy of the stream removing some padding. The stream is divided into chunks
+	/// with numberOfChunks = size() / chunkSize.
+	/// \param chunkSize the size of a chunk with padding.
+	/// \param padSize Size of the padding.
+	/// \return The unpadded copy of this byte stream.
+	ByteStreamPtr getUnpaddedCopy(dword chunkSize, dword padSize);
+
     char* printStreamInHexadecimal();
 
     /// Get type of allocations.
