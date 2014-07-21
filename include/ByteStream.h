@@ -35,20 +35,20 @@ class ByteStream
 public:
 
 
-    /// The memory of byte* is not allocated
+    /// The memory of byte* is not allocated.
     /// \param bigendian The byte alignment
     ByteStream(bool bigendian = false);
 
-    /// The memory of byte* is allocated
+    /// The memory of byte* is allocated.
     ByteStream(dword size, bool bigendian);
 
-    /// The memory of byte* is not allocated
+    /// The memory of byte* is not allocated.
     ByteStream(byte* stream, dword dim, bool bigendian, bool memory_sharing = true);
 
     /// Creates a new ByteStream that it is the sum of one or two or three ByteStream
     /// passed as input.
     /// It's possibile to pass 0 as pointer.
-    /// The mamory of byte* is allocated.
+    /// The memory of byte* is allocated.
     ByteStream(ByteStreamPtr b0, ByteStreamPtr b1, ByteStreamPtr b2);
 	
 	/// Creates a new ByteStream from start to end
@@ -57,10 +57,25 @@ public:
 
     ~ByteStream();
 
+	/// Get the stream of bytes
     byte* getStream();
 	
+	/// Gets the dimension of the stream
+    dword size();
+	
+	/// Swap the stream if it is little endian (for big endian architectures, e.g. Motorola)
+    void swapWordIfStreamIsLittleEndian();
+	
+    /// Swap the stream if it is big endian (for little endian architectures, e.g. Intel)
+    void swapWordIfStreamIsBigEndian();
+	
+    /// Swap the stream Intel architectures
+    void swapWordForIntel();
+	
+	/// Compress the stream.
 	ByteStreamPtr compress(enum CompressionAlgorithms algorithmType, byte compressionLevel);
 	
+	/// Decompress the stream.
 	ByteStreamPtr decompress(enum CompressionAlgorithms algorithmType, byte compressionLevel, dword dmax);
 
     /// Returns a pointer of the stream for output purpose. If there is problems return NULL
@@ -104,9 +119,6 @@ public:
     /// \param dim number of byte (1 or 2)
     long getValue(dword start, word dim);
 
-    /// Gets the dimension of the stream
-    dword size();
-
     char* printStreamInHexadecimal();
 
     /// Get type of allocations.
@@ -116,17 +128,6 @@ public:
     bool getMemAllocation();
 
     bool isBigendian() const;
-
-
-    /// Swap the stream if it is little endian (for big endian architectures, e.g. Motorola)
-    void swapWordIfStreamIsLittleEndian();
-
-    /// Swap the stream if it is big endian (for little endian architectures, e.g. Intel)
-    void swapWordIfStreamIsBigEndian();
-
-    /// Swap the stream Intel architectures
-    void swapWordForIntel();
-
 
     /// Swap  the stream of words
     void swapWord();

@@ -39,6 +39,7 @@ PacketStream::PacketStream(const char* fileNameConfig)
     memset(packetType, 0, sizeof(Packet*)*255);
     pathFileNameConfig = 0;
 	dimHeader = 0;
+	createStreamStructure();
 }
 
 
