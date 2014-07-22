@@ -374,7 +374,9 @@ dword SDFBlock::size()
 
 SDFBlock* SDFBlock::getBlock(word nblock, word rBlockIndex)
 {
-    word bi = 0;
+	if(rBlockIndex == 0)
+		return &block[nblock];
+	word bi = 0;
     word rbi = 0;
     for(int i=0; i< type->nblockmax; i++)
     {
@@ -383,6 +385,7 @@ SDFBlock* SDFBlock::getBlock(word nblock, word rBlockIndex)
         if(rbi == rBlockIndex && bi == nblock)
             return &block[i];
     }
+	
     return 0;
 }
 
