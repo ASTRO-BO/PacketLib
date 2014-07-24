@@ -1,3 +1,14 @@
+2014-07-24 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.3.1
++ -Werror -m64 CFLAGS removed.
++ Fix 32bit compilation warnings.
++ Add openDevice() for Input and Output classes.
++ Add Utility::getByteStream().
++ Add ByteStream functions getPaddedCopy() and getUnpaddedCopy().
++ PacketStream::PacketStream(const char* fileNameConfig) automatic createStr.
++ Add PacketLib4.vpp project.
++ First optimization of the getBlock() if rBlockIndex==0.
+
 2014-07-17 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>
 TAG v4.3.0
 + added exception generation if LZ4 decompression has problems

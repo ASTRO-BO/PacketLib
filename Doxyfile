@@ -1,10 +1,8 @@
-# Doxyfile 1.2.13-20020210
-
 #---------------------------------------------------------------------------
 # General configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = PacketLib
-PROJECT_NUMBER         = 4.1.0
+PROJECT_NUMBER         = 4.3.1
 OUTPUT_DIRECTORY       = ref
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = YES
