@@ -126,7 +126,7 @@ char* File::getLine() throw(PacketExceptionIO*)
     //char* s = new char[500];
     static char s[2048];
     //	static unsigned long dimalloc = 0;
-    char c;
+    int c;
     dword i = 0;
 
     if(!closed)
@@ -136,7 +136,6 @@ char* File::getLine() throw(PacketExceptionIO*)
         while( c != '\n' && c != EOF )
         {
             s[i] = c;
-            //printf("%c", c);
             i++;
             if(i>=2048)
                 throw new PacketExceptionIO("Error: it's impossible to read a line with more of 2048 bytes.");
