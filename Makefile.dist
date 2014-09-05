@@ -41,12 +41,10 @@ VER_FILE_NAME = PlVersion.h
 
 ####### 4) Compiler, tools and options
 
-CC       = gcc
-CXX      = g++
+CC ?= gcc
+CXX ?= g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-#- g3
-CFLAGS   = -O2 -O0 
-#-O2 -O0 -g3
+CFLAGS ?= -O2
 #Set INCPATH to add the inclusion paths
 INCPATH = -I $(includedir)
 #Insert the implicit parameter to the compiler:
@@ -55,13 +53,13 @@ ifeq ($(SYSTEM), QNX)
 	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
 endif
 #Use CPPFLAGS for the preprocessor
-CPPFLAGS = 
+CPPFLAGS =
 #Set LIBS for addition library
 LIBS = -lstdc++ -lpacket
 ifeq ($(SYSTEM), QNX)
 	LIBS += -lsocket
 endif
-LINK     = g++
+LINK ?= $(CXX)
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
 AR       = ar cqs
@@ -104,15 +102,15 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 %.o : %.cpp
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 	
 ####### 10) Build rules
 
 all: makeobjdir  $(OBJECTS)	
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/in $(OBJECTS_DIR)/in.o $(LIBS)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/out $(OBJECTS_DIR)/out.o $(LIBS)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqclient $(OBJECTS_DIR)/msgqclient.o $(LIBS)
-		$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqserver $(OBJECTS_DIR)/msgqserver.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/in $(OBJECTS_DIR)/in.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/out $(OBJECTS_DIR)/out.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqclient $(OBJECTS_DIR)/msgqclient.o $(LIBS)
+		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(SOURCE_DIR)/msgqserver $(OBJECTS_DIR)/msgqserver.o $(LIBS)
 				
 makeobjdir:
 	test -d $(OBJECTS_DIR) || mkdir -p $(OBJECTS_DIR)

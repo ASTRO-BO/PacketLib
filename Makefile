@@ -56,11 +56,9 @@ LIB_DESTDIR = lib
 
 ####### 4) Compiler, tools and options
 
-CXX      = g++
+CXX ?= g++
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-#- g3
-CFLAGS   = -O2 -fPIC -g 
-#-O2 -O0 -g3
+CFLAGS ?= -O2 -fPIC
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include
 #Insert the implicit parameter to the compiler:
@@ -69,7 +67,7 @@ ifeq ($(SYSTEM), QNX)
 	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
 endif
 #Use CPPFLAGS for the preprocessor
-CPPFLAGS = 
+CPPFLAGS ?=
 #Set LIBS for addition library
 LIBS = -lstdc++ 
 ifeq ($(SYSTEM), QNX)
@@ -81,7 +79,7 @@ ifneq (, $(findstring apple, $(SYSTEM)))
 	LIBS += -L$(LOCAL)/lib
 endif 
 
-LINK     = g++
+LINK ?= $(CXX)
 #for link
 LFLAGS = -shared -Wl,-soname,$(TARGET1) -Wl,-rpath,$(DESTDIR)
 AR       = ar cqs
