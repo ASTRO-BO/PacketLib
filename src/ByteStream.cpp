@@ -409,10 +409,11 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
         return false;
     /// Byte extraction
     /// \param LSByte
-    b1 = (byte) value;           
+    b1 = (byte) value & 0xFF;
     /// \param MSByte
     b2 = (byte) (value >> 8);
 	
+	/*
 	if(bigendian)
 	{
         /// Swap
@@ -423,8 +424,8 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
         stream[start] = b1;
         stream[start+1] = b2;
 	}
+	*/
 	
-	/*
 	if(!ARCH_BIGENDIAN && !bigendian )
 	{
 		//noswap
@@ -449,8 +450,8 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
         stream[start] = b2;
         stream[start+1] = b1;
     }
-	 */
-	   /*
+	
+	/*
     if((bigendian && !ARCH_BIGENDIAN) || (!bigendian && ARCH_BIGENDIAN))
     {
         /// Swap

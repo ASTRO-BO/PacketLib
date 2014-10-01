@@ -416,44 +416,54 @@ ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
         else
             wtemp = fields[i]->value =  fields[i]->getPredefinedValue();
         dimbit = fields[i]->size();
-        shift = 16 - dimbit - posbit;
-        if(shift < 0)
-        {
-            byte nbitshigh = abs(shift);
-            //word wh = wtemp >> (16 - nbitshigh);
-            word wh = wtemp >> (nbitshigh);
-            w = w | wh;
-            if(outputstream->setWord(posword, w))
-                posword+=2;
-            else
-                return 0;
-            w = 0;
-            posbit = nbitshigh;
-            w = (wtemp & pattern[nbitshigh]) << (16-posbit);
+		if(dimbit == 16) {
+			w = wtemp;
+			posbit = 0;
+			if(outputstream->setWord(posword, w))
+				posword+=2;
+			else
+				return 0;
+			w = 0;
+		} else {
+			shift = 16 - dimbit - posbit;
+			if(shift < 0)
+			{
+				byte nbitshigh = abs(shift);
+				//word wh = wtemp >> (16 - nbitshigh);
+				word wh = wtemp >> (nbitshigh);
+				w = w | wh;
+				if(outputstream->setWord(posword, w))
+					posword+=2;
+				else
+					return 0;
+				w = 0;
+				posbit = nbitshigh;
+				w = (wtemp & pattern[nbitshigh]) << (16-posbit);
 
-        }
-        else
-        {
-            wtemp = (wtemp << shift);
-            w = w | wtemp;
-            //cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
-            posbit += fields[i]->size();
-        }
-        if(posbit == 16)
-        {
-            posbit = 0;
-            if(outputstream->setWord(posword, w))
-                posword+=2;
-            else
-                return 0;
-            w = 0;
+			}
+			else
+			{
+				wtemp = (wtemp << shift);
+				w = w | wtemp;
+				//cout << (Utility::wordToBinary(w, 16))->c_str() << endl;
+				posbit += fields[i]->size();
+			}
+			if(posbit == 16)
+			{
+				posbit = 0;
+				if(outputstream->setWord(posword, w))
+					posword+=2;
+				else
+					return 0;
+				w = 0;
 
-        }
-        else
-        {
-            if(posbit > 16)
-                return 0;
-        }
+			}
+			else
+			{
+				if(posbit > 16)
+					return 0;
+			}
+		}
     }
     if(posbit < 16)
         outputstream->setWord(posword, w);

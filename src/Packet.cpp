@@ -744,6 +744,9 @@ bool Packet::decode(ByteStreamPtr stream, bool checkPacketLength) {
 
 	//save a pointer to the current stream to avoid shareptr deallocation
 	this->stream = stream;
+	
+	
+	
 	decodedPacketHeader = false;
 	decodedPacketDataFieldHeader = false;
 	decodedPacketSourceDataField = false;
