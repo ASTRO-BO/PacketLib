@@ -115,6 +115,7 @@
 		DD394CBD19CA32220026D10C /* lz4.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lz4.c; sourceTree = "<group>"; };
 		DD394CBE19CA32220026D10C /* lz4hc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lz4hc.c; sourceTree = "<group>"; };
 		DD3AB43119459AFB00498F60 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		DD6A3F2719DD809C002DCA9F /* XmlConfig.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XmlConfig.cpp; sourceTree = "<group>"; };
 		DD6C793419255A5500406949 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
 		DD6C793519255A5E00406949 /* Doxyfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Doxyfile; sourceTree = "<group>"; };
 		DD6C793619255A6A00406949 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -297,6 +298,7 @@
 		DDB3B8A118CA2F9100918955 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				DD6A3F2719DD809C002DCA9F /* XmlConfig.cpp */,
 				DD394CBD19CA32220026D10C /* lz4.c */,
 				DD394CBE19CA32220026D10C /* lz4hc.c */,
 				DDB3B8A218CA2F9100918955 /* ByteStream.cpp */,

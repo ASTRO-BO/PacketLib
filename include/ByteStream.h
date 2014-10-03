@@ -107,6 +107,9 @@ public:
 
     /// Sets a word of the stream with the value of parameter.
     bool setWord(dword start, word value);
+	
+	//return the value of a word in the machine representation
+	word getWord(dword posword);
 
     /// Sets a byte of the stream with the value of parameter.
     void setByte(dword start, word value);

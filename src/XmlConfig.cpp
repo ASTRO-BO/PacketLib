@@ -426,7 +426,7 @@ std::string XmlConfig::convert(const std::string& filename)
 		sfs << "false" << endl;
 	sfs << "--stream format bigendian" << endl;
 	xml_attribute bigendian = stream.attribute("bigendian");
-	if(!bigendian)
+	if(bigendian.empty())
 		sfs << "false" << endl;
 	else
 		sfs << bigendian.value() << endl;

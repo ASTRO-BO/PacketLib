@@ -254,10 +254,11 @@ bool PartOfPacket::decode() {
         byte bl = *(stream + posword + 1);
         //word wordtemp = *(stream + posword);
         word wordtemp;
-        if (this->stream->isBigendian())
+		if (this->stream->isBigendian()) {
             wordtemp = bh * 256 + bl;
-        else
+		} else {
             wordtemp = bl * 256 + bh;
+		}
         numberOfShift = 16 - (posbit + dimbit);
         //parte nuova
         /// \remarks if the condition is not fulfilled, the code is equal to the versions older than PacketLib 1.3.3
@@ -266,6 +267,13 @@ bool PartOfPacket::decode() {
             short currentDimBit = dimbit + numberOfShift;
             dimbit = abs(numberOfShift);
             ftemp->value = (wordtemp & pattern[currentDimBit] ) << dimbit;
+			if(ARCH_BIGENDIAN) {
+				byte b1, b2;
+				b1 = (byte) ftemp->value & 0xFF;
+				b2 = (byte) (ftemp->value >> 8);
+				ftemp->value = b1 * 256 + b2;
+			}
+			
             posbit = 0;
             posword += 2;
             bh = *(stream + posword);
@@ -281,6 +289,12 @@ bool PartOfPacket::decode() {
             		cout << i << ": " << (ftemp->value << currentDimBit) << endl;
             		cout << i << ": " << wordtemp << endl;*/
             ftemp->value = ftemp->value | (wordtemp & pattern[dimbit]);
+			if(ARCH_BIGENDIAN) {
+				byte b1, b2;
+				b1 = (byte) ftemp->value & 0xFF;
+				b2 = (byte) (ftemp->value >> 8);
+				ftemp->value = b1 * 256 + b2;
+			}
             /*		cout << i << ": " << ftemp->value << endl;
             		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
         }
@@ -289,6 +303,12 @@ bool PartOfPacket::decode() {
             //questa fa parte della parte vecchia
             wordtemp = wordtemp >> numberOfShift;
             ftemp->value = wordtemp & pattern[dimbit];
+			if(ARCH_BIGENDIAN) {
+				byte b1, b2;
+				b1 = (byte) ftemp->value & 0xFF;
+				b2 = (byte) (ftemp->value >> 8);
+				ftemp->value = b1 * 256 + b2;
+			}
         }
         /// Upgrade of pobit and posword
         posbit += dimbit;

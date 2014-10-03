@@ -397,6 +397,52 @@ void PacketLib::ByteStream::setByte(dword start, word value)
     stream[start] = value;
 }
 
+word PacketLib::ByteStream::getWord(dword posword)
+{
+	word wordtemp;
+	/// Temporary word to be modified for the elaboration
+	byte bf = *(stream + posword);
+	byte bl = *(stream + posword + 1);
+	//word wordtemp = *(stream + posword);
+	
+	if(!ARCH_BIGENDIAN && !bigendian )
+	{
+		//swap OK
+
+		wordtemp = bf * 256 + bl;
+		return wordtemp;
+	}
+	if(ARCH_BIGENDIAN && bigendian )
+	{
+		//swap
+
+		wordtemp = bf * 256 + bl;
+		return wordtemp;
+	}
+	if(!ARCH_BIGENDIAN && bigendian )
+	{
+		///no Swap
+
+		wordtemp = bl * 256 + bf;
+		return wordtemp;
+	}
+	if(ARCH_BIGENDIAN && !bigendian )
+	{
+		///no Swap
+
+		wordtemp = bl * 256 + bf;
+		return wordtemp;
+	}
+	
+	/*
+	if (isBigendian())
+		wordtemp = bf * 256 + bl;
+	else
+		wordtemp = bl * 256 + bf;
+	*/
+	return wordtemp;
+}
+
 
 bool PacketLib::ByteStream::setWord(dword start, word value)
 {
@@ -431,24 +477,28 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
 		//noswap
         stream[start] = b1;
         stream[start+1] = b2;
+		return true;
     }
 	if(ARCH_BIGENDIAN && bigendian )
 	{
 		//noswap
         stream[start] = b1;
         stream[start+1] = b2;
+		return true;
     }
 	if(!ARCH_BIGENDIAN && bigendian )
 	{
         /// Swap
         stream[start] = b2;
         stream[start+1] = b1;
+		return true;
     }
 	if(ARCH_BIGENDIAN && !bigendian )
 	{
         /// Swap
         stream[start] = b2;
         stream[start+1] = b1;
+		return true;
     }
 	
 	/*
