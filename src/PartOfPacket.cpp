@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include "PartOfPacket.h"
+#include "PacketLibDefinition.h"
+
+//#define DEBUG 1
 
 using namespace PacketLib;
 
@@ -227,7 +230,6 @@ bool PartOfPacket::decode() {
 	if(decoded)
 		return true;
 	Field* ftemp;
-    //this->stream->setStream(s, 0, s->size() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
     byte* stream = (byte*) this->stream->stream;
@@ -243,53 +245,38 @@ bool PartOfPacket::decode() {
     /// number of shift for elaboration
     short numberOfShift = 0;
     /// number of fields
-    //unsigned nof = getNumberOfFields();
     word nof = numberOfFields;
     for(word i=0; i<nof; i++)
     {
         ftemp =  fields[i];
         dimbit = ftemp->size();
         /// Temporary word to be modified for the elaboration
-        byte bh = *(stream + posword);
-        byte bl = *(stream + posword + 1);
-        //word wordtemp = *(stream + posword);
         word wordtemp;
-        if (this->stream->isBigendian())
-            wordtemp = bh * 256 + bl;
-        else
-            wordtemp = bl * 256 + bh;
-        numberOfShift = 16 - (posbit + dimbit);
-        //parte nuova
-        /// \remarks if the condition is not fulfilled, the code is equal to the versions older than PacketLib 1.3.3
-        if(numberOfShift < 0)   
-        {
-            short currentDimBit = dimbit + numberOfShift;
-            dimbit = abs(numberOfShift);
-            ftemp->value = (wordtemp & pattern[currentDimBit] ) << dimbit;
-            posbit = 0;
-            posword += 2;
-            bh = *(stream + posword);
-            bl = *(stream + posword + 1);
-            if (this->stream->isBigendian())
-                wordtemp = bh * 256 + bl;
-            else
-                wordtemp = bl * 256 + bh;
+		// swap bytes if the machine is bigendian and the stream is little endian and vice-versa.
+#ifdef ARCH_BIGENDIAN
+		if (!this->stream->isBigendian()) {
+			byte bless = *(stream + posword);
+			byte bmost = *(stream + posword + 1);
+			wordtemp = (bmost << 8) + bless;
+#else
+		if (this->stream->isBigendian()) {
+			byte bmost = *(stream + posword);
+			byte bless = *(stream + posword + 1);
+			wordtemp = (bmost << 8) | bless;
+#ifdef DEBUG
+			std::cout << "word: " << wordtemp << std::endl;
+#endif
+#endif
+		} else {
+            wordtemp = *( (word*)(stream + posword) );
+#ifdef DEBUG
+			std::cout << "word: " << wordtemp << std::endl;
+#endif
+		}
 
-            numberOfShift = 16 - (posbit + dimbit);
-            wordtemp = wordtemp >> numberOfShift;
-            /*		cout << i << ": " << ftemp->value << endl;
-            		cout << i << ": " << (ftemp->value << currentDimBit) << endl;
-            		cout << i << ": " << wordtemp << endl;*/
-            ftemp->value = ftemp->value | (wordtemp & pattern[dimbit]);
-            /*		cout << i << ": " << ftemp->value << endl;
-            		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
-        }
-        else
-        {
-            //questa fa parte della parte vecchia
-            wordtemp = wordtemp >> numberOfShift;
-            ftemp->value = wordtemp & pattern[dimbit];
-        }
+        numberOfShift = 16 - (posbit + dimbit);
+        wordtemp = wordtemp >> numberOfShift;
+        ftemp->value = wordtemp & pattern[dimbit];
         /// Upgrade of pobit and posword
         posbit += dimbit;
         if(posbit >=16)
@@ -301,8 +288,6 @@ bool PartOfPacket::decode() {
 	decoded = true;
     return true;
 }
-
-
 
 char** PartOfPacket::printValue(const char* addString)
 {
@@ -497,6 +482,9 @@ float PartOfPacket::getFieldValue_32f(word index)
         float f;	
     } u;
     u.i =  ( (dword) getFieldValue(index) << 16) | ( (dword) getFieldValue(index + 1) );
+#ifdef DEBUG
+	std::cout << "float: " << u.i << std::endl;
+#endif
     return u.f;
 }
 
@@ -515,10 +503,10 @@ double PartOfPacket::getFieldValue_64f(word index)
         double d;	
     } u;
 
-#ifdef __x86_64__
     u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+#ifdef DEBUG
+	std::cout << "double: " << u.d << std::endl;
 #endif
-
     return u.d;
 }
 
@@ -572,6 +560,9 @@ signed long PartOfPacket::getFieldValue_32i(word index)
 {
     long l;
     l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
+#ifdef DEBUG
+	std::cout << "int32: " << l << std::endl;
+#endif
     return l;
 }
 
@@ -588,6 +579,9 @@ unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
     dword l;
     l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
+#ifdef DEBUG
+	std::cout << "uint32: " << l << std::endl;
+#endif
     return l;
 }
 

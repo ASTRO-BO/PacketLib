@@ -423,47 +423,6 @@ bool PacketLib::ByteStream::setWord(dword start, word value)
         stream[start] = b1;
         stream[start+1] = b2;
 	}
-	
-	/*
-	if(!ARCH_BIGENDIAN && !bigendian )
-	{
-		//noswap
-        stream[start] = b1;
-        stream[start+1] = b2;
-    }
-	if(ARCH_BIGENDIAN && bigendian )
-	{
-		//noswap
-        stream[start] = b1;
-        stream[start+1] = b2;
-    }
-	if(!ARCH_BIGENDIAN && bigendian )
-	{
-        /// Swap
-        stream[start] = b2;
-        stream[start+1] = b1;
-    }
-	if(ARCH_BIGENDIAN && !bigendian )
-	{
-        /// Swap
-        stream[start] = b2;
-        stream[start+1] = b1;
-    }
-	 */
-	   /*
-    if((bigendian && !ARCH_BIGENDIAN) || (!bigendian && ARCH_BIGENDIAN))
-    {
-        /// Swap
-        stream[start] = b2;
-        stream[start+1] = b1;
-    }
-    else
-    {
-        /// No swap for x86
-        stream[start] = b1;
-        stream[start+1] = b2;
-    }
-		*/
     return true;
 
 }

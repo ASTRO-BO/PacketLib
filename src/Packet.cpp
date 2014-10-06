@@ -616,7 +616,11 @@ ByteStreamPtr Packet::encodeAndSetData(ByteStreamPtr sourceDataVariable)
 		if(sourceDataVariable->size() != size() - dimPacketStartingFixedPart - dimPacketTail)
 			throw new PacketException("the size of the sourceDataVariable is wrong");
 		bool swapped = false;
-		if((!ARCH_BIGENDIAN && bigendian) || (ARCH_BIGENDIAN && !bigendian)) {
+#ifdef ARCH_BIGENDIAN
+		if(!bigendian) {
+#else
+		if(bigendian) {
+#endif
 			sourceDataVariable->swapWord();
 			swapped = true;
 		}

@@ -36,9 +36,25 @@
 #define PACKETNOTRECOGNIZED 0
 /// define NULL 0
 
-//0 for x86
-//1 for motorola
-#define ARCH_BIGENDIAN 0
+/*
+ * Little Endian or Big Endian ?
+ * Overwrite the #define below if you know your architecture endianess
+ */
+#if defined (__GLIBC__)
+#  include <endian.h>
+#  if (__BYTE_ORDER == __BIG_ENDIAN)
+#     define ARCH_BIGENDIAN 1
+#  endif
+#elif (defined(__BIG_ENDIAN__) || defined(__BIG_ENDIAN) || defined(_BIG_ENDIAN)) && !(defined(__LITTLE_ENDIAN__) || defined(__LITTLE_ENDIAN) || defined(_LITTLE_ENDIAN))
+#  define ARCH_BIGENDIAN 1
+#elif defined(__sparc) || defined(__sparc__) \
+   || defined(__powerpc__) || defined(__ppc__) || defined(__PPC__) \
+   || defined(__hpux)  || defined(__hppa) \
+   || defined(_MIPSEB) || defined(__s390__)
+#  define ARCH_BIGENDIAN 1
+#else
+/* Little Endian assumed. PDP Endian and other very rare endian format are unsupported. */
+#endif
 
 enum CompressionAlgorithms  { NONE, LZ4 };
 
