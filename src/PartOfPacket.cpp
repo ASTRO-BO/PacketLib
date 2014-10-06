@@ -227,7 +227,6 @@ bool PartOfPacket::decode() {
 	if(decoded)
 		return true;
 	Field* ftemp;
-    //this->stream->setStream(s, 0, s->size() - 1);
     /// The pointer is converted from byte to void. The reading from file allows the correct data interpretation
     /// for big or little endian machines
     byte* stream = (byte*) this->stream->stream;
@@ -243,73 +242,36 @@ bool PartOfPacket::decode() {
     /// number of shift for elaboration
     short numberOfShift = 0;
     /// number of fields
-    //unsigned nof = getNumberOfFields();
     word nof = numberOfFields;
     for(word i=0; i<nof; i++)
     {
         ftemp =  fields[i];
         dimbit = ftemp->size();
         /// Temporary word to be modified for the elaboration
-        byte bh = *(stream + posword);
-        byte bl = *(stream + posword + 1);
-        //word wordtemp = *(stream + posword);
         word wordtemp;
-		if (this->stream->isBigendian()) {
-            wordtemp = bh * 256 + bl;
-		} else {
-            wordtemp = bl * 256 + bh;
-		}
-        numberOfShift = 16 - (posbit + dimbit);
-        //parte nuova
-        /// \remarks if the condition is not fulfilled, the code is equal to the versions older than PacketLib 1.3.3
-        if(numberOfShift < 0)   
-        {
-            short currentDimBit = dimbit + numberOfShift;
-            dimbit = abs(numberOfShift);
-            ftemp->value = (wordtemp & pattern[currentDimBit] ) << dimbit;
-			if(ARCH_BIGENDIAN) {
-				byte b1, b2;
-				b1 = (byte) ftemp->value & 0xFF;
-				b2 = (byte) (ftemp->value >> 8);
-				ftemp->value = b1 * 256 + b2;
-			}
-			
-            posbit = 0;
-            posword += 2;
-            bh = *(stream + posword);
-            bl = *(stream + posword + 1);
-            if (this->stream->isBigendian())
-                wordtemp = bh * 256 + bl;
-            else
-                wordtemp = bl * 256 + bh;
 
-            numberOfShift = 16 - (posbit + dimbit);
-            wordtemp = wordtemp >> numberOfShift;
-            /*		cout << i << ": " << ftemp->value << endl;
-            		cout << i << ": " << (ftemp->value << currentDimBit) << endl;
-            		cout << i << ": " << wordtemp << endl;*/
-            ftemp->value = ftemp->value | (wordtemp & pattern[dimbit]);
-			if(ARCH_BIGENDIAN) {
-				byte b1, b2;
-				b1 = (byte) ftemp->value & 0xFF;
-				b2 = (byte) (ftemp->value >> 8);
-				ftemp->value = b1 * 256 + b2;
-			}
-            /*		cout << i << ": " << ftemp->value << endl;
-            		cout << i << ": " << (wordtemp & pattern[dimbit]) << endl;*/
-        }
-        else
-        {
-            //questa fa parte della parte vecchia
-            wordtemp = wordtemp >> numberOfShift;
-            ftemp->value = wordtemp & pattern[dimbit];
-			if(ARCH_BIGENDIAN) {
-				byte b1, b2;
-				b1 = (byte) ftemp->value & 0xFF;
-				b2 = (byte) (ftemp->value >> 8);
-				ftemp->value = b1 * 256 + b2;
-			}
-        }
+		// swap bytes if the machine is bigendian and the stream is little endian and vice-versa.
+#ifdef __BIG_ENDIAN
+		if (!this->stream->isBigendian()) {
+#else
+		if (this->stream->isBigendian()) {
+#endif
+	        byte bh = *(stream + posword);
+    	    byte bl = *(stream + posword + 1);
+            wordtemp = (bl << 8) + bh;
+		} else {
+            wordtemp = *( (word*)(stream + posword) );
+		}
+
+        numberOfShift = 16 - (posbit + dimbit);
+        wordtemp = wordtemp >> numberOfShift;
+        ftemp->value = wordtemp & pattern[dimbit];
+		if(ARCH_BIGENDIAN) {
+			byte b1, b2;
+			b1 = (byte) ftemp->value & 0xFF;
+			b2 = (byte) (ftemp->value >> 8);
+			ftemp->value = b1 * 256 + b2;
+		}
         /// Upgrade of pobit and posword
         posbit += dimbit;
         if(posbit >=16)
@@ -321,8 +283,6 @@ bool PartOfPacket::decode() {
 	decoded = true;
     return true;
 }
-
-
 
 char** PartOfPacket::printValue(const char* addString)
 {
@@ -526,7 +486,18 @@ float PartOfPacket::getFieldValue_32f(word index)
         /// 32 bit single precision
         float f;	
     } u;
-    u.i =  ( (dword) getFieldValue(index) << 16) | ( (dword) getFieldValue(index + 1) );
+
+#ifdef __BIG_ENDIAN
+	if (!this->stream->isBigendian()) {
+#else
+	if (this->stream->isBigendian()) {
+#endif
+	    u.i =  ( (dword) getFieldValue(index + 1) << 16) | ( (dword) getFieldValue(index) );
+	}
+	else {
+	    u.i =  ( (dword) getFieldValue(index) << 16) | ( (dword) getFieldValue(index + 1) );
+	}
+
     return u.f;
 }
 
@@ -545,9 +516,16 @@ double PartOfPacket::getFieldValue_64f(word index)
         double d;	
     } u;
 
-#ifdef __x86_64__
-    u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+#ifdef __BIG_ENDIAN
+	if (!this->stream->isBigendian()) {
+#else
+	if (this->stream->isBigendian()) {
 #endif
+	    u.i = (unsigned long) ( (unsigned long)  getFieldValue(index + 3) << (48)) | ( (unsigned long) getFieldValue(index + 2) << (32)) | ( (unsigned long) getFieldValue(index + 1) << (16)) | ( (unsigned long) getFieldValue(index) );
+	}
+	else {
+	    u.i = (unsigned long) ( (unsigned long)  getFieldValue(index) << (48)) | ( (unsigned long) getFieldValue(index + 1) << (32)) | ( (unsigned long) getFieldValue(index + 2) << (16)) | ( (unsigned long) getFieldValue(index + 3) );
+	}
 
     return u.d;
 }
@@ -601,7 +579,18 @@ void PartOfPacket::setFieldValue_64f(word index, double value)
 signed long PartOfPacket::getFieldValue_32i(word index)
 {
     long l;
-    l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
+
+#ifdef __BIG_ENDIAN
+	if (!this->stream->isBigendian()) {
+#else
+	if (this->stream->isBigendian()) {
+#endif
+	    l = (long)(getFieldValue(index + 1) << 16) | (long)getFieldValue(index);
+	}
+	else {
+	    l = (long)(getFieldValue(index) << 16) | (long)getFieldValue(index + 1);
+	}
+
     return l;
 }
 
@@ -617,7 +606,18 @@ void PartOfPacket::setFieldValue_32i(word index, signed long value)
 unsigned long PartOfPacket::getFieldValue_32ui(word index)
 {
     dword l;
-    l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
+
+#ifdef __BIG_ENDIAN
+	if (!this->stream->isBigendian()) {
+#else
+	if (this->stream->isBigendian()) {
+#endif
+	    l = (dword)(getFieldValue(index + 1) << 16) | (dword)getFieldValue(index);
+	}
+	else {
+	    l = (dword)(getFieldValue(index) << 16) | (dword)getFieldValue(index + 1);
+	}
+
     return l;
 }
 
