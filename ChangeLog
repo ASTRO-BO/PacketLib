@@ -1,4 +1,12 @@
 2014-07-24 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.3.2
++ Fixed Makefile for parallel build.
++ Fix getLine()
++ Use conditional assignment for CXX, CFLAGS and LINK in Makefiles
++ Fix bigendian attribute loading during xml parsing
++ Handle ARCH_BIGENDIAN cases
+
+2014-07-24 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v4.3.1
 + -Werror -m64 CFLAGS removed.
 + Fix 32bit compilation warnings.
