@@ -57,17 +57,18 @@ LIB_DESTDIR = lib
 ####### 4) Compiler, tools and options
 
 CXX ?= g++
+CC ?= gcc
 #Insert the optional parameter to the compiler. The CFLAGS could be changed externally by the user
-CFLAGS ?= -O2 -fPIC
+CFLAGS ?= -O3 -fPIC
+CXXFLAGS ?= -O3 -fPIC
 #Set INCPATH to add the inclusion paths
 INCPATH = -I ./include
 #Insert the implicit parameter to the compiler:
-ALL_CFLAGS = -fexceptions -Wall $(INCPATH) $(CFLAGS)
+ALL_CFLAGS = -fexceptions -Wall $(INCPATH)
 ifeq ($(SYSTEM), QNX)
 	ALL_CFLAGS += -Vgcc_ntox86_gpp -lang-c++
 endif
-#Use CPPFLAGS for the preprocessor
-CPPFLAGS ?=
+
 #Set LIBS for addition library
 LIBS = -lstdc++ 
 ifeq ($(SYSTEM), QNX)
@@ -75,7 +76,7 @@ ifeq ($(SYSTEM), QNX)
 endif
 ifneq (, $(findstring apple, $(SYSTEM)))
  	# Do apple things
-	CPPFLAGS += -I$(LOCAL)/include
+	ALL_CFLAGS += -I$(LOCAL)/include
 	LIBS += -L$(LOCAL)/lib
 endif 
 
@@ -128,13 +129,13 @@ $(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 ####### 9) Pattern rules
 
 test/%.o : test/%.cpp
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
+	$(CXX) $(CXXFLAGS) $(ALL_CFLAGS) -c $< -o $@ -I /usr/include/cppunit
 
 %.o : %.cpp | makeobjdir
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CXX) $(CXXFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 %.o : %.c | makeobjdir
-	$(CC) $(CPPFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
+	$(CC) $(CFLAGS) $(ALL_CFLAGS) -c $< -o $(OBJECTS_DIR)/$@
 
 #only for documentation generation
 $(DOXY_SOURCE_DIR)/%.h : %.h
@@ -152,14 +153,14 @@ lib: staticlib
 	
 exe: main.o $(OBJECTS)
 		test -d $(EXE_DESTDIR) || mkdir -p $(EXE_DESTDIR)
-		$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
+		$(CXX) $(CXXFLAGS) $(ALL_CFLAGS) -o $(EXE_DESTDIR)/$(EXE_NAME) $(OBJECTS_DIR)/*.o $(LIBS)
 	
 tests: test/runtests
 
 TESTOBJS = test/InputPacketStreamFileTest.o test/runtests.o
 
 test/runtests: $(TESTOBJS) lib
-	$(CXX) $(CPPFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
+	$(CXX) $(CXXFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
 
 staticlib: $(OBJECTS)
 		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
