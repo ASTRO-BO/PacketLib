@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _SHARED_PTR_H
-#define _SHARED_PTR_H
+#ifndef __PACKETLIB_SHARED_PTR_H
+#define __PACKETLIB_SHARED_PTR_H
 
 namespace PacketLib
 {
