@@ -114,16 +114,16 @@ DOC_SOURCE= $(addprefix $(DOXY_SOURCE_DIR)/, $(notdir $(SOURCE)))
 
 ####### 7) Only for library generation
 
-TARGET   = $(LIB_NAME).so.$(shell cat version)
+#TARGET   = $(LIB_NAME).so.$(shell cat version)
 TARGETA	= $(LIB_NAME).a
-TARGETD	= $(LIB_NAME).so.$(shell cat version)
-TARGET0	= $(LIB_NAME).so
-TARGET1	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.')
-TARGET2	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.').$(shell cut version -f 2 -d '.')
+#TARGETD	= $(LIB_NAME).so.$(shell cat version)
+#TARGET0	= $(LIB_NAME).so
+#TARGET1	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.')
+#TARGET2	= $(LIB_NAME).so.$(shell cut version -f 1 -d '.').$(shell cut version -f 2 -d '.')
 
 ####### 8) Preliminar operations
 
-$(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
+#$(shell  cut $(INCLUDE_DIR)/$(VER_FILE_NAME) -f 3 > version)
 #WARNING: use -d ' ' if in the version.h the separator is a space
 
 ####### 9) Pattern rules
@@ -163,7 +163,7 @@ test/runtests: $(TESTOBJS) lib
 	$(CXX) $(CXXFLAGS) $(ALL_CFLAGS) -o $@ $(TESTOBJS) -Llib -lpacket $(LIBS) -lcppunit
 
 staticlib: $(OBJECTS)
-		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)	
+		test -d $(LIB_DESTDIR) || mkdir -p $(LIB_DESTDIR)
 		$(DEL_FILE) $(LIB_DESTDIR)/$(TARGETA) 	
 		$(AR) $(LIB_DESTDIR)/$(TARGETA) $(OBJECTS_DIR)/*.o
 	
@@ -209,26 +209,26 @@ distclean: clean
 #and so on to the file names where they should reside for actual use. 
 install: all
 	$(shell echo $(prefix) > prefix)
-	#test -d $(datadir) || mkdir -p $(datadir)
-	#test -d $(infodir) || mkdir -p $(infodir)	
+	@#test -d $(datadir) || mkdir -p $(datadir)
+	@#test -d $(infodir) || mkdir -p $(infodir)
 
 	# For library installation
 	test -d $(libdir) || mkdir -p $(libdir)
 	test -d $(includedir) || mkdir -p $(includedir)	
 	$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETA) $(libdir)
-	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET0) $(libdir)
-	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET1) $(libdir)
-	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET2) $(libdir)
-	#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETD) $(libdir)
+	@#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET0) $(libdir)
+	@#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET1) $(libdir)
+	@#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGET2) $(libdir)
+	@#$(COPY_FILE) $(LIB_DESTDIR)/$(TARGETD) $(libdir)
 	$(COPY_FILE) $(INCLUDE) $(includedir)
 
-	# For exe installation
-	#test -d $(bindir) || mkdir -p $(bindir)
-	#$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME) $(bindir)
+	@#For exe installation
+	@#test -d $(bindir) || mkdir -p $(bindir)
+	@#$(COPY_FILE) $(EXE_DESTDIR)/$(EXE_NAME) $(bindir)
 
 #uninstall: delete all the installed files--the copies that the `install' target creates.
 uninstall:
-	#For library uninstall
+	@#For library uninstall
 	$(DEL_FILE) $(libdir)/$(TARGETA)
 	$(DEL_FILE) $(libdir)/$(TARGETD)
 	$(DEL_FILE) $(libdir)/$(TARGET0)
@@ -236,8 +236,8 @@ uninstall:
 	$(DEL_FILE) $(libdir)/$(TARGET2)
 	$(DEL_FILE) $(addprefix $(includedir)/, $(notdir $(INCLUDE)))
 
-	# For exe uninstall
-	#$(DEL_FILE) $(bindir)/$(EXE_NAME)
+	@# For exe uninstall
+	@#$(DEL_FILE) $(bindir)/$(EXE_NAME)
 
 #dist: create a distribution tar file for this program
 dist: all
