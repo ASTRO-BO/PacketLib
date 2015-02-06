@@ -61,11 +61,11 @@ string* PartOfPacket::printStructure()
         Field* f = fields[i];
         if(first)
         {
-            sprintf(s, "Prog: %d - Name - %s\n", f->getProgressiv(), f->getName() );
+            sprintf(s, "Prog: %d - Name - %s\n", f->getProgressiv(), f->getName().c_str() );
             first = false;
         }
         else
-            sprintf(s, "%sProg: %d - Name - %s\n", s, f->getProgressiv(), f->getName() );
+            sprintf(s, "%sProg: %d - Name - %s\n", s, f->getProgressiv(), f->getName().c_str() );
     }
     string* sr = new string(s);
     return sr;
@@ -85,6 +85,148 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     return ret;
 }
 */
+
+const std::string fixed32[] = { "uint32", "int32", "float" };
+const std::string fixed64[] = { "uint64", "int64", "double" };
+
+void PartOfPacket::loadFields(pugi::xml_node node)
+{
+	// it calls the function that releases the memory
+    deleteFields();
+
+	// count physical node fields
+	unsigned int count = 0;
+	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
+	{
+		if(string(it->name()).compare("field") == 0)
+		{
+			string typeStr = it->attribute("type").value();
+			bool found = false;
+			for(unsigned int i=0; i<3; i++)
+			{
+				if(typeStr.compare(fixed32[i]) == 0)
+				{
+					count += 2;
+					found = true;
+					break;
+				}
+				if(typeStr.compare(fixed64[i]) == 0)
+				{
+					count += 4;
+					found = true;
+					break;
+				}
+			}
+			if(!found)
+				count++;
+		}
+	}
+
+    fields = new Field*[count];
+
+	// field parsing
+	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
+	{
+		if(string(it->name()).compare("field") != 0)
+			continue;
+
+		string typeStr = it->attribute("type").value();
+		bool found = false;
+		string name, dimension, value;
+#ifdef DEBUG
+		std::cout << "adding fields["<< numberOfFields << "] '" << it->attribute("name").value() << "' " << typeStr << std::endl;
+#endif
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed32[i]) == 0)
+			{
+				name = it->attribute("name").value();
+				dimension = "16";
+				value = "none";
+				Field* f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				name = it->attribute("name").value();
+				name += "__1";
+				dimension = "16";
+				value = "none";
+				f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// write 64bits fields
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed64[i]) == 0)
+			{
+				name = it->attribute("name").value();
+				dimension = "16";
+				value = "none";
+				Field* f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				name = it->attribute("name").value();
+				name += "__1";
+				dimension = "16";
+				value = "none";
+				f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				name = it->attribute("name").value();
+				name += "__2";
+				dimension = "16";
+				value = "none";
+				f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				name = it->attribute("name").value();
+				name += "__3";
+				dimension = "16";
+				value = "none";
+				f = new Field(name, dimension, value, numberOfFields);
+				fieldsDimension += f->size();
+				fields[numberOfFields] = f;
+				numberOfFields++;
+
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// write <= 16 bits fields
+		name = it->attribute("name").value();
+		string::size_type spos = typeStr.find_first_of("0123456789");
+		string::size_type epos = typeStr.find_last_of("0123456789");
+		dimension = typeStr.substr(spos, epos+1).c_str();
+		pugi::xml_attribute constvalue = it->attribute("constvalue");
+		if(!constvalue)
+			value = "none";
+		else
+			value = constvalue.value();
+		Field* f = new Field(name, dimension, value, numberOfFields);
+		fieldsDimension += f->size();
+		fields[numberOfFields] = f;
+		numberOfFields++;
+	}
+}
 
 bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 {
@@ -250,6 +392,9 @@ bool PartOfPacket::decode() {
     {
         ftemp =  fields[i];
         dimbit = ftemp->size();
+#ifdef DEBUG
+		std::cout << "number of bits: " << (int)dimbit << std::endl;
+#endif
         /// Temporary word to be modified for the elaboration
         word wordtemp;
 		// swap bytes if the machine is bigendian and the stream is little endian and vice-versa.

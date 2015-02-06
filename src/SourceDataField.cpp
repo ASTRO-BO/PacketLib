@@ -51,6 +51,24 @@ SourceDataField::~SourceDataField()
 
 }
 
+void SourceDataField::loadFields(pugi::xml_node node, const pugi::xml_document& doc, std::map<pugi::xml_node, int>& physicalIndex)
+{
+        numberOfRBlocks = 1;
+        rblockFilename = new char*[numberOfRBlocks];
+        numberOfBlockFixed[0] = true;
+        maxNumberOfBlock[0] = 1;
+        numberOfRealDataBlock[0] = 1;
+        indexOfNBlock[0] = 0;
+        subFromNBlock[0] = 0;
+        rblockFilename[0]= (char*)"Source Data Field";
+        nblockmax = 1;
+        block = (SDFBlock*) new SDFBlock[nblockmax];
+        block[0].setPreviousPop(previous);
+        block[0].setRBlockType(0);
+        block[0].setID(0);
+        block[0].loadFields(node, doc, physicalIndex);
+}
+
 bool SourceDataField::loadFields(InputText& fp) throw(PacketException*)
 {
     try

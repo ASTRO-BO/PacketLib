@@ -30,7 +30,7 @@ class PacketBufferV {
 
 public:
 
-	PacketBufferV(const string& configFile, const string& inputFile);
+	PacketBufferV(string configFile, string inputFile);
 
 	~PacketBufferV();
 

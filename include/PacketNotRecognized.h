@@ -20,6 +20,7 @@
 
 #include "Packet.h"
 #include "PacketLibDefinition.h"
+#include "pugixml.h"
 
 namespace PacketLib
 {
@@ -32,6 +33,8 @@ public:
     PacketNotRecognized(bool bigendian);
 
     virtual ~PacketNotRecognized();
+
+	void createPacketType(pugi::xml_node node, int plPhysicalIndex, int plSize);
 
     virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
 

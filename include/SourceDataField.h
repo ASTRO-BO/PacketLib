@@ -20,6 +20,7 @@
 #include "PacketException.h"
 #include "PacketExceptionFileFormat.h"
 #include "SDFBlock.h"
+#include "pugixml.h"
 
 namespace PacketLib
 {
@@ -33,6 +34,8 @@ public:
 
     virtual ~SourceDataField();
 	
+	virtual void loadFields(pugi::xml_node node, const pugi::xml_document& doc, std::map<pugi::xml_node, int>& physicalIndex);
+
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 
 	/// Get a block of number nblock of the group of blocks of the rblock with the index rBlockIndex.

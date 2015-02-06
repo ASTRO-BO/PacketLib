@@ -19,6 +19,7 @@
 #define _FIELD_H_H
 
 #include "PacketLibDefinition.h"
+#include <string>
 
 namespace PacketLib
 {
@@ -42,7 +43,7 @@ public:
     int predefinedValue;
 
     /// Name of the field.
-    char* name;
+	std::string name;
 	
 	/// Logical type - NOT USED FOR NOW
 	enum LogicalFieldDataType type;
@@ -56,7 +57,7 @@ class Field
 public:
 
     /// Constructor of class.
-    Field(char* name, char* dimension, char* predefinedValue, int progressiv);
+    Field(std::string name, std::string dimension, std::string predefinedValue, int progressiv);
 
     /// Destructor of class.
     ~Field();
@@ -83,10 +84,16 @@ public:
     };
 
     /// Name of the field.
-    inline char* getName()
+    std::string getName()
     {
-        return type->name;
+        return type->name.c_str();
     };
+
+	/// Return the logical field data type.
+	LogicalFieldDataType getType()
+	{
+		return type->type;
+	}
 
     inline int getProgressiv()
     {

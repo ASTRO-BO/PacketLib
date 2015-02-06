@@ -14,7 +14,8 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
- 
+
+#include <sstream>
 #include "SDFBlock.h"
 #include "ConfigurationFile.h"
 #include "PacketExceptionFileFormat.h"
@@ -28,6 +29,137 @@ long SDFBlock::counter = 0;
 SDFBlockType::SDFBlockType()
 {
 // 	cout << "SDFBlockType::SDFBlockType " << sizeof(SDFBlockType) << endl;
+}
+
+void SDFBlockType::loadType(pugi::xml_node node, const pugi::xml_document& doc,
+                            std::map<pugi::xml_node, int>& physicalIndex)
+{
+	nblockmax = 0;
+
+	const char* popName = node.attribute("name").value();
+
+	int dimline = strlen(popName);
+	name = (char*) new char[dimline+1];
+	strncpy(name, popName, dimline+1);
+
+	pugi::xml_node fNode = node.child("field");
+	if(fNode)
+		fixedPresent = true;
+	else
+		fixedPresent = false;
+
+	variablePresent = false;
+	pugi::xpath_node_set rbNodeSet = node.select_nodes("rblock");
+	if(rbNodeSet.size() == 0)
+	{
+		variablePresent = true;
+		numberOfRBlocks = rbNodeSet.size();
+		if(numberOfRBlocks > 65535)
+			throw new PacketExceptionFileFormat("Too many number of Rblocks in the packet type.");
+		rblockFilename = new char*[numberOfRBlocks];
+		rBlockVariable = new bool[numberOfRBlocks];
+		maxNumberOfBlock = new word[numberOfRBlocks];
+		indexOfNBlock = new word[numberOfRBlocks];
+		subFromNBlock = new word[numberOfRBlocks];
+		numberOfBlockFixed = new bool[numberOfRBlocks];
+		headerLevelOfNBlockIndex = new word[numberOfRBlocks];
+		operatorType = new byte[numberOfRBlocks];
+
+		for(int i=0; i < numberOfRBlocks; i++)
+		{
+			const pugi::xml_node rbNode = rbNodeSet[i].node();
+			pugi::xml_attribute idref = rbNode.attribute("idref");
+			if(idref)
+				rBlockVariable[i] = true;
+			else
+				rBlockVariable[i] = false;
+
+			const char* nblocks = rbNode.attribute("maxnumberofblocks").value();
+			maxNumberOfBlock[i] = atoi(nblocks);
+			if(maxNumberOfBlock[i] > 65535)
+				throw new PacketExceptionFileFormat("Too many number of blocks in the packet type.");
+
+			if(!idref)
+				headerLevelOfNBlockIndex[i] = 0;
+			else
+			{
+				string query = string("//field[@id=\"")+idref.value()+"\"]";
+				pugi::xml_node numberofblocksid = doc.select_nodes(query.c_str())[0].node();
+				pugi::xml_node nodetmp = rbNode;
+				unsigned int level = 0;
+
+				while(nodetmp.parent() != numberofblocksid.parent())
+				{
+					// if the parent is a packet means that the id is not in the fixed part of the
+					// recursive rblocks nor the sourcedatafield. So test the datafieldheader
+					// and header, otherwise complain.
+					if(string(nodetmp.parent().name()).compare("packet") == 0)
+					{
+						string idparentnodename = numberofblocksid.parent().name();
+						if(idparentnodename.compare("datafieldheader") == 0)
+						{
+							// we have already add 1 level because nodetmp in this case is
+							// the sourcedatafield node
+						}
+						else if(idparentnodename.compare("header") == 0)
+						{
+							// we add just one level for the same reason above
+							level++;
+						}
+						else
+						{
+							std::stringstream ss;
+							ss << "Error on id association. Id'" << idref.value() << "' doesn't exists. idref defined by rblock '" << rbNode.attribute("name").value() << "'.";
+							throw new PacketExceptionFileFormat(ss.str().c_str());
+						}
+
+						break;
+					}
+					level++;
+					nodetmp = nodetmp.parent();
+				}
+				headerLevelOfNBlockIndex[i] = level;
+				indexOfNBlock[i] = physicalIndex[numberofblocksid]; // TODO fix this..
+				pugi::xml_attribute offsetAttr = numberofblocksid.attribute("numberofblocksoffset");
+				const char* offset;
+				if(offsetAttr)
+					offset = offsetAttr.value();
+				else
+					offset = "0";
+
+				switch(offset[0])
+				{
+					case '/':
+						operatorType[i] = 1;
+						subFromNBlock[i] = atoi(offset+1);
+						break;
+					case '*':
+						operatorType[i] = 2;
+						subFromNBlock[i] = atoi(offset+1);
+						break;
+					default:
+						operatorType[i] = 0;
+						subFromNBlock[i] = atoi(offset);
+				}
+
+				rblockFilename[i] = (char*) rbNode.attribute("name").value();
+			}
+
+			nblockmax += maxNumberOfBlock[i];
+		}
+	}
+	else
+	{
+		numberOfRBlocks = 0;
+		rblockFilename = 0;
+		rBlockVariable = 0;
+		maxNumberOfBlock = 0;
+		indexOfNBlock = 0;
+		subFromNBlock = 0;
+		numberOfBlockFixed = 0;
+		headerLevelOfNBlockIndex = 0;
+		operatorType = 0;
+	}
 }
 
 bool SDFBlockType::loadType(InputText& fp) throw(PacketException*)
@@ -232,6 +364,71 @@ SDFBlock::~SDFBlock()
     delete[] block;
 }
 
+void SDFBlock::loadFields(pugi::xml_node rbNode, const pugi::xml_document& doc,
+                            std::map<pugi::xml_node, int>& physicalIndex)
+{
+	popName = (char*) rbNode.attribute("name").value();
+	dword indexlist = 0;
+	type = 0;
+	while(blockTypeList[indexlist] != 0)
+	{
+		if(strcmp(blockTypeList[indexlist]->name, popName) == 0)
+		{
+			type = blockTypeList[indexlist];
+			break;
+		}
+		else
+			indexlist++;
+	}
+
+	this->previous = previous;
+	if(type == 0)
+	{
+//     	cout << "create the type " << popName << endl;
+		type = new SDFBlockType;
+		blockTypeList[indexlist] = type;
+		type->loadType(rbNode, doc, physicalIndex);
+	}
+
+// 	cout << "NZ " << type->name << endl;
+	if(type->variablePresent)
+		numberOfRealDataBlock = new word[type->numberOfRBlocks];
+	else
+		numberOfRealDataBlock = 0;
+
+	/// It loads the fixed part (if present)
+	fixed.previous = previous;
+	if(type->fixedPresent)
+		fixed.loadFields(rbNode);
+
+	if(type->variablePresent)
+	{
+		for(int i=0; i< type->numberOfRBlocks; i++)
+			if(type->rBlockVariable[i] == false)
+				numberOfRealDataBlock[i] = type->maxNumberOfBlock[i];
+
+		block = (SDFBlock*) new SDFBlock[type->nblockmax];
+		int indexRBlock = 0;
+		dword sumBlock = type->maxNumberOfBlock[indexRBlock];
+		word id = 0;
+		for(dword nblock=0; nblock < type->nblockmax; nblock++)
+		{
+			if(nblock >= sumBlock)
+			{
+				indexRBlock++;
+				id = 0;
+				sumBlock += type->maxNumberOfBlock[indexRBlock];
+			}
+
+			block[nblock].setPreviousPop(&fixed);
+			block[nblock].setRBlockType(indexRBlock);
+			block[nblock].setID(id);
+			pugi::xml_node childNode = rbNode.child(type->rblockFilename[indexRBlock]);
+			block[nblock].loadFields(childNode, doc, physicalIndex);
+			id++;
+		}
+	}
+}
 
 bool SDFBlock::loadFields(InputText& fp) throw (PacketException*)
 {

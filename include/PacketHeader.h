@@ -39,6 +39,8 @@ public:
         name = n;
     };
 
+	void loadHeader(pugi::xml_node hNode, int plPhysicalIndex, int plSize);
+
     /// Loads data header from configuration file.
     bool loadHeader(char* fileName) throw(PacketException*);
 

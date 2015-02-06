@@ -20,8 +20,6 @@
 
 using namespace PacketLib;
 
-
-
 PacketHeader::PacketHeader() : PartOfPacket("Packet Header")
 {
     name = 0;
@@ -34,7 +32,15 @@ PacketHeader::~PacketHeader()
 
 }
 
+void PacketHeader::loadHeader(pugi::xml_node hNode, int plPhysicalIndex, int plSize)
+{
+	name = new char[100];
+	name = strncpy(name, hNode.attribute("name").value(), 100);
+	numberOfFieldWithPacketDimension = plPhysicalIndex;
+	dimensionOfPacketLength = plSize;
 
+	loadFields(hNode);
+}
 
 bool PacketHeader::loadHeader(char* fileName) throw(PacketException*)
 {

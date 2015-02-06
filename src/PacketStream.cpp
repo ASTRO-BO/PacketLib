@@ -21,6 +21,7 @@
 #include "PacketExceptionIO.h"
 #include "PacketNotRecognized.h"
 #include "PacketLibDemo.h"
+#include <sstream>
 
 using namespace PacketLib;
 
@@ -28,9 +29,9 @@ using namespace PacketLib;
 
 
 
-PacketStream::PacketStream(const char* fileNameConfig)
+PacketStream::PacketStream(string fileNameConfig)
 {
-    this->filenameConfig = (char*) fileNameConfig;
+	filenameConfig = realpath(fileNameConfig.c_str(), NULL);
     numberOfPacketType = 0;
     headerReference = 0;
     //TODO
@@ -39,14 +40,14 @@ PacketStream::PacketStream(const char* fileNameConfig)
     memset(packetType, 0, sizeof(Packet*)*255);
     pathFileNameConfig = 0;
 	dimHeader = 0;
+	std::cout << "Loading config file " << filenameConfig << " ..." << std::endl;
 	createStreamStructure();
+	std::cout << "Load complete." << std::endl;
 }
 
-
-
 PacketStream::PacketStream()
+	: filenameConfig("")
 {
-    this->filenameConfig = 0;
     numberOfPacketType = 0;
     headerReference = 0;
     //TODO
@@ -147,14 +148,153 @@ Packet* PacketStream::getPacket(ByteStreamPtr stream) throw(PacketException*){
 	
 }
 
+const std::string fixed32[] = { "uint32", "int32", "float" };
+const std::string fixed64[] = { "uint64", "int64", "double" };
 
+void PacketStream::cachePhysicalIndexes(pugi::xml_node node, std::map<pugi::xml_node, int>& physicalIndex)
+{
+	int index = 0;
+	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
+	{
+		if(string(it->name()).compare("field") != 0)
+			continue;
+
+		physicalIndex[*it] = index;
+
+		// if 32bits fields
+		string typeStr = it->attribute("type").value();
+		bool found = false;
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed32[i]) == 0)
+			{
+				index+=2;
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// if 64bits fields
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed64[i]) == 0)
+			{
+				index+=4;
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// else (<= 16bits fields)
+		index++;
+	}
+}
+
+void PacketStream::createStreamStructureXml()
+{
+	std::map<pugi::xml_node, int> physicalIndex;
+
+	pugi::xml_document doc;
+
+	// open the config file
+	if (!doc.load_file(filenameConfig.c_str()))
+	{
+		std::stringstream ss;
+		ss << "Cannot open " << filenameConfig;
+		throw new PacketExceptionFileFormat(ss.str().c_str());
+	}
+
+	// cache all the field physical indexes
+	pugi::xpath_node_set fieldParents = doc.select_nodes("//*[field]");
+	for(pugi::xpath_node_set::const_iterator it = fieldParents.begin(); it != fieldParents.end(); ++it)
+		cachePhysicalIndexes(it->node(), physicalIndex);
+
+	// get the stream node
+	pugi::xml_node sNode = doc.child("stream");
+	if(!sNode) throw new PacketExceptionFileFormat("<stream> not found.");
+
+	if(pathFileNameConfig) free(pathFileNameConfig);
+	pathFileNameConfig = getcwd(NULL, 512L);
+
+	bigendian = false;
+	pugi::xml_attribute beAttr = sNode.attribute("bigendian");
+	if(beAttr && strcmp(beAttr.value(), "true") == 0)
+		bigendian = true;
+#ifdef DEBUG
+	std::cout << "big endian? " << beAttr.value() << std::endl;
+#endif
+
+	dimPrefix = 0;
+	prefix = false;
+	pugi::xml_attribute preAttr = sNode.attribute("prefixSize");
+	if(preAttr)
+	{
+		prefix = true;
+		dimPrefix = atoi(preAttr.value());
+	}
+#ifdef DEBUG
+	std::cout << "prefix size: " << dimPrefix << std::endl;
+#endif
+
+	// get the header node
+	pugi::xml_node hNode = sNode.child("header");
+	if(!hNode) throw new PacketExceptionFileFormat("<header> not found.");
+
+	// get the packet length physical index
+	std::string query = std::string("//field[@id=\"") + hNode.attribute("idref").value()+"\"]";
+	pugi::xml_node plNode = hNode.select_nodes(query.c_str())[0].node();
+	int plIndex = physicalIndex[plNode];
+
+	// get the packet length bit width
+	std::string typeStr = plNode.attribute("type").value();
+	std::string::size_type spos = typeStr.find_first_of("0123456789");
+	std::string::size_type epos = typeStr.find_last_of("0123456789");
+	int nbits = atoi(typeStr.substr(spos, epos+1).c_str());
+
+	// load the header
+	delete headerReference;
+	headerReference = new PacketHeader();
+	headerReference->loadHeader(hNode, plIndex, nbits);
+	dimHeader = headerReference->size();
+
+	// load the packet not recognized
+	PacketNotRecognized* p = new PacketNotRecognized(bigendian);
+	p->createPacketType(hNode, prefix, dimPrefix);
+
+	packetType[numberOfPacketType] = p;
+	numberOfPacketType++;
+
+	// load packet types
+	pugi::xml_node pNode = sNode.child("packet");
+	while(pNode) {
+		if(pNode.attribute("name") != 0)
+		{
+			Packet* p = new Packet(bigendian);
+			p->createPacketType(doc, hNode, plIndex, nbits, pNode, prefix, dimPrefix, physicalIndex);
+			packetType[numberOfPacketType] = p;
+			p->setPacketID(numberOfPacketType);
+			numberOfPacketType++;
+		}
+		pNode = pNode.next_sibling();
+	}
+}
 
 bool PacketStream::createStreamStructure() throw(PacketException*)
 {
+	if(filenameConfig.find(".xml") != std::string::npos)
+	{
+		createStreamStructureXml();
+		return true;
+	}
+
     ConfigurationFile config;
     char* line;
     char **argv = new char* [1];
-    argv[0] = filenameConfig;
+    argv[0] = (char*) filenameConfig.c_str();
     //cout << "@@@@@@@@@@OPEN " << filenameConfig << endl;
     try
     {
@@ -276,14 +416,14 @@ bool PacketStream::createStreamStructure() throw(PacketException*)
     catch(PacketExceptionIO* e)
     {
         e->add(" - ");
-        e->add(filenameConfig);
+        e->add(filenameConfig.c_str());
         e->add("Configuration file: ");
         throw e;
     }
     catch(PacketExceptionFileFormat* e)
     {
         e->add(" - ");
-        e->add(filenameConfig);
+        e->add(filenameConfig.c_str());
         e->add("Configuration file: ");
         throw e;
     }
@@ -318,7 +458,7 @@ Packet* PacketStream::getPacketType(int index)
 Packet* PacketStream::getPacketType(string name) {
 	for(int i=1; i<numberOfPacketType; i++) {
 		string pname = packetType[i]->getName();
-		if(pname == name)
+		if(pname.compare(name) == 0)
 			return packetType[i];
 	}
 	throw new PacketException("Packet type not found in the PacketStream");

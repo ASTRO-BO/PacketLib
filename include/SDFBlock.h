@@ -19,7 +19,9 @@
 #define _SDFBlock_H
 #include "PacketException.h"
 #include "PartOfPacket.h"
+#include "pugixml.h"
 #include <string>
+#include <map>
 
 namespace PacketLib
 {
@@ -31,6 +33,9 @@ class SDFBlockType
 public:
 
     SDFBlockType();
+
+	void loadType(pugi::xml_node node, const pugi::xml_document& doc,
+                  std::map<pugi::xml_node, int>& physicalIndex);
 
     bool loadType(InputText& fp) throw(PacketException*);
 
@@ -97,6 +102,9 @@ public:
 
     SDFBlock();
     virtual ~SDFBlock();
+
+	void loadFields(pugi::xml_node node, const pugi::xml_document& doc,
+                  std::map<pugi::xml_node, int>& physicalIndex);
 
     virtual bool loadFields(InputText& fp) throw(PacketException*);
 

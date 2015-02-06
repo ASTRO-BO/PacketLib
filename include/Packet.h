@@ -55,6 +55,8 @@ public:
     /// Distruttore
     virtual ~Packet();
 
+	void createPacketType(pugi::xml_document& doc, pugi::xml_node hNode, int plPhysicalIndex, int plSize, pugi::xml_node pNode, bool isprefix, word dimprefix, std::map<pugi::xml_node, int>& physicalIndex);
+
     virtual bool createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*);
 	
 	/// Decode the packet
@@ -174,16 +176,16 @@ public:
     ByteStreamPtr getOutputStream();
 	
     /// Gets the name of packet.
-    virtual char* getName()
+    virtual const char* getName()
     {
-        return name;
+        return (char*) name.c_str();
     }
 
     
     /// The name of the file .packet that contains the structure of the packet
-    virtual char* getFileName()
+    virtual const char* getFileName()
     {
-        return filename;
+        return filename.c_str();
     }
 
     
@@ -289,7 +291,7 @@ protected:
     byte packetID;
     
     /// The name of the packet
-    char* name;
+    std::string name;
     
     /// List of identifiers. This identifiers permits to identify if the stream contains
     /// a particular type of packet
@@ -319,7 +321,7 @@ protected:
     bool thereisprefix;
 
     /// The name of the file .packet that contains the structure of the packet
-    char* filename;
+	std::string filename;
 
 private:
 

@@ -15,7 +15,9 @@
  *   For commercial purpose see appropriate license terms                  *
  *                                                                         *
  ***************************************************************************/
- 
+#include <map>
+#include <sstream>
+#include "pugixml.h"
 #include "Packet.h"
 #include "Field.h"
 #include "PacketLibDemo.h"
@@ -25,9 +27,9 @@ using namespace PacketLib;
 #define DECODETYPE 2
 
 Packet::Packet(bool bigendian)
-	: packetID(0), name(0), identifiers(0),
+	: packetID(0), name(""), identifiers(0),
       number_of_identifier(0), bigendian(bigendian), thereisprefix(false),
-      filename(0), first_output_stream_setted(false), dimPrefix(0),
+      filename(""), first_output_stream_setted(false), dimPrefix(0),
       dimPacketHeader(0), dimPacketDataFieldHeader(0),
       dimPacketSourceDataFieldFixed(0), dimPacketTail(0),
       dimPacketStartingFixedPart(0), decodedPacketHeader(false),
@@ -43,6 +45,9 @@ Packet::Packet(bool bigendian)
     tempDataFieldHeader = ByteStreamPtr(new ByteStream);
     tempPacketDataField = ByteStreamPtr(new ByteStream);
     tempTail = ByteStreamPtr(new ByteStream);
+
+    for(unsigned int i=0; i<3; i++)
+		type_of_identifier[i] = false;
 }
 
 
@@ -59,6 +64,161 @@ Packet::~Packet()
     delete[] identifiers;
 }
 
+const std::string fixed32[] = { "uint32", "int32", "float" };
+const std::string fixed64[] = { "uint64", "int64", "double" };
+
+void cachePhysicalIndexes(pugi::xml_node node, std::map<pugi::xml_node, int>& physicalIndex)
+{
+	int index = 0;
+	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
+	{
+		if(string(it->name()).compare("field") != 0)
+			continue;
+
+		physicalIndex[*it] = index;
+
+		// if 32bits fields
+		string typeStr = it->attribute("type").value();
+		bool found = false;
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed32[i]) == 0)
+			{
+				index+=2;
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// if 64bits fields
+		for(unsigned int i=0; i<3; i++)
+		{
+			if(typeStr.compare(fixed64[i]) == 0)
+			{
+				index+=4;
+				found = true;
+				break;
+			}
+		}
+		if(found)
+			continue;
+
+		// else (<= 16bits fields)
+		index++;
+	}
+}
+
+void Packet::createPacketType(pugi::xml_document& doc, pugi::xml_node hNode, int plPhysicalIndex, int plSize, pugi::xml_node pNode, bool isprefix, word dimprefix, std::map<pugi::xml_node, int>& physicalIndex)
+{
+	name = pNode.attribute("name").value();
+	filename = name;
+
+	// load the header
+	header->loadHeader(hNode, plPhysicalIndex, plSize);
+	dimPacketHeader = header->size();
+
+	// load the packet data field header
+	pugi::xml_node dfhNode = pNode.child("datafieldheader");
+	if(!dfhNode) throw new PacketExceptionFileFormat("<datafieldheader> not found.");
+	PacketLib::DataFieldHeader* dfh = dataField->getPacketDataFieldHeader();
+	dfh->loadFields(dfhNode);
+	dimPacketDataFieldHeader = dfh->size();
+
+	// load the packet source data field
+	pugi::xml_node sdfNode = pNode.child("sourcedatafield");
+	if(!sdfNode) throw new PacketExceptionFileFormat("<sourcedatafield> not found.");
+	PacketLib::SourceDataField* sdf = new PacketLib::SourceDataField(dfh);
+	dataField->setPacketSourceDataField(sdf);
+	sdf->loadFields(sdfNode, doc, physicalIndex);
+	dimPacketSourceDataFieldFixed = sdf->sizeFixedPart();
+	dimPacketStartingFixedPart = dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed;
+
+	// load the identifiers
+	pugi::xpath_node_set idNodeSet = pNode.select_nodes("identifiers/identifier");
+	if(idNodeSet.size() == 0) throw new PacketExceptionFileFormat("<identifier> not found.");
+	number_of_identifier = idNodeSet.size();
+	identifiers = new PacketIdentifier* [number_of_identifier];
+	type_of_identifier[0] = type_of_identifier[1] = type_of_identifier[2] = false;
+	unsigned int i = 0;
+	for(pugi::xpath_node_set::const_iterator it = idNodeSet.begin(); it != idNodeSet.end(); ++it)
+	{
+		pugi::xml_node identifier = it->node();
+		string query = string("//field[@id=\"")+identifier.attribute("idref").value()+"\"]";
+		pugi::xml_node fieldid = doc.select_nodes(query.c_str())[0].node();
+		int nf = physicalIndex[fieldid];
+		string parentName = fieldid.parent().name();
+		byte type = -1;
+		if(parentName.compare("header") == 0)
+			type = 0;
+		else if(parentName.compare("datafieldheader") == 0)
+			type = 1;
+		else if(parentName.compare("sourcedatafield") == 0)
+			type = 2;
+		word v = Utility::convertToInteger(identifier.attribute("value").value());
+		type_of_identifier[type] = true;
+		PacketIdentifier* p = new PacketIdentifier(nf, type, v);
+		identifiers[i] = p;
+		i++;
+    }
+
+	// load the tail
+	pugi::xml_node tNode = pNode.child("tail");
+	if(tNode)
+	{
+		PartOfPacket* tail = dataField->getPacketTail();
+		tail->loadFields(tNode);
+		dimPacketTail = dataField->getPacketTail()->size();
+	}
+
+	// query for compression algorithm / compression level
+	pugi::xpath_node_set compression_algorithm = hNode.select_nodes("field[@id=\"packetlib:compression_algorithm\"]");
+	pugi::xpath_node_set compression_level = hNode.select_nodes("field[@id=\"packetlib:compression_level\"]");
+
+	// load compression informations
+	// if not defined in the header find in datafieldheader
+	int algindex = 0;
+	if(compression_algorithm.empty())
+	{
+		compression_algorithm = dfhNode.select_nodes("field[@id=\"packetlib:compression_algorithm\"]");
+		algindex = 1;
+	}
+	// and sourcedatafield
+	if(compression_algorithm.empty())
+	{
+		algindex = 2;
+		compression_algorithm = sdfNode.select_nodes("@field[id=\"packetlib:compression_algorithm\"]");
+	}
+
+	// if not defined in the header find in datafieldheader
+	int lvlindex = 0;
+	if(compression_level.empty())
+	{
+		compression_level = dfhNode.select_nodes("field[@id=\"packetlib:compression_level\"]");
+		lvlindex = 1;
+	}
+	// and sourcedatafield
+	if(compression_level.empty())
+	{
+		lvlindex = 2;
+		compression_level = sdfNode.select_nodes("@field[id=\"packetlib:compression_level\"]");
+	}
+
+	if(!compression_algorithm.empty() && !compression_level.empty())
+	{
+		compressible = true;
+		compressionAlgorithmsIndex = physicalIndex[compression_algorithm[0].node()];
+		compressionAlgorithmsSection = algindex;
+		compressionLevelIndex = physicalIndex[compression_level[0].node()];
+		compressionLevelSection = lvlindex;
+	}
+
+	// allocate the output stream
+	dword dimpo = sizeMax();
+	dword dimpr = (isprefix?dimprefix:0);
+	packet_output = ByteStreamPtr(new ByteStream(dimpo + dimpr, bigendian));
+}
 
 
 bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) throw (PacketException*)

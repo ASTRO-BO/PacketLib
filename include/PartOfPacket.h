@@ -18,6 +18,7 @@
 #ifndef _PARTOFPACKET_H
 #define _PARTOFPACKET_H
 
+#include "pugixml.h"
 #include "InputText.h"
 #include "Field.h"
 #include "PacketLibDefinition.h"
@@ -39,10 +40,12 @@ class PartOfPacket
 public:
 
     /// Constructor
-    PartOfPacket(const char* popName = 0);
+    PartOfPacket(const char* popName = "");
 
     /// Virtual destructor
     virtual ~PartOfPacket();
+
+    virtual void loadFields(pugi::xml_node node);
 
     /// This method loads the field present into the InputText (passed with the
     /// parameter).
@@ -66,6 +69,14 @@ public:
         else
             return 0;
     };
+
+    /// Returns a field in the list of fields of this part of packet.
+    /// \param fieldname Represent the name of the field.
+	virtual Field* getField(string fieldname) {
+		decode();
+		word index = getFieldIndex(fieldname);
+		return fields[index];
+	}
 
     /// Returns the value of a field in the list of fields of this part of packet.
 	/// The value returned is interpreted as a unsigned integer of less of equal 16 bits dimension

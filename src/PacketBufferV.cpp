@@ -19,14 +19,14 @@
 namespace PacketLib
 {
 
-PacketBufferV::PacketBufferV(const string& configFile, const string& inputFile)
+PacketBufferV::PacketBufferV(string configFile, string inputFile)
 	: currentIndex(0), currentIndexBS(0)
 {
-	_ips = new InputPacketStream(configFile.c_str());
+	_ips = new InputPacketStream(realpath(configFile.c_str(), NULL));
 	_ips->createStreamStructure();
 	_in = (Input*) new InputFile(_ips->isBigEndian());
 	char** param = (char**) new char*[2];
-	param[0] = (char*) inputFile.c_str();
+	param[0] = (char*) realpath(inputFile.c_str(), NULL);
 	param[1] = 0;
 	_in->open(param);
 	_ips->setInput(_in);

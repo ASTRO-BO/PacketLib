@@ -28,7 +28,7 @@ namespace PacketLib {
 class PacketBufferQ {
 
 public:
-	PacketBufferQ(const string& configFile, const string& inputFile);
+	PacketBufferQ(string configFile, string inputFile);
 
 	~PacketBufferQ();
 

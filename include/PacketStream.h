@@ -31,7 +31,7 @@ class PacketStream
 {
 public:
 
-    PacketStream(const char* fileNameConfig) ;
+    PacketStream(string fileNameConfig);
 
     PacketStream();
 
@@ -66,6 +66,8 @@ public:
 
     void setFileNameConfig(const char* f);
 
+    void createStreamStructureXml();
+
     /// This method creates the structure of the stream.
     /// The structure of the stream is represented with the pachetReference and the collection of type of packet.
     /// Each packet has the collection of field and the collection of identifier
@@ -96,7 +98,7 @@ public:
 
     PacketHeader* headerReference;
 
-    char* filenameConfig;
+    string filenameConfig;
 
     char* pathFileNameConfig;
 
@@ -119,6 +121,10 @@ protected:
 	
 	/// The dimension of the header
 	word dimHeader;
+
+private:
+
+	void cachePhysicalIndexes(pugi::xml_node node, std::map<pugi::xml_node, int>& physicalIndex);
 
 };
 
