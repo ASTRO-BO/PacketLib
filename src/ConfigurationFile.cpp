@@ -18,7 +18,6 @@
 
 #include "ConfigurationFile.h"
 #include "InputTextFile.h"
-#include "XmlConfig.h"
 #include <unistd.h>
 #include <string>
 #include <algorithm>
@@ -44,20 +43,6 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
     bool ret;
     currentpwd = getcwd(NULL, 512L);
 
-	if(std::string(parameters[0]).find(".xml") != std::string::npos)
-	{
-		std::string confdir(parameters[0]);
-		confdir.erase(std::find(confdir.rbegin(), confdir.rend(), '/').base(), confdir.end());
-		chdir(confdir.c_str());
-		XmlConfig config;
-		std::string streamfile = confdir + config.convert(parameters[0]);
-		int size = streamfile.size();
-		parameters[0] = new char[size+1];
-		memcpy(parameters[0], streamfile.c_str(), size);
-		parameters[0][size] = 0;
-		chdir(currentpwd);
-	}
-	
 	ret = InputTextFile::open(parameters);
     if(!closed)
         fchdir();
