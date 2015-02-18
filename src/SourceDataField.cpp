@@ -51,7 +51,7 @@ SourceDataField::~SourceDataField()
 
 }
 
-void SourceDataField::loadFields(pugi::xml_node node, const pugi::xml_document& doc, std::map<pugi::xml_node, int>& physicalIndex)
+void SourceDataField::loadFieldsSDF(pugi::xml_node node, const pugi::xml_document& doc, std::map<pugi::xml_node, int>& physicalIndex)
 {
         numberOfRBlocks = 1;
         rblockFilename = new char*[numberOfRBlocks];
@@ -66,7 +66,7 @@ void SourceDataField::loadFields(pugi::xml_node node, const pugi::xml_document& 
         block[0].setPreviousPop(previous);
         block[0].setRBlockType(0);
         block[0].setID(0);
-        block[0].loadFields(node, doc, physicalIndex);
+        block[0].loadFieldsSDFB(node, doc, physicalIndex);
 }
 
 bool SourceDataField::loadFields(InputText& fp) throw(PacketException*)

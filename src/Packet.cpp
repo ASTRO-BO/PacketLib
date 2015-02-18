@@ -131,7 +131,7 @@ void Packet::createPacketType(pugi::xml_document& doc, pugi::xml_node hNode, int
 	if(!sdfNode) throw new PacketExceptionFileFormat("<sourcedatafield> not found.");
 	PacketLib::SourceDataField* sdf = new PacketLib::SourceDataField(dfh);
 	dataField->setPacketSourceDataField(sdf);
-	sdf->loadFields(sdfNode, doc, physicalIndex);
+	sdf->loadFieldsSDF(sdfNode, doc, physicalIndex);
 	dimPacketSourceDataFieldFixed = sdf->sizeFixedPart();
 	dimPacketStartingFixedPart = dimPacketHeader + dimPacketDataFieldHeader + dimPacketSourceDataFieldFixed;
 

@@ -103,7 +103,7 @@ public:
     SDFBlock();
     virtual ~SDFBlock();
 
-	void loadFields(pugi::xml_node node, const pugi::xml_document& doc,
+	virtual void loadFieldsSDFB(pugi::xml_node node, const pugi::xml_document& doc,
                   std::map<pugi::xml_node, int>& physicalIndex);
 
     virtual bool loadFields(InputText& fp) throw(PacketException*);

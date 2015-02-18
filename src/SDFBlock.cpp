@@ -364,7 +364,7 @@ SDFBlock::~SDFBlock()
     delete[] block;
 }
 
-void SDFBlock::loadFields(pugi::xml_node rbNode, const pugi::xml_document& doc,
+void SDFBlock::loadFieldsSDFB(pugi::xml_node rbNode, const pugi::xml_document& doc,
                             std::map<pugi::xml_node, int>& physicalIndex)
 {
 	popName = (char*) rbNode.attribute("name").value();
@@ -424,7 +424,7 @@ void SDFBlock::loadFields(pugi::xml_node rbNode, const pugi::xml_document& doc,
 			block[nblock].setRBlockType(indexRBlock);
 			block[nblock].setID(id);
 			pugi::xml_node childNode = rbNode.child(type->rblockFilename[indexRBlock]);
-			block[nblock].loadFields(childNode, doc, physicalIndex);
+			block[nblock].loadFieldsSDFB(childNode, doc, physicalIndex);
 			id++;
 		}
 	}
