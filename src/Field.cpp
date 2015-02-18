@@ -23,7 +23,45 @@ using namespace PacketLib;
 
 static FieldType** filedTypeList = 0;
 
-Field::Field(std::string n, std::string dim, std::string prVal, int count) : progressiv(count)
+std::map<std::string, LogicalFieldDataType> Field::makeMap()
+{
+	std::map<std::string, LogicalFieldDataType> map;
+
+	map[""] = UNKNOWN;
+	map["uint1"] = UINT1;
+	map["uint2"] = UINT2;
+	map["uint3"] = UINT3;
+	map["uint4"] = UINT4;
+	map["uint5"] = UINT5;
+	map["uint6"] = UINT6;
+	map["uint7"] = UINT7;
+	map["uint8"] = UINT8;
+	map["uint9"] = UINT9;
+	map["uint10"] = UINT10;
+	map["uint11"] = UINT11;
+	map["uint12"] = UINT12;
+	map["uint13"] = UINT13;
+	map["uint14"] = UINT14;
+	map["uint15"] = UINT15;
+	map["uint16"] = UINT16;
+	map["int16"] = INT16;
+	map["uint24"] = UINT24;
+	map["int24"] = INT24;
+	map["uint32"] = UINT32;
+	map["int32"] = INT32;
+	map["uint64"] = UINT64;
+	map["int64"] = INT64;
+	map["float"] = FLOAT;
+	map["double"] = DOUBLE;
+	map["bytes"] = BYTEARRAY;
+
+	return map;
+}
+
+std::map<std::string, LogicalFieldDataType> Field::typeStringToEnum = Field::makeMap();
+
+Field::Field(std::string name, std::string typeStr, std::string dim, std::string prVal, int count)
+	: progressiv(count)
 {
     value = 0;
     /// create FieldType list
@@ -38,7 +76,7 @@ Field::Field(std::string n, std::string dim, std::string prVal, int count) : pro
     type = 0;
     while(filedTypeList[i] != 0)
     {
-        if(filedTypeList[i]->name == n)
+        if(filedTypeList[i]->name == name)
         {
             type = filedTypeList[i];
             break;
@@ -50,10 +88,11 @@ Field::Field(std::string n, std::string dim, std::string prVal, int count) : pro
     {
         type = new FieldType;
         filedTypeList[i] = type;
-        type->name = n;
-        type->dimension = atoi(dim.c_str());
+        type->name = name;
+		type->dimension = atoi(dim.c_str());
+		type->type = Field::typeStringToEnum[typeStr];
 #ifdef DEBUG
-		std::cout << "Adding field '" << n << "' at index " << i << ", " << type->dimension << " bits" << std::endl;
+		std::cout << "Adding field '" << name << "' at index " << i << ", " << type->dimension << " bits type " << typeStr << " (" << type->type << ")" << std::endl;
 #endif
 
         if(prVal.compare("none") != 0)
@@ -79,94 +118,3 @@ Field::~Field()
 void Field::print() {
 	cout << progressiv << " " << getName() << " " << size() << endl;
 }
-
-void Field::getType(char* type, enum LogicalFieldDataType &outtype, int &outtypenfields, int &outputfieldsbitsize) {
-	outtype = UNKNOWN;
-	outputfieldsbitsize = 0;
-	outtypenfields = 0;
-	int dim = atoi(type);
-	if(dim == 0) {
-		//>= 16bit
-		outputfieldsbitsize = 16;
-		if(strcmp(type, "int16") == 0) {
-			outtypenfields = 1;
-			outtype = INT16;
-		} else if(strcmp(type, "uint16") == 0) {
-			outtypenfields = 1;
-			outtype = UINT16;
-		} else if(strcmp(type, "int32") == 0) {
-			outtypenfields = 2;
-			outtype = INT32;
-		} else if(strcmp(type, "uint32") == 0) {
-			outtypenfields = 2;
-			outtype = UINT32;
-		} else if(strcmp(type, "float") == 0) {
-			outtypenfields = 2;
-			outtype = FLOAT;
-		} else if(strcmp(type, "int64") == 0) {
-			outtypenfields = 4;
-			outtype = INT64;
-		} else if(strcmp(type, "uint64") == 0) {
-			outtypenfields = 4;
-			outtype = UINT64;
-		} else if(strcmp(type, "double") == 0) {
-			outtypenfields = 4;
-			outtype = DOUBLE;
-		}
-	} else {
-		//<=16 bit (unsigned)
-		outtypenfields = 1;
-		outputfieldsbitsize = dim;
-		switch(dim) {
-			case 1:
-			outtype = UINT1;
-			break;
-			case 2:
-			outtype = UINT2;
-			break;
-			case 3:
-			outtype = UINT3;
-			break;
-			case 4:
-			outtype = UINT4;
-			break;
-			case 5:
-			outtype = UINT5;
-			break;
-			case 6:
-			outtype = UINT6;
-			break;
-			case 7:
-			outtype = UINT7;
-			break;
-			case 8:
-			outtype = UINT8;
-			break;
-			case 9:
-			outtype = UINT9;
-			break;
-			case 10:
-			outtype = UINT10;
-			break;
-			case 11:
-			outtype = UINT11;
-			break;
-			case 12:
-			outtype = UINT12;
-			break;
-			case 13:
-			outtype = UINT13;
-			break;
-			case 14:
-			outtype = UINT14;
-			break;
-			case 15:
-			outtype = UINT15;
-			break;
-			case 16:
-			outtype = UINT16;
-			break;
-		}
-	}
-}
-
