@@ -1,0 +1,122 @@
+-- name of packet - CTA Triggered Sim Telescope 50 samples
+triggered_telescope1_50GEN
+[PacketHeader]
+-- file that contains the description of the header
+CTAHeaderGEN.header
+[DataFieldHeader]
+-- field 0
+LTtime
+16
+none
+-- field 0
+LTtime__2
+16
+none
+-- field 1
+LTtime__3
+16
+none
+-- field 2
+LTtime__4
+16
+none
+-- field 3
+ArrayID
+16
+none
+-- field 4
+runNumber
+16
+none
+[SourceDataField]
+-- type of packet: noblock, block, rblock (with recoursive block)
+rblock
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no). If yes, add [RBlockX] sections.
+yes
+--number of rblock (if variable part is present)
+2
+[Fixed Part]
+-- field 0
+eventNumber
+16
+none
+-- field 1
+eventNumber__2
+16
+none
+-- field 2
+TelescopeID
+16
+none
+-- field 3
+numberOfTriggeredTelescopes
+8
+none
+-- field 4
+telescopeCounter
+8
+none
+-- field 5
+Number of pixels
+16
+none
+-- field 6
+Number of samples
+16
+none
+-- field 7
+Number of pixels ID zero-suppressed
+16
+none
+[RBlock1]
+--type of number of blocks of this variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part
+1900
+-- for variable block, number of level of headers in which is present the field with the number of blocks of the variable part (0: fixed part)
+0
+-- for variable block, index of field of the header which rappresent the number of events (the number of blocks) of the packet
+5
+-- for variable block, value to sum to get the real number of events (blocks)
+0
+triggered_telescope_pixel1_50GEN.rblock
+[RBlock2]
+--type of number of blocks of this variable part: fixed = number of block fixed equals to max number of block (fixed | variable)
+variable
+--number of blocks for fixed value into variable part, max number of blocks for variable value into variable part
+1900
+-- for variable block, number of level of headers in which is present the field with the number of blocks of the variable part (0: fixed part)
+0
+-- for variable block, index of field of the header which rappresent the number of events (the number of blocks) of the packet
+7
+-- for variable block, value to sum to get the real number of events (blocks)
+0
+triggered_telescope_pixelIDGEN.rblock
+[Identifiers]
+-- ID0
+-- field number
+9
+-- type (0 header, 1 data field, 2 source data field)
+0
+-- value
+1
+-- ID1
+-- field number
+10
+-- type (0 header, 1 data field, 2 source data field)
+0
+-- value
+50
+[Tail]
+-- field 0
+CRC
+16
+none
+[Compression]
+11
+0
+12
+0

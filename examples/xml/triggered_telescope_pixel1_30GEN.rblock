@@ -1,0 +1,126 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no). If yes, add [RBlockX] sections.
+no
+[Fixed Part]
+-- field 0
+FADC00
+16
+none
+-- field 1
+FADC01
+16
+none
+-- field 2
+FADC02
+16
+none
+-- field 3
+FADC03
+16
+none
+-- field 4
+FADC04
+16
+none
+-- field 5
+FADC05
+16
+none
+-- field 6
+FADC06
+16
+none
+-- field 7
+FADC07
+16
+none
+-- field 8
+FADC08
+16
+none
+-- field 9
+FADC09
+16
+none
+-- field 10
+FADC10
+16
+none
+-- field 11
+FADC11
+16
+none
+-- field 12
+FADC12
+16
+none
+-- field 13
+FADC13
+16
+none
+-- field 14
+FADC14
+16
+none
+-- field 15
+FADC15
+16
+none
+-- field 16
+FADC16
+16
+none
+-- field 17
+FADC17
+16
+none
+-- field 18
+FADC18
+16
+none
+-- field 19
+FADC19
+16
+none
+-- field 20
+FADC20
+16
+none
+-- field 21
+FADC21
+16
+none
+-- field 22
+FADC22
+16
+none
+-- field 23
+FADC23
+16
+none
+-- field 24
+FADC24
+16
+none
+-- field 25
+FADC25
+16
+none
+-- field 26
+FADC26
+16
+none
+-- field 27
+FADC27
+16
+none
+-- field 28
+FADC28
+16
+none
+-- field 29
+FADC29
+16
+none

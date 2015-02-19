@@ -1,0 +1,13 @@
+[Configuration]
+--prefix
+false
+--stream format bigendian
+true
+--dimension of prefix
+0
+[Header Format]
+CTAHeaderGEN.header
+[Packet Format]
+triggered_telescope1_30GEN.packet
+triggered_telescope1_40GEN.packet
+triggered_telescope1_50GEN.packet

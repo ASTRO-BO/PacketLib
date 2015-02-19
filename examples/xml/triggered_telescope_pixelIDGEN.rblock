@@ -1,0 +1,10 @@
+[RBlock Configuration]
+-- fixed part present (yes | no)
+yes
+-- variable part present (yes | no). If yes, add [RBlockX] sections.
+no
+[Fixed Part]
+-- field 0
+pixelID
+16
+none

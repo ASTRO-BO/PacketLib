@@ -1,0 +1,220 @@
+<stream name="rta_fadc_all" xmlns="http://iasfbo.inaf.it/telemetry" bigendian="false" >
+  <header name="CTAHeaderGEN" description="Header CTA" idref="packetlength">
+    <field name="Version number" type="uint3" constvalue="4" />
+    <field name="Type" type="uint1" constvalue="0" />
+    <field name="DHFH" type="uint1" constvalue="1" />
+    <field name="APID" type="uint11" />
+    <field name="SF" type="uint2" constvalue="3" />
+    <field name="Source Sequence Counter" type="uint14" />
+    <field name="Packet Length" type="uint32" id="packetlength" />
+    <field name="CRC flag" type="uint2" constvalue="3" />
+    <field name="Packet Type" type="uint6" id="id1" />
+    <field name="Packet Subtype" type="uint8" id="id2" />
+    <field name="CompressionAlgorithm" type="uint8" id="packetlib:compression_algorithm" />
+    <field name="CompressionLevel" type="uint8" id="packetlib:compression_level" />
+  </header>
+  <packet name="triggered_telescope1_30GEN" description="CTA Triggered Sim Telescope 30 samples">
+    <datafieldheader>
+      <field name="LTtime" type="uint64" />
+      <field name="ArrayID" type="uint16" />
+      <field name="runNumber" type="uint16" />
+	  <field name="eventNumber" type="uint32" />
+	  <field name="TelescopeID" type="uint16" />
+	  <field name="numberOfTriggeredTelescopes" type="uint8" />
+	  <field name="telescopeCounter" type="uint8" />
+    </datafieldheader>
+    <sourcedatafield>
+	  <field name="Number of pixels" type="uint16" id="ntt" />
+	  <field name="Number of samples" type="uint16" />
+      <field name="Number of pixels ID zero-suppressed" type="uint16" id="npixels" />
+      <rblock name="triggered_telescope_pixel1_30GEN" maxnumberofblocks="1900" idref="ntt">
+        <field name="FADC00" type="uint16" />
+        <field name="FADC01" type="uint16" />
+        <field name="FADC02" type="uint16" />
+        <field name="FADC03" type="uint16" />
+        <field name="FADC04" type="uint16" />
+        <field name="FADC05" type="uint16" />
+        <field name="FADC06" type="uint16" />
+        <field name="FADC07" type="uint16" />
+        <field name="FADC08" type="uint16" />
+        <field name="FADC09" type="uint16" />
+        <field name="FADC10" type="uint16" />
+        <field name="FADC11" type="uint16" />
+        <field name="FADC12" type="uint16" />
+        <field name="FADC13" type="uint16" />
+        <field name="FADC14" type="uint16" />
+        <field name="FADC15" type="uint16" />
+        <field name="FADC16" type="uint16" />
+        <field name="FADC17" type="uint16" />
+        <field name="FADC18" type="uint16" />
+        <field name="FADC19" type="uint16" />
+        <field name="FADC20" type="uint16" />
+        <field name="FADC21" type="uint16" />
+        <field name="FADC22" type="uint16" />
+        <field name="FADC23" type="uint16" />
+        <field name="FADC24" type="uint16" />
+        <field name="FADC25" type="uint16" />
+        <field name="FADC26" type="uint16" />
+        <field name="FADC27" type="uint16" />
+        <field name="FADC28" type="uint16" />
+        <field name="FADC29" type="uint16" />
+      </rblock>
+      <rblock name="triggered_telescope_pixelIDGEN" maxnumberofblocks="1900" idref="npixels">
+        <field name="pixelID" type="uint16" />
+      </rblock>
+    </sourcedatafield>
+    <tail>
+      <field name="CRC" type="uint16" />
+    </tail>
+    <identifiers>
+      <identifier idref="id1" value="1" />
+      <identifier idref="id2" value="30" />
+    </identifiers>
+  </packet>
+  <packet name="triggered_telescope1_40GEN" description="CTA Triggered Sim Telescope 40 samples">
+    <datafieldheader>
+      <field name="LTtime" type="uint64" />
+      <field name="ArrayID" type="uint16" />
+      <field name="runNumber" type="uint16" />
+	  <field name="eventNumber" type="uint32" />
+	  <field name="TelescopeID" type="uint16" />
+	  <field name="numberOfTriggeredTelescopes" type="uint8" />
+	  <field name="telescopeCounter" type="uint8" />
+    </datafieldheader>
+    <sourcedatafield>
+      <field name="Number of pixels" type="uint16" id="ntt_2" />
+      <field name="Number of samples" type="uint16" />
+      <field name="Number of pixels ID zero-suppressed" type="uint16" id="npixels_2" />
+      <rblock name="triggered_telescope_pixel1_40GEN" maxnumberofblocks="1900" idref="ntt_2">
+        <field name="FADC00" type="uint16" />
+        <field name="FADC01" type="uint16" />
+        <field name="FADC02" type="uint16" />
+        <field name="FADC03" type="uint16" />
+        <field name="FADC04" type="uint16" />
+        <field name="FADC05" type="uint16" />
+        <field name="FADC06" type="uint16" />
+        <field name="FADC07" type="uint16" />
+        <field name="FADC08" type="uint16" />
+        <field name="FADC09" type="uint16" />
+        <field name="FADC10" type="uint16" />
+        <field name="FADC11" type="uint16" />
+        <field name="FADC12" type="uint16" />
+        <field name="FADC13" type="uint16" />
+        <field name="FADC14" type="uint16" />
+        <field name="FADC15" type="uint16" />
+        <field name="FADC16" type="uint16" />
+        <field name="FADC17" type="uint16" />
+        <field name="FADC18" type="uint16" />
+        <field name="FADC19" type="uint16" />
+        <field name="FADC20" type="uint16" />
+        <field name="FADC21" type="uint16" />
+        <field name="FADC22" type="uint16" />
+        <field name="FADC23" type="uint16" />
+        <field name="FADC24" type="uint16" />
+        <field name="FADC25" type="uint16" />
+        <field name="FADC26" type="uint16" />
+        <field name="FADC27" type="uint16" />
+        <field name="FADC28" type="uint16" />
+        <field name="FADC29" type="uint16" />
+        <field name="FADC30" type="uint16" />
+        <field name="FADC31" type="uint16" />
+        <field name="FADC32" type="uint16" />
+        <field name="FADC33" type="uint16" />
+        <field name="FADC34" type="uint16" />
+        <field name="FADC35" type="uint16" />
+        <field name="FADC36" type="uint16" />
+        <field name="FADC37" type="uint16" />
+        <field name="FADC38" type="uint16" />
+        <field name="FADC39" type="uint16" />
+      </rblock>
+      <rblock name="triggered_telescope_pixelIDGEN" maxnumberofblocks="1900" idref="npixels_2">
+        <field name="pixelID" type="uint16" />
+      </rblock>
+    </sourcedatafield>
+    <tail>
+      <field name="CRC" type="uint16" />
+    </tail>
+    <identifiers>
+      <identifier idref="id1" value="1" />
+      <identifier idref="id2" value="40" />
+    </identifiers>
+  </packet>
+  <packet name="triggered_telescope1_50GEN" description="CTA Triggered Sim Telescope 50 samples">
+    <datafieldheader>
+      <field name="LTtime" type="uint64" />
+      <field name="ArrayID" type="uint16" />
+      <field name="runNumber" type="uint16" />
+	  <field name="eventNumber" type="uint32" />
+	  <field name="TelescopeID" type="uint16" />
+	  <field name="numberOfTriggeredTelescopes" type="uint8" />
+	  <field name="telescopeCounter" type="uint8" />
+    </datafieldheader>
+    <sourcedatafield>
+      <field name="Number of pixels" type="uint16" id="ntt_3" />
+      <field name="Number of samples" type="uint16" />
+      <field name="Number of pixels ID zero-suppressed" type="uint16" id="npixels_3" />
+      <rblock name="triggered_telescope_pixel1_50GEN" maxnumberofblocks="1900" idref="ntt_3">
+        <field name="FADC00" type="uint16" />
+        <field name="FADC01" type="uint16" />
+        <field name="FADC02" type="uint16" />
+        <field name="FADC03" type="uint16" />
+        <field name="FADC04" type="uint16" />
+        <field name="FADC05" type="uint16" />
+        <field name="FADC06" type="uint16" />
+        <field name="FADC07" type="uint16" />
+        <field name="FADC08" type="uint16" />
+        <field name="FADC09" type="uint16" />
+        <field name="FADC10" type="uint16" />
+        <field name="FADC11" type="uint16" />
+        <field name="FADC12" type="uint16" />
+        <field name="FADC13" type="uint16" />
+        <field name="FADC14" type="uint16" />
+        <field name="FADC15" type="uint16" />
+        <field name="FADC16" type="uint16" />
+        <field name="FADC17" type="uint16" />
+        <field name="FADC18" type="uint16" />
+        <field name="FADC19" type="uint16" />
+        <field name="FADC20" type="uint16" />
+        <field name="FADC21" type="uint16" />
+        <field name="FADC22" type="uint16" />
+        <field name="FADC23" type="uint16" />
+        <field name="FADC24" type="uint16" />
+        <field name="FADC25" type="uint16" />
+        <field name="FADC26" type="uint16" />
+        <field name="FADC27" type="uint16" />
+        <field name="FADC28" type="uint16" />
+        <field name="FADC29" type="uint16" />
+        <field name="FADC30" type="uint16" />
+        <field name="FADC31" type="uint16" />
+        <field name="FADC32" type="uint16" />
+        <field name="FADC33" type="uint16" />
+        <field name="FADC34" type="uint16" />
+        <field name="FADC35" type="uint16" />
+        <field name="FADC36" type="uint16" />
+        <field name="FADC37" type="uint16" />
+        <field name="FADC38" type="uint16" />
+        <field name="FADC39" type="uint16" />
+        <field name="FADC40" type="uint16" />
+        <field name="FADC41" type="uint16" />
+        <field name="FADC42" type="uint16" />
+        <field name="FADC43" type="uint16" />
+        <field name="FADC44" type="uint16" />
+        <field name="FADC45" type="uint16" />
+        <field name="FADC46" type="uint16" />
+        <field name="FADC47" type="uint16" />
+        <field name="FADC48" type="uint16" />
+        <field name="FADC49" type="uint16" />
+      </rblock>
+      <rblock name="triggered_telescope_pixelIDGEN" maxnumberofblocks="1900" idref="npixels_3">
+        <field name="pixelID" type="uint16" />
+      </rblock>
+    </sourcedatafield>
+    <tail>
+      <field name="CRC" type="uint16" />
+    </tail>
+    <identifiers>
+      <identifier idref="id1" value="1" />
+      <identifier idref="id2" value="50" />
+    </identifiers>
+  </packet>
+</stream>
