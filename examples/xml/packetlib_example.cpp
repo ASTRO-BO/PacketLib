@@ -73,19 +73,21 @@ int main(int argc, char* argv[])
 		
 
 		//get each single pixel as a 1-dimensional array
+		cout << "packet->sdf()->getNumberOfBlocks() " << packet->sdf()->getNumberOfBlocks() <<  endl;
 		
-		for(unsigned int j=0; j<npixels; j++) {
+		//continue;
+		for(unsigned int j=0; j<packet->sdf()->getNumberOfBlocks(); j++) {
 			
 			uint16_t* pix = (uint16_t*) packet->sdf()->getBlock(j)->getBytes();
-			for(uint16_t sample=0; sample<nsamples; sample++)
+			for(uint16_t sample=0; sample<packet->sdf()->getBlock(j)->getNumberOfFields(); sample++)
 				cout << pix[sample] << " ";
 			cout << endl;
 			
 		}
 		
 		//access to each single sample
-		for(uint16_t pixel=0; pixel<npixels; pixel++) {
-			for(uint16_t sample=0; sample<nsamples; sample++) {
+		for(uint16_t pixel=0; pixel<packet->sdf()->getNumberOfBlocks(); pixel++) {
+			for(uint16_t sample=0; sample<packet->sdf()->getBlock(pixel)->getNumberOfFields(); sample++) {
 				cout << packet->sdf()->getBlock(pixel)->getFieldValue(sample) << " ";
 			}
 			cout << endl;
