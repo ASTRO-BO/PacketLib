@@ -54,7 +54,8 @@ FILE_PATTERNS          = *.h \
                          *.hh \
                          *.H \
                          *.cpp \
-						 *.cxx
+			 *.cxx \
+			 *.c
 RECURSIVE              = YES
 EXCLUDE                = PacketLibDemo.h
 EXCLUDE_SYMLINKS       = NO

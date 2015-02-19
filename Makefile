@@ -105,12 +105,13 @@ vpath %.o $(OBJECTS_DIR)
 	
 INCLUDE=$(foreach dir,$(INCLUDE_DIR), $(wildcard $(dir)/*.h))
 SOURCE=$(foreach dir,$(SOURCE_DIR), $(wildcard $(dir)/*.cpp))
+SOURCEDOX=$(SOURCE)
 SOURCE+=$(foreach dir,$(SOURCE_DIR), $(wildcard $(dir)/*.c))
 #Objects to build
 OBJECTS=$(addsuffix .o, $(basename $(notdir $(SOURCE))))
 #only for documentation generation
 DOC_INCLUDE= $(addprefix $(DOXY_SOURCE_DIR)/, $(notdir $(INCLUDE)))
-DOC_SOURCE= $(addprefix $(DOXY_SOURCE_DIR)/, $(notdir $(SOURCE)))
+DOC_SOURCE= $(addprefix $(DOXY_SOURCE_DIR)/, $(notdir $(SOURCEDOX)))
 
 ####### 7) Only for library generation
 
@@ -143,6 +144,10 @@ $(DOXY_SOURCE_DIR)/%.h : %.h
 
 $(DOXY_SOURCE_DIR)/%.cpp : %.cpp
 	cp  $<  $@
+
+$(DOXY_SOURCE_DIR)/%.c : %.c
+	cp  $<  $@
+
 	
 ####### 10) Build rules
 

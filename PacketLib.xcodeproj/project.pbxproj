@@ -120,6 +120,36 @@
 		DD7468B218CF00D10028146F /* PacketBufferV.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PacketBufferV.h; sourceTree = "<group>"; };
 		DD7468B318CF00E30028146F /* PacketBufferQ.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketBufferQ.cpp; sourceTree = "<group>"; };
 		DD7468B418CF00E30028146F /* PacketBufferV.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PacketBufferV.cpp; sourceTree = "<group>"; };
+		DD8A41F41A95C11600565702 /* ChangeLog */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ChangeLog; sourceTree = "<group>"; };
+		DD8A41F71A95C11600565702 /* 39_01.packet */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 39_01.packet; sourceTree = "<group>"; };
+		DD8A41F81A95C11700565702 /* BURST.packet */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BURST.packet; sourceTree = "<group>"; };
+		DD8A41F91A95C11700565702 /* BURST.stream */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BURST.stream; sourceTree = "<group>"; };
+		DD8A41FA1A95C11700565702 /* GRID.01.packet */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GRID.01.packet; sourceTree = "<group>"; };
+		DD8A41FB1A95C11700565702 /* GRID.stream */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = GRID.stream; sourceTree = "<group>"; };
+		DD8A41FC1A95C11700565702 /* headerESATC.header */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = headerESATC.header; sourceTree = "<group>"; };
+		DD8A41FD1A95C11700565702 /* headerESATM.header */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = headerESATM.header; sourceTree = "<group>"; };
+		DD8A41FE1A95C11700565702 /* p3901.stream */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = p3901.stream; sourceTree = "<group>"; };
+		DD8A41FF1A95C11700565702 /* rblock_type_0_1.rblock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rblock_type_0_1.rblock; sourceTree = "<group>"; };
+		DD8A42001A95C11700565702 /* rblock_type_2.rblock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rblock_type_2.rblock; sourceTree = "<group>"; };
+		DD8A42011A95C11700565702 /* rblock_type_3.rblock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rblock_type_3.rblock; sourceTree = "<group>"; };
+		DD8A42021A95C11700565702 /* rblock_type_E.rblock */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rblock_type_E.rblock; sourceTree = "<group>"; };
+		DD8A42031A95C11700565702 /* TC_start.packet */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TC_start.packet; sourceTree = "<group>"; };
+		DD8A42041A95C11700565702 /* TC_stop.packet */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TC_stop.packet; sourceTree = "<group>"; };
+		DD8A42051A95C11700565702 /* in.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = in.cpp; sourceTree = "<group>"; };
+		DD8A42061A95C11700565702 /* msgqclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = msgqclient.cpp; sourceTree = "<group>"; };
+		DD8A42071A95C11700565702 /* msgqserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = msgqserver.cpp; sourceTree = "<group>"; };
+		DD8A42081A95C11700565702 /* out.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = out.cpp; sourceTree = "<group>"; };
+		DD8A420A1A95C11700565702 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		DD8A420B1A95C11700565702 /* msgqclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = msgqclient.cpp; sourceTree = "<group>"; };
+		DD8A420C1A95C11700565702 /* msgqserver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = msgqserver.cpp; sourceTree = "<group>"; };
+		DD8A420D1A95C11700565702 /* socketin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socketin.cpp; sourceTree = "<group>"; };
+		DD8A420E1A95C11700565702 /* socketout.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = socketout.cpp; sourceTree = "<group>"; };
+		DD8A420F1A95C11700565702 /* TestSHMClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestSHMClient.cpp; sourceTree = "<group>"; };
+		DD8A42101A95C11700565702 /* TestSHMServer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TestSHMServer.cpp; sourceTree = "<group>"; };
+		DD8A42111A95C11700565702 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		DD8A42121A95C11700565702 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		DD8A42131A95C11700565702 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
+		DD8A42151A95C11700565702 /* packetlib_example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = packetlib_example.cpp; sourceTree = "<group>"; };
 		DDB3B86B18CA2F8700918955 /* ByteStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteStream.h; sourceTree = "<group>"; };
 		DDB3B86C18CA2F8700918955 /* ConfigurationFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationFile.h; sourceTree = "<group>"; };
 		DDB3B86D18CA2F8700918955 /* DataFieldHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFieldHeader.h; sourceTree = "<group>"; };
@@ -223,9 +253,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		DD8A41F31A95C11600565702 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				DD8A41F41A95C11600565702 /* ChangeLog */,
+				DD8A41F51A95C11600565702 /* examples */,
+				DD8A42091A95C11700565702 /* examples2 */,
+				DD8A42111A95C11700565702 /* Makefile */,
+				DD8A42121A95C11700565702 /* README */,
+				DD8A42131A95C11700565702 /* TODO */,
+				DD8A42141A95C11700565702 /* xml */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		DD8A41F51A95C11600565702 /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				DD8A41F61A95C11600565702 /* config_files */,
+				DD8A42051A95C11700565702 /* in.cpp */,
+				DD8A42061A95C11700565702 /* msgqclient.cpp */,
+				DD8A42071A95C11700565702 /* msgqserver.cpp */,
+				DD8A42081A95C11700565702 /* out.cpp */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+		DD8A41F61A95C11600565702 /* config_files */ = {
+			isa = PBXGroup;
+			children = (
+				DD8A41F71A95C11600565702 /* 39_01.packet */,
+				DD8A41F81A95C11700565702 /* BURST.packet */,
+				DD8A41F91A95C11700565702 /* BURST.stream */,
+				DD8A41FA1A95C11700565702 /* GRID.01.packet */,
+				DD8A41FB1A95C11700565702 /* GRID.stream */,
+				DD8A41FC1A95C11700565702 /* headerESATC.header */,
+				DD8A41FD1A95C11700565702 /* headerESATM.header */,
+				DD8A41FE1A95C11700565702 /* p3901.stream */,
+				DD8A41FF1A95C11700565702 /* rblock_type_0_1.rblock */,
+				DD8A42001A95C11700565702 /* rblock_type_2.rblock */,
+				DD8A42011A95C11700565702 /* rblock_type_3.rblock */,
+				DD8A42021A95C11700565702 /* rblock_type_E.rblock */,
+				DD8A42031A95C11700565702 /* TC_start.packet */,
+				DD8A42041A95C11700565702 /* TC_stop.packet */,
+			);
+			path = config_files;
+			sourceTree = "<group>";
+		};
+		DD8A42091A95C11700565702 /* examples2 */ = {
+			isa = PBXGroup;
+			children = (
+				DD8A420A1A95C11700565702 /* main.cpp */,
+				DD8A420B1A95C11700565702 /* msgqclient.cpp */,
+				DD8A420C1A95C11700565702 /* msgqserver.cpp */,
+				DD8A420D1A95C11700565702 /* socketin.cpp */,
+				DD8A420E1A95C11700565702 /* socketout.cpp */,
+				DD8A420F1A95C11700565702 /* TestSHMClient.cpp */,
+				DD8A42101A95C11700565702 /* TestSHMServer.cpp */,
+			);
+			path = examples2;
+			sourceTree = "<group>";
+		};
+		DD8A42141A95C11700565702 /* xml */ = {
+			isa = PBXGroup;
+			children = (
+				DD8A42151A95C11700565702 /* packetlib_example.cpp */,
+			);
+			path = xml;
+			sourceTree = "<group>";
+		};
 		DDB3B85F18CA2F5C00918955 = {
 			isa = PBXGroup;
 			children = (
+				DD8A41F31A95C11600565702 /* examples */,
 				DD3AB43119459AFB00498F60 /* Makefile */,
 				DD6C793619255A6A00406949 /* README */,
 				DD6C793519255A5E00406949 /* Doxyfile */,

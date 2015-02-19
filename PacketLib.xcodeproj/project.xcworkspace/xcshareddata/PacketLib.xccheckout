@@ -11,17 +11,17 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>87AE3A47C426A969B4ECB716011DCD84ED0D145E</key>
-		<string>ssh://github.com/ASTRO-BO/PacketLib.git</string>
+		<string>github.com:ASTRO-BO/PacketLib.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>PacketLib.xcodeproj/project.xcworkspace</string>
+	<string>PacketLib.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>87AE3A47C426A969B4ECB716011DCD84ED0D145E</key>
 		<string>../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>ssh://github.com/ASTRO-BO/PacketLib.git</string>
+	<string>github.com:ASTRO-BO/PacketLib.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
