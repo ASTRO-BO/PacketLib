@@ -21,6 +21,7 @@
 #include <unistd.h>
 #include <string>
 #include <algorithm>
+#include <sstream>
 
 using namespace PacketLib;
 
@@ -54,7 +55,13 @@ bool ConfigurationFile::open(char** parameters) throw(PacketExceptionIO*)
 void ConfigurationFile::close() throw(PacketExceptionIO*)
 {
     InputTextFile::close();
-    chdir(currentpwd);
+	int retval = chdir(currentpwd);
+	if(retval == -1)
+	{
+		std::stringstream ss;
+		ss << "Invalid chdir on '" << currentpwd << "'" << std::endl;
+		throw PacketExceptionIO(ss.str().c_str());
+	}
 }
 
 
