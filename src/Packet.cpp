@@ -64,52 +64,6 @@ Packet::~Packet()
     delete[] identifiers;
 }
 
-const std::string fixed32[] = { "uint32", "int32", "float" };
-const std::string fixed64[] = { "uint64", "int64", "double" };
-
-void cachePhysicalIndexes(pugi::xml_node node, std::map<pugi::xml_node, int>& physicalIndex)
-{
-	int index = 0;
-	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
-	{
-		if(string(it->name()).compare("field") != 0)
-			continue;
-
-		physicalIndex[*it] = index;
-
-		// if 32bits fields
-		string typeStr = it->attribute("type").value();
-		bool found = false;
-		for(unsigned int i=0; i<3; i++)
-		{
-			if(typeStr.compare(fixed32[i]) == 0)
-			{
-				index+=2;
-				found = true;
-				break;
-			}
-		}
-		if(found)
-			continue;
-
-		// if 64bits fields
-		for(unsigned int i=0; i<3; i++)
-		{
-			if(typeStr.compare(fixed64[i]) == 0)
-			{
-				index+=4;
-				found = true;
-				break;
-			}
-		}
-		if(found)
-			continue;
-
-		// else (<= 16bits fields)
-		index++;
-	}
-}
-
 void Packet::createPacketType(pugi::xml_document& doc, pugi::xml_node hNode, int plPhysicalIndex, int plSize, pugi::xml_node pNode, bool isprefix, word dimprefix, std::map<pugi::xml_node, int>& physicalIndex)
 {
 	name = pNode.attribute("name").value();

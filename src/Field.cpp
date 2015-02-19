@@ -19,6 +19,8 @@
 #include "Field.h"
 #include "Utility.h"
 
+//#define DEBUG 1
+
 using namespace PacketLib;
 
 static FieldType** filedTypeList = 0;
@@ -92,7 +94,7 @@ Field::Field(std::string name, std::string typeStr, std::string dim, std::string
 		type->dimension = atoi(dim.c_str());
 		type->type = Field::typeStringToEnum[typeStr];
 #ifdef DEBUG
-		std::cout << "Adding field '" << name << "' at index " << i << ", " << type->dimension << " bits type " << typeStr << " (" << type->type << ")" << std::endl;
+		std::cout << "Adding field '" << name << "', " << type->dimension << " bits type " << typeStr << " (" << type->type << ")" << std::endl;
 #endif
 
         if(prVal.compare("none") != 0)

@@ -25,10 +25,6 @@
 
 using namespace PacketLib;
 
-
-
-
-
 PacketStream::PacketStream(string fileNameConfig)
 {
 	filenameConfig = realpath(fileNameConfig.c_str(), NULL);
@@ -158,7 +154,9 @@ void PacketStream::cachePhysicalIndexes(pugi::xml_node node, std::map<pugi::xml_
 	{
 		if(string(it->name()).compare("field") != 0)
 			continue;
-
+#ifdef DEBUG
+		std::cout << "Physical index of " << it->attribute("name").value() << " is " << index << std::endl;
+#endif
 		physicalIndex[*it] = index;
 
 		// if 32bits fields

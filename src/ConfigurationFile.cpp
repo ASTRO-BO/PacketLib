@@ -87,7 +87,6 @@ char* ConfigurationFile::getLine() throw(PacketExceptionIO*)
 char* ConfigurationFile::getLine(const char* s) throw(PacketExceptionIO*)
 {
     char* line;
-
     try
     {
         line = this->getLine();

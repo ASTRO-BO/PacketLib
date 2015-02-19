@@ -20,6 +20,7 @@
 
 using namespace PacketLib;
 
+#undef DEBUG
 
 InputPacketStream::InputPacketStream() : PacketStream()
 {
