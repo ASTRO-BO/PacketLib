@@ -147,7 +147,7 @@ bool InputTextFile::open(char** parameters) throw(PacketExceptionIO*)
         throw e;
     }
 
-};
+}
 
 
 void InputTextFile::close()  throw(PacketExceptionIO*)
@@ -155,7 +155,7 @@ void InputTextFile::close()  throw(PacketExceptionIO*)
     file.close();
     eof = file.isEOF();
     closed = file.isClosed();
-};
+}
 
 
 char* InputTextFile::getLine() throw(PacketExceptionIO*)

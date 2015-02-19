@@ -25,7 +25,7 @@ PacketDataField::PacketDataField() : PartOfPacket("Packet Data Field")
     dataFieldHeader = (DataFieldHeader*) new DataFieldHeader();
     tail = new PartOfPacket();
     sourceDataField = 0;
-};
+}
 
 
 PacketDataField::~PacketDataField()

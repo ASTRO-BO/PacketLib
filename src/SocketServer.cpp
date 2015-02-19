@@ -40,7 +40,7 @@ SocketServer::SocketServer (bool bigendian, int port ) : Socket(bigendian)
 SocketServer::SocketServer (bool bigendian) : Socket(bigendian)
 {
 
-};
+}
 
 
 SocketServer::~SocketServer()

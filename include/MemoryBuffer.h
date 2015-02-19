@@ -34,7 +34,7 @@ public:
     ~MemoryBuffer();
 
     /// Write property of char** buffer.
-    void setbuffer( char* _newVal) throw(PacketException*);;
+    void setbuffer( char* _newVal) throw(PacketException*);
 
     void setbuffer( char* _newVal, dword index) throw(PacketException*);
 

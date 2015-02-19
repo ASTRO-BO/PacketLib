@@ -588,7 +588,7 @@ ByteStreamPtr PartOfPacket::generateStream(bool bigendian)
     if(posbit < 16)
         outputstream->setWord(posword, w);
     return outputstream;
-};
+}
 
 
 bool PartOfPacket::setOutputStream(ByteStreamPtr os, dword first)
@@ -607,7 +607,7 @@ word PartOfPacket::getFieldValue(word index)
 	}
 	return 0;
 		
-};
+}
 
 void PartOfPacket::setFieldValue(word index, word value)
 {
