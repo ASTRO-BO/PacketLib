@@ -150,6 +150,7 @@
 		DD8A42121A95C11700565702 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		DD8A42131A95C11700565702 /* TODO */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TODO; sourceTree = "<group>"; };
 		DD8A42151A95C11700565702 /* packetlib_example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = packetlib_example.cpp; sourceTree = "<group>"; };
+		DD8A42161A95CE4500565702 /* rta_fadc_all.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = rta_fadc_all.xml; sourceTree = "<group>"; };
 		DDB3B86B18CA2F8700918955 /* ByteStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ByteStream.h; sourceTree = "<group>"; };
 		DDB3B86C18CA2F8700918955 /* ConfigurationFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConfigurationFile.h; sourceTree = "<group>"; };
 		DDB3B86D18CA2F8700918955 /* DataFieldHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataFieldHeader.h; sourceTree = "<group>"; };
@@ -317,6 +318,7 @@
 		DD8A42141A95C11700565702 /* xml */ = {
 			isa = PBXGroup;
 			children = (
+				DD8A42161A95CE4500565702 /* rta_fadc_all.xml */,
 				DD8A42151A95C11700565702 /* packetlib_example.cpp */,
 			);
 			path = xml;

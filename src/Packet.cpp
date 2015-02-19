@@ -1166,6 +1166,10 @@ PacketHeader* Packet::getPacketHeader() {
 	}
 	return header;
 }
+	
+PacketHeader* Packet::pheader() {
+	return getPacketHeader();
+}
 
 
 DataFieldHeader* Packet::getPacketDataFieldHeader() {
@@ -1176,6 +1180,9 @@ DataFieldHeader* Packet::getPacketDataFieldHeader() {
 	return dataField->getPacketDataFieldHeader();
 }
 
+DataFieldHeader* Packet::dfheader() {
+	return getPacketDataFieldHeader();
+}
 
 
 SourceDataField* Packet::getPacketSourceDataField() {
@@ -1185,6 +1192,10 @@ SourceDataField* Packet::getPacketSourceDataField() {
 	}
 	return dataField->getPacketSourceDataField();
 }
+	
+SourceDataField* Packet::sdf() {
+	return getPacketSourceDataField();
+}
 
 
 PartOfPacket* Packet::getPacketTail() {
@@ -1193,6 +1204,10 @@ PartOfPacket* Packet::getPacketTail() {
 		decodedPacketTail = true;
 	}
 	return dataField->getPacketTail();
+}
+	
+PartOfPacket* Packet::tail() {
+	return getPacketTail();
 }
 
 ByteStreamPtr Packet::getData() {

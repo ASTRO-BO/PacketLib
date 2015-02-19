@@ -36,12 +36,12 @@ int main(int argc, char* argv[])
 	try {
 		packetType = ps.getPacketType("triggered_telescope1_30GEN");
 
-		PacketLib::Field* apid = packetType->getPacketHeader()->getField("APID");
+		PacketLib::Field* apid = packetType->pheader()->getField("APID");
 		std::cout << apid->getType() << std::endl;
 		//assert(apid->getType() == PacketLib::LogicalFieldDataType::UINT11);
 		//assert(apid->getName().compare("APID") == 0);
 	
-		PacketLib::Field* arrayID = packetType->getPacketDataFieldHeader()->getField("ArrayID");
+		PacketLib::Field* arrayID = packetType->dfheader()->getField("ArrayID");
 		//assert(arrayID->getType() == PacketLib::LogicalFieldDataType::UINT16);
 		//assert(arrayID->getName().compare("ArrayID") == 0);
 		
@@ -59,23 +59,24 @@ int main(int argc, char* argv[])
 		PacketLib::ByteStreamPtr rawPacket = rawPackets.getNext();
 		PacketLib::Packet* packet = ps.getPacket(rawPacket);
 		
-		//PacketLib::Field* blockfield = packet->getPacketSourceDataField()->getBlock(0)->getField("FADC00");
+		//PacketLib::Field* blockfield = packet->sdf()->getBlock(0)->getField("FADC00");
 		//assert(blockfield->getType() == PacketLib::LogicalFieldDataType::UINT16);
 
 
 		// use reflection interface to read content
-		uint16_t apid = packet->getPacketHeader()->getFieldValue("APID");
-		uint16_t arrayID = packet->getPacketDataFieldHeader()->getFieldValue("ArrayID");
-		uint16_t npixels = packet->getPacketSourceDataField()->getFieldValue("Number of pixels");
-		uint16_t nsamples = packet->getPacketSourceDataField()->getFieldValue("Number of samples");
+		uint16_t apid = packet->pheader()->getFieldValue("APID");
+		uint16_t arrayID = packet->dfheader()->getFieldValue("ArrayID");
+		uint16_t npixels = packet->sdf()->getFieldValue("Number of pixels");
+		uint16_t nsamples = packet->sdf()->getFieldValue("Number of samples");
 
 		std::cout << apid << " " << arrayID << " " << npixels << " " << nsamples << std::endl;
 		
 
 		//get each single pixel as a 1-dimensional array
+		
 		for(unsigned int j=0; j<npixels; j++) {
 			
-			uint16_t* pix = (uint16_t*) packet->getPacketSourceDataField()->getBlock(j)->getByteStream()->getStream();
+			uint16_t* pix = (uint16_t*) packet->sdf()->getBlock(j)->getBytes();
 			for(uint16_t sample=0; sample<nsamples; sample++)
 				cout << pix[sample] << " ";
 			cout << endl;
@@ -85,7 +86,7 @@ int main(int argc, char* argv[])
 		//access to each single sample
 		for(uint16_t pixel=0; pixel<npixels; pixel++) {
 			for(uint16_t sample=0; sample<nsamples; sample++) {
-				cout << packet->getPacketSourceDataField()->getBlock(pixel)->getFieldValue(sample) << " ";
+				cout << packet->sdf()->getBlock(pixel)->getFieldValue(sample) << " ";
 			}
 			cout << endl;
 		}

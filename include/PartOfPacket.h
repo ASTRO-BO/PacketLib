@@ -338,6 +338,12 @@ public:
     {
     	return stream;
     }
+	
+	/// Get the current array of bytes from ByteStream
+	virtual byte* getBytes()
+	{
+		return stream->getStream();
+	}
 
     virtual void memByteStream(ByteStreamPtr stream);
 

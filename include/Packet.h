@@ -135,14 +135,26 @@ public:
 	///Get the header
 	PacketHeader* getPacketHeader();
 	
+	///Get the header
+	PacketHeader* pheader();
+	
 	///Get the data field header
 	DataFieldHeader* getPacketDataFieldHeader();
+	
+	///Get the data field header
+	DataFieldHeader* dfheader();
 	
 	///Get the source data field
 	SourceDataField* getPacketSourceDataField();
 	
+	///Get the source data field
+	SourceDataField* sdf();
+	
 	///Get the tail
 	PartOfPacket* getPacketTail();
+	
+	///Get the tail
+	PartOfPacket* tail();
 	
 	/// Gets the dimension in byte of the current packet (header + datafield (data field header + sdf + tail)
     dword size();
