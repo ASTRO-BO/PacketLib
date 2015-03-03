@@ -164,6 +164,8 @@ ByteStreamPtr PacketLib::ByteStream::compress(enum CompressionAlgorithms algorit
 ByteStreamPtr PacketLib::ByteStream::decompress(enum CompressionAlgorithms algorithmType, byte compressionLevel, dword dmax) {
 	ByteStreamPtr b;
 
+	UNUSED(compressionLevel);
+
 	switch(algorithmType)
 	{
 		case NONE:

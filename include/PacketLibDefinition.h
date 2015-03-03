@@ -82,6 +82,15 @@ typedef unsigned int dword;
 #define CONFIG_MAXNUMBER_OFCONFIGILES 20000
 #define CONFIG_MAXNUMBEROFLINES_OFCONFIGILES 100000
 
+/// utility function to ignore unused function parameters.
+#ifdef HAS_MOVE_SEMANTICS
+template <typename T>
+void UNUSED(T &&)
+{ }
+#else
+#define UNUSED(expr) do { (void)(expr); } while (0)
+#endif
+
 /// typedef bool boolean;
 
 using namespace std;

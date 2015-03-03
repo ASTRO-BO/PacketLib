@@ -79,6 +79,7 @@ bool OutputSerial::writeByteStream(ByteStreamPtr b) throw(PacketExceptionIO*)
 
 bool OutputSerial::writeString(const char* str) throw(PacketExceptionIO*)
 {
+	UNUSED(str);
     /*   if(!isclosed)
            file->writeString(str);
        else

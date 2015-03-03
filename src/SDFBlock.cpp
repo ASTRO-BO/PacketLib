@@ -75,9 +75,9 @@ void SDFBlockType::loadType(pugi::xml_node node, const pugi::xml_document& doc,
 	std::cout << "fixed part: " << variablePresent;
 	std::cout << " variable part: " << variablePresent << std::endl;
 #endif
-	numberOfRBlocks = rbNodeSet.size();
-	if(numberOfRBlocks > 65535)
+	if(rbNodeSet.size() > 65535)
 		throw new PacketExceptionFileFormat("Too many number of Rblocks in the packet type.");
+	numberOfRBlocks = rbNodeSet.size();
 	rblockFilename = new char*[numberOfRBlocks];
 	rBlockVariable = new bool[numberOfRBlocks];
 	maxNumberOfBlock = new word[numberOfRBlocks];
@@ -97,9 +97,9 @@ void SDFBlockType::loadType(pugi::xml_node node, const pugi::xml_document& doc,
 			rBlockVariable[i] = false;
 
 		const char* nblocks = rbNode.attribute("maxnumberofblocks").value();
-		maxNumberOfBlock[i] = atoi(nblocks);
-		if(maxNumberOfBlock[i] > 65535)
+		if(atoi(nblocks) > 65535)
 			throw new PacketExceptionFileFormat("Too many number of blocks in the packet type.");
+		maxNumberOfBlock[i] = atoi(nblocks);
 
 		if(!idref)
 		{

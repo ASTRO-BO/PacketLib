@@ -72,5 +72,7 @@ bool OutputSocketClient::writeByteStream(ByteStreamPtr b) throw(PacketExceptionI
 
 bool OutputSocketClient::writeString(const char* str) throw(PacketExceptionIO*)
 {
+	UNUSED(str);
+
     throw new PacketExceptionIO("Method not implemented");
 }

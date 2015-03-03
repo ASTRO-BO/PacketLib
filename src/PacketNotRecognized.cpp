@@ -30,6 +30,9 @@ void PacketNotRecognized::createPacketType(pugi::xml_node node, int plPhysicalIn
 
 bool PacketNotRecognized::createPacketType(char* fileName, bool prefix, word dimprefix) throw (PacketException*)
 {
+	UNUSED(prefix);
+	UNUSED(dimprefix);
+
 	packetID = 0;
     if(header->loadHeader(fileName))
     {
@@ -60,6 +63,8 @@ PacketNotRecognized::~PacketNotRecognized()
 
 bool PacketNotRecognized::setPacketValue(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField, int decodeType)
 {
+	UNUSED(decodeType);
+
     /// It reads and sets the packet header 
     if(!header->setByteStream(packetHeader))
         return false;

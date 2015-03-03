@@ -582,6 +582,8 @@ void Packet::generateStream()
 
 bool Packet::setPacketValueVerify(ByteStreamPtr prefix, ByteStreamPtr packetHeader, ByteStreamPtr packetDataField)
 {
+	UNUSED(prefix);
+
     /// 1) Checking
     /// First check: pointers control
     if(packetHeader == NULL || packetDataField == NULL)
