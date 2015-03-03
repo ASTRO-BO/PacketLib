@@ -10,17 +10,17 @@ set(SOURCES ByteStream.cpp File.cpp InputPacketStream.cpp InputTextFile.cpp Outp
 			lz4.c lz4hc.c)
 
 # libpacket.a and libpacket.so
-include_directories(${CMAKE_SOURCE_DIR}/include)
-add_library(${CMAKE_PROJECT_NAME} SHARED ${SOURCES})
-add_library(${CMAKE_PROJECT_NAME}static STATIC ${SOURCES})
-set_target_properties(${CMAKE_PROJECT_NAME}static PROPERTIES OUTPUT_NAME ${CMAKE_PROJECT_NAME})
-set_target_properties(${CMAKE_PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
-target_link_libraries(${CMAKE_PROJECT_NAME} ${LIBS})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include)
+add_library(${PROJECT_NAME} SHARED ${SOURCES})
+add_library(${PROJECT_NAME}static STATIC ${SOURCES})
+set_target_properties(${PROJECT_NAME}static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
+target_link_libraries(${PROJECT_NAME} ${LIBS})
 
 # make install
-file(GLOB HEADERS "${PROJECT_SOURCE_DIR}/include/*.h")
+file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}../include/*.h")
 install(FILES ${HEADERS} DESTINATION include/packet)
-install(TARGETS ${CMAKE_PROJECT_NAME} DESTINATION lib)
-install(TARGETS ${CMAKE_PROJECT_NAME}static DESTINATION lib)
+install(TARGETS ${PROJECT_NAME} DESTINATION lib)
+install(TARGETS ${PROJECT_NAME}static DESTINATION lib)
 file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../doc)
 install(DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/../doc DESTINATION .)
