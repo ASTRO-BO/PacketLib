@@ -494,6 +494,8 @@ ByteStreamPtr PacketLib::ByteStream::getUnpaddedCopy(dword chunkSize, dword padS
 }
 
 void PacketLib::ByteStream::swapWord() {
+	bigendian = !bigendian;
+
 	dword dim =  byteInTheStream;
 	for(dword i = 0; i< dim; i+=2)
 	{
