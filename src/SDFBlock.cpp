@@ -170,7 +170,9 @@ void SDFBlockType::loadType(pugi::xml_node node, const pugi::xml_document& doc,
 		std::cout << "Add rblock index for " << rbNode.attribute("name").value();
 		std::cout << " level " << level << " phyindex " << indexOfNBlock[i] << " offset " << offset << std::endl;
 #endif
-		rblockFilename[i] = (char*) rbNode.attribute("name").value();
+        char* str = new char[256];
+        strcpy(str, rbNode.attribute("name").value());
+		rblockFilename[i] = str;
 
 		nblockmax += maxNumberOfBlock[i];
 	}
