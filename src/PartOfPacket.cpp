@@ -125,6 +125,7 @@ void PartOfPacket::loadFields(pugi::xml_node node)
     fields = new Field*[count];
 
 	// field parsing
+    int sectionOffset = 0;
 	for(pugi::xml_node_iterator it=node.begin(); it != node.end(); ++it)
 	{
 		if(string(it->name()).compare("field") != 0)
@@ -143,19 +144,21 @@ void PartOfPacket::loadFields(pugi::xml_node node)
 				name = it->attribute("name").value();
 				dimension = "16";
 				value = "none";
-				Field* f = new Field(name, typeStr, dimension, value, numberOfFields);
+				Field* f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				name = it->attribute("name").value();
 				name += "__1";
 				dimension = "16";
 				value = "none";
-				f = new Field(name, typeStr, dimension, value, numberOfFields);
+				f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				found = true;
 				break;
@@ -172,37 +175,41 @@ void PartOfPacket::loadFields(pugi::xml_node node)
 				name = it->attribute("name").value();
 				dimension = "16";
 				value = "none";
-				Field* f = new Field(name, typeStr, dimension, value, numberOfFields);
+				Field* f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				name = it->attribute("name").value();
 				name += "__1";
 				dimension = "16";
 				value = "none";
-				f = new Field(name, typeStr, dimension, value, numberOfFields);
+				f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				name = it->attribute("name").value();
 				name += "__2";
 				dimension = "16";
 				value = "none";
-				f = new Field(name, typeStr, dimension, value, numberOfFields);
+				f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				name = it->attribute("name").value();
 				name += "__3";
 				dimension = "16";
 				value = "none";
-				f = new Field(name, typeStr, dimension, value, numberOfFields);
+				f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 				fieldsDimension += f->size();
 				fields[numberOfFields] = f;
 				numberOfFields++;
+				sectionOffset += 16;
 
 				found = true;
 				break;
@@ -221,10 +228,11 @@ void PartOfPacket::loadFields(pugi::xml_node node)
 			value = "none";
 		else
 			value = constvalue.value();
-		Field* f = new Field(name, typeStr, dimension, value, numberOfFields);
+		Field* f = new Field(name, typeStr, dimension, value, numberOfFields, sectionOffset);
 		fieldsDimension += f->size();
 		fields[numberOfFields] = f;
 		numberOfFields++;
+		sectionOffset += atoi(dimension.c_str());
 	}
 }
 
@@ -259,7 +267,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
 
         dimension = fp.getLine();
         value = fp.getLine();
-        Field* f = new Field(name, "", dimension, value, numberOfFields);
+        Field* f = new Field(name, "", dimension, value, numberOfFields, -1);
         fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;
@@ -298,7 +306,7 @@ bool PartOfPacket::loadFields(MemoryBuffer* buffer) throw(PacketException*)
     {
         dimension = buffer->getbuffer();
         value = buffer->getbuffer();
-        Field* f = new Field(name, "", dimension, value, numberOfFields);
+        Field* f = new Field(name, "", dimension, value, numberOfFields, -1);
         fieldsDimension += f->size();
         fields[numberOfFields] = f;
         numberOfFields++;

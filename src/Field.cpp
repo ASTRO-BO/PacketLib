@@ -62,7 +62,7 @@ std::map<std::string, LogicalFieldDataType> Field::makeMap()
 
 std::map<std::string, LogicalFieldDataType> Field::typeStringToEnum = Field::makeMap();
 
-Field::Field(std::string name, std::string typeStr, std::string dim, std::string prVal, int count)
+Field::Field(std::string name, std::string typeStr, std::string dim, std::string prVal, int count, int sectionOffset)
 	: progressiv(count)
 {
     value = 0;
@@ -93,8 +93,10 @@ Field::Field(std::string name, std::string typeStr, std::string dim, std::string
         type->name = name;
 		type->dimension = atoi(dim.c_str());
 		type->type = Field::typeStringToEnum[typeStr];
+		type->sectionOffsetBits = sectionOffset;
+        type->sectionOffsetBytes = (sectionOffset % 8) ? -1 : sectionOffset / 8;
 #ifdef DEBUG
-		std::cout << "Adding field '" << name << "', " << type->dimension << " bits type " << typeStr << " (" << type->type << ")" << std::endl;
+		std::cout << "Adding field '" << name << "', " << type->dimension << " bits type " << typeStr << " (" << type->type << ")" << " section offset " << type->sectionOffsetBits << " " << type->sectionOffsetBytes << std::endl;
 #endif
 
         if(prVal.compare("none") != 0)

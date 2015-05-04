@@ -46,6 +46,9 @@ public:
 	
 	/// Logical type
 	enum LogicalFieldDataType type;
+
+    int sectionOffsetBits;
+    int sectionOffsetBytes;
 };
 
 
@@ -56,7 +59,7 @@ class Field
 public:
 
     /// Constructor of class.
-	Field(std::string name, std::string typeStr, std::string dim, std::string prVal, int count);
+	Field(std::string name, std::string typeStr, std::string dim, std::string prVal, int count, int sectionOffset);
 
     /// Destructor of class.
     ~Field();
@@ -100,7 +103,13 @@ public:
     };
 	
 	void print();
-	
+
+    /// Returns the offset in bytes of the field from the begin of the section.
+    /// Warning: if the field is not aligned to 8-bit this method returns -1.
+	int getSectionOffset() {
+	    return type->sectionOffsetBytes;
+	}
+
 protected:
 
 	static std::map<std::string, LogicalFieldDataType> typeStringToEnum;
@@ -110,7 +119,6 @@ protected:
     int progressiv;
 
     FieldType * type;
-
 };
 
 }
