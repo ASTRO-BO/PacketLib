@@ -101,51 +101,46 @@ void SDFBlockType::loadType(pugi::xml_node node, const pugi::xml_document& doc,
 			throw new PacketExceptionFileFormat("Too many number of blocks in the packet type.");
 		maxNumberOfBlock[i] = atoi(nblocks);
 
-		if(!idref)
-		{
-			stringstream ss;
-			ss << "idref attribute not defined for rblock" << rbNode.attribute("name").value();
-			throw new PacketExceptionFileFormat(ss.str().c_str());
-		}
+        if(idref) {
+            string query = string("//field[@id=\"")+idref.value()+"\"]";
+            pugi::xml_node numberofblocksid = doc.select_nodes(query.c_str())[0].node();
+            pugi::xml_node nodetmp = rbNode;
+            unsigned int level = 0;
 
-		string query = string("//field[@id=\"")+idref.value()+"\"]";
-		pugi::xml_node numberofblocksid = doc.select_nodes(query.c_str())[0].node();
-		pugi::xml_node nodetmp = rbNode;
-		unsigned int level = 0;
+            while(nodetmp.parent() != numberofblocksid.parent()) {
+                // if the parent is a packet means that the id is not in the fixed part of the
+                // recursive rblocks nor the sourcedatafield. So test the datafieldheader
+                // and header, otherwise complain.
+                if(string(nodetmp.parent().name()).compare("packet") == 0) {
+                    string idparentnodename = numberofblocksid.parent().name();
+                    if(idparentnodename.compare("datafieldheader") == 0) {
+                        // we have already add 1 level because nodetmp in this case is
+                        // the sourcedatafield node
+                    }
+                    else if(idparentnodename.compare("header") == 0) {
+                        // we add just one level for the same reason above
+                        level++;
+                    }
+                    else {
+                        std::stringstream ss;
+                        ss << "Error on id association. Id'" << idref.value() << "' doesn't exists. idref defined by rblock '" << rbNode.attribute("name").value() << "'.";
+                        throw new PacketExceptionFileFormat(ss.str().c_str());
+                    }
+                    break;
+                }
 
-		while(nodetmp.parent() != numberofblocksid.parent())
-		{
-			// if the parent is a packet means that the id is not in the fixed part of the
-			// recursive rblocks nor the sourcedatafield. So test the datafieldheader
-			// and header, otherwise complain.
-			if(string(nodetmp.parent().name()).compare("packet") == 0)
-			{
-				string idparentnodename = numberofblocksid.parent().name();
-				if(idparentnodename.compare("datafieldheader") == 0)
-				{
-					// we have already add 1 level because nodetmp in this case is
-					// the sourcedatafield node
-				}
-				else if(idparentnodename.compare("header") == 0)
-				{
-					// we add just one level for the same reason above
-					level++;
-				}
-				else
-				{
-					std::stringstream ss;
-					ss << "Error on id association. Id'" << idref.value() << "' doesn't exists. idref defined by rblock '" << rbNode.attribute("name").value() << "'.";
-					throw new PacketExceptionFileFormat(ss.str().c_str());
-				}
+                level++;
+                nodetmp = nodetmp.parent();
+            }
+            headerLevelOfNBlockIndex[i] = level;
+            indexOfNBlock[i] = physicalIndex[numberofblocksid];
+        }
+        else {
+            headerLevelOfNBlockIndex[i] = 0;
+            indexOfNBlock[i] = 0;
+        }
 
-				break;
-			}
-			level++;
-			nodetmp = nodetmp.parent();
-		}
-		headerLevelOfNBlockIndex[i] = level;
-		indexOfNBlock[i] = physicalIndex[numberofblocksid];
-		pugi::xml_attribute offsetAttr = numberofblocksid.attribute("numberofblocksoffset");
+		pugi::xml_attribute offsetAttr = rbNode.attribute("numberofblocksoffset");
 		const char* offset;
 		if(offsetAttr)
 			offset = offsetAttr.value();
