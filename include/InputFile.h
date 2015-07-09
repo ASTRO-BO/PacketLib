@@ -51,6 +51,10 @@ public:
     
     virtual dword setpos(long offset) throw(PacketExceptionIO*);
 
+    virtual long getpos() {
+        return file->getpos();
+    }
+
 protected:
 
     File* file;
