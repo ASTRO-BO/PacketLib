@@ -15,10 +15,10 @@ add_library(${PROJECT_NAME} SHARED ${SOURCES})
 add_library(${PROJECT_NAME}static STATIC ${SOURCES})
 set_target_properties(${PROJECT_NAME}static PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 set_target_properties(${PROJECT_NAME} PROPERTIES SOVERSION ${PROJECT_VERSION})
-target_link_libraries(${PROJECT_NAME} ${LIBS})
+target_link_libraries(${PROJECT_NAME} ${LIBS} -fPIC)
 
 # make install
-file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}../include/*.h")
+file(GLOB HEADERS "${CMAKE_CURRENT_SOURCE_DIR}/../include/*.h")
 install(FILES ${HEADERS} DESTINATION include/packet)
 install(TARGETS ${PROJECT_NAME} DESTINATION lib)
 install(TARGETS ${PROJECT_NAME}static DESTINATION lib)
