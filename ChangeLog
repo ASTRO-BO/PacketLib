@@ -1,3 +1,29 @@
+2015-08-10 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.5.0
++ Comment debug print.
++ Fix CMakeLists.txt
++ Add InputFile::getpos().
++ Fix metadata loading for rblocks with a fixed number of instances.
++ Store fields section offsets.
++ Fix SDFBlock xml rblock name allocation.
++ Fix -Wextra warnings.
++ Fix src/CMakeLists.txt to work from a different source rootdir.
++ Install the static library with cmake.
++ Add cmake build system.
++ Remove pedantic warnings.
++ Throw exception on chdir error.
++ Fix xml parsing of SDFBlocks.
++ Example with iteration on blocks and fields
++ Added Packet::pheader(), Packet::dfheader(), Packet::sdf(), byte*
++ PartOfPacket::getBytes() as shortcuts
++ Adds xml examples
++ Makefile for Doxygen issues
++ Fix lot of warnings
++ Remove XmlConfig class.
++ Parsing directly XML without conversions.
++ Fix makefile output.
++ Rename SharedPtr include guards.
+
 2014-07-24 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v4.3.2
 + Fixed Makefile for parallel build.

@@ -31,7 +31,7 @@ MACRO_ENSURE_OUT_OF_SOURCE_BUILD( "In-source build error." )
 
 project(packet)
 set(packet_MAJOR_VERSION 4)
-set(packet_MINOR_VERSION 3)
+set(packet_MINOR_VERSION 5)
 set(packet_PATCH_VERSION 0)
 set(packet_VERSION
 ${packet_MAJOR_VERSION}.${packet_MINOR_VERSION}.${packet_PATCH_VERSION})
