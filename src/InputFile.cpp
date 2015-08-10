@@ -27,7 +27,7 @@ InputFile::InputFile(bool bg) : Input(bg)
 
 InputFile::~InputFile()
 {
-    cout << "InputFile::~InputFile()" << endl;
+//    cout << "InputFile::~InputFile()" << endl;
     delete file;
 }
 
