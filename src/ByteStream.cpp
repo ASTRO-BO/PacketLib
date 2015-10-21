@@ -222,7 +222,7 @@ byte PacketLib::ByteStream::getByte( dword byteNumber)
 long PacketLib::ByteStream::getValue(dword start, word dim)
 {
     DEMORET0;
-    byte b1, b2;
+    byte b1, b2 = 0;
 	
 	if(start >= byteInTheStream)
 		throw PacketException("PacketLib::ByteStream::getValue() start greater than the size of the ByteStream", 0);
