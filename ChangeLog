@@ -1,3 +1,7 @@
+2015-08-10 Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.5.1
++ Fixed a warning.
+
 2015-08-10 Andrea Bulgarelli <bulgarelli@iasfbo.inaf.it>, Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v4.5.0
 + Comment debug print.

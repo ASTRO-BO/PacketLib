@@ -2,7 +2,7 @@
 # General configuration options
 #---------------------------------------------------------------------------
 PROJECT_NAME           = PacketLib
-PROJECT_NUMBER         = 4.5.0
+PROJECT_NUMBER         = 4.5.1
 OUTPUT_DIRECTORY       = ref
 OUTPUT_LANGUAGE        = English
 EXTRACT_ALL            = YES
