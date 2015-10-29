@@ -36,9 +36,9 @@ PacketStream::PacketStream(string fileNameConfig)
     memset(packetType, 0, sizeof(Packet*)*255);
     pathFileNameConfig = 0;
 	dimHeader = 0;
-	std::cout << "Loading config file " << filenameConfig << " ..." << std::endl;
+//	std::cout << "Loading config file " << filenameConfig << " ..." << std::endl;
 	createStreamStructure();
-	std::cout << "Load complete." << std::endl;
+//	std::cout << "Load complete." << std::endl;
 }
 
 PacketStream::PacketStream()
