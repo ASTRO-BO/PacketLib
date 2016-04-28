@@ -1108,9 +1108,9 @@ ByteStreamPtr Packet::compressData(enum CompressionAlgorithms compressionAlgorit
 
 ByteStreamPtr Packet::getBSTail() {
 	//dword dimvariablepart = packet->size() - dimPrefix - dimPacketStartingFixedPart - dimPacketTail;
-	ByteStreamPtr tail = 0;
-	if(dimPacketTail > 0)
-		ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
+	if(dimPacketTail <= 0)
+		return 0;
+	ByteStreamPtr tail = ByteStreamPtr(new ByteStream(packet->stream + packet->size() - dimPacketTail, dimPacketTail, bigendian));
 	return tail;
 }
 
