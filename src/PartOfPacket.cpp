@@ -247,7 +247,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
     do {
         name = fp.getLine();
         count++;
-        if(name[0] == '[')
+        if(fp.isEOF() || name[0] == '[')
         {
             count--;
             break;
@@ -273,7 +273,7 @@ bool PartOfPacket::loadFields(InputText& fp) throw(PacketException*)
         numberOfFields++;
         name = fp.getLine();
         /// It reads until the buffer ends
-        if(name[0] == '[')
+        if(fp.isEOF() || name[0] == '[')
         {
             break;
         }

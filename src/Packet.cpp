@@ -254,7 +254,7 @@ bool Packet::createPacketType(char* fileName, bool isprefix, word dimprefix) thr
 												{
 													dimPacketTail = dataField->getPacketTail()->size();
 													line = file.getLastLineRead();
-													if(strcmp(line, "[Compression]") == 0) {
+													if(line && strcmp(line, "[Compression]") == 0) {
 														compressible = true;
 														compressionAlgorithmsIndex = atoi(file.getLine());
 														compressionAlgorithmsSection = atoi(file.getLine());
