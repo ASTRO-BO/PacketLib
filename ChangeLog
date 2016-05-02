@@ -1,3 +1,9 @@
+2015-05-02 Andrea Zoli <zoli@iasfbo.inaf.it>
+TAG v4.5.2
++ Fix getBSTail() bug (related to ByteStreamPtr).
++ Fix the Tail section parsing while using .stream configuration files.
++ Avoid prints on loading, leave the job to the applications.
+
 2015-08-10 Andrea Zoli <zoli@iasfbo.inaf.it>
 TAG v4.5.1
 + Fixed a warning.
