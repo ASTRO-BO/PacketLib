@@ -3,3 +3,6 @@ lib/*
 prefix
 version
 build/*
+.cproject
+.project
+.settings
